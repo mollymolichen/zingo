@@ -1,6 +1,7 @@
 <template>
 <v-content class="bkgd">
 	<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+	
     <div class="heading">
         <h1>Your Profile</h1>
         <v-avatar class="avatar">
