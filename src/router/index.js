@@ -7,6 +7,7 @@ import Events from '../components/Events';
 import GetStarted from '../components/GetStarted';
 import Landing from '../components/Landing';
 import People from '../components/People';
+import Profile from '../components/Profile';
 import Story from '../components/Story';
 
 Vue.use(Router);
@@ -43,5 +44,10 @@ export default new Router({
       name: 'People',
       component: People
     },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile
+    }
   ]
 })

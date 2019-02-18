@@ -13,6 +13,9 @@
                     <router-link to="/our-story">
                         <v-btn>Our Story</v-btn>
                     </router-link>
+                    <router-link to="/profile">
+                        <v-btn>Profile</v-btn>
+                    </router-link>
                 </ul>
             </v-toolbar>
             <router-view></router-view>
