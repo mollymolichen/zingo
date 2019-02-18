@@ -1,6 +1,7 @@
-# aretehomes
+# weekendr
 
-A platform for landlords to screen tenants and be matched with tenants that meet their needs, and for tenants to be rewarded for good behavior.
+The first ever event-based app that matches those looking for things to do, people to meet, and places to travel in real time.
 
-Project owner: Alexandra Barr
 Developers: Molly Chen, Tim Skapek
+
+Business lead: Alexandra Barr
