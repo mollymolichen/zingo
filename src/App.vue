@@ -1,10 +1,11 @@
 <template>
 <div id="app">
     <v-app>
-        <v-content class="bkgd">
+        <!-- <v-content class="bkgd"> -->
+        <v-content>
             <v-toolbar color="teal lighten-1" id="toolbar">
-                <router-link to="/">
-                    <h1>AreteHomes</h1>
+                <router-link to="/" class="remove-line">
+                    <h1>Weekendr</h1>
                 </router-link>
                 <ul>
                     <router-link to="/about">
@@ -15,24 +16,6 @@
                     </router-link>
                 </ul>
             </v-toolbar>
-
-            <v-container style="flex-direction:row">
-                <v-layout row wrap>
-                    <v-flex xs12>
-                        <h1 style="text-align: center;" id="title">Sign up for a free account now.</h1>
-                    </v-flex>
-                </v-layout>
-
-                <v-layout row wrap>
-                    <v-flex xs12>
-                        <router-link to="/get-started">
-                            <v-btn id="gs-button" @click="getStarted=true">Get Started</v-btn>
-                            <get-started v-if="getStarted"></get-started>
-                        </router-link>
-                    </v-flex>
-                </v-layout>
-            </v-container>
-
             <router-view></router-view>
         </v-content>
     </v-app>
@@ -43,6 +26,7 @@
 /* eslint-disable */
 import About from "./components/About";
 import GetStarted from "./components/GetStarted";
+import Landing from "./components/Landing";
 import Story from "./components/Story";
 
 export default {
@@ -50,6 +34,7 @@ export default {
     components: {
         About,
         GetStarted,
+        Landing,
         Story
     },
     data() {
@@ -62,9 +47,14 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Libre+Franklin');
+a {
+    text-decoration: none;
+}
+
 /* ids */
 #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-family: 'Libre Franklin';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
