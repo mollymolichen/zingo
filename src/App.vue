@@ -1,7 +1,6 @@
 <template>
 <div id="app">
     <v-app>
-        <!-- <v-content class="bkgd"> -->
         <v-content>
             <v-toolbar color="teal lighten-1" id="toolbar">
                 <router-link to="/" class="remove-line">
@@ -52,7 +51,10 @@ a {
     text-decoration: none;
 }
 
-/* ids */
+.center {
+    text-align: center;
+}
+
 #app {
     font-family: 'Libre Franklin';
     -webkit-font-smoothing: antialiased;
@@ -66,20 +68,7 @@ a {
     justify-content: flex-end;
 }
 
-#title {
-    margin-top: 250px;
-    margin-bottom: 50px;
-    transform: scale(1.5, 1.5);
-}
-
 #gs-button {
     transform: scale(1.5, 1.5);
-}
-
-/* classes */
-.bkgd {
-    /* background-image: url("./assets/flamingo.jpg"); */
-    background-size: cover;
-    /* opacity: 0.5; */
 }
 </style>

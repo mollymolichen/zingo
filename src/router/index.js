@@ -3,8 +3,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import App from '../App'
 import About from '../components/About';
+import Events from '../components/Events';
 import GetStarted from '../components/GetStarted';
 import Landing from '../components/Landing';
+import People from '../components/People';
 import Story from '../components/Story';
 
 Vue.use(Router);
@@ -17,8 +19,13 @@ export default new Router({
       component: About
     },
     {
+      path: '/events',
+      name: 'Events',
+      component: Events
+    },
+    {
       path: '/get-started',
-      name: 'GetStarted',
+      name: 'Get Started',
       component: GetStarted
     },
     {
@@ -30,6 +37,11 @@ export default new Router({
       path: '/our-story',
       name: 'Our Story',
       component: Story
-    }
+    },
+    {
+      path: '/people',
+      name: 'People',
+      component: People
+    },
   ]
 })

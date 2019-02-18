@@ -3,18 +3,20 @@
     <v-layout column wrap>
         <v-flex xs12 class="center">
             <h1 id="center-text-1">Choose your default setting:</h1>
-            <h3 id="center-text-2">You can change your default setting later.</h3>
+            <h2 id="center-text-2">You can change your default setting later.</h2>
         </v-flex>
     </v-layout>
 
     <v-layout column wrap>
         <v-flex xs12>
-            <v-btn class="button" @click="eventRoute=true">Find Events</v-btn>
-            <events v-if="eventRoute"></events>
+            <router-link to="/events">
+                <v-btn class="button" @click="eventRoute=true">Find Events</v-btn>
+            </router-link>
         </v-flex>
         <v-flex xs12>
-            <v-btn class="button" @click="peopleRoute=true">Find People</v-btn>
-            <people v-if="peopleRoute"></people>
+            <router-link to="/people">
+                <v-btn class="button" @click="peopleRoute=true">Find People</v-btn>
+            </router-link>
         </v-flex>
     </v-layout>
 </v-content>
@@ -22,14 +24,18 @@
 
 <script>
 /* eslint-disable */
+import Events from './Events.vue';
+import People from './People.vue';
+
 export default {
     name: 'Get Started',
     components: {
-
+        Events,
+        People
     },
     data() {
         return {
-            eventRoute: true, 					// default
+            eventRoute: false,
             peopleRoute: false
         }
     }
@@ -37,12 +43,9 @@ export default {
 </script>
 
 <style>
-.center {
-    text-align: center;
-}
-
 #center-text-1 {
     margin: 250px 5px 30px 5px;
+    transform: scale(1.5, 1.5);
 }
 
 #center-text-2 {
@@ -50,17 +53,19 @@ export default {
 }
 
 .button {
-    margin: 5px 5px 5px 5px;
+    /* padding: 10px 0px 10px 0px; */
+    transform: scale(1.2, 1.2);
 }
 
 .container {
     flex-direction: row;
-    background-image: url("../assets/flamingo2.png");
+    background-image: url("../assets/flamingo.jpg");
     background-size: cover;
     height: 93%;
     text-align: center;
 }
 
+/* try to make flamingo image opaque without affecting elements on top*/
 /* .container::after {
     content: "";
     background: url("../assets/flamingo.jpg");
