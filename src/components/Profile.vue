@@ -4,7 +4,7 @@
 	
     <div class="heading">
         <h1>Your Profile</h1>
-        <v-avatar class="avatar">
+        <v-avatar class="propic">
             <img src="../assets/molly.jpg" alt="Profile picture" style="transform: scale(5, 5);">
 		</v-avatar>
     </div>
@@ -158,7 +158,7 @@ export default {
 	height: 175px;
 }
 
-.avatar {
+.propic {
     margin-top: 125px;
 }
 
