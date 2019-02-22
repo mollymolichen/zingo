@@ -4,11 +4,11 @@ import Router from 'vue-router'
 import App from '../App'
 import About from '../components/About';
 import Events from '../components/Events';
-import GetStarted from '../components/GetStarted';
 import Landing from '../components/Landing';
 import People from '../components/People';
 import Profile from '../components/Profile';
 import Story from '../components/Story';
+import SignUp from '../components/SignUp';
 
 Vue.use(Router);
 
@@ -25,18 +25,13 @@ export default new Router({
       component: Events
     },
     {
-      path: '/get-started',
-      name: 'Get Started',
-      component: GetStarted
-    },
-    {
       path: '/',
       name: 'Landing',
       component: Landing
     },
     {
       path: '/our-story',
-      name: 'Our Story',
+      name: 'OurStory',
       component: Story
     },
     {
@@ -48,6 +43,11 @@ export default new Router({
       path: '/profile',
       name: 'Profile',
       component: Profile
+    },
+    {
+      path: '/signup',
+      name: 'SignUp',
+      component: SignUp
     }
   ]
 })
