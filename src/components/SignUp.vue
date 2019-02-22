@@ -4,9 +4,9 @@
         <!--Page 1-->
         <v-form v-if="pageNumber === 1" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
-				<router-link to="/landing">
-                	<v-icon class="material-icons" style="float:right">clear</v-icon>
-				</router-link>
+                <router-link to="/landing">
+                    <v-icon class="material-icons" style="float:right">clear</v-icon>
+                </router-link>
                 <h1 style="margin-top:10px; margin-bottom:20px">Let's make your profile.</h1>
             </div>
 
@@ -16,8 +16,8 @@
             <v-text-field v-model="phoneNumber" :rules="phoneNumberRules" label="Phone number" required class="text-field"></v-text-field>
 
             <v-text-field v-model="hometown.city" label="City" class="text-field" style="float:left"></v-text-field>
-            <v-autocomplete v-model="hometown.state" :items="states" label="State (if in US)" class="text-field" style="float:left"></v-autocomplete>
             <v-autocomplete :items="countries" v-model="hometown.country" label="Country" class="text-field"></v-autocomplete>
+			<v-autocomplete v-if="fromUS" v-model="hometown.state" :items="states" label="State (if in US)" class="text-field" style="float:left"></v-autocomplete>
 
             <div class="photo-upload">
                 <br>
@@ -39,26 +39,26 @@
                 <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
             </div>
 
-			<!--Buttons-->
-			<v-btn :disabled="!valid" @click="back()">Back</v-btn>
-			<v-btn :disabled="!valid" @click="next()">Next</v-btn>
+            <!--Buttons-->
+            <v-btn :disabled="!valid" @click="back()">Back</v-btn>
+            <v-btn :disabled="!valid" @click="next()">Next</v-btn>
         </v-form>
 
-		<!--Page 4-->
-		<v-form v-else-if="pageNumber === 2" ref="form" v-model="valid" lazy-validation>
-			<v-layout column wrap>
-				<v-flex xs12>
-					<router-link to="/events">
-						<v-btn class="button" @click="eventRoute=true">Find Events</v-btn>
-					</router-link>
-				</v-flex>
-				<v-flex xs12>
-					<router-link to="/people">
-						<v-btn class="button" @click="peopleRoute=true">Find People</v-btn>
-					</router-link>
-				</v-flex>
-			</v-layout>
-		</v-form>
+        <!--Page 4-->
+        <v-form v-else-if="pageNumber === 2" ref="form" v-model="valid" lazy-validation>
+            <v-layout column wrap>
+                <v-flex xs12>
+                    <router-link to="/events">
+                        <v-btn class="button" @click="eventRoute=true">Find Events</v-btn>
+                    </router-link>
+                </v-flex>
+                <v-flex xs12>
+                    <router-link to="/people">
+                        <v-btn class="button" @click="peopleRoute=true">Find People</v-btn>
+                    </router-link>
+                </v-flex>
+            </v-layout>
+        </v-form>
 
     </v-card>
 </v-content>
@@ -71,13 +71,11 @@ import Firebase from "firebase";
 import Events from './Events.vue';
 import People from './People.vue';
 
-// import {
-//     db,
-//     userRef,
-//     matchesRef,
-//     majorsRef,
-//     storageRef
-// } from "../database";
+import {
+    db,
+    userRef,
+    storageRef
+} from "../database";
 
 import {
     states,
@@ -89,11 +87,13 @@ let forEach = require('lodash.foreach');
 export default {
     name: "SignUp",
     components: {
-		Events,
-		People
+        Events,
+        People
     },
-    computed: {
-
+    computed: {	
+		fromUS(){
+			return this.hometown.country === "United States";
+		}
     },
     data() {
         return {
@@ -130,12 +130,6 @@ export default {
                 v => !!v || "Bio is required",
                 v => (v && v.length <= 300) || "Enter up to 300 characters"
             ],
-            // email: "",
-            // emailRules: [
-            //     v => !!v || "Email is required",
-            //     v => /.+@.+/.test(v) || "E-mail must be valid",
-            //     v => this.newEmail(v) || "Email is already in use"
-            // ],
 
             // profile picture upload
             selectedFile: null,
@@ -146,10 +140,8 @@ export default {
         };
     },
     firebase: {
-        // users: userRef,
-        // matches: matchesRef,        
-        // majors: majorsRef,
-        // storage: storageRef
+        users: userRef,
+        storage: storageRef
     },
     methods: {
         next() {
@@ -170,7 +162,7 @@ export default {
             } else {
                 this.graphics();
             }
-        },
+		},
 
         registerUser() {
             const uuid = require("uuid/v4");
@@ -317,12 +309,12 @@ ul {
 
 .text-field {
     margin: auto 20px;
-	float: left;
-	width: 50%;
+    float: left;
+    width: 50%;
 }
 
 .photo-upload {
-	margin-bottom: 70px;
+    margin-bottom: 70px;
 }
 
 #float {
@@ -331,15 +323,14 @@ ul {
 
 .signup {
     padding: 30px;
-	height: 75%;
+    height: 75%;
     width: 80%;
     align-items: center;
     justify-content: center;
-	background-color: aliceblue !important;
+    background-color: aliceblue !important;
 }
 
 #green {
     color: green;
 }
-
 </style>
