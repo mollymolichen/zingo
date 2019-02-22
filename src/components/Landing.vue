@@ -8,9 +8,8 @@
 
     <v-layout row wrap>
         <v-flex xs12>
-            <router-link to="/get-started">
-                <v-btn id="gs-button" @click="getStarted=true">Get Started</v-btn>
-                <get-started v-if="getStarted"></get-started>
+            <router-link to="/signup">
+                <v-btn class="button">Get Started</v-btn>
             </router-link>
         </v-flex>
     </v-layout>
@@ -19,10 +18,12 @@
 
 <script>
 /* eslint-disable */
+import SignUp from '../components/SignUp';
+
 export default {
 	name: 'Landing',
 	components: {
-
+        SignUp
 	},
 	data() {
 		return {
@@ -39,6 +40,12 @@ export default {
 	background-size: cover;
 	height: 93%;
 	text-align: center;
+    /* align-items: center;
+    justify-content: center; */
+}
+
+.button {
+    transform: scale(1.5, 1.5);
 }
 
 #title {

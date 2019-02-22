@@ -27,16 +27,16 @@
 <script>
 /* eslint-disable */
 import About from "./components/About";
-import GetStarted from "./components/GetStarted";
 import Landing from "./components/Landing";
+import SignUp from "./components/SignUp";
 import Story from "./components/Story";
 
 export default {
     name: 'app',
     components: {
         About,
-        GetStarted,
         Landing,
+        SignUp,
         Story
     },
     data() {
@@ -69,9 +69,5 @@ a {
 #toolbar {
     display: flex;
     justify-content: flex-end;
-}
-
-#gs-button {
-    transform: scale(1.5, 1.5);
 }
 </style>

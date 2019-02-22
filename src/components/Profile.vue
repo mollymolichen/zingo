@@ -58,7 +58,7 @@
 					<v-card-text class="left-margin px-0">
 						<h3>Favorite Travel Activities</h3>
 						<ul class="square">
-							<li><i class="em em-shinto_shrine"></i> Learning about local culture</li>
+							<li><i :class=culture></i> Learning about local culture</li>
 							<li><i class="em em-spaghetti"></i> Enjoying local cuisine</li>
 							<li><i class="em em-beach_with_umbrella"></i> Outdoor sightseeing</li>
 							<li><i class="em em-woman-surfing"></i> Water sports</li>
@@ -146,7 +146,38 @@ export default {
                 {
                     src: "../assets/molly.jpg"
                 }
-            ]
+			],
+			
+			// TODO: tim
+			emoji_categories: {
+				art: [
+
+				],
+				culture: [
+					"em em-shinto_shrine"
+				],
+				food: [
+					"em em-spaghetti"
+				],
+				history: [
+
+				],
+				music: [
+
+				],
+				nightlife: [
+					"em em-beer"
+				],
+				outdoors: [
+					"em em-beach_with_umbrella"
+				],
+				sports: [
+					"em em-woman-surfing"
+				],
+				tours: [
+
+				]
+			}
         }
     }
 }
