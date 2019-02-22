@@ -1,10 +1,12 @@
 <template>
 <v-content class="container">
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+
     <v-card class="signup">
         <!--Page 1-->
         <v-form v-if="pageNumber === 1" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
-                <router-link to="/landing">
+                <router-link to="/">
                     <v-icon class="material-icons" style="float:right">clear</v-icon>
                 </router-link>
                 <h1 style="margin-top:10px; margin-bottom:20px">Let's make your profile.</h1>
@@ -47,15 +49,15 @@
 
         <!--Page 2-->
         <v-form v-else-if="pageNumber === 2" ref="form" v-model="valid" lazy-validation>
-            <div style="margin-bottom: 20px">
-                <router-link to="/landing">
+            <div class="title2">
+                <router-link to="/">
                     <v-icon class="material-icons" style="float:right">clear</v-icon>
                 </router-link>
-                <h1 style="margin-top:10px; margin-bottom:20px">Tell us a little about yourself</h1>
+                <h1>Tell us a little about yourself!</h1>
             </div>
 
             <v-flex>
-                <v-textarea :value="bio" solo name="input-7-4" v-model="bio" :rules="bioRules"></v-textarea>
+                <v-textarea :value="bio" solo v-model="bio" :rules="bioRules"></v-textarea>
             </v-flex>
 
             <!--Buttons-->
@@ -66,10 +68,43 @@
         <!--Page 3-->
         <v-form v-else-if="pageNumber === 3" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
-                <router-link to="/landing">
+                <router-link to="/">
                     <v-icon class="material-icons" style="float:right">clear</v-icon>
                 </router-link>
                 <h1 style="margin-top:10px; margin-bottom:20px">Travel Preferences</h1>
+            </div>
+
+            <div row wrap>
+
+                <v-btn fab dark large color="pink lighten-2">
+                    <i class="em em-spaghetti"></i>
+                </v-btn>
+                <v-btn fab dark large color="pink lighten-4">
+                    <i class="em em-shinto_shrine"></i>
+                </v-btn>
+                <v-btn fab dark large color="blue lighten-4">
+                    <i class="em em-scooter"></i>
+                </v-btn>
+                <v-btn fab dark large color="blue lighten-2">
+                    <i class="em em-flag-um"/>
+                </v-btn>
+                <v-btn fab dark large color="pink lighten-2">
+                    <i class="em em-flag-um"/>
+                </v-btn>
+                <v-btn fab dark large color="pink lighten-4">
+                    <i class="em em-flag-um"/>
+                </v-btn>
+                <v-btn fab dark large color="blue lighten-4">
+                    <i class="em em-flag-um"/>
+                </v-btn>
+                    <v-btn fab dark large color="blue lighten-2">
+                    <i class="em em-flag-um"/>
+                </v-btn>
+
+                <v-btn color="blue-grey">Food
+                    <!-- <v-icon right dark>cloud_upload</v-icon> -->
+                    <i class="em em-spaghetti"></i>
+                </v-btn>
             </div>
 
             <!--Buttons-->
@@ -80,7 +115,7 @@
         <!--Page 4-->
         <v-form v-else-if="pageNumber === 4" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
-                <router-link to="/landing">
+                <router-link to="/">
                     <v-icon class="material-icons" style="float:right">clear</v-icon>
                 </router-link>
                 <h1 style="margin-top:10px; margin-bottom:20px">Travel Experience</h1>
@@ -153,7 +188,7 @@ export default {
         return {
             eventRoute: false,
             peopleRoute: false,
-            pageNumber: 1,
+            pageNumber: 3,
 
             // data validation rules
             firstName: "",
@@ -190,9 +225,9 @@ export default {
             profileImageUrl: "http://placekitten.com/g/200/300",
             uploadFinished: false,
 
-			// regular picture upload
+            // regular picture upload
 
-			tickLabels: [1, 2, 3, 4, 5]
+            tickLabels: [1, 2, 3, 4, 5]
         };
     },
     firebase: {
@@ -356,6 +391,10 @@ ul {
     list-style: none;
     margin: 0;
     padding: 0;
+}
+
+.title2 {
+    margin-bottom: 20px;
 }
 
 .button {
