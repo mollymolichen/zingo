@@ -169,7 +169,8 @@ export default {
 					"em em-beer"
 				],
 				outdoors: [
-					"em em-beach_with_umbrella"
+					"em em-beach_with_umbrella",
+					"em em-palm_tree"
 				],
 				sports: [
 					"em em-woman-surfing"

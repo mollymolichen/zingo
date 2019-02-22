@@ -75,36 +75,103 @@
             </div>
 
             <div row wrap>
-
-                <v-btn fab dark large color="pink lighten-2">
+                <h2 style="float:left">Favorite Activities</h2>
+                <v-btn large class="oval" color="pink lighten-2">Art
                     <i class="em em-spaghetti"></i>
                 </v-btn>
-                <v-btn fab dark large color="pink lighten-4">
+                <v-btn large class="oval" color="pink lighten-4">Culture
                     <i class="em em-shinto_shrine"></i>
                 </v-btn>
-                <v-btn fab dark large color="blue lighten-4">
-                    <i class="em em-scooter"></i>
-                </v-btn>
-                <v-btn fab dark large color="blue lighten-2">
-                    <i class="em em-flag-um"/>
-                </v-btn>
-                <v-btn fab dark large color="pink lighten-2">
-                    <i class="em em-flag-um"/>
-                </v-btn>
-                <v-btn fab dark large color="pink lighten-4">
-                    <i class="em em-flag-um"/>
-                </v-btn>
-                <v-btn fab dark large color="blue lighten-4">
-                    <i class="em em-flag-um"/>
-                </v-btn>
-                    <v-btn fab dark large color="blue lighten-2">
-                    <i class="em em-flag-um"/>
-                </v-btn>
-
-                <v-btn color="blue-grey">Food
-                    <!-- <v-icon right dark>cloud_upload</v-icon> -->
+                <v-btn large class="oval" color="blue lighten-4">Food
                     <i class="em em-spaghetti"></i>
                 </v-btn>
+                <v-btn large class="oval" color="blue lighten-2">History
+                    <i class="em em-european_castle"></i>
+                </v-btn>
+                <v-btn large class="oval" color="pink lighten-2">Music
+                    <i class="em em-musical_note"></i>
+                </v-btn>
+                <v-btn large class="oval" color="pink lighten-4">Nightlife
+                    <i class="em em-cocktail"></i>
+                </v-btn>
+                <v-btn large class="oval" color="blue lighten-4">Outdoors
+                    <i class="em em-partly_sunny"></i>
+                </v-btn>
+                <v-btn large class="oval" color="blue lighten-2">Sports
+                    <i class="em em-basketball"></i>
+                </v-btn>
+                <v-btn large class="oval" color="pink lighten-2">Tours
+                    <i class="em em-scooter"></i>
+                </v-btn>
+            </div>
+
+            <div row wrap>
+                <h2 class="prefs">Preferences</h2>
+                <br>
+                <br>
+                <v-layout>
+                    <v-flex xs6 sm4 class="dropdown">
+                        <h3>Transportation</h3>
+                        <v-select
+                            v-model="e7"
+                            :items="transportation"
+                            label="Select"
+                            multiple
+                            chips
+                            persistent-hint
+                        ></v-select>
+                    </v-flex>
+ 
+                    <v-flex xs6 sm4 class="dropdown">
+                        <h3>Accommodation</h3>
+                        <v-select
+                            v-model="e7"
+                            :items="accommodations"
+                            label="Select"
+                            multiple
+                            chips
+                            persistent-hint
+                        ></v-select>
+                    </v-flex>
+
+                    <v-flex xs6 sm4 class="dropdown">
+                        <h3>Lifestyle</h3>
+                        <v-select
+                            v-model="e7"
+                            :items="lifestyle"
+                            label="Select"
+                            multiple
+                            chips
+                            persistent-hint
+                        ></v-select>
+                    </v-flex>
+                </v-layout>
+
+                <!-- <v-layout>
+                    <v-flex xs6 sm4>
+                        <h3>Transportation</h3>
+                        <v-checkbox v-model="checkbox" label="Car"></v-checkbox>
+                        <v-checkbox v-model="checkbox" label="Bus"></v-checkbox>
+                        <v-checkbox v-model="checkbox" label="Train"></v-checkbox>
+                        <v-checkbox v-model="checkbox" label="Bike/Walk"></v-checkbox>
+                    </v-flex>
+
+                    <v-flex xs6 sm4>
+                        <h3>Accommodation</h3>
+                        <v-checkbox v-model="checkbox" label="Hotel"></v-checkbox>
+                        <v-checkbox v-model="checkbox" label="B&B"></v-checkbox>
+                        <v-checkbox v-model="checkbox" label="Hostel"></v-checkbox>
+                        <v-checkbox v-model="checkbox" label="House"></v-checkbox>
+                    </v-flex>
+
+                    <v-flex xs6 sm4>
+                        <h3>Lifestyle</h3>
+                        <v-checkbox v-model="checkbox" label="Special needs"></v-checkbox>
+                        <v-checkbox v-model="checkbox" label="Non smoking"></v-checkbox>
+                        <v-checkbox v-model="checkbox" label="Vegetarian/Vegan"></v-checkbox>
+                        <v-checkbox v-model="checkbox" label="Kosher/Halal"></v-checkbox>
+                    </v-flex>
+                </v-layout> -->
             </div>
 
             <!--Buttons-->
@@ -227,6 +294,29 @@ export default {
 
             // regular picture upload
 
+
+            // preferences
+            transportation: [
+                "Car",
+                "Bus",
+                "Train",
+                "Bike/Walk"
+            ],
+            accommodations: [
+                "Hotel",
+                "B&B",
+                "Hostel",
+                "House/Homestay"
+            ],
+            lifestyle: [
+                "Special Needs",
+                "Non-smoking",
+                "420 Friendly",
+                "Vegetarian/Vegan",
+                "Kosher/Halal"
+            ],
+
+            // last page
             tickLabels: [1, 2, 3, 4, 5]
         };
     },
@@ -418,7 +508,7 @@ ul {
 
 .signup {
     padding: 30px;
-    height: 75%;
+    height: 85%;
     width: 80%;
     align-items: center;
     justify-content: center;
@@ -427,5 +517,19 @@ ul {
 
 #green {
     color: green;
+}
+
+.oval {
+    border-radius: 50% !important;
+}
+
+.prefs {
+    float: left;
+    margin-bottom: 50px;
+}
+
+.dropdown {
+    margin-left: 10px;
+    margin-right: 10px;
 }
 </style>
