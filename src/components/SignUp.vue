@@ -76,7 +76,7 @@
 
             <div row wrap>
                 <h2 style="float:left">Favorite Activities</h2>
-                <v-btn large class="oval" color="pink lighten-2">Art
+                <!-- <v-btn large class="oval" color="pink lighten-2">Art
                     <i class="em em-spaghetti"></i>
                 </v-btn>
                 <v-btn large class="oval" color="pink lighten-4">Culture
@@ -102,14 +102,27 @@
                 </v-btn>
                 <v-btn large class="oval" color="pink lighten-2">Tours
                     <i class="em em-scooter"></i>
-                </v-btn>
+                </v-btn> -->
+
+                <v-layout>
+                    <v-flex xs6 sm4 style="width:100% !important">
+                        <v-select
+                            v-model="e7"
+                            :items="categories"
+                            label="Select"
+                            multiple
+                            chips           
+                            persistent-hint
+                        ></v-select>
+                    </v-flex>
+                </v-layout>
             </div>
 
             <div row wrap>
                 <h2 class="prefs">Preferences</h2>
                 <br>
                 <br>
-                <v-layout>
+                <!-- <v-layout>
                     <v-flex xs6 sm4 class="dropdown">
                         <h3>Transportation</h3>
                         <v-select
@@ -145,9 +158,9 @@
                             persistent-hint
                         ></v-select>
                     </v-flex>
-                </v-layout>
+                </v-layout> -->
 
-                <!-- <v-layout>
+               <v-layout>
                     <v-flex xs6 sm4>
                         <h3>Transportation</h3>
                         <v-checkbox v-model="checkbox" label="Car"></v-checkbox>
@@ -171,7 +184,7 @@
                         <v-checkbox v-model="checkbox" label="Vegetarian/Vegan"></v-checkbox>
                         <v-checkbox v-model="checkbox" label="Kosher/Halal"></v-checkbox>
                     </v-flex>
-                </v-layout> -->
+                </v-layout>
             </div>
 
             <!--Buttons-->
@@ -314,6 +327,17 @@ export default {
                 "420 Friendly",
                 "Vegetarian/Vegan",
                 "Kosher/Halal"
+            ],
+            categories: [
+                "Art",
+                "Culture",
+                "Food",
+                "History",
+                "Music",
+                "Nightlife",
+                "Outdoors",
+                "Sports",
+                "Tours"
             ],
 
             // last page
