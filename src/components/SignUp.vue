@@ -13,11 +13,12 @@
             <v-text-field v-model="firstName" :rules="nameRules" :counter="30" label="First name" required class="text-field" id="float"></v-text-field>
             <v-text-field v-model="lastName" :rules="nameRules" :counter="30" label="Last name" required class="text-field" id="float"></v-text-field>
             <v-text-field v-model="age" :rules="ageRules" label="Age" required class="text-field"></v-text-field>
+            <v-text-field v-model="occupation" label="University or Occupation" required class="text-field"></v-text-field>
             <v-text-field v-model="phoneNumber" :rules="phoneNumberRules" label="Phone number" required class="text-field"></v-text-field>
 
             <v-text-field v-model="hometown.city" label="City" class="text-field" style="float:left"></v-text-field>
             <v-autocomplete :items="countries" v-model="hometown.country" label="Country" class="text-field"></v-autocomplete>
-			<v-autocomplete v-if="fromUS" v-model="hometown.state" :items="states" label="State (if in US)" class="text-field" style="float:left"></v-autocomplete>
+            <v-autocomplete v-if="fromUS" v-model="hometown.state" :items="states" label="State (if in US)" class="text-field" style="float:left"></v-autocomplete>
 
             <div class="photo-upload">
                 <br>
@@ -44,8 +45,61 @@
             <v-btn :disabled="!valid" @click="next()">Next</v-btn>
         </v-form>
 
-        <!--Page 4-->
+        <!--Page 2-->
         <v-form v-else-if="pageNumber === 2" ref="form" v-model="valid" lazy-validation>
+            <div style="margin-bottom: 20px">
+                <router-link to="/landing">
+                    <v-icon class="material-icons" style="float:right">clear</v-icon>
+                </router-link>
+                <h1 style="margin-top:10px; margin-bottom:20px">Tell us a little about yourself</h1>
+            </div>
+
+            <v-flex>
+                <v-textarea :value="bio" solo name="input-7-4" v-model="bio" :rules="bioRules"></v-textarea>
+            </v-flex>
+
+            <!--Buttons-->
+            <v-btn :disabled="!valid" @click="back()">Back</v-btn>
+            <v-btn :disabled="!valid" @click="next()">Next</v-btn>
+        </v-form>
+
+        <!--Page 3-->
+        <v-form v-else-if="pageNumber === 3" ref="form" v-model="valid" lazy-validation>
+            <div style="margin-bottom: 20px">
+                <router-link to="/landing">
+                    <v-icon class="material-icons" style="float:right">clear</v-icon>
+                </router-link>
+                <h1 style="margin-top:10px; margin-bottom:20px">Travel Preferences</h1>
+            </div>
+
+            <!--Buttons-->
+            <v-btn :disabled="!valid" @click="back()">Back</v-btn>
+            <v-btn :disabled="!valid" @click="next()">Next</v-btn>
+        </v-form>
+
+        <!--Page 4-->
+        <v-form v-else-if="pageNumber === 4" ref="form" v-model="valid" lazy-validation>
+            <div style="margin-bottom: 20px">
+                <router-link to="/landing">
+                    <v-icon class="material-icons" style="float:right">clear</v-icon>
+                </router-link>
+                <h1 style="margin-top:10px; margin-bottom:20px">Travel Experience</h1>
+            </div>
+
+            <v-flex xs12>
+                <v-subheader>Tick labels</v-subheader>
+                <v-card-text>
+                    <v-slider v-model="fruits" :tick-labels="tickLabels" :max="3" step="1" ticks="always" tick-size="2"></v-slider>
+                </v-card-text>
+            </v-flex>
+
+            <!--Buttons-->
+            <v-btn :disabled="!valid" @click="back()">Back</v-btn>
+            <v-btn :disabled="!valid" @click="registerUser()">Register</v-btn>
+        </v-form>
+
+        <!--Page 4-->
+        <v-form v-else-if="pageNumber === 5" ref="form" v-model="valid" lazy-validation>
             <v-layout column wrap>
                 <v-flex xs12>
                     <router-link to="/events">
@@ -90,10 +144,10 @@ export default {
         Events,
         People
     },
-    computed: {	
-		fromUS(){
-			return this.hometown.country === "United States";
-		}
+    computed: {
+        fromUS() {
+            return this.hometown.country === "United States";
+        }
     },
     data() {
         return {
@@ -136,7 +190,9 @@ export default {
             profileImageUrl: "http://placekitten.com/g/200/300",
             uploadFinished: false,
 
-            // regular picture upload
+			// regular picture upload
+
+			tickLabels: [1, 2, 3, 4, 5]
         };
     },
     firebase: {
@@ -162,7 +218,7 @@ export default {
             } else {
                 this.graphics();
             }
-		},
+        },
 
         registerUser() {
             const uuid = require("uuid/v4");
