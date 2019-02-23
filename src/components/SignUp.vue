@@ -1,5 +1,5 @@
 <template>
-<v-content class="container">
+<v-content class="container preferences">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 
     <v-card class="signup">
@@ -105,15 +105,15 @@
                 </v-btn> -->
 
                 <v-layout>
-                    <v-flex xs6 sm4 style="width:100% !important">
-                        <v-select
-                            v-model="e7"
-                            :items="categories"
-                            label="Select"
-                            multiple
-                            chips           
-                            persistent-hint
-                        ></v-select>
+                    <v-flex>
+                        <v-select v-model="e7" :items="categories" label="Select" multiple persistent-hint>
+                            <template slot="selection" slot-scope="data">
+                                <span class="round-chip">
+                                    <i :class=map[data.item]></i>
+                                    {{ data.item }}
+                                </span>
+                            </template>
+                        </v-select>
                     </v-flex>
                 </v-layout>
             </div>
@@ -160,7 +160,7 @@
                     </v-flex>
                 </v-layout> -->
 
-               <v-layout>
+                <v-layout>
                     <v-flex xs6 sm4>
                         <h3>Transportation</h3>
                         <v-checkbox v-model="checkbox" label="Car"></v-checkbox>
@@ -307,7 +307,6 @@ export default {
 
             // regular picture upload
 
-
             // preferences
             transportation: [
                 "Car",
@@ -341,7 +340,19 @@ export default {
             ],
 
             // last page
-            tickLabels: [1, 2, 3, 4, 5]
+            tickLabels: [1, 2, 3, 4, 5],
+
+            map: {
+                "Art": "em em-art",
+                "Culture": "em em-shinto_shrine",
+                "Food": "em em-spaghetti",
+                "History": "em em-european_castle",
+                "Music": "em em-musical_note",
+                "Nightlife": "em em-cocktail",
+                "Outdoors": "em em-partly_sunny",
+                "Sports": "em em-basketball",
+                "Tours": "em em-scooter"
+            }
         };
     },
     firebase: {
@@ -501,6 +512,10 @@ export default {
 </script>
 
 <style>
+.preferences .v-content__wrap {
+    display: flex;
+}
+
 ul {
     list-style: none;
     margin: 0;
@@ -534,9 +549,8 @@ ul {
     padding: 30px;
     height: 85%;
     width: 80%;
-    align-items: center;
-    justify-content: center;
     background-color: aliceblue !important;
+    margin: auto;
 }
 
 #green {
@@ -555,5 +569,18 @@ ul {
 .dropdown {
     margin-left: 10px;
     margin-right: 10px;
+}
+
+.round-chip {
+    /* background-image: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);  */
+    border-radius: 50%;
+    background-color: pink;
+    padding: 5px 5px;
+    margin: 3px 3px;
+    width: 110px;
+    box-shadow: 2px 2px 5px #888888;
+    justify-content: center;
+    align-content: initial;
+    display: flex;
 }
 </style>

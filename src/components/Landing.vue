@@ -34,16 +34,6 @@ export default {
 </script>
 
 <style>
-.container {
-	flex-direction: row;
-	background-image: url("../assets/flamingo2.png");
-	background-size: cover;
-	height: 93%;
-	text-align: center;
-    /* align-items: center;
-    justify-content: center; */
-}
-
 .button {
     transform: scale(1.5, 1.5);
 }

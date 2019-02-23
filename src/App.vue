@@ -54,6 +54,14 @@ a {
     text-decoration: none;
 }
 
+.container {
+	flex-direction: row;
+	background-image: url("./assets/flamingo2.png");
+	background-size: cover;
+	height: 93%;
+	text-align: center;
+}
+
 .center {
     text-align: center;
 }
