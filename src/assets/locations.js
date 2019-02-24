@@ -1,3 +1,7 @@
+import forEach from 'lodash.foreach';
+// var world = require("../assets/world.json");
+import * as world from "./world.json";
+
 export const states = [
 	"Alaska",
 	"Alabama",
@@ -71,3 +75,25 @@ export const countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","
 	,"Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia"
 	,"Turkey","Turkmenistan","Turks &amp; Caicos","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","United States Minor Outlying Islands","Uruguay"
 	,"Uzbekistan","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
+
+export function parseCities() {
+	let allCountries = [];
+	let allCities = [];
+
+	forEach(world, function(countries, key){
+		forEach(countries, function(country, key){
+			allCountries.push(key);
+		})
+	});	
+
+	let worldJSON = world.default;
+	for (let country in worldJSON){
+		allCities = allCities.concat(worldJSON[country]);
+	}
+
+	allCountries.sort();
+	allCities.sort();
+	
+	return { allCountries: allCountries, allCities: allCities };
+}
+

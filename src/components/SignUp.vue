@@ -19,7 +19,7 @@
             <v-text-field v-model="phoneNumber" :rules="phoneNumberRules" label="Phone number" required class="text-field"></v-text-field>
 
             <v-text-field v-model="hometown.city" label="City" class="text-field" style="float:left"></v-text-field>
-            <v-autocomplete :items="countries" v-model="hometown.country" label="Country" class="text-field"></v-autocomplete>
+            <v-autocomplete :items="allCountries" v-model="hometown.country" label="Country" class="text-field"></v-autocomplete>
             <v-autocomplete v-if="fromUS" v-model="hometown.state" :items="states" label="State (if in US)" class="text-field" style="float:left"></v-autocomplete>
 
             <div class="photo-upload">
@@ -42,9 +42,10 @@
                 <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
             </div>
 
-            <!--Buttons-->
-            <v-btn :disabled="!valid" @click="back()">Back</v-btn>
-            <v-btn :disabled="!valid" @click="next()">Next</v-btn>
+            <!--Arrows-->
+            <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
+            <span class="pagenumbers">{{pageNumber}} / 4</span>
+            <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
         </v-form>
 
         <!--Page 2-->
@@ -60,9 +61,10 @@
                 <v-textarea :value="bio" solo v-model="bio" :rules="bioRules"></v-textarea>
             </v-flex>
 
-            <!--Buttons-->
-            <v-btn :disabled="!valid" @click="back()">Back</v-btn>
-            <v-btn :disabled="!valid" @click="next()">Next</v-btn>
+            <!--Arrows-->
+            <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
+            <span class="pagenumbers">{{pageNumber}} / 4</span>
+            <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
         </v-form>
 
         <!--Page 3-->
@@ -75,41 +77,13 @@
             </div>
 
             <div row wrap>
-                <h2 style="float:left">Favorite Activities</h2>
-                <!-- <v-btn large class="oval" color="pink lighten-2">Art
-                    <i class="em em-spaghetti"></i>
-                </v-btn>
-                <v-btn large class="oval" color="pink lighten-4">Culture
-                    <i class="em em-shinto_shrine"></i>
-                </v-btn>
-                <v-btn large class="oval" color="blue lighten-4">Food
-                    <i class="em em-spaghetti"></i>
-                </v-btn>
-                <v-btn large class="oval" color="blue lighten-2">History
-                    <i class="em em-european_castle"></i>
-                </v-btn>
-                <v-btn large class="oval" color="pink lighten-2">Music
-                    <i class="em em-musical_note"></i>
-                </v-btn>
-                <v-btn large class="oval" color="pink lighten-4">Nightlife
-                    <i class="em em-cocktail"></i>
-                </v-btn>
-                <v-btn large class="oval" color="blue lighten-4">Outdoors
-                    <i class="em em-partly_sunny"></i>
-                </v-btn>
-                <v-btn large class="oval" color="blue lighten-2">Sports
-                    <i class="em em-basketball"></i>
-                </v-btn>
-                <v-btn large class="oval" color="pink lighten-2">Tours
-                    <i class="em em-scooter"></i>
-                </v-btn> -->
-
+                <h2 class="fav-activities-title">Favorite Activities</h2>
                 <v-layout>
                     <v-flex>
-                        <v-select v-model="e7" :items="categories" label="Select" multiple persistent-hint>
+                        <v-select class="fav-activities" v-model="e7" :items="categories" multiple persistent-hint>
                             <template slot="selection" slot-scope="data">
                                 <span class="round-chip">
-                                    <i :class=map[data.item]></i>
+                                    <i style="margin-right: 10px" :class=emoji[data.item]></i>
                                     {{ data.item }}
                                 </span>
                             </template>
@@ -119,48 +93,10 @@
             </div>
 
             <div row wrap>
-                <h2 class="prefs">Preferences</h2>
+                <h2 id="prefs">Preferences</h2>
                 <br>
                 <br>
-                <!-- <v-layout>
-                    <v-flex xs6 sm4 class="dropdown">
-                        <h3>Transportation</h3>
-                        <v-select
-                            v-model="e7"
-                            :items="transportation"
-                            label="Select"
-                            multiple
-                            chips
-                            persistent-hint
-                        ></v-select>
-                    </v-flex>
- 
-                    <v-flex xs6 sm4 class="dropdown">
-                        <h3>Accommodation</h3>
-                        <v-select
-                            v-model="e7"
-                            :items="accommodations"
-                            label="Select"
-                            multiple
-                            chips
-                            persistent-hint
-                        ></v-select>
-                    </v-flex>
-
-                    <v-flex xs6 sm4 class="dropdown">
-                        <h3>Lifestyle</h3>
-                        <v-select
-                            v-model="e7"
-                            :items="lifestyle"
-                            label="Select"
-                            multiple
-                            chips
-                            persistent-hint
-                        ></v-select>
-                    </v-flex>
-                </v-layout> -->
-
-                <v-layout>
+                <v-layout class="checkboxes">
                     <v-flex xs6 sm4>
                         <h3>Transportation</h3>
                         <v-checkbox v-model="checkbox" label="Car"></v-checkbox>
@@ -187,9 +123,10 @@
                 </v-layout>
             </div>
 
-            <!--Buttons-->
-            <v-btn :disabled="!valid" @click="back()">Back</v-btn>
-            <v-btn :disabled="!valid" @click="next()">Next</v-btn>
+            <!--Arrows-->
+            <v-icon class="arrows" @click="back()">chevron_left</v-icon>
+            <span class="pagenumbers">{{pageNumber}} / 4</span>
+            <v-icon class="arrows" @click="next()">chevron_right</v-icon>
         </v-form>
 
         <!--Page 4-->
@@ -201,19 +138,65 @@
                 <h1 style="margin-top:10px; margin-bottom:20px">Travel Experience</h1>
             </div>
 
-            <v-flex xs12>
-                <v-subheader>Tick labels</v-subheader>
+            <v-layout row wrap class="travel-experience">
+                <v-flex xs12 class="autoc">
+                    <h3>Where have you traveled to before?</h3>
+                    <v-autocomplete xs6 :items="allCities" v-model="traveledInPast" chips multiple style="margin: 0px 10px 0px 10px">
+                        <template slot="selection" slot-scope="data">
+                            <v-chip :selected="data.selected" close class="chip--select-multi" @click="removePast(data.item)">
+                                {{ data.item }}
+                            </v-chip>
+                        </template>
+                    </v-autocomplete>
+
+                    <!--old custom chips-->
+                    <!-- <v-select class="fav-activities" v-model="e7" :items="categories" multiple persistent-hint>
+                            <template slot="selection" slot-scope="data">
+                                <span class="round-chip">
+                                    <i style="margin-right: 10px" :class=emoji[data.item]></i>
+                                    {{ data.item }}
+                                </span>
+                            </template>
+                        </v-select> -->
+                </v-flex>
+
+                <v-flex xs12 class="autoc">
+                    <h3>Where do you want to travel in the future?</h3>
+                    <v-autocomplete :items="allCities" v-model="travelInFuture" chips multiple style="margin: 0px 10px 0px 10px">
+                        <template slot="selection" slot-scope="data">
+                            <v-chip :selected="data.selected" close class="chip--select-multi" @input="removeFuture(data.item)">
+                                {{ data.item }}
+                            </v-chip>
+                        </template>
+                    </v-autocomplete>
+                </v-flex>
+
+                <v-flex xs12 class="autoc">
+                    <h3>Tell us your current itinerary.</h3>
+                    <v-autocomplete :items="allCities" v-model="travelCurrent" chips multiple style="margin: 0px 10px 0px 10px">
+                        <template slot="selection" slot-scope="data">
+                            <v-chip :selected="data.selected" close class="chip--select-multi" @input="remove(data.item)">
+                                {{ data.item }}
+                            </v-chip>
+                        </template>
+                    </v-autocomplete>
+                </v-flex>
+            </v-layout>
+
+            <v-flex xs12 class="autoc">
+                <h4 id="rate-yourself">Rate yourself on how experienced of a traveler you are (1: first time traveling, 5: professional)</h4>
                 <v-card-text>
                     <v-slider v-model="fruits" :tick-labels="tickLabels" :max="3" step="1" ticks="always" tick-size="2"></v-slider>
                 </v-card-text>
             </v-flex>
 
-            <!--Buttons-->
-            <v-btn :disabled="!valid" @click="back()">Back</v-btn>
-            <v-btn :disabled="!valid" @click="registerUser()">Register</v-btn>
+            <!--Arrows-->
+            <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
+            <span class="pagenumbers">{{pageNumber}} / 4</span>
+            <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
         </v-form>
 
-        <!--Page 4-->
+        <!--Page 5-->
         <v-form v-else-if="pageNumber === 5" ref="form" v-model="valid" lazy-validation>
             <v-layout column wrap>
                 <v-flex xs12>
@@ -247,10 +230,15 @@ import {
 } from "../database";
 
 import {
+    parseCities,
     states,
-    countries
+    countries,
 } from "../assets/locations.js";
 
+console.log();
+
+var world = require("../assets/world.json");
+// let countries = require('all-countries-and-cities-json');
 let forEach = require('lodash.foreach');
 
 export default {
@@ -268,7 +256,7 @@ export default {
         return {
             eventRoute: false,
             peopleRoute: false,
-            pageNumber: 3,
+            pageNumber: 4,
 
             // data validation rules
             firstName: "",
@@ -342,7 +330,7 @@ export default {
             // last page
             tickLabels: [1, 2, 3, 4, 5],
 
-            map: {
+            emoji: {
                 "Art": "em em-art",
                 "Culture": "em em-shinto_shrine",
                 "Food": "em em-spaghetti",
@@ -352,7 +340,13 @@ export default {
                 "Outdoors": "em em-partly_sunny",
                 "Sports": "em em-basketball",
                 "Tours": "em em-scooter"
-            }
+            },
+
+            traveledInPast: null,
+            travelInFuture: null,
+            travelCurrent: null,
+            allCountries: parseCities().allCountries,
+            allCities: parseCities().allCities
         };
     },
     firebase: {
@@ -361,103 +355,21 @@ export default {
     },
     methods: {
         next() {
-            if (this.pageNumber < 4) {
+            if (this.pageNumber < 5) {
                 this.pageNumber += 1;
             } else {
                 this.pageNumber = 1;
             }
         },
 
-        exit() {
-            this.graphics();
-        },
-
         back() {
             if (this.pageNumber > 1) {
                 this.pageNumber--;
-            } else {
-                this.graphics();
-            }
-        },
-
-        registerUser() {
-            const uuid = require("uuid/v4");
-            let myUuid = uuid();
-            this.uuid = myUuid;
-
-            let newUser = {
-                uuid: myUuid,
-                firstName: this.firstName,
-                lastName: this.lastName,
-                email: this.email,
-                phoneNumber: this.phoneNumber,
-                status: this.status,
-                gradYear: this.gradYear,
-                degrees: this.degrees,
-                school: this.school,
-                hometown: this.hometown,
-                interests: this.selectedInterests,
-                advice: this.selectedAdvice,
-                bio: this.bio,
-                profileImageUrl: this.profileImageUrl,
-                emailLink: "mailto:" + this.email + "?Subject=Hello%20from%20Graducate"
-            };
-
-            // equivalent to signing in automatically
-            this.setUser(newUser);
-            if (this.$refs.form.validate()) {
-                userRef.child(myUuid).set(newUser);
-            }
-            this.toggleProfile();
-            this.calculateMatches(newUser);
+            } 
         },
 
         clear() {
             this.$refs.form.reset();
-        },
-
-        isUndergrad() {
-            return this.status === "Undergraduate";
-        },
-
-        addDegree() {
-            let newDegree = {
-                id: this.degrees.length + 1,
-                type: null,
-                major: null,
-                concentration: null
-            }
-            this.$set(this.degrees, this.degrees.length, newDegree);
-        },
-
-        removeDegree(degree) {
-            this.degrees.splice(degree.key, 1);
-        },
-
-        getConcentrations(major) {
-            let c = "N/A";
-            forEach(undergradMajors2, function (value, key) {
-                if (key === major) {
-                    c = value.concentrations;
-                    return c;
-                }
-            });
-            return c;
-        },
-
-        newEmail(v) {
-            let users = null;
-            userRef.on('value', function (snapshot) {
-                users = snapshot.val();
-            });
-            console.log("My email: ", v);
-            for (let user in users) {
-                console.log("Their email: ", users[user].email);
-                if (users[user].email === v) {
-                    return false;
-                }
-            };
-            return true;
         },
 
         // file uploading
@@ -505,9 +417,19 @@ export default {
                     Vue.set(that, 'uploadFinished', true);
                 }
             );
+        },
+
+        removePast(item) {
+            const index = this.traveledInPast.indexOf(item.name);
+            if (index >= 0) this.traveledInPast.splice(index, 1);
+        },
+
+        removeFuture(item) {
+            const index = this.travelInFuture.indexOf(item.name);
+            if (index >= 0) this.travelInFuture.splice(index, 1);
         }
     },
-    props: ['setUser', 'user', 'graphics', 'calculateMatches', 'toggleProfile']
+    props: []
 };
 </script>
 
@@ -527,8 +449,17 @@ ul {
 }
 
 .button {
-    /* padding: 10px 0px 10px 0px; */
     transform: scale(1.2, 1.2);
+}
+
+.fav-activities-title {
+    float: left;
+    margin: 30px 10px 0px 0px;
+}
+
+.fav-activities {
+    margin-left: 10px;
+    margin-bottom: 15px;
 }
 
 .text-field {
@@ -553,6 +484,10 @@ ul {
     margin: auto;
 }
 
+.checkboxes {
+    margin-bottom: 50px;
+}
+
 #green {
     color: green;
 }
@@ -561,7 +496,7 @@ ul {
     border-radius: 50% !important;
 }
 
-.prefs {
+#prefs {
     float: left;
     margin-bottom: 50px;
 }
@@ -577,10 +512,34 @@ ul {
     background-color: pink;
     padding: 5px 5px;
     margin: 3px 3px;
-    width: 110px;
+    width: 125px;
     box-shadow: 2px 2px 5px #888888;
     justify-content: center;
     align-content: initial;
     display: flex;
+}
+
+.arrows {
+    transform: scale(2, 2);
+    margin: 0px 20px 0px 20px;
+}
+
+.pagenumbers {
+    font-size: large;
+}
+
+#rate-yourself {
+    float: left;
+    display: flex;
+    margin: auto;
+}
+
+.travel-experience {
+    display: flex;
+    flex-direction: row;
+}
+
+.autoc {
+    margin: 20px 30px 20px 30px;
 }
 </style>
