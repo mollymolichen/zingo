@@ -1,5 +1,5 @@
+/* eslint-disable */
 import forEach from 'lodash.foreach';
-// var world = require("../assets/world.json");
 import * as world from "./world.json";
 
 export const states = [
