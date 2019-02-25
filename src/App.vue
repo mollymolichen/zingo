@@ -41,25 +41,31 @@ export default {
     },
     data() {
         return {
-            getStarted: false,
-            msg: "Home page"
+            // user: null
         }
-    }
+    },
+    methods: {
+        // setUser(user) {
+        //     this.currentUser = user;
+        // }
+    },
+    props: ['user']
 }
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Libre+Franklin');
+
 a {
     text-decoration: none;
 }
 
 .container {
-	flex-direction: row;
-	background-image: url("./assets/flamingo2.png");
-	background-size: cover;
-	height: 93%;
-	text-align: center;
+    flex-direction: row;
+    background-image: url("./assets/flamingo2.png");
+    background-size: cover;
+    height: 93%;
+    text-align: center;
 }
 
 .center {

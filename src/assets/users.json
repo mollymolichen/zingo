@@ -2,44 +2,40 @@
 	"users": {
 		"f475e0b6-ecf4-46cb-8ddc-9557fd1f68fd": {
 			"uuid": "f475e0b6-ecf4-46cb-8ddc-9557fd1f68fd",
+			"firstName": "Molly",
+			"lastName": "Chen",
+			"age": 21,
+			"universityOrOccupation": "Duke University",
+			"phoneNumber": "8322825093",
 			"hometown": {
 				"city": "Cary",
 				"state": "NC",
 				"country": "United States"
 			},
 			"propicUrl": "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/people%2Fmolly.jpg?alt=media&token=b90ed99b-b5d7-4113-a4ad-e23b7283713e",
-			"activities": [
-				{
-					"entry": "Learning about local culture",
-					"category": "culture"
-				},
-				{
-					"entry": "Learning about local religion",
-					"category": "culture"
-				},
-				{
-					"entry": "Enjoying local cuisine",
-					"category": "food"
-				},
-				{
-					"entry": "Outdoor sightseeing",
-					"category": "outdoors"
-				},
-				{
-					"entry": "Water sports",
-					"category": "sports"
-				},
-				{
-					"entry": "Bar hopping",
-					"category": "nightlife"
-				}
+			"pics": ["http://placekitten.com/g/200/300", "http://placekitten.com/g/200/300", "http://placekitten.com/g/200/300"],
+			"bio": "I am a senior at Duke who loves to travel!",
+			"selectedActivities": [
+				"Culture",
+				"Nightlife",
+				"Food",
+				"Tours"
 			],
-			"bio": "I am a senior at Duke who loves to travel.",
-			"firstName": "Molly",
-			"lastName": "Chen",
-			"university": "Duke University",
-			"email": "molly.chen@duke.edu",
-			"phoneNumber": "8322825093"
+			"selectedTransportation":[
+				"Walking", 
+                "Taxi/Uber/Lyft",
+                "Bus"
+			],
+			"selectedAccommodation": [
+				"Hostel",
+                "Airbnb/Dorm",
+                "Couchsurfing"
+			],
+			"selectedLifestyle": [
+				"Drinking",
+				"Partying"
+			],
+			"experienceRating": 4			
 		}
 	}
 }

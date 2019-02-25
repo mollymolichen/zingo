@@ -2,6 +2,16 @@
 <v-content class="container preferences">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 
+    <!--TODO: only works directly from SignUp, not App-->
+    <!-- <div class="test"> -->
+        <router-link :to="{ name: 'Profile', params: {user} }">
+            <v-btn>View Your New Profile</v-btn>
+        </router-link>
+        <router-link :to="{ name: 'App', params: {user2} }">
+            <v-btn>Go to App</v-btn>
+        </router-link>
+    <!-- </div> -->
+
     <v-card class="signup">
         <!--Page 1-->
         <v-form v-if="pageNumber === 1" ref="form" v-model="valid" lazy-validation>
@@ -12,10 +22,10 @@
                 <h1 style="margin-top:10px; margin-bottom:20px">Let's make your profile.</h1>
             </div>
 
-            <v-text-field v-model="firstName" :rules="nameRules" :counter="30" label="First name" required class="text-field" id="float"></v-text-field>
-            <v-text-field v-model="lastName" :rules="nameRules" :counter="30" label="Last name" required class="text-field" id="float"></v-text-field>
+            <v-text-field v-model="firstName" label="First name" required class="text-field" id="float"></v-text-field>
+            <v-text-field v-model="lastName" label="Last name" required class="text-field" id="float"></v-text-field>
             <v-text-field v-model="age" :rules="ageRules" label="Age" required class="text-field"></v-text-field>
-            <v-text-field v-model="occupation" label="University or Occupation" required class="text-field"></v-text-field>
+            <v-text-field v-model="universityOrOccupation" label="University or Occupation" required class="text-field"></v-text-field>
             <v-text-field v-model="phoneNumber" :rules="phoneNumberRules" label="Phone number" required class="text-field"></v-text-field>
 
             <v-text-field v-model="hometown.city" label="City" class="text-field" style="float:left"></v-text-field>
@@ -80,7 +90,7 @@
                 <h2 class="fav-activities-title">Favorite Activities</h2>
                 <v-layout>
                     <v-flex>
-                        <v-select class="fav-activities" v-model="e7" :items="categories" multiple persistent-hint>
+                        <v-select class="fav-activities" v-model="selectedActivities" :items="activities" multiple persistent-hint>
                             <template slot="selection" slot-scope="data">
                                 <span class="round-chip">
                                     <i style="margin-right: 10px" :class=emoji[data.item]></i>
@@ -99,26 +109,26 @@
                 <v-layout class="checkboxes">
                     <v-flex xs6 sm4>
                         <h3>Transportation</h3>
-                        <v-checkbox v-model="checkbox" label="Car"></v-checkbox>
-                        <v-checkbox v-model="checkbox" label="Bus"></v-checkbox>
-                        <v-checkbox v-model="checkbox" label="Train"></v-checkbox>
-                        <v-checkbox v-model="checkbox" label="Bike/Walk"></v-checkbox>
+                        <v-checkbox v-model="selectedTransportation" :label="transportation[0]" :value="transportation[0]"></v-checkbox>
+                        <v-checkbox v-model="selectedTransportation" :label="transportation[1]" :value="transportation[1]"></v-checkbox>
+                        <v-checkbox v-model="selectedTransportation" :label="transportation[2]" :value="transportation[2]"></v-checkbox>
+                        <v-checkbox v-model="selectedTransportation" :label="transportation[3]" :value="transportation[3]"></v-checkbox>
+                        <v-checkbox v-model="selectedTransportation" :label="transportation[4]" :value="transportation[4]"></v-checkbox>
                     </v-flex>
 
                     <v-flex xs6 sm4>
                         <h3>Accommodation</h3>
-                        <v-checkbox v-model="checkbox" label="Hotel"></v-checkbox>
-                        <v-checkbox v-model="checkbox" label="B&B"></v-checkbox>
-                        <v-checkbox v-model="checkbox" label="Hostel"></v-checkbox>
-                        <v-checkbox v-model="checkbox" label="House"></v-checkbox>
+                        <v-checkbox v-model="selectedAccommodation" :label="accommodation[0]" :value="accommodation[0]"></v-checkbox>
+                        <v-checkbox v-model="selectedAccommodation" :label="accommodation[1]" :value="accommodation[1]"></v-checkbox>
+                        <v-checkbox v-model="selectedAccommodation" :label="accommodation[2]" :value="accommodation[2]"></v-checkbox>
+                        <v-checkbox v-model="selectedAccommodation" :label="accommodation[3]" :value="accommodation[3]"></v-checkbox>
                     </v-flex>
 
                     <v-flex xs6 sm4>
                         <h3>Lifestyle</h3>
-                        <v-checkbox v-model="checkbox" label="Special needs"></v-checkbox>
-                        <v-checkbox v-model="checkbox" label="Non smoking"></v-checkbox>
-                        <v-checkbox v-model="checkbox" label="Vegetarian/Vegan"></v-checkbox>
-                        <v-checkbox v-model="checkbox" label="Kosher/Halal"></v-checkbox>
+                        <v-checkbox v-model="selectedLifestyle" :label="lifestyle[0]" :value="lifestyle[0]"></v-checkbox>
+                        <v-checkbox v-model="selectedLifestyle" :label="lifestyle[1]" :value="lifestyle[1]"></v-checkbox>
+                        <v-checkbox v-model="selectedLifestyle" :label="lifestyle[2]" :value="lifestyle[2]"></v-checkbox>
                     </v-flex>
                 </v-layout>
             </div>
@@ -150,7 +160,7 @@
                     </v-autocomplete>
 
                     <!--old custom chips-->
-                    <!-- <v-select class="fav-activities" v-model="e7" :items="categories" multiple persistent-hint>
+                    <!-- <v-select class="fav-activities" v-model="e7" :items="activities" multiple persistent-hint>
                             <template slot="selection" slot-scope="data">
                                 <span class="round-chip">
                                     <i style="margin-right: 10px" :class=emoji[data.item]></i>
@@ -186,14 +196,18 @@
             <v-flex xs12 class="autoc">
                 <h4 id="rate-yourself">Rate yourself on how experienced of a traveler you are (1: first time traveling, 5: professional)</h4>
                 <v-card-text>
-                    <v-slider v-model="fruits" :tick-labels="tickLabels" :max="3" step="1" ticks="always" tick-size="2"></v-slider>
+                    <v-slider v-model="experienceRating" :tick-labels="tickLabels" :max="4" step="1" ticks="always" tick-size="2"></v-slider>
                 </v-card-text>
             </v-flex>
 
             <!--Arrows-->
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
             <span class="pagenumbers">{{pageNumber}} / 4</span>
-            <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
+            <v-btn :disabled="!valid" @click="registerUser()">Register</v-btn>
+
+            <!-- <router-link :to="{ name: 'Profile', params: {user} }">
+                <v-btn>View Your New Profile</v-btn>
+            </router-link> -->
         </v-form>
 
         <!--Page 5-->
@@ -235,10 +249,7 @@ import {
     countries,
 } from "../assets/locations.js";
 
-console.log();
-
 var world = require("../assets/world.json");
-// let countries = require('all-countries-and-cities-json');
 let forEach = require('lodash.foreach');
 
 export default {
@@ -251,17 +262,22 @@ export default {
         fromUS() {
             return this.hometown.country === "United States";
         }
+        // experienceRating(){
+
+        // }
     },
     data() {
         return {
             eventRoute: false,
             peopleRoute: false,
-            pageNumber: 4,
+            pageNumber: 1,
 
             // data validation rules
+            uuid: "",
             firstName: "",
             lastName: "",
-            age: null,
+            age: null, // not sure if you can say an int is null,
+            universityOrOccupation: null,
             hometown: null,
             phoneNumber: null,
             hometown: {
@@ -269,9 +285,11 @@ export default {
                 state: "",
                 country: ""
             },
+            bio: "",
             states: states,
             countries: countries,
 
+            // form rules
             nameRules: [
                 v => !!v || "Name is required",
                 v => (v && v.length <= 15) || "Name must be less than 15 characters."
@@ -290,45 +308,39 @@ export default {
 
             // profile picture upload
             selectedFile: null,
-            profileImageUrl: "http://placekitten.com/g/200/300",
+            propicUrl: "http://placekitten.com/g/200/300",
+            pics: ["http://placekitten.com/g/200/300", "http://placekitten.com/g/200/300", "http://placekitten.com/g/200/300"],
             uploadFinished: false,
 
-            // regular picture upload
+            // TODO: regular picture upload
 
             // preferences
             transportation: [
+                "Walking",
+                "Taxi/Uber/Lyft",
                 "Car",
                 "Bus",
-                "Train",
-                "Bike/Walk"
+                "Train"
             ],
-            accommodations: [
-                "Hotel",
-                "B&B",
+            selectedTransportation: [],
+            accommodation: [
                 "Hostel",
-                "House/Homestay"
+                "Hotel",
+                "Airbnb/Dorm",
+                "Couchsurfing"
             ],
-            lifestyle: [
-                "Special Needs",
-                "Non-smoking",
-                "420 Friendly",
-                "Vegetarian/Vegan",
-                "Kosher/Halal"
-            ],
-            categories: [
-                "Art",
-                "Culture",
-                "Food",
-                "History",
-                "Music",
-                "Nightlife",
-                "Outdoors",
-                "Sports",
-                "Tours"
-            ],
+            selectedAccommodation: [],
 
-            // last page
+            // TODO: add to more info after profile is already created
+            lifestyle: [
+                "Smoking",
+                "Drinking",
+                "Partying"
+            ],
+            selectedLifestyle: [],
+
             tickLabels: [1, 2, 3, 4, 5],
+            experienceRating: null,
 
             emoji: {
                 "Art": "em em-art",
@@ -342,11 +354,39 @@ export default {
                 "Tours": "em em-scooter"
             },
 
-            traveledInPast: null,
-            travelInFuture: null,
-            travelCurrent: null,
+            // travel history
             allCountries: parseCities().allCountries,
-            allCities: parseCities().allCities
+            allCities: parseCities().allCities,
+            traveledInPast: [],
+            travelInFuture: [],
+            travelCurrent: [],
+
+            activities: [
+                "Art",
+                "Culture",
+                "Food",
+                "History",
+                "Music",
+                "Nightlife",
+                "Outdoors",
+                "Sports",
+                "Tours"
+            ],
+            selectedActivities: [],
+
+            user: null,
+
+            user2: {
+                firstName: "Molly",
+                lastName: "Test",
+                age: "21",
+                universityOrOccupation: "Duke",
+                hometown: {
+                    city: "Cary",
+                    state: "North Carolina",
+                    country: "United States"
+                }
+            }
         };
     },
     firebase: {
@@ -365,7 +405,7 @@ export default {
         back() {
             if (this.pageNumber > 1) {
                 this.pageNumber--;
-            } 
+            }
         },
 
         clear() {
@@ -374,7 +414,9 @@ export default {
 
         // file uploading
         onFileChanged(event) {
+            console.log("Files: ", event.target.files);
             this.selectedFile = event.target.files[0];
+            console.log("Selected file: ", this.selectedFile);
         },
 
         onUpload() {
@@ -413,7 +455,7 @@ export default {
                     // Upload completed successfully, now we can get the download URL
                     var url = await uploadTask.snapshot.ref.getDownloadURL();
                     console.log('url: ', url);
-                    Vue.set(that, 'profileImageUrl', url);
+                    Vue.set(that, 'propicUrl', url);
                     Vue.set(that, 'uploadFinished', true);
                 }
             );
@@ -421,12 +463,47 @@ export default {
 
         removePast(item) {
             const index = this.traveledInPast.indexOf(item.name);
-            if (index >= 0) this.traveledInPast.splice(index, 1);
+            if (index >= 0) this.traveledInPast.splice(index, 1);   // TODO: fix
         },
 
         removeFuture(item) {
             const index = this.travelInFuture.indexOf(item.name);
             if (index >= 0) this.travelInFuture.splice(index, 1);
+        },
+
+        registerUser() {
+            const uuid = require("uuid/v4");
+            let myUuid = uuid();
+            this.uuid = myUuid;
+
+            let newUser = {
+                uuid: myUuid,
+                firstName: this.firstName,
+                lastName: this.lastName,
+                age: this.age,
+                universityOrOccupation: this.universityOrOccupation,
+                phoneNumber: this.phoneNumber,
+                hometown: this.hometown,
+                propicUrl: this.propicUrl,
+                pics: this.pics,
+                bio: this.bio,
+                transportation: this.selectedTransportation,
+                accommodation: this.selectedAccommodation,
+                lifestyle: this.selectedLifestyle,
+                activities: this.selectedActivities,
+                experience: this.experienceRating
+            };
+
+            this.user = newUser;
+            userRef.child(myUuid).set(newUser);
+            // let that = this;
+            // console.log("Creating user...");
+            // Vue.set(that, 'user', newUser);
+            // Vue.prototype.$user = newUser;
+        },
+
+        getUser() {
+            return this.user;
         }
     },
     props: []
@@ -506,6 +583,11 @@ ul {
     margin-right: 10px;
 }
 
+#toolbar-su {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .round-chip {
     /* background-image: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);  */
     border-radius: 50%;
@@ -541,5 +623,12 @@ ul {
 
 .autoc {
     margin: 20px 30px 20px 30px;
+}
+
+.test {
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    height: 10% !important;
 }
 </style>

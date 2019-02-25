@@ -13,11 +13,11 @@
         <v-flex>
             <ul>
                 <li>
-                    <h2>{{currentUser.firstName}}, {{$route.params.user.age}}  <i class="em em-flag-um"/></h2>
+                    <h2>Molly, 21  <i class="em em-flag-um"/></h2>
                 </li>
-                <li>{{currentUser.universityOrOccupation}}</li>
+                <li>Duke University 19'</li>
                 <li>Software Developer</li>
-                <li>{{currentUser.hometown.city}} {{currentUser.hometown.state}}</li>
+                <li>Cary, North Carolina</li>
             </ul>
         </v-flex>
     </div>
@@ -134,11 +134,9 @@ export default {
     name: 'Profile',
     components: {
 
-	},
-	props: ['user'],
+    },
     data() {
         return {
-			currentUser: null,
             photos: [{
                     src: "../assets/alexandra.jpg"
                 },
@@ -182,12 +180,7 @@ export default {
 				]
 			}
         }
-	},
-	mounted() {
-		if (this.user){
-			this.currentUser = this.user;
-		}
-	}
+    }
 }
 </script>
 
