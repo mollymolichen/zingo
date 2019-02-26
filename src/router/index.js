@@ -17,30 +17,35 @@ export default new Router({
     {
       path: '/about',
       name: 'About',
-      component: About
+      component: About,
+      props: true
     },
     {
       path: '/events',
       name: 'Events',
-      component: Events
+      component: Events,
+      props: true
     },
     {
       path: '/',
       name: 'Landing',
-      component: Landing
+      component: Landing,
+      props: true
     },
     {
       path: '/our-story',
       name: 'OurStory',
-      component: Story
+      component: Story,
+      props: true
     },
     {
       path: '/people',
       name: 'People',
-      component: People
+      component: People,
+      props: true
     },
     // {
-    //   path: '/profile/:user',
+    //   path: '/profile/:user',  // TODO: dynamic routing
     //   name: 'Profile',
     //   component: Profile,
     //   props: (route) => ({ user: route.params.user })
@@ -54,7 +59,8 @@ export default new Router({
     {
       path: '/signup',
       name: 'SignUp',
-      component: SignUp
+      component: SignUp,
+      props: true
     }
   ]
 })

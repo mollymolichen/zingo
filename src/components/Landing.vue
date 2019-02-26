@@ -2,15 +2,20 @@
 <v-content class="container">
     <v-layout row wrap>
         <v-flex xs12>
-            <h1 id="title">Sign up for a free account now.</h1>
+            <h1 id="title">Weekendr</h1>
+            <h1>Connecting awesome travelers to awesome friends.</h1>
         </v-flex>
     </v-layout>
 
     <v-layout row wrap>
         <v-flex xs12>
-            <router-link to="/signup">
+            <!--TODO: put signup button back on landing page-->
+            <!-- <router-link to="/signup">
                 <v-btn class="button">Get Started</v-btn>
-            </router-link>
+            </router-link> -->
+            <!-- <router-link :to="{ name: 'SignUp', params: {user, updateUser} }">
+                <v-btn>Get Started</v-btn>
+            </router-link> -->
         </v-flex>
     </v-layout>
 </v-content>
@@ -18,18 +23,17 @@
 
 <script>
 /* eslint-disable */
-import SignUp from '../components/SignUp';
-
 export default {
-	name: 'Landing',
-	components: {
-        SignUp
-	},
-	data() {
-		return {
+    name: 'Landing',
+    components: {
 
-		}
-	}
+    },
+    data() {
+        return {
+
+        }
+    },
+    props: ['user', 'updateUser']
 }
 </script>
 

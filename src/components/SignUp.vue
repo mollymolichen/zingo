@@ -376,21 +376,7 @@ export default {
                 "Sports",
                 "Tours"
             ],
-            selectedActivities: [],
-
-            userPlaceholder: null,
-
-            user2: {
-                firstName: "Molly",
-                lastName: "Test",
-                age: "21",
-                universityOrOccupation: "Duke",
-                hometown: {
-                    city: "Cary",
-                    state: "North Carolina",
-                    country: "United States"
-                }
-            }
+            selectedActivities: []
         };
     },
     firebase: {
@@ -480,37 +466,35 @@ export default {
             let myUuid = uuid();
             this.uuid = myUuid;
 
-            let newUser = {
-                uuid: myUuid,
-                firstName: this.firstName,
-                lastName: this.lastName,
-                age: this.age,
-                universityOrOccupation: this.universityOrOccupation,
-                phoneNumber: this.phoneNumber,
-                hometown: this.hometown,
-                propicUrl: this.propicUrl,
-                pics: this.pics,
-                bio: this.bio,
-                transportation: this.selectedTransportation,
-                accommodation: this.selectedAccommodation,
-                lifestyle: this.selectedLifestyle,
-                activities: this.selectedActivities,
-                traveledInPast: this.traveledInPast,
-                travelInFuture: this.travelInFuture,
-                travelCurrent: this.travelCurrent,
-                experience: this.experienceRating
-            };
+            if (this.user === null || this.user === undefined){        // user: prop passed from App
+                let newUser = {
+                    uuid: myUuid,
+                    firstName: this.firstName,
+                    lastName: this.lastName,
+                    age: this.age,
+                    universityOrOccupation: this.universityOrOccupation,
+                    phoneNumber: this.phoneNumber,
+                    hometown: this.hometown,
+                    propicUrl: this.propicUrl,
+                    pics: this.pics,
+                    bio: this.bio,
+                    transportation: this.selectedTransportation,
+                    accommodation: this.selectedAccommodation,
+                    lifestyle: this.selectedLifestyle,
+                    activities: this.selectedActivities,
+                    traveledInPast: this.traveledInPast,
+                    travelInFuture: this.travelInFuture,
+                    travelCurrent: this.travelCurrent,
+                    experience: this.experienceRating
+                };
 
-            this.userPlaceholder = newUser;
-            this.user = newUser;        // TODO: prop passed from nav bar or landing
-            // userRef.child(myUuid).set(newUser);
-            // let that = this;
-            // console.log("Creating user...");
-            // Vue.set(that, 'user', newUser);
-            // Vue.prototype.$user = newUser;
+                this.user = newUser;                        // don't these do the same thing?
+                this.updateUser(newUser);                   // this for functions, not for vars?
+                userRef.child(myUuid).set(newUser);
+            }
         }
     },
-    props: ['user']
+    props: ['user', 'updateUser']
 };
 </script>
 

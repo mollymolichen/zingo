@@ -2,9 +2,15 @@
 <div id="app">
     <v-app>
         <v-content>
-            <navbar :user=user></navbar>
-            <router-view></router-view>
-            <v-btn @click=registerUser()>Register</v-btn>
+            <navbar :user="user" :updateUser="updateUser"></navbar>
+            <router-view>
+                <!--TODO: put signup button back on landing page, 
+                props won't work w/i these tags-->
+                <!-- <div v-if="this.user===null">
+                    <v-btn class="button">Get Started</v-btn>
+                </div> -->
+                <!-- <landing :user="user" :updateUser="updateUser"></landing> -->
+            </router-view>  
         </v-content>
     </v-app>
 </div>
@@ -34,45 +40,14 @@ export default {
     },
     data() {
         return {
-            // user: null,
-            currentUserUUID: null
+            user: null
+            // currentUserUUID: null
         }
     },
     methods: {
-        // setUser(user) {
-        //     this.currentUser = user;
-        // }
-
-        /*registerUser() {
-            const uuid = require("uuid/v4");
-            let myUuid = uuid();
-            this.uuid = myUuid;
-
-            let newUser = {
-                uuid: myUuid,
-                firstName: SignUp.firstName,
-                lastName: SignUp.lastName,
-                age: SignUp.age,
-                universityOrOccupation: SignUp.universityOrOccupation,
-                phoneNumber: SignUp.phoneNumber,
-                hometown: SignUp.hometown,
-                propicUrl: SignUp.propicUrl,
-                pics: SignUp.pics,
-                bio: SignUp.bio,
-                transportation: SignUp.selectedTransportation,
-                accommodation: SignUp.selectedAccommodation,
-                lifestyle: SignUp.selectedLifestyle,
-                activities: SignUp.selectedActivities,
-                experience: SignUp.experienceRating
-            };
-
+        updateUser(newUser) {
             this.user = newUser;
-            userRef.child(myUuid).set(newUser);
-            // let that = this;
-            // console.log("Creating user...");
-            // Vue.set(that, 'user', newUser);
-            // Vue.prototype.$user = newUser;
-        }*/
+        }
     },
     firebase: {
         userRef: userRef,
@@ -82,7 +57,7 @@ export default {
             asObject: true
         },
     },
-    props: ['user']
+    props: []
 }
 </script>
 
