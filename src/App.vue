@@ -2,23 +2,9 @@
 <div id="app">
     <v-app>
         <v-content>
-            <v-toolbar color="teal lighten-1" id="toolbar">
-                <router-link to="/" class="remove-line">
-                    <h1>Weekendr</h1>
-                </router-link>
-                <ul>
-                    <router-link to="/about">
-                        <v-btn>About</v-btn>
-                    </router-link>
-                    <router-link to="/our-story">
-                        <v-btn>Our Story</v-btn>
-                    </router-link>
-                    <router-link to="/profile">
-                        <v-btn>Profile</v-btn>
-                    </router-link>
-                </ul>
-            </v-toolbar>
+            <navbar :user=user></navbar>
             <router-view></router-view>
+            <v-btn @click=registerUser()>Register</v-btn>
         </v-content>
     </v-app>
 </div>
@@ -30,6 +16,12 @@ import About from "./components/About";
 import Landing from "./components/Landing";
 import SignUp from "./components/SignUp";
 import Story from "./components/Story";
+import Navbar from "./components/Navbar";
+import {
+    db,
+    userRef,
+    storageRef
+} from "./database";
 
 export default {
     name: 'app',
@@ -37,17 +29,58 @@ export default {
         About,
         Landing,
         SignUp,
-        Story
+        Story,
+        Navbar
     },
     data() {
         return {
-            // user: null
+            // user: null,
+            currentUserUUID: null
         }
     },
     methods: {
         // setUser(user) {
         //     this.currentUser = user;
         // }
+
+        /*registerUser() {
+            const uuid = require("uuid/v4");
+            let myUuid = uuid();
+            this.uuid = myUuid;
+
+            let newUser = {
+                uuid: myUuid,
+                firstName: SignUp.firstName,
+                lastName: SignUp.lastName,
+                age: SignUp.age,
+                universityOrOccupation: SignUp.universityOrOccupation,
+                phoneNumber: SignUp.phoneNumber,
+                hometown: SignUp.hometown,
+                propicUrl: SignUp.propicUrl,
+                pics: SignUp.pics,
+                bio: SignUp.bio,
+                transportation: SignUp.selectedTransportation,
+                accommodation: SignUp.selectedAccommodation,
+                lifestyle: SignUp.selectedLifestyle,
+                activities: SignUp.selectedActivities,
+                experience: SignUp.experienceRating
+            };
+
+            this.user = newUser;
+            userRef.child(myUuid).set(newUser);
+            // let that = this;
+            // console.log("Creating user...");
+            // Vue.set(that, 'user', newUser);
+            // Vue.prototype.$user = newUser;
+        }*/
+    },
+    firebase: {
+        userRef: userRef,
+        storageRef: storageRef,
+        userObj: {
+            source: userRef,
+            asObject: true
+        },
     },
     props: ['user']
 }

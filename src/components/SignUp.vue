@@ -4,13 +4,15 @@
 
     <!--TODO: only works directly from SignUp, not App-->
     <!-- <div class="test"> -->
-        <router-link :to="{ name: 'Profile', params: {user} }">
+        <!-- <router-link :to="{ name: 'Profile', params: {user} }">
             <v-btn>View Your New Profile</v-btn>
-        </router-link>
-        <router-link :to="{ name: 'App', params: {user2} }">
+        </router-link> -->
+        <!-- <router-link :to="{ name: 'App', params: {user2} }">
             <v-btn>Go to App</v-btn>
-        </router-link>
+        </router-link> -->
     <!-- </div> -->
+
+    <!-- <navbar :user="user"></navbar> -->
 
     <v-card class="signup">
         <!--Page 1-->
@@ -235,6 +237,7 @@
 import Vue from "vue";
 import Firebase from "firebase";
 import Events from './Events.vue';
+import Navbar from './Navbar.vue';
 import People from './People.vue';
 
 import {
@@ -256,6 +259,7 @@ export default {
     name: "SignUp",
     components: {
         Events,
+        Navbar,
         People
     },
     computed: {
@@ -374,7 +378,7 @@ export default {
             ],
             selectedActivities: [],
 
-            user: null,
+            userPlaceholder: null,
 
             user2: {
                 firstName: "Molly",
@@ -491,22 +495,22 @@ export default {
                 accommodation: this.selectedAccommodation,
                 lifestyle: this.selectedLifestyle,
                 activities: this.selectedActivities,
+                traveledInPast: this.traveledInPast,
+                travelInFuture: this.travelInFuture,
+                travelCurrent: this.travelCurrent,
                 experience: this.experienceRating
             };
 
-            this.user = newUser;
-            userRef.child(myUuid).set(newUser);
+            this.userPlaceholder = newUser;
+            this.user = newUser;        // TODO: prop passed from nav bar or landing
+            // userRef.child(myUuid).set(newUser);
             // let that = this;
             // console.log("Creating user...");
             // Vue.set(that, 'user', newUser);
             // Vue.prototype.$user = newUser;
-        },
-
-        getUser() {
-            return this.user;
         }
     },
-    props: []
+    props: ['user']
 };
 </script>
 

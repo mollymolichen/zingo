@@ -5,7 +5,8 @@
     <div class="heading">
         <h1>Your Profile</h1>
         <v-avatar class="propic">
-            <img src="../assets/molly.jpg" alt="Profile picture" style="transform: scale(5, 5);">
+            <!-- <img src="../assets/molly.jpg" alt="Profile picture" style="transform: scale(5, 5);"> -->
+			<img :src=currentUser.propicUrl alt="Profile picture" style="transform: scale(5, 5);">
 		</v-avatar>
     </div>
 
@@ -16,19 +17,17 @@
                     <h2>{{currentUser.firstName}}, {{$route.params.user.age}}  <i class="em em-flag-um"/></h2>
                 </li>
                 <li>{{currentUser.universityOrOccupation}}</li>
-                <li>Software Developer</li>
                 <li>{{currentUser.hometown.city}} {{currentUser.hometown.state}}</li>
             </ul>
         </v-flex>
     </div>
 
-    <div class="photos">
-        <v-layout>
+    <!-- <div class="photos">
+        <v-layout :v-for="photo in currentUser.pics">
             <v-flex xs6 sm4>
-                <v-img class="profile-img" src="https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fnugget.png?alt=media&token=80f52fcc-f961-4c05-a84b-d4c476589534"></v-img>
-            </v-flex>
-
-            <v-flex xs6 sm4>
+                <v-img class="profile-img" :src=photo></v-img>
+            </v-flex> -->
+            <!-- <v-flex xs6 sm4>
                 <v-img class="profile-img" src="https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fparis.png?alt=media&token=a23b4919-a217-4eac-a537-84c12572513e">
                 </v-img>
             </v-flex>
@@ -36,9 +35,9 @@
             <v-flex xs6 sm4>
                 <v-img class="profile-img" src="https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fspain.png?alt=media&token=3a5e42a2-610b-4947-b7cc-21da1ae97677">
                 </v-img>
-            </v-flex>
-        </v-layout>
-    </div>
+            </v-flex> -->
+        <!-- </v-layout>
+    </div> -->
 
     <div class="about">
 		<br>
@@ -49,7 +48,7 @@
 				<v-card class="card">
 					<v-card-text class="left-margin px-0">
 						<h3>Intro</h3>
-						<p>I'm a senior at Duke University who loves to travel!</p>
+						<p>{{currentUser.bio}}</p>
 					</v-card-text>
 				</v-card>
 			</v-flex>
@@ -58,11 +57,10 @@
 					<v-card-text class="left-margin px-0">
 						<h3>Favorite Travel Activities</h3>
 						<ul class="square">
-							<li><i :class=culture></i> Learning about local culture</li>
-							<li><i class="em em-spaghetti"></i> Enjoying local cuisine</li>
-							<li><i class="em em-beach_with_umbrella"></i> Outdoor sightseeing</li>
-							<li><i class="em em-woman-surfing"></i> Water sports</li>
-							<li><i class="em em-beer"></i> Bar hopping</li>
+							<li v-for="activity in currentUser.activities" :key="activity">
+								<!-- <i :class="emoji_categories[activity]">{{activity}}</i> -->
+								{{activity}}
+							</li>
 						</ul>
 					</v-card-text>
 				</v-card>
@@ -72,11 +70,9 @@
 					<v-card-text class="left-margin px-0">
 						<h3>Preferences</h3>
 						<ul class="square">
-							<li><i class="em em-no_smoking"/> No smoking accommodations</li>
-							<li><i class="em em-sleeping_accommodation"/> Prefers hostels</li>
-							<li><i class="em em-monorail"/> Public transporation</li>
-							<li><i class="em em-recycle"/> Eco-friendly traveler</li>
-							<li><i class="em em-dog"/> Pet friendly</li>
+							<li v-for="habit in currentUser.lifestyle" :key="habit">
+								{{habit}}
+							</li>
 						</ul>
 					</v-card-text>
 				</v-card>
@@ -88,10 +84,9 @@
 					<v-card-text class="left-margin px-0">
 						<h3>Places I Want to Go</h3>
 						<ul class="square">
-							<li><i class="em em-flag-th"></i> Bangkok</li>
-							<li><i class="em em-flag-au"></i> Sydney</li>
-							<li><i class="em em-flag-tn"></i> Taipei</li>
-							<li><i class="em em-flag-gr"></i> Santorini</li>
+							<li :v-for="place in currentUser.travelInFuture">
+								{{place}}
+							</li>							
 						</ul>
 					</v-card-text>
 				</v-card>
@@ -101,10 +96,9 @@
 					<v-card-text class="left-margin px-0">
 						<h3>Places I've Been</h3>
 						<ul class="square">
-							<li><i class="em em-flag-scotland"></i> Edinburgh</li>
-							<li><i class="em em-flag-cp"></i> Paris</li>
-							<li><i class="em em-flag-ie"></i> Rome</li>
-							<li><i class="em em-flag-hu"></i> Budapest</li>
+							<li :v-for="place in currentUser.traveledInPast">
+								{{place}}
+							</li>
 						</ul>
 					</v-card-text>
 				</v-card>
@@ -114,17 +108,15 @@
 					<v-card-text class="left-margin px-0">
 						<h3>Itinerary</h3>
 						<ul class="square">
-							<li>March: Miami</li>
-							<li>April: DC</li>
-							<li>May-July: Durham</li>
-							<li>August: Seattle</li>
+							<li :v-for="place in currentUser.travelCurrent">
+								{{place}}
+							</li>
 						</ul>
 					</v-card-text>
 				</v-card>
 			</v-flex>
 		</v-layout>
 	</div>
-
 </v-content>
 </template>
 
@@ -139,16 +131,6 @@ export default {
     data() {
         return {
 			currentUser: null,
-            photos: [{
-                    src: "../assets/alexandra.jpg"
-                },
-                {
-                    src: "../assets/tim.png"
-                },
-                {
-                    src: "../assets/molly.jpg"
-                }
-			],
 			
 			// TODO: tim
 			emoji_categories: {

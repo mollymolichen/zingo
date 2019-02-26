@@ -29,12 +29,6 @@ export default new Router({
       name: 'Landing',
       component: Landing
     },
-    // {
-    //   path: '/',
-    //   name: 'App',
-    //   component: App,
-    //   props: true
-    // },
     {
       path: '/our-story',
       name: 'OurStory',
@@ -45,8 +39,14 @@ export default new Router({
       name: 'People',
       component: People
     },
+    // {
+    //   path: '/profile/:user',
+    //   name: 'Profile',
+    //   component: Profile,
+    //   props: (route) => ({ user: route.params.user })
+    // },
     {
-      path: '/profile',
+      path: '/profile/',
       name: 'Profile',
       component: Profile,
       props: true

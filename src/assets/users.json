@@ -35,6 +35,26 @@
 				"Drinking",
 				"Partying"
 			],
+			"traveledInPast": [
+				"Amsterdam",
+				"Brussels",
+				"Budapest",
+				"Edinburgh",
+				"Paris",
+				"Rome"
+			],
+			"travelInFuture": [
+				"Bangkok",
+				"Kuala Lumpur",
+				"Istanbul",
+				"Singapore"
+			],
+			"travelCurrent": [
+				"Miami",
+				"West Palm Beach",
+				"DC",
+				"Seattle"
+			],
 			"experienceRating": 4			
 		}
 	}
