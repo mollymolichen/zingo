@@ -57,8 +57,7 @@
 					<v-card-text class="left-margin px-0">
 						<h3>Favorite Travel Activities</h3>
 						<ul class="square">
-							<li v-for="activity in currentUser.activities" :key="activity">
-								<!-- <i :class="emoji_categories[activity]">{{activity}}</i> -->
+							<li v-for="activity in currentUser.activities" :key="activity">								
 								{{activity}}
 							</li>
 						</ul>
@@ -84,7 +83,7 @@
 					<v-card-text class="left-margin px-0">
 						<h3>Places I Want to Go</h3>
 						<ul class="square">
-							<li :v-for="place in currentUser.travelInFuture">
+							<li v-for="place in currentUser.travelInFuture" :key="place">
 								{{place}}
 							</li>							
 						</ul>
@@ -96,7 +95,7 @@
 					<v-card-text class="left-margin px-0">
 						<h3>Places I've Been</h3>
 						<ul class="square">
-							<li :v-for="place in currentUser.traveledInPast">
+							<li v-for="place in currentUser.traveledInPast" :key="place">
 								{{place}}
 							</li>
 						</ul>
@@ -108,7 +107,7 @@
 					<v-card-text class="left-margin px-0">
 						<h3>Itinerary</h3>
 						<ul class="square">
-							<li :v-for="place in currentUser.travelCurrent">
+							<li v-for="place in currentUser.travelCurrent" :key="place">
 								{{place}}
 							</li>
 						</ul>
