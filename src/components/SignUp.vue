@@ -1,19 +1,7 @@
 <template>
 <v-content class="container preferences">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
-
-    <!--TODO: only works directly from SignUp, not App-->
-    <!-- <div class="test"> -->
-        <!-- <router-link :to="{ name: 'Profile', params: {user} }">
-            <v-btn>View Your New Profile</v-btn>
-        </router-link> -->
-        <!-- <router-link :to="{ name: 'App', params: {user2} }">
-            <v-btn>Go to App</v-btn>
-        </router-link> -->
-    <!-- </div> -->
-
-    <!-- <navbar :user="user"></navbar> -->
-
+    ]
     <v-card class="signup">
         <!--Page 1-->
         <v-form v-if="pageNumber === 1" ref="form" v-model="valid" lazy-validation>
@@ -160,16 +148,6 @@
                             </v-chip>
                         </template>
                     </v-autocomplete>
-
-                    <!--old custom chips-->
-                    <!-- <v-select class="fav-activities" v-model="e7" :items="activities" multiple persistent-hint>
-                            <template slot="selection" slot-scope="data">
-                                <span class="round-chip">
-                                    <i style="margin-right: 10px" :class=emoji[data.item]></i>
-                                    {{ data.item }}
-                                </span>
-                            </template>
-                        </v-select> -->
                 </v-flex>
 
                 <v-flex xs12 class="autoc">
@@ -206,23 +184,20 @@
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
             <span class="pagenumbers">{{pageNumber}} / 4</span>
             <v-btn :disabled="!valid" @click="registerUser()">Register</v-btn>
-
-            <!-- <router-link :to="{ name: 'Profile', params: {user} }">
-                <v-btn>View Your New Profile</v-btn>
-            </router-link> -->
         </v-form>
 
         <!--Page 5-->
         <v-form v-else-if="pageNumber === 5" ref="form" v-model="valid" lazy-validation>
             <v-layout column wrap>
+                <h1>Choose your default setting. You can easily change this in Settings later.</h1>
                 <v-flex xs12>
                     <router-link to="/events">
-                        <v-btn class="button" @click="eventRoute=true">Find Events</v-btn>
+                        <v-btn class="button" @click="setRoute2('eventRoute')">Find Events</v-btn>
                     </router-link>
                 </v-flex>
                 <v-flex xs12>
                     <router-link to="/people">
-                        <v-btn class="button" @click="peopleRoute=true">Find People</v-btn>
+                        <v-btn class="button" @click="setRoute2('peopleRoute')">Find People</v-btn>
                     </router-link>
                 </v-flex>
             </v-layout>
@@ -266,9 +241,6 @@ export default {
         fromUS() {
             return this.hometown.country === "United States";
         }
-        // experienceRating(){
-
-        // }
     },
     data() {
         return {
@@ -280,7 +252,7 @@ export default {
             uuid: "",
             firstName: "",
             lastName: "",
-            age: null, // not sure if you can say an int is null,
+            age: null,
             universityOrOccupation: null,
             hometown: null,
             phoneNumber: null,
@@ -313,7 +285,11 @@ export default {
             // profile picture upload
             selectedFile: null,
             propicUrl: "http://placekitten.com/g/200/300",
-            pics: ["http://placekitten.com/g/200/300", "http://placekitten.com/g/200/300", "http://placekitten.com/g/200/300"],
+            pics: [
+                "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fnugget.png?alt=media&token=80f52fcc-f961-4c05-a84b-d4c476589534", 
+                "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fparis.png?alt=media&token=a23b4919-a217-4eac-a537-84c12572513e", 
+                "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fspain.png?alt=media&token=3a5e42a2-610b-4947-b7cc-21da1ae97677"
+            ],
             uploadFinished: false,
 
             // TODO: regular picture upload
@@ -385,7 +361,7 @@ export default {
     },
     methods: {
         next() {
-            if (this.pageNumber < 5) {
+            if (this.pageNumber < 6) {
                 this.pageNumber += 1;
             } else {
                 this.pageNumber = 1;
@@ -453,7 +429,7 @@ export default {
 
         removePast(item) {
             const index = this.traveledInPast.indexOf(item.name);
-            if (index >= 0) this.traveledInPast.splice(index, 1);   // TODO: fix
+            if (index >= 0) this.traveledInPast.splice(index, 1); // TODO: fix
         },
 
         removeFuture(item) {
@@ -461,12 +437,16 @@ export default {
             if (index >= 0) this.travelInFuture.splice(index, 1);
         },
 
+        setRoute2(option) {
+            this.setRoute(option);
+        },
+
         registerUser() {
             const uuid = require("uuid/v4");
             let myUuid = uuid();
             this.uuid = myUuid;
 
-            if (this.user === null || this.user === undefined){        // user: prop passed from App
+            if (this.user === null || this.user === undefined) { // user: prop passed from App
                 let newUser = {
                     uuid: myUuid,
                     firstName: this.firstName,
@@ -487,14 +467,15 @@ export default {
                     travelCurrent: this.travelCurrent,
                     experience: this.experienceRating
                 };
-
-                this.user = newUser;                        // don't these do the same thing?
-                this.updateUser(newUser);                   // this for functions, not for vars?
+                 
+                this.updateUser(newUser); 
                 userRef.child(myUuid).set(newUser);
+                this.pageNumber++;
             }
         }
     },
-    props: ['user', 'updateUser']
+    // props: ['user', 'updateUser', 'eventRoute', 'peopleRoute']
+    props: ['user', 'updateUser', 'setRoute']
 };
 </script>
 

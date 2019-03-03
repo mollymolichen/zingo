@@ -22,22 +22,13 @@
         </v-flex>
     </div>
 
-    <!-- <div class="photos">
-        <v-layout :v-for="photo in currentUser.pics">
+    <div class="photos">
+        <v-layout v-for="photo in currentUser.pics" :key="photo" row wrap>
             <v-flex xs6 sm4>
-                <v-img class="profile-img" :src=photo></v-img>
-            </v-flex> -->
-            <!-- <v-flex xs6 sm4>
-                <v-img class="profile-img" src="https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fparis.png?alt=media&token=a23b4919-a217-4eac-a537-84c12572513e">
-                </v-img>
+                <v-img class="profile-img" :src="photo"></v-img>
             </v-flex>
-
-            <v-flex xs6 sm4>
-                <v-img class="profile-img" src="https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fspain.png?alt=media&token=3a5e42a2-610b-4947-b7cc-21da1ae97677">
-                </v-img>
-            </v-flex> -->
-        <!-- </v-layout>
-    </div> -->
+        </v-layout>
+    </div>
 
     <div class="about">
 		<br>

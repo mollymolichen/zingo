@@ -2,7 +2,7 @@
 <div id="app">
     <v-app>
         <v-content>
-            <navbar :user="user" :updateUser="updateUser"></navbar>
+            <navbar :user="user" :updateUser="updateUser" :setRoute="setRoute"></navbar>
             <router-view>
                 <!--TODO: put signup button back on landing page, 
                 props won't work w/i these tags-->
@@ -40,13 +40,23 @@ export default {
     },
     data() {
         return {
-            user: null
-            // currentUserUUID: null
+            user: null,
+            eventRoute: false,
+            peopleRoute: false
         }
     },
     methods: {
         updateUser(newUser) {
             this.user = newUser;
+        },
+        setRoute(route){
+            if (route === 'eventRoute'){
+                this.eventRoute = true;
+                this.peopleRoute = false;
+            } else {
+                this.eventRoute = false;
+                this.peopleRoute = true;
+            }
         }
     },
     firebase: {
@@ -72,7 +82,7 @@ a {
     flex-direction: row;
     background-image: url("./assets/flamingo2.png");
     background-size: cover;
-    height: 93%;
+    /* height: 93%; */
     text-align: center;
 }
 
