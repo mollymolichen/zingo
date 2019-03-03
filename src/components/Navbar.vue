@@ -16,7 +16,7 @@
         <router-link :to="{ name: 'SignUp', params: {user, updateUser} }">
             <v-btn>Sign Up</v-btn>
         </router-link>
-        <router-link :to="{ name: 'Profile', params: {user} }">
+        <router-link v-if="user != null" :to="{ name: 'Profile', params: {user} }">
             <v-btn>Profile</v-btn>
         </router-link>
     </ul>
@@ -26,7 +26,7 @@
 <script>
 export default {
     name: 'Navbar',
-    props: ['user', 'updateUser'],
+    props: ['user', 'updateUser', 'setRoute'],
     data() {
         return {
             
