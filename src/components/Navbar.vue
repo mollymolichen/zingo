@@ -26,7 +26,7 @@ export default {
     props: ['user', 'updateUser', 'setRoute'],
     data() {
         return {
-            
+            // user2: this.user
         }
     }
 }

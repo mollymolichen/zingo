@@ -51,11 +51,10 @@ export default new Router({
     //   props: (route) => ({ user: route.params.user })
     // },
     {
-      path: '/profile',
+      path: '/profile/',
       name: 'Profile',
       component: Profile,
       props: true
-      // props: (route) => ({ user: route.params.user })
     },
     {
       path: '/signup',
