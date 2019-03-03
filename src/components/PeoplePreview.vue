@@ -39,6 +39,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import {
     userRef
 } from "../database.js";

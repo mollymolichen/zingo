@@ -10,6 +10,9 @@
         <router-link to="/our-story">
             <v-btn>Our Story</v-btn>
         </router-link>
+        <router-link to="/EventList">
+            <v-btn>Event List</v-btn>
+        </router-link>
         <router-link :to="{ name: 'SignUp', params: {user, updateUser} }">
             <v-btn>Sign Up</v-btn>
         </router-link>
@@ -26,7 +29,7 @@ export default {
     props: ['user', 'updateUser'],
     data() {
         return {
-            // user2: this.user
+            
         }
     }
 }
