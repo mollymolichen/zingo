@@ -10,7 +10,11 @@
         <router-link to="/our-story">
             <v-btn>Our Story</v-btn>
         </router-link>
+<<<<<<< HEAD
         <router-link v-if="user === null" :to="{ name: 'SignUp', params: {user, updateUser, setRoute} }">
+=======
+        <router-link :to="{ name: 'SignUp', params: {user, updateUser} }">
+>>>>>>> parent of 324bfd4... first test of events page
             <v-btn>Sign Up</v-btn>
         </router-link>
         <router-link v-if="user != null" :to="{ name: 'Profile', params: {user} }">
