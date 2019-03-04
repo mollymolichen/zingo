@@ -13,5 +13,3 @@ new Vue({
   router,                  // TODO: check
   render: h => h(App)
 }).$mount('#app')
-
-Vue.prototype.$user = null;
