@@ -28,23 +28,40 @@
                 <h3>Upload a profile picture.</h3>
                 <h4>Press Upload to make sure your file was uploaded successfully.</h4>
                 <br>
-                <!-- <input type="file" @change="onFileChanged"> -->
+                <input type="file" @change="onFileChanged">
+                <!-- <div class="upload-btn-wrapper">
+                    <button class="btn">
+                        <v-icon>add_a_photo</v-icon>
+                    </button>
+                    <input type="file" @change="onFileChanged"/>
+                </div> -->
+                <v-btn @click="onUpload">Upload</v-btn>
+                <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
+            </div>
+
+            <div class="photo-upload">
+                <h3>Upload up to three more photos of yourself.</h3>
+                <h4>Press Upload to make sure your file was uploaded successfully.</h4>
+                <br>
+                <!-- <input type="file" @change="onFileChanged" style="input-box"> -->
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
                 </div>
-                <v-btn @click="onUpload">Upload</v-btn>
-                <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
-            </div>
-
-            <div class="photo-upload">
-                <h3>Upload up to three more photos of yourself.</h3> <!-- up to 3, or mandatory 3-->
-                <h4>Press Upload to make sure your file was uploaded successfully.</h4>
-                <br>
-                <input type="file" @change="onFileChanged" style="input-box">
-                <!--will this let you select multiple images-->
+                <div class="upload-btn-wrapper">
+                    <button class="btn">
+                        <v-icon>add_a_photo</v-icon>
+                    </button>
+                    <input type="file" @change="onFileChanged"/>
+                </div>
+                <div class="upload-btn-wrapper">
+                    <button class="btn">
+                        <v-icon>add_a_photo</v-icon>
+                    </button>
+                    <input type="file" @change="onFileChanged"/>
+                </div>
                 <v-btn @click="onUpload">Upload</v-btn>
                 <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
             </div>
@@ -181,7 +198,7 @@
             </v-layout>
 
             <v-flex xs12 class="autoc">
-                <h4 id="rate-yourself">Rate yourself on how experienced of a traveler you are (1: first time traveling, 4: professional)</h4>
+                <h4 id="rate-yourself">Rate yourself on how experienced of a traveler you are (1: first time traveling, 5: professional)</h4>
                 <v-card-text>
                     <v-slider v-model="experienceRating" :tick-labels="tickLabels" :max="4" step="1" ticks="always" tick-size="2"></v-slider>
                 </v-card-text>
@@ -553,7 +570,7 @@ ul {
 
 .signup {
     padding: 50px;
-    height: 85%;
+    height: 90%;
     width: 80%;
     background-color: aliceblue !important;
     margin: auto;
@@ -642,6 +659,7 @@ ul {
   position: relative;
   overflow: hidden;
   display: inline-block;
+  margin: 0px 10px 30px 10px;
 }
 
 .upload-btn-wrapper input[type=file] {
@@ -660,6 +678,8 @@ ul {
   border-radius: 8px;
   font-size: 20px;
   font-weight: bold;
+  height: 150px;
+  width: 150px;
 }
 
 #heading2 {

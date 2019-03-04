@@ -7,7 +7,9 @@
 			<router-link to="/">
 				<v-btn id="btn">Exit</v-btn>
 			</router-link>
-			<v-btn id="btn" @click="submit()">Submit</v-btn>
+            <router-link to="/profile">
+			    <v-btn id="btn" @click="submit()">Submit</v-btn>
+            </router-link>
 		</v-form>
 	</v-card>
 </v-content>

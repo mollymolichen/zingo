@@ -13,6 +13,7 @@ import ProfileList from '../components/ProfileList';
 import Story from '../components/Story';
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
+import SignUpButton from '../components/SignUpButton';
 
 Vue.use(Router);
 
@@ -55,7 +56,7 @@ export default new Router({
       props: true
     },
     {
-      path: '/profile/',
+      path: '/profile',
       name: 'Profile',
       component: Profile,
       props: true
@@ -88,6 +89,12 @@ export default new Router({
       path: '/signup',
       name: 'SignUp',
       component: SignUp,
+      props: true
+    },
+    {
+      path: '/signup',
+      name: 'SignUpButton',
+      component: SignUpButton,
       props: true
     }
   ]

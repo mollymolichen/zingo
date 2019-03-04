@@ -4,20 +4,19 @@
         <v-flex xs12>
             <h1 id="title">Weekendr</h1>
             <h1>Connecting awesome travelers to awesome friends.</h1>
+            <router-link :to="{ name: 'SignUp', params: { user, updateUser, setRoute } }">
+                <v-btn v-if="user != null">Sign up</v-btn>
+            </router-link>
         </v-flex>
     </v-layout>
 
-    <v-layout row wrap>
+    <!-- <v-layout row wrap>
         <v-flex xs12>
-            <!--TODO: put signup button back on landing page-->
-            <!-- <router-link to="/signup">
-                <v-btn class="button">Get Started</v-btn>
-            </router-link> -->
-            <!-- <router-link :to="{ name: 'SignUp', params: {user, updateUser} }">
-                <v-btn>Get Started</v-btn>
-            </router-link> -->
+            <router-link :to="{ name: 'SignUp', params: { user, updateUser, setRoute } }">
+                <v-btn v-if="user != null">Sign up</v-btn>
+            </router-link>
         </v-flex>
-    </v-layout>
+    </v-layout> -->
 </v-content>
 </template>
 
@@ -33,7 +32,7 @@ export default {
 
         }
     },
-    props: ['user', 'updateUser']
+    props: ['user', 'updateUser', 'setRoute']
 }
 </script>
 
