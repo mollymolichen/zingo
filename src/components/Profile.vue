@@ -47,7 +47,7 @@
 					<v-card-text class="left-margin px-0">
 						<h3>Favorite Travel Activities</h3>
 						<ul class="square">
-							<li v-for="activity in currentUser.activities" :key="activity">								
+							<li v-for="activity in currentUser.selectedActivities" :key="activity">								
 								{{activity}}
 							</li>
 						</ul>
@@ -59,7 +59,7 @@
 					<v-card-text class="left-margin px-0">
 						<h3>Preferences</h3>
 						<ul class="square">
-							<li v-for="habit in currentUser.lifestyle" :key="habit">
+							<li v-for="habit in currentUser.selectedLifestyle" :key="habit">
 								{{habit}}
 							</li>
 						</ul>

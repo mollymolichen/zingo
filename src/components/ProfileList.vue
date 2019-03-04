@@ -27,12 +27,12 @@
 
 <script>
 /* eslint-disable */
-import PeoplePreview from "./PeoplePreview.vue";
+import ProfileCard from "./ProfileCard.vue";
 
 export default {
 	name: 'People',
 	components: {
-		PeoplePreview
+		ProfileCard
 	},
 	data() {
 		return {
