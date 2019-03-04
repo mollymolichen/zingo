@@ -7,8 +7,9 @@ import Events from '../components/Events';
 import EventCard from '../components/EventCard';
 import EventList from '../components/EventList';
 import Landing from '../components/Landing';
-import People from '../components/People';
 import Profile from '../components/Profile';
+import ProfileCard from '../components/ProfileCard';
+import ProfileList from '../components/ProfileList';
 import Story from '../components/Story';
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
@@ -54,9 +55,21 @@ export default new Router({
       props: true
     },
     {
-      path: '/people',
-      name: 'People',
-      component: People,
+      path: '/profile/',
+      name: 'Profile',
+      component: Profile,
+      props: true
+    },
+    {
+      path: '/profilecard',
+      name: 'ProfileCard',
+      component: ProfileCard,
+      props: true
+    },
+    {
+      path: '/profilelist',
+      name: 'ProfileList',
+      component: ProfileList,
       props: true
     },
     // {
@@ -65,12 +78,6 @@ export default new Router({
     //   component: Profile,
     //   props: (route) => ({ user: route.params.user })
     // },
-    {
-      path: '/profile/',
-      name: 'Profile',
-      component: Profile,
-      props: true
-    },
     {
       path: '/signin',
       name: 'SignIn',

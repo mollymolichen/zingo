@@ -73,6 +73,7 @@ export default {
 	width: 70%;
 	margin: auto;
 	padding: 10px 10px 10px 10px;
+    background-color: aliceblue !important;
 }
 
 #form {

@@ -28,7 +28,13 @@
                 <h3>Upload a profile picture.</h3>
                 <h4>Press Upload to make sure your file was uploaded successfully.</h4>
                 <br>
-                <input type="file" @change="onFileChanged">
+                <!-- <input type="file" @change="onFileChanged"> -->
+                <div class="upload-btn-wrapper">
+                    <button class="btn">
+                        <v-icon>add_a_photo</v-icon>
+                    </button>
+                    <input type="file" @change="onFileChanged"/>
+                </div>
                 <v-btn @click="onUpload">Upload</v-btn>
                 <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
             </div>
@@ -37,7 +43,7 @@
                 <h3>Upload up to three more photos of yourself.</h3> <!-- up to 3, or mandatory 3-->
                 <h4>Press Upload to make sure your file was uploaded successfully.</h4>
                 <br>
-                <input type="file" @change="onFileChanged">
+                <input type="file" @change="onFileChanged" style="input-box">
                 <!--will this let you select multiple images-->
                 <v-btn @click="onUpload">Upload</v-btn>
                 <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
@@ -190,15 +196,16 @@
         <!--Page 5-->
         <v-form v-else-if="pageNumber === 5" ref="form" v-model="valid" lazy-validation>
             <v-layout column wrap>
-                <h1>Choose your default setting. You can easily change this in Settings later.</h1>
+                <h1 id="heading2">Choose your default setting. You can easily change this in Settings later.</h1>
                 <v-flex xs12>
-                    <router-link to="/events">
-                        <v-btn class="button" @click="setRoute2('eventRoute')">Find Events</v-btn>
+                    <router-link :to="{ name: 'EventList', params: { user }}">
+                        <v-btn class="btn-signup" @click="setRoute2('eventRoute')">Find Events</v-btn>
                     </router-link>
                 </v-flex>
+                <br><br>
                 <v-flex xs12>
-                    <router-link to="/people">
-                        <v-btn class="button" @click="setRoute2('peopleRoute')">Find People</v-btn>
+                    <router-link to="/profilelist">
+                        <v-btn class="btn-signup" @click="setRoute2('peopleRoute')">Find People</v-btn>
                     </router-link>
                 </v-flex>
             </v-layout>
@@ -214,7 +221,8 @@ import Vue from "vue";
 import Firebase from "firebase";
 import Events from './Events.vue';
 import Navbar from './Navbar.vue';
-import People from './People.vue';
+import ProfileCard from './ProfileCard.vue';
+import ProfileList from './ProfileList.vue';
 
 import {
     db,
@@ -235,8 +243,7 @@ export default {
     name: "SignUp",
     components: {
         Events,
-        Navbar,
-        People
+        Navbar
     },
     computed: {
         fromUS() {
@@ -468,22 +475,23 @@ export default {
             let myUuid = uuid();
             this.uuid = myUuid;
 
-            if (this.user === null || this.user === undefined) { // user: prop passed from App
+            if (this.user === null || this.user === undefined) {
                 let newUser = {
                     uuid: myUuid,
                     firstName: this.firstName,
                     lastName: this.lastName,
                     age: this.age,
                     universityOrOccupation: this.universityOrOccupation,
+                    email: this.email,
                     phoneNumber: this.phoneNumber,
                     hometown: this.hometown,
                     propicUrl: this.propicUrl,
                     pics: this.pics,
                     bio: this.bio,
-                    transportation: this.selectedTransportation,
-                    accommodation: this.selectedAccommodation,
-                    lifestyle: this.selectedLifestyle,
-                    activities: this.selectedActivities,
+                    selectedTransportation: this.selectedTransportation,
+                    selectedAccommodation: this.selectedAccommodation,
+                    selectedLifestyle: this.selectedLifestyle,
+                    selectedActivities: this.selectedActivities,
                     traveledInPast: this.traveledInPast,
                     travelInFuture: this.travelInFuture,
                     travelCurrent: this.travelCurrent,
@@ -496,7 +504,6 @@ export default {
             }
         }
     },
-    // props: ['user', 'updateUser', 'eventRoute', 'peopleRoute']
     props: ['user', 'updateUser', 'setRoute']
 };
 </script>
@@ -621,5 +628,46 @@ ul {
     margin: auto;
     flex-direction: column;
     height: 10% !important;
+}
+
+.input-box {
+    border-radius: 25px;
+    background: pink;
+    padding: 20px; 
+    width: 200px;
+    height: 150px;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.btn {
+  border: 2px solid pink;
+  color:pink;
+  background-color: pink;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#heading2 {
+    margin: 50px 0px 150px 0px;
+}
+
+.btn-signup {
+    transform: scale(1.5, 1.5);
+    background-color: pink !important;
 }
 </style>
