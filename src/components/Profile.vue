@@ -47,7 +47,7 @@
 					<v-card-text class="left-margin px-0">
 						<h3>Favorite Travel Activities</h3>
 						<ul class="square">
-							<li v-for="activity in currentUser.selectedActivities" :key="activity">								
+							<li v-for="activity in currentUser.selectedActivities" :key="activity" id="li-activity">								
 								{{activity}}
 							</li>
 						</ul>
@@ -59,7 +59,7 @@
 					<v-card-text class="left-margin px-0">
 						<h3>Preferences</h3>
 						<ul class="square">
-							<li v-for="habit in currentUser.selectedLifestyle" :key="habit">
+							<li v-for="habit in currentUser.selectedLifestyle" :key="habit" id="li-lifestyle">
 								{{habit}}
 							</li>
 						</ul>
@@ -73,7 +73,7 @@
 					<v-card-text class="left-margin px-0">
 						<h3>Places I Want to Go</h3>
 						<ul class="square">
-							<li v-for="place in currentUser.travelInFuture" :key="place">
+							<li v-for="place in currentUser.travelInFuture" :key="place" id="li-future">
 								{{place}}
 							</li>							
 						</ul>
@@ -85,7 +85,7 @@
 					<v-card-text class="left-margin px-0">
 						<h3>Places I've Been</h3>
 						<ul class="square">
-							<li v-for="place in currentUser.traveledInPast" :key="place">
+							<li v-for="place in currentUser.traveledInPast" :key="place" id="li-past">
 								{{place}}
 							</li>
 						</ul>
@@ -97,7 +97,7 @@
 					<v-card-text class="left-margin px-0">
 						<h3>Itinerary</h3>
 						<ul class="square">
-							<li v-for="place in currentUser.travelCurrent" :key="place">
+							<li v-for="place in currentUser.travelCurrent" :key="place" id="li-current">
 								{{place}}
 							</li>
 						</ul>
@@ -259,6 +259,22 @@ export default {
 
 ul,
 li {
-    list-style: none;
+    list-style-type: none;
+}
+
+#li-activity:before {
+	content: '\26E9';
+}
+#li-lifestyle:before {
+	content: '\1F37A';
+}
+#li-future:before {
+	content: '\1F3DD';
+}
+#li-past:before {
+	content: '\1F3D4';
+}
+#li-current:before {
+	content: '\1F3F0';
 }
 </style>
