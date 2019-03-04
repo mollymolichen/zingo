@@ -6,6 +6,7 @@
 			"lastName": "Chen",
 			"age": 21,
 			"universityOrOccupation": "Duke University",
+			"email": "molly.chen@duke.edu",
 			"phoneNumber": "8322825093",
 			"hometown": {
 				"city": "Cary",
@@ -63,6 +64,7 @@
 			"lastName": "Barr",
 			"age": 21,
 			"universityOrOccupation": "Duke University",
+			"email": "alexandra.barr@duke.edu",
 			"phoneNumber": "123456789",
 			"hometown": {
 				"city": "Boston",
@@ -114,13 +116,14 @@
 			"lastName": "Skapek",
 			"age": 21,
 			"universityOrOccupation": "Duke University",
+			"email": "tim.skapek@duke.edu",
 			"phoneNumber": "123456789",
 			"hometown": {
 				"city": "Dallas",
 				"state": "TX",
 				"country": "United States"
 			},
-			"propicUrl": "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/people%2Falexandra.jpg?alt=media&token=e425c9b6-ad7c-4811-9c90-fbcf00861b20",
+			"propicUrl": "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/people%2Ftim.png?alt=media&token=29c910c6-3d66-4e34-a3eb-26aa867c44a3",
 			"pics": ["http://placekitten.com/g/200/300", "http://placekitten.com/g/200/300", "http://placekitten.com/g/200/300"],
 			"bio": "MechEng major at Duke, Product Manager at Weekendr.",
 			"selectedActivities": [

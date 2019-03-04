@@ -16,6 +16,9 @@
         <router-link v-if="user === null" :to="{ name: 'SignUp', params: { user, updateUser, setRoute } }">
             <v-btn>Sign Up</v-btn>
         </router-link>
+        <router-link v-if="user === null" :to="{ name: 'SignIn', params: { user, updateUser } }">
+            <v-btn>Sign In</v-btn>
+        </router-link>
         <router-link v-if="user != null" :to="{ name: 'Profile', params: { user } }">
             <v-btn>Profile</v-btn>
         </router-link>

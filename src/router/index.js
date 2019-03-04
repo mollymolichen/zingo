@@ -10,6 +10,7 @@ import Landing from '../components/Landing';
 import People from '../components/People';
 import Profile from '../components/Profile';
 import Story from '../components/Story';
+import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 
 Vue.use(Router);
@@ -68,6 +69,12 @@ export default new Router({
       path: '/profile/',
       name: 'Profile',
       component: Profile,
+      props: true
+    },
+    {
+      path: '/signin',
+      name: 'SignIn',
+      component: SignIn,
       props: true
     },
     {

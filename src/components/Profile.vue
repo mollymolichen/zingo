@@ -5,7 +5,6 @@
     <div class="heading">
         <h1>Your Profile</h1>
         <v-avatar class="propic">
-            <!-- <img src="../assets/molly.jpg" alt="Profile picture" style="transform: scale(5, 5);"> -->
 			<img :src=currentUser.propicUrl alt="Profile picture" style="transform: scale(5, 5);">
 		</v-avatar>
     </div>
@@ -22,13 +21,13 @@
         </v-flex>
     </div>
 
-    <div class="photos">
+    <!-- <div class="photos">
         <v-layout v-for="photo in currentUser.pics" :key="photo" row wrap>
             <v-flex xs6 sm4>
                 <v-img class="profile-img" :src="photo"></v-img>
             </v-flex>
         </v-layout>
-    </div>
+    </div> -->
 
     <div class="about">
 		<br>

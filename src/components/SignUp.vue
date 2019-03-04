@@ -16,6 +16,7 @@
             <v-text-field v-model="lastName" label="Last name" required class="text-field" id="float"></v-text-field>
             <v-text-field v-model="age" :rules="ageRules" label="Age" required class="text-field"></v-text-field>
             <v-text-field v-model="universityOrOccupation" label="University or Occupation" required class="text-field"></v-text-field>
+            <v-text-field v-model="email" label="Email" required class="text-field"></v-text-field>
             <v-text-field v-model="phoneNumber" :rules="phoneNumberRules" label="Phone number" required class="text-field"></v-text-field>
 
             <v-text-field v-model="hometown.city" label="City" class="text-field" style="float:left"></v-text-field>
@@ -254,6 +255,7 @@ export default {
             lastName: "",
             age: null,
             universityOrOccupation: null,
+            email: "",
             hometown: null,
             phoneNumber: null,
             hometown: {
@@ -272,6 +274,11 @@ export default {
             ],
             ageRules: [
                 v => (v >= 18 && v <= 65) || "You must be between ages 18-65 to use this service."
+            ],
+            emailRules: [
+                v => !!v || "Email is required",
+                v => /.+@.+/.test(v) || "E-mail must be valid",
+                v => this.newEmail(v) || "Email is already in use"
             ],
             phoneNumberRules: [
                 v => !!v || "Phone number is required",
@@ -376,6 +383,21 @@ export default {
 
         clear() {
             this.$refs.form.reset();
+        },
+
+        newEmail(v) {
+            let users = null;
+            userRef.on('value', function (snapshot) {
+                users = snapshot.val();
+            });
+            console.log("My email: ", v);
+            for (let user in users) {
+                console.log("Their email: ", users[user].email);
+                if (users[user].email === v) {
+                    return false;
+                }
+            };
+            return true;
         },
 
         // file uploading

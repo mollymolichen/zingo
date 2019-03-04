@@ -4,7 +4,7 @@
         <v-layout row wrap>
             <!--Profile picture-->
             <v-flex xs4>
-                <v-avatar class="propic">
+                <v-avatar class="propic2">
                     <img :src="this.user.propicUrl">
                 </v-avatar>
                 <h1>{{user.firstName}} {{user.lastName}}, {{user.age}}</h1>
@@ -78,7 +78,7 @@ export default {
     margin: 0px 10px 0px 10px;
 }
 
-.propic {
+.propic2 {
     display: flex;
     margin: 50px 30px 30px 100px;
     height: 150px !important;
