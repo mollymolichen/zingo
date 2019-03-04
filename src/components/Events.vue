@@ -6,7 +6,7 @@
 			<!--Row 1-->
             <v-flex xs4>
 				<h1>Art</h1>
-                <router-link to="/events/art">
+                <router-link to="/events/eventlist">
                     <v-img class="profile-img" src="https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2Fart.png?alt=media&token=75297eaf-aec9-4d4d-b718-b91e6f582a74"></v-img>
                 </router-link>
             </v-flex>

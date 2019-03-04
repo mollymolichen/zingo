@@ -10,14 +10,13 @@
         <router-link to="/our-story">
             <v-btn>Our Story</v-btn>
         </router-link>
-        <router-link v-if="user === null" :to="{ name: 'SignUp', params: {user, updateUser, setRoute} }">
-        <router-link to="/EventList">
+        <router-link :to="{ name: 'EventList', params: { user }}">
             <v-btn>Event List</v-btn>
         </router-link>
-        <router-link :to="{ name: 'SignUp', params: {user, updateUser} }">
+        <router-link v-if="user === null" :to="{ name: 'SignUp', params: { user, updateUser, setRoute } }">
             <v-btn>Sign Up</v-btn>
         </router-link>
-        <router-link v-if="user != null" :to="{ name: 'Profile', params: {user} }">
+        <router-link v-if="user != null" :to="{ name: 'Profile', params: { user } }">
             <v-btn>Profile</v-btn>
         </router-link>
     </ul>

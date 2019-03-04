@@ -174,7 +174,7 @@
             </v-layout>
 
             <v-flex xs12 class="autoc">
-                <h4 id="rate-yourself">Rate yourself on how experienced of a traveler you are (1: first time traveling, 5: professional)</h4>
+                <h4 id="rate-yourself">Rate yourself on how experienced of a traveler you are (1: first time traveling, 4: professional)</h4>
                 <v-card-text>
                     <v-slider v-model="experienceRating" :tick-labels="tickLabels" :max="4" step="1" ticks="always" tick-size="2"></v-slider>
                 </v-card-text>
@@ -523,7 +523,7 @@ ul {
 }
 
 .signup {
-    padding: 30px;
+    padding: 50px;
     height: 85%;
     width: 80%;
     background-color: aliceblue !important;
