@@ -1,24 +1,34 @@
 <template>
 <v-content class="about-bkgd">
-    <h1>{{msg}}</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-        ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-        ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
-    </p>
-    <h1>Testimonials</h1>
-    <!-- <v-carousel>
+    <div class="about-text">
+        <div class="header">
+            <h1>{{msg}}</h1>
+        </div>
+        <p>We're working toward making solo-traveling a breeze. As solo-travelers ourselves,
+            we know how important it is to have the freedom to do what you want, when you want
+            to, whenever you travel. We know it can be fun to spontaneously meet up with new friends
+            in new cities. We agree. Use the Weekendr to meet up with friends just like you who love
+            to adventure.
+        </p>
+        <div class="header">
+            <h1>Using Weekendr</h1>
+        </div>
+        <!-- <v-carousel>
         <v-carousel-item v-for="(testimonial,t) in testimonials" :key="t" :src="testimonial.src"></v-carousel-item>
-    </v-carousel> -->
-	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-        ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-        ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
+        </v-carousel> -->
+        <h3>Anna</h3>
+    <p>Anna is a college student traveling in Europe. She loves attending concerts, going hiking,
+        and making new friends in the cities she visits. The Weekendr helps Anna meet up with
+        other people who love to adventure the way she does – skydiving, cooking classes, and 
+        spontaneous trips to the beach!
     </p>
+    <h3>Nick</h3>
+    <p>Nick is a recent college graduate. He's a busy consultant who travels a lot to small cities,
+        but most of Nick's friends live in big cities. Nick uses the Weekenr to make new friends in
+        the various smaller cities he's traveling to for work. He loves the spontaneity of his 
+        meetups.
+    </p>
+    </div>
 </v-content>
 </template>
 
@@ -55,5 +65,14 @@ export default {
     background-color: aliceblue !important;
     background-size: cover;
 	height: 100%;
+}
+.about-text{
+    text-align: justify;
+    margin-top: 50px;
+    margin-left: 150px;
+    margin-right: 150px;
+}
+.header{
+    text-align: center;
 }
 </style>
