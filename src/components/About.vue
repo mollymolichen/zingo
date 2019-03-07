@@ -13,9 +13,6 @@
         <div class="header">
             <h1>Using Weekendr</h1>
         </div>
-        <!-- <v-carousel>
-        <v-carousel-item v-for="(testimonial,t) in testimonials" :key="t" :src="testimonial.src"></v-carousel-item>
-        </v-carousel> -->
         <h3>Anna</h3>
     <p>Anna is a college student traveling in Europe. She loves attending concerts, going hiking,
         and making new friends in the cities she visits. The Weekendr helps Anna meet up with

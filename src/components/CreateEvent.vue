@@ -6,10 +6,10 @@
         <!--Page 1-->
         <v-form v-if="pageNumber === 1" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
-                <router-link to="/">
-                    <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
+                <router-link to="/"> <!--TODO: pass setApp as prop, do you still need router link?-->
+                    <v-icon class="material-icons" style="float:right" @click="this.setApp2(true)">clear</v-icon>
                 </router-link>
-                <h1 style="margin-top:10px; margin-bottom:20px">Let's make your profile.</h1>
+                <h1 style="margin-top:10px; margin-bottom:20px">Create an Event</h1>
             </div>
 
             <v-text-field v-model="firstName" label="First name" required class="text-field" id="float"></v-text-field>
@@ -24,26 +24,9 @@
             <v-autocomplete v-if="fromUS" v-model="hometown.state" :items="states" label="State (if in US)" class="text-field" style="float:left"></v-autocomplete>
 
             <div class="photo-upload">
-                <br>
-                <h3>Upload a profile picture.</h3>
+                <h3>Upload up to three photos of the event.</h3>
                 <h4>Press Upload to make sure your file was uploaded successfully.</h4>
                 <br>
-                <input type="file" @change="onFileChanged">
-                <!-- <div class="upload-btn-wrapper">
-                    <button class="btn">
-                        <v-icon>add_a_photo</v-icon>
-                    </button>
-                    <input type="file" @change="onFileChanged"/>
-                </div> -->
-                <v-btn @click="onUpload">Upload</v-btn>
-                <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
-            </div>
-
-            <div class="photo-upload">
-                <h3>Upload up to three more photos of yourself.</h3>
-                <h4>Press Upload to make sure your file was uploaded successfully.</h4>
-                <br>
-                <!-- <input type="file" @change="onFileChanged" style="input-box"> -->
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
@@ -71,163 +54,6 @@
             <span class="pagenumbers">{{pageNumber}} / 4</span>
             <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
         </v-form>
-
-        <!--Page 2-->
-        <v-form v-else-if="pageNumber === 2" ref="form" v-model="valid" lazy-validation>
-            <div class="title2">
-                <router-link to="/">
-                    <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
-                </router-link>
-                <h1>Tell us a little about yourself!</h1>
-            </div>
-
-            <v-flex>
-                <v-textarea :value="bio" solo v-model="bio" :rules="bioRules"></v-textarea>
-            </v-flex>
-
-            <!--Arrows-->
-            <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
-            <span class="pagenumbers">{{pageNumber}} / 4</span>
-            <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
-        </v-form>
-
-        <!--Page 3-->
-        <v-form v-else-if="pageNumber === 3" ref="form" v-model="valid" lazy-validation>
-            <div style="margin-bottom: 20px">
-                <router-link to="/">
-                    <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
-                </router-link>
-                <h1 style="margin-top:10px; margin-bottom:20px">Travel Preferences</h1>
-            </div>
-
-            <div row wrap>
-                <h2 class="fav-activities-title">Favorite Activities</h2>
-                <v-layout>
-                    <v-flex>
-                        <v-select class="fav-activities" v-model="selectedActivities" :items="activities" multiple persistent-hint>
-                            <template slot="selection" slot-scope="data">
-                                <span class="round-chip">
-                                    <i style="margin-right: 10px" :class=emoji[data.item]></i>
-                                    {{ data.item }}
-                                </span>
-                            </template>
-                        </v-select>
-                    </v-flex>
-                </v-layout>
-            </div>
-
-            <div row wrap>
-                <h2 id="prefs">Preferences</h2>
-                <br>
-                <br>
-                <v-layout class="checkboxes">
-                    <v-flex xs6 sm4>
-                        <h3>Transportation</h3>
-                        <v-checkbox v-model="selectedTransportation" :label="transportation[0]" :value="transportation[0]"></v-checkbox>
-                        <v-checkbox v-model="selectedTransportation" :label="transportation[1]" :value="transportation[1]"></v-checkbox>
-                        <v-checkbox v-model="selectedTransportation" :label="transportation[2]" :value="transportation[2]"></v-checkbox>
-                        <v-checkbox v-model="selectedTransportation" :label="transportation[3]" :value="transportation[3]"></v-checkbox>
-                        <v-checkbox v-model="selectedTransportation" :label="transportation[4]" :value="transportation[4]"></v-checkbox>
-                    </v-flex>
-
-                    <v-flex xs6 sm4>
-                        <h3>Accommodation</h3>
-                        <v-checkbox v-model="selectedAccommodation" :label="accommodation[0]" :value="accommodation[0]"></v-checkbox>
-                        <v-checkbox v-model="selectedAccommodation" :label="accommodation[1]" :value="accommodation[1]"></v-checkbox>
-                        <v-checkbox v-model="selectedAccommodation" :label="accommodation[2]" :value="accommodation[2]"></v-checkbox>
-                        <v-checkbox v-model="selectedAccommodation" :label="accommodation[3]" :value="accommodation[3]"></v-checkbox>
-                    </v-flex>
-
-                    <v-flex xs6 sm4>
-                        <h3>Lifestyle</h3>
-                        <v-checkbox v-model="selectedLifestyle" :label="lifestyle[0]" :value="lifestyle[0]"></v-checkbox>
-                        <v-checkbox v-model="selectedLifestyle" :label="lifestyle[1]" :value="lifestyle[1]"></v-checkbox>
-                        <v-checkbox v-model="selectedLifestyle" :label="lifestyle[2]" :value="lifestyle[2]"></v-checkbox>
-                    </v-flex>
-                </v-layout>
-            </div>
-
-            <!--Arrows-->
-            <v-icon class="arrows" @click="back()">chevron_left</v-icon>
-            <span class="pagenumbers">{{pageNumber}} / 4</span>
-            <v-icon class="arrows" @click="next()">chevron_right</v-icon>
-        </v-form>
-
-        <!--Page 4-->
-        <v-form v-else-if="pageNumber === 4" ref="form" v-model="valid" lazy-validation>
-            <div style="margin-bottom: 20px">
-                <router-link to="/" @click="setApp2(true)">
-                    <v-icon class="material-icons" style="float:right">clear</v-icon>
-                </router-link>
-                <h1 style="margin-top:10px; margin-bottom:20px">Travel Experience</h1>
-            </div>
-
-            <v-layout row wrap class="travel-experience">
-                <v-flex xs12 class="autoc">
-                    <h3>Where have you traveled to before?</h3>
-                    <v-autocomplete xs6 :items="allCities" v-model="traveledInPast" chips multiple style="margin: 0px 10px 0px 10px">
-                        <template slot="selection" slot-scope="data">
-                            <v-chip :selected="data.selected" close class="chip--select-multi" @click="removePast(data.item)">
-                                {{ data.item }}
-                            </v-chip>
-                        </template>
-                    </v-autocomplete>
-                </v-flex>
-
-                <v-flex xs12 class="autoc">
-                    <h3>Where do you want to travel in the future?</h3>
-                    <v-autocomplete :items="allCities" v-model="travelInFuture" chips multiple style="margin: 0px 10px 0px 10px">
-                        <template slot="selection" slot-scope="data">
-                            <v-chip :selected="data.selected" close class="chip--select-multi" @input="removeFuture(data.item)">
-                                {{ data.item }}
-                            </v-chip>
-                        </template>
-                    </v-autocomplete>
-                </v-flex>
-
-                <v-flex xs12 class="autoc">
-                    <h3>Tell us your current itinerary.</h3>
-                    <v-autocomplete :items="allCities" v-model="travelCurrent" chips multiple style="margin: 0px 10px 0px 10px">
-                        <template slot="selection" slot-scope="data">
-                            <v-chip :selected="data.selected" close class="chip--select-multi" @input="remove(data.item)">
-                                {{ data.item }}
-                            </v-chip>
-                        </template>
-                    </v-autocomplete>
-                </v-flex>
-            </v-layout>
-
-            <v-flex xs12 class="autoc">
-                <h4 id="rate-yourself">Rate yourself on how experienced of a traveler you are (1: first time traveling, 5: professional)</h4>
-                <v-card-text>
-                    <v-slider v-model="experienceRating" :tick-labels="tickLabels" :max="4" step="1" ticks="always" tick-size="2"></v-slider>
-                </v-card-text>
-            </v-flex>
-
-            <!--Arrows-->
-            <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
-            <span class="pagenumbers">{{pageNumber}} / 4</span>
-            <v-btn :disabled="!valid" @click="registerUser()">Register</v-btn>
-        </v-form>
-
-        <!--Page 5-->
-        <v-form v-else-if="pageNumber === 5" ref="form" v-model="valid" lazy-validation>
-            <v-layout column wrap>
-                <h1 id="heading2">Choose your default setting. You can easily change this in Settings later.</h1>
-                <v-flex xs12>
-                    <router-link :to="{ name: 'EventList', params: { user }}">
-                        <v-btn class="btn-signup" @click="setRoute2('eventRoute')">Find Events</v-btn>
-                    </router-link>
-                </v-flex>
-                <br><br>
-                <v-flex xs12>
-                    <router-link to="/profilelist">
-                        <v-btn class="btn-signup" @click="setRoute2('peopleRoute')">Find People</v-btn>
-                    </router-link>
-                </v-flex>
-            </v-layout>
-        </v-form>
-
     </v-card>
 </v-content>
 </template>
@@ -492,13 +318,13 @@ export default {
         },
 
         registerUser() {
-            // const uuid = require("uuid/v4");
-            // let myUuid = uuid();
-            // this.uuid = myUuid;
+            const uuid = require("uuid/v4");
+            let myUuid = uuid();
+            this.uuid = myUuid;
 
             if (this.user === null || this.user === undefined) {
                 let newUser = {
-                    uuid: this.uuid,
+                    uuid: myUuid,
                     firstName: this.firstName,
                     lastName: this.lastName,
                     age: this.age,
@@ -525,14 +351,7 @@ export default {
             }
         }
     },
-    props: ['user', 'updateUser', 'setRoute', 'setApp'],
-    mounted() {
-        const uuid = require("uuid/v4");
-        let myUuid = uuid();
-        this.uuid = myUuid;
-
-        this.setApp(false);
-    }
+    props: ['user', 'updateUser', 'setRoute', 'setApp']
 };
 </script>
 

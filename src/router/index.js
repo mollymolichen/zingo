@@ -43,12 +43,12 @@ export default new Router({
       component: EventList,
       props: true
     },
-    {
-      path: '/',
-      name: 'Landing',
-      component: Landing,
-      props: true
-    },
+    // {
+    //   path: '/',
+    //   name: 'Landing',
+    //   component: Landing,
+    //   props: { default: true, user: null }
+    // },
     {
       path: '/our-story',
       name: 'OurStory',
@@ -89,12 +89,6 @@ export default new Router({
       path: '/signup',
       name: 'SignUp',
       component: SignUp,
-      props: true
-    },
-    {
-      path: '/signup',
-      name: 'SignUpButton',
-      component: SignUpButton,
       props: true
     }
   ]

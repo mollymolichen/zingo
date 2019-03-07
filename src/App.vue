@@ -1,17 +1,23 @@
 <template>
 <div id="app">
     <v-app>
-        <v-content>
-            <navbar :user="user" :updateUser="updateUser" :setRoute="setRoute"></navbar>
-            <router-view>
-                <!--TODO: put signup button back on landing page, 
-                props won't work w/i these tags-->
-                <!-- <div v-if="this.user===null">
-                    <v-btn class="button">Get Started</v-btn>
-                </div> -->
-                <!-- <landing :user="user" :updateUser="updateUser"></landing> -->
-            </router-view>  
+        <navbar :user="user" :updateUser="updateUser" :setRoute="setRoute" :setApp="setApp"></navbar>
+        <v-content class="container">
+            <v-layout row wrap v-if="this.onApp === true">
+                <v-flex xs12>
+                    <h1 id="title">Weekendr</h1>
+                    <h1>Connecting awesome travelers to awesome friends.</h1>
+                    <div v-if="this.user === null">
+                        <router-link :to="{ name: 'SignUp', params: { user, updateUser, setRoute, setApp } }">
+                            <v-btn>Sign up</v-btn>
+                        </router-link>
+                    </div>
+                </v-flex>
+            </v-layout>
+
+             <router-view></router-view>
         </v-content>
+       
     </v-app>
 </div>
 </template>
@@ -42,21 +48,25 @@ export default {
         return {
             user: null,
             eventRoute: false,
-            peopleRoute: false
+            peopleRoute: false,
+            onApp: true
         }
     },
     methods: {
         updateUser(newUser) {
             this.user = newUser;
         },
-        setRoute(route){
-            if (route === 'eventRoute'){
+        setRoute(route) {
+            if (route === 'eventRoute') {
                 this.eventRoute = true;
                 this.peopleRoute = false;
             } else {
                 this.eventRoute = false;
                 this.peopleRoute = true;
             }
+        },
+        setApp(res){
+            this.onApp = res;       // res: boolean
         }
     },
     firebase: {

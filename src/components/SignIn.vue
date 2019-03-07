@@ -1,17 +1,17 @@
 <template>
 <v-content class="container preferences">
-	<v-card class="signin">
-		<v-form id="form">
-			<h1 id="label">Sign in to your account.</h1>
-			<v-text-field id="textfield" v-model="email" label="Email" :rules="emailRules" required class="margins"></v-text-field>
-			<router-link to="/">
-				<v-btn id="btn">Exit</v-btn>
-			</router-link>
-            <router-link to="/profile">
-			    <v-btn id="btn" @click="submit()">Submit</v-btn>
+    <v-card class="signin">
+        <v-form id="form">
+            <h1 id="label">Sign in to your account.</h1>
+            <v-text-field id="textfield" v-model="email" label="Email" :rules="emailRules" required class="margins"></v-text-field>
+            <router-link to="/">
+                <v-btn id="btn">Exit</v-btn>
             </router-link>
-		</v-form>
-	</v-card>
+            <router-link to="/profile">
+                <v-btn id="btn" @click="submit()">Submit</v-btn>
+            </router-link>
+        </v-form>
+    </v-card>
 </v-content>
 </template>
 
@@ -49,11 +49,11 @@ export default {
             for (let user in users) {
                 if (users[user].email === this.email) {
                     myAccount = users[String(user)];
-					this.updateUser(myAccount);
-					return true;
+                    this.updateUser(myAccount);
+                    return true;
                 }
             }
-			return false;
+            return false;
         },
 
         existingEmail(v) {
@@ -71,29 +71,29 @@ export default {
 
 <style>
 .signin {
-	height: 80%;
-	width: 70%;
-	margin: auto;
-	padding: 10px 10px 10px 10px;
+    height: 80%;
+    width: 70%;
+    margin: auto;
+    padding: 10px 10px 10px 10px;
     background-color: aliceblue !important;
 }
 
 #form {
-	padding: 10px;
+    padding: 10px;
 }
 
 #label {
-	margin-top: 100px; 
-	margin-bottom: 100px;
+    margin-top: 100px;
+    margin-bottom: 100px;
 }
 
 #textfield {
-	margin-left: 15px;
-	margin-bottom: 15px;
+    margin-left: 15px;
+    margin-bottom: 15px;
 }
 
 #btn {
-	margin-top: 30px;
+    margin-top: 30px;
 }
 
 .preferences .v-content__wrap {
