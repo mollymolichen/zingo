@@ -7,7 +7,13 @@
             <router-link to="/">
                 <v-btn id="btn">Exit</v-btn>
             </router-link>
-            <router-link to="/profile">
+            <!-- <router-link to="/profile">
+                <v-btn id="btn" @click="submit()">Submit</v-btn>
+            </router-link> -->
+            <router-link v-if="eventRoute = true" :to="{ name: 'EventList' }">
+                <v-btn id="btn" @click="submit()">Submit</v-btn>
+            </router-link>
+            <router-link v-else :to="{ name: 'ProfileList' }">
                 <v-btn id="btn" @click="submit()">Submit</v-btn>
             </router-link>
         </v-form>
@@ -32,8 +38,12 @@ export default {
             ]
         }
     },
-    props: ['user', 'updateUser'],
+    props: ['user', 'updateUser', 'eventRoute', 'peopleRoute'],
     methods: {
+        setApp2(res){
+            this.setApp(res);
+        },
+
         getUsers() {
             let users = null;
             userRef.on('value', function (snapshot) {
@@ -50,10 +60,10 @@ export default {
                 if (users[user].email === this.email) {
                     myAccount = users[String(user)];
                     this.updateUser(myAccount);
-                    return true;
                 }
             }
-            return false;
+
+            this.setApp2(false);
         },
 
         existingEmail(v) {

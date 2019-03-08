@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style>
-.button {
+/* .button {
     transform: scale(1.5, 1.5);
 }
 
@@ -37,5 +37,5 @@ export default {
     margin-top: 250px;
     margin-bottom: 50px;
     transform: scale(1.5, 1.5);
-}
+} */
 </style>

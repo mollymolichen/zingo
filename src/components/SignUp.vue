@@ -581,7 +581,7 @@ ul {
 
 .signup {
     padding: 50px;
-    height: 90%;
+    height: 95%;
     width: 80%;
     background-color: aliceblue !important;
     margin: auto;

@@ -238,8 +238,12 @@ export default {
     flex-direction: row;
     background-color: aliceblue;
     background-size: cover;
-    height: 93%;
+    height: 95%;
+	width: 85%;
     text-align: center;
+	margin: auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 .photos {

@@ -7,7 +7,16 @@
         <router-link to="/about">
             <v-btn class="nav-btn" @click="setApp2(false)">About</v-btn>
         </router-link>
-        <router-link v-if="user === null" :to="{ name: 'SignIn', params: { user, updateUser } }">
+
+        <!--Choose either events or people-->
+        <router-link v-if="eventRoute = true" :to="{ name: 'EventList' }">
+            <v-btn class="nav-btn" @click="setApp2(false)">Feed</v-btn>
+        </router-link>
+        <router-link v-else :to="{ name: 'ProfileList' }">
+            <v-btn class="nav-btn" @click="setApp2(false)">Feed</v-btn>
+        </router-link>
+
+        <router-link v-if="user === null" :to="{ name: 'SignIn', params: { user, updateUser, eventRoute, peopleRoute } }">
             <v-btn class="nav-btn" @click="setApp2(false)">Sign In</v-btn>
         </router-link>
         <router-link v-if="user != null" :to="{ name: 'Profile', params: { user } }">
@@ -23,7 +32,7 @@
 <script>
 export default {
     name: 'Navbar',
-    props: ['user', 'updateUser', 'setRoute', 'setApp'],
+    props: ['user', 'updateUser', 'setRoute', 'setApp', 'eventRoute', 'peopleRoute'],
     data() {
         return {
             
@@ -31,7 +40,7 @@ export default {
     },
     methods: {
         signOut(user){
-            this.setApp2(false);
+            this.setApp2(true);
             if (user){
                 this.updateUser(null);
             }

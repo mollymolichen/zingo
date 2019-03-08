@@ -1,7 +1,14 @@
 <template>
 <div id="app">
     <v-app>
-        <navbar :user="user" :updateUser="updateUser" :setRoute="setRoute" :setApp="setApp"></navbar>
+        <navbar :user="user" 
+                :updateUser="updateUser"
+                :setRoute="setRoute" 
+                :setApp="setApp" 
+                :eventRoute="eventRoute" 
+                :peopleRoute="peopleRoute">
+        </navbar>
+        
         <v-content class="container">
             <v-layout row wrap v-if="this.onApp === true">
                 <v-flex xs12>
@@ -9,15 +16,14 @@
                     <h1>Connecting awesome travelers to awesome friends.</h1>
                     <div v-if="this.user === null">
                         <router-link :to="{ name: 'SignUp', params: { user, updateUser, setRoute, setApp } }">
-                            <v-btn>Sign up</v-btn>
+                            <v-btn id="signup-btn">Get started</v-btn>
                         </router-link>
                     </div>
                 </v-flex>
             </v-layout>
 
-             <router-view></router-view>
+            <router-view></router-view>
         </v-content>
-       
     </v-app>
 </div>
 </template>
@@ -65,8 +71,8 @@ export default {
                 this.peopleRoute = true;
             }
         },
-        setApp(res){
-            this.onApp = res;       // res: boolean
+        setApp(res) {
+            this.onApp = res; // res: boolean
         }
     },
     firebase: {
@@ -111,5 +117,15 @@ a {
 #toolbar {
     display: flex;
     justify-content: flex-end;
+}
+
+#signup-btn {
+    transform: scale(1.5, 1.5);
+    margin: 50px 20px 20px 20px;
+}
+
+#title {
+    margin: 250px 0px 30px 0px;
+    transform: scale(1.5, 1.5);
 }
 </style>

@@ -105,7 +105,6 @@ export default {
 
 <style>
 .eventlist{
-	background-image: url("../assets/flamingo2.png");
 	background-size: cover;
     height: 93%;
 	text-align: center;
