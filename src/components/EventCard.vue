@@ -34,7 +34,6 @@
 
 <script>
 /* eslint-disable */
-
 export default {
     name: 'EventCard',
     props: ['user', 'event', 'isInterested'],

@@ -13,7 +13,6 @@ import ProfileList from '../components/ProfileList';
 import Story from '../components/Story';
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
-import SignUpButton from '../components/SignUpButton';
 
 Vue.use(Router);
 

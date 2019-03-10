@@ -187,7 +187,8 @@
 			"categories": [
 				"Music",
 				"Nightlife"
-			]
+			],
+			"display": true
 		},
 		"991aa097-dd60-436c-a712-760038dfc002": {
 			"eid": "991aa097-dd60-436c-a712-760038dfc002",
@@ -208,13 +209,16 @@
 			"longDescription": "We'll be walking along the 1.5 mi Eno River trail. Please bring closed-toed shoes, water, and snacks.",
 			"categories": [
 				"Outdoors"
-			]
+			],
+			"display": true
 		},
 		"55bd3adc-4438-4647-b684-29e32ff9a652": {
 			"eid": "55bd3adc-4438-4647-b684-29e32ff9a652",
 			"host": "7d75296a-2c55-4784-92c7-1fd4904cf19e",
 			"pics": [
-
+				"https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2F55bd3adc-4438-4647-b684-29e32ff9a652%2Fbball2.png?alt=media&token=091be791-2386-4370-a419-e65813db42cd",
+				"https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2F55bd3adc-4438-4647-b684-29e32ff9a652%2Fbball1.png?alt=media&token=94dda1d4-3b13-404f-813a-95f74946d403",
+				"https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2F55bd3adc-4438-4647-b684-29e32ff9a652%2Fbball3.png?alt=media&token=579d9d89-0392-4376-8cc9-888a0da3d94e"
 			],
 			"date": {
 				"month": "March",
@@ -227,7 +231,8 @@
 			"longDescription": "We'll be watching the game in West Union 067, snacks and drinks provided.",
 			"categories": [
 				"Sports"
-			]
+			],
+			"display": true
 		}
 	}
 }

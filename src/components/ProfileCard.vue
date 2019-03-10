@@ -41,7 +41,7 @@
 <script>
 /* eslint-disable */
 import {
-    userRef
+    usersRef
 } from "../database.js";
 import Profile from "./Profile";
 
@@ -55,7 +55,7 @@ export default {
         Profile
     },
     firebase: {
-        userRef
+        usersRef
     },
     props: ['firstName', 'lastName', 'propicUrl'],
     methods: {

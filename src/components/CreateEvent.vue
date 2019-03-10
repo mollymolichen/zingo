@@ -69,7 +69,7 @@ import ProfileList from './ProfileList.vue';
 
 import {
     db,
-    userRef,
+    usersRef,
     storageRef
 } from "../database";
 
@@ -213,7 +213,7 @@ export default {
         };
     },
     firebase: {
-        users: userRef,
+        users: usersRef,
         storage: storageRef
     },
     methods: {
@@ -241,7 +241,7 @@ export default {
 
         newEmail(v) {
             let users = null;
-            userRef.on('value', function (snapshot) {
+            usersRef.on('value', function (snapshot) {
                 users = snapshot.val();
             });
             console.log("My email: ", v);
@@ -346,7 +346,7 @@ export default {
                 };
                  
                 this.updateUser(newUser); 
-                userRef.child(myUuid).set(newUser);
+                usersRef.child(myUuid).set(newUser);
                 this.pageNumber++;
             }
         }

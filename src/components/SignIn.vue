@@ -24,7 +24,7 @@
 <script>
 /* eslint-disable */
 import {
-    userRef
+    usersRef
 } from "../database";
 export default {
     name: "SignIn",
@@ -46,7 +46,7 @@ export default {
 
         getUsers() {
             let users = null;
-            userRef.on('value', function (snapshot) {
+            usersRef.on('value', function (snapshot) {
                 users = snapshot.val();
             });
             return users;

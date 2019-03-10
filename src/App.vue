@@ -1,14 +1,18 @@
 <template>
 <div id="app">
     <v-app>
-        <navbar :user="user" 
-                :updateUser="updateUser"
-                :setRoute="setRoute" 
-                :setApp="setApp" 
-                :eventRoute="eventRoute" 
-                :peopleRoute="peopleRoute">
+        <navbar 
+            :user="user" 
+            :updateUser="updateUser" 
+            :setRoute="setRoute" 
+            :setApp="setApp" 
+            :eventRoute="eventRoute" 
+            :peopleRoute="peopleRoute" 
+            :events="events"
+            :users="users"    
+        >
         </navbar>
-        
+
         <v-content class="container">
             <v-layout row wrap v-if="this.onApp === true">
                 <v-flex xs12>
@@ -37,9 +41,10 @@ import Story from "./components/Story";
 import Navbar from "./components/Navbar";
 import {
     db,
-    userRef,
+    eventsRef,
+    usersRef,
     storageRef
-} from "./database";
+} from "./database.js";
 
 export default {
     name: 'app',
@@ -50,18 +55,45 @@ export default {
         Story,
         Navbar
     },
+    firebase: {
+		usersRef: usersRef,
+		eventsRef: eventsRef
+	},
     data() {
         return {
             user: null,
             eventRoute: false,
             peopleRoute: false,
-            onApp: true
+            onApp: true,
+            events: [],
+            users: []
         }
     },
     methods: {
+        getEvents() {
+            let allEvents = null;
+            eventsRef.on("value", function (snapshot) {
+                allEvents = snapshot.val();
+            });
+            for (let e in allEvents) {
+                this.events.push(allEvents[e]);
+            }
+        },
+
+        getUsers() {
+            let allUsers = null;
+            usersRef.on("value", function (snapshot) {
+                allUsers = snapshot.val();
+            });
+            for (let u in allUsers) {
+                this.users.push(allUsers[u]);
+            }
+        },
+
         updateUser(newUser) {
             this.user = newUser;
         },
+
         setRoute(route) {
             if (route === 'eventRoute') {
                 this.eventRoute = true;
@@ -71,19 +103,16 @@ export default {
                 this.peopleRoute = true;
             }
         },
+
         setApp(res) {
             this.onApp = res; // res: boolean
         }
     },
-    firebase: {
-        userRef: userRef,
-        storageRef: storageRef,
-        userObj: {
-            source: userRef,
-            asObject: true
-        },
-    },
-    props: []
+    props: [],
+    created() {  // might need to be mounted as new data comes, or does on take care of this?
+       this.getEvents();
+       this.getUsers();
+    }
 }
 </script>
 

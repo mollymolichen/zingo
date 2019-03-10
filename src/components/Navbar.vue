@@ -1,5 +1,5 @@
 <template>
-<v-toolbar color="cyan lighten-1" id="toolbar">
+<v-toolbar color="pink lighten-5" id="toolbar">
     <router-link to="/" class="remove-line">
         <h1 @click="setApp2(true)">Weekendr</h1>   <!--@click="setApp2(false)" makes app disappear-->
     </router-link>
@@ -9,10 +9,10 @@
         </router-link>
 
         <!--Choose either events or people-->
-        <router-link v-if="eventRoute = true" :to="{ name: 'EventList' }">
+        <router-link v-if="user != null" :to="{ name: 'EventList', params: { events, users } }">
             <v-btn class="nav-btn" @click="setApp2(false)">Feed</v-btn>
         </router-link>
-        <router-link v-else :to="{ name: 'ProfileList' }">
+        <router-link v-else-if="user != null" :to="{ name: 'ProfileList', params: { users, events } }">
             <v-btn class="nav-btn" @click="setApp2(false)">Feed</v-btn>
         </router-link>
 
@@ -32,7 +32,11 @@
 <script>
 export default {
     name: 'Navbar',
-    props: ['user', 'updateUser', 'setRoute', 'setApp', 'eventRoute', 'peopleRoute'],
+    props: [
+        'user', 'updateUser', 'setRoute', 
+        'setApp', 'eventRoute', 'peopleRoute',
+        'events', 'users'
+    ],
     data() {
         return {
             
