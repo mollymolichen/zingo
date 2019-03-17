@@ -181,6 +181,10 @@
 				"startTime": "7:00pm",
 				"endTime": "10:00pm"
 			},
+			"location": {
+				"locale": "Duke Performing Arts Center",
+				"city": "Durham"
+			},
 			"title": "See James Bay live at DPAC",
 			"shortDescription": "Going to see a great singer and would love company!",
 			"longDescription": "James Bay is performing this evening at DPAC. He's performing some of his newest songs!",
@@ -204,6 +208,10 @@
 				"startTime": "12:00pm",
 				"endTime": "2:00pm"
 			},
+			"location": {
+				"locale": "Eno River State Park",
+				"city": "Durham"
+			},
 			"title": "Hike the Eno River Trail",
 			"shortDescription": "Looking for a few friends to go hiking with at Eno!",
 			"longDescription": "We'll be walking along the 1.5 mi Eno River trail. Please bring closed-toed shoes, water, and snacks.",
@@ -225,6 +233,10 @@
 				"day": "9",
 				"startTime": "6:00pm",
 				"endTime": "8:30pm"
+			},
+			"location": {
+				"locale": "West Union 067",
+				"city": "Durham"
 			},
 			"title": "Duke vs UNC Watch Party",
 			"shortDescription": "Come watch the greatest basketball rivalry of all time.",

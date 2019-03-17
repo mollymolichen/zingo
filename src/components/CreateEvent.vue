@@ -1,53 +1,77 @@
 <template>
 <v-content class="container preferences">
-    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
-    ]
-    <v-card class="signup">
+    <v-card class="createevent">
         <!--Page 1-->
         <v-form v-if="pageNumber === 1" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
-                <router-link to="/"> <!--TODO: pass setApp as prop, do you still need router link?-->
+                <router-link to="/">
                     <v-icon class="material-icons" style="float:right" @click="this.setApp2(true)">clear</v-icon>
                 </router-link>
                 <h1 style="margin-top:10px; margin-bottom:20px">Create an Event</h1>
             </div>
 
-            <v-text-field v-model="firstName" label="First name" required class="text-field" id="float"></v-text-field>
-            <v-text-field v-model="lastName" label="Last name" required class="text-field" id="float"></v-text-field>
-            <v-text-field v-model="age" :rules="ageRules" label="Age" required class="text-field"></v-text-field>
-            <v-text-field v-model="universityOrOccupation" label="University or Occupation" required class="text-field"></v-text-field>
-            <v-text-field v-model="email" label="Email" required class="text-field"></v-text-field>
-            <v-text-field v-model="phoneNumber" :rules="phoneNumberRules" label="Phone number" required class="text-field"></v-text-field>
+            <v-text-field v-model="title" label="Event title" required class="full-width" id="float"></v-text-field>
+            <v-autocomplete v-model="date.month" :items="months" label="Month" required class="quarter-width" id="float"></v-autocomplete>
+            <v-autocomplete v-model="date.day" :items="daysPerMonth(date.month)" label="Day" required class="quarter-width"></v-autocomplete>
+            <v-text-field v-model="date.startTime" label="Start time" required class="quarter-width"></v-text-field>
+            <v-text-field v-model="date.endTime" label="End time" required class="quarter-width"></v-text-field>
+            <v-text-field v-model="location.locale" label="Location" required class="full-width"></v-text-field>
+            <v-autocomplete v-model="location.city" :items="allCities" label="City" class="full-width" required></v-autocomplete>
+            <v-text-field v-model="shortDescription" label="Enter a short description." required class="full-width"></v-text-field>
+            <v-textarea :value="longDescription" v-model="longDescription" label="Enter a more detailed description (optional)." class="full-width"></v-textarea>
 
-            <v-text-field v-model="hometown.city" label="City" class="text-field" style="float:left"></v-text-field>
-            <v-autocomplete :items="allCountries" v-model="hometown.country" label="Country" class="text-field"></v-autocomplete>
-            <v-autocomplete v-if="fromUS" v-model="hometown.state" :items="states" label="State (if in US)" class="text-field" style="float:left"></v-autocomplete>
-
-            <div class="photo-upload">
-                <h3>Upload up to three photos of the event.</h3>
-                <h4>Press Upload to make sure your file was uploaded successfully.</h4>
-                <br>
-                <div class="upload-btn-wrapper">
-                    <button class="btn">
-                        <v-icon>add_a_photo</v-icon>
-                    </button>
-                    <input type="file" @change="onFileChanged"/>
-                </div>
-                <div class="upload-btn-wrapper">
-                    <button class="btn">
-                        <v-icon>add_a_photo</v-icon>
-                    </button>
-                    <input type="file" @change="onFileChanged"/>
-                </div>
-                <div class="upload-btn-wrapper">
-                    <button class="btn">
-                        <v-icon>add_a_photo</v-icon>
-                    </button>
-                    <input type="file" @change="onFileChanged"/>
-                </div>
-                <v-btn @click="onUpload">Upload</v-btn>
-                <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
+            <!-- <div id="categories-checkboxes"> -->
+                <!-- <v-checkbox v-model="selectedCategories" :label="categories[0]" :value="categories[0]"></v-checkbox>
+                <v-checkbox v-model="selectedCategories" :label="categories[1]" :value="categories[1]"></v-checkbox>
+                <v-checkbox v-model="selectedCategories" :label="categories[2]" :value="categories[2]"></v-checkbox>
+                <v-checkbox v-model="selectedCategories" :label="categories[3]" :value="categories[3]"></v-checkbox>
+                <v-checkbox v-model="selectedCategories" :label="categories[4]" :value="categories[4]"></v-checkbox>
+                <v-checkbox v-model="selectedCategories" :label="categories[5]" :value="categories[5]"></v-checkbox>
+                <v-checkbox v-model="selectedCategories" :label="categories[6]" :value="categories[6]"></v-checkbox>
+                <v-checkbox v-model="selectedCategories" :label="categories[7]" :value="categories[7]"></v-checkbox>
+                <v-checkbox v-model="selectedCategories" :label="categories[8]" :value="categories[8]"></v-checkbox> -->
+            <!-- </div> -->
+            <div row wrap>
+                <h2 class="fav-activities-title">Favorite Activities</h2>
+                <v-layout>
+                    <v-flex>
+                        <v-select class="fav-activities" v-model="selectedCategories" :items="categories" multiple persistent-hint>
+                            <template slot="selection" slot-scope="data">
+                                <span class="round-chip">
+                                    <i style="margin-right: 10px" :class=emoji[data.item]></i>
+                                    {{ data.item }}
+                                </span>
+                            </template>
+                        </v-select>
+                    </v-flex>
+                </v-layout>
             </div>
+
+            <!-- <h3>Upload up to three photos of the event.</h3>
+            <h4>Press Upload to make sure your file was uploaded successfully.</h4>
+            <div class="photo-upload">
+            <br>
+            <div class="upload-btn-wrapper">
+                <button class="btn">
+                    <v-icon>add_a_photo</v-icon>
+                </button>
+                <input type="file" @change="onFileChanged"/>
+            </div>
+            <div class="upload-btn-wrapper">
+                <button class="btn">
+                    <v-icon>add_a_photo</v-icon>
+                </button>
+                <input type="file" @change="onFileChanged"/>
+            </div>
+            <div class="upload-btn-wrapper">
+                <button class="btn">
+                    <v-icon>add_a_photo</v-icon>
+                </button>
+                <input type="file" @change="onFileChanged"/>
+            </div>
+                <v-btn id="upload-btn" @click="onUpload">Upload</v-btn>
+                <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
+            </div> -->
 
             <!--Arrows-->
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
@@ -62,10 +86,6 @@
 /* eslint-disable */
 import Vue from "vue";
 import Firebase from "firebase";
-import Events from './Events.vue';
-import Navbar from './Navbar.vue';
-import ProfileCard from './ProfileCard.vue';
-import ProfileList from './ProfileList.vue';
 
 import {
     db,
@@ -74,131 +94,47 @@ import {
 } from "../database";
 
 import {
-    parseCities,
-    states,
-    countries,
+    parseCities
 } from "../assets/locations.js";
 
 var world = require("../assets/world.json");
 let forEach = require('lodash.foreach');
 
 export default {
-    name: "SignUp",
-    components: {
-        Events,
-        Navbar
-    },
-    computed: {
-        fromUS() {
-            return this.hometown.country === "United States";
-        }
-    },
+    name: "CreateEvent",
     data() {
         return {
             eventRoute: false,
             peopleRoute: false,
             pageNumber: 1,
+            allCities: parseCities().allCities,
 
             // data validation rules
-            uuid: "",
-            firstName: "",
-            lastName: "",
-            age: null,
-            universityOrOccupation: null,
-            email: "",
-            hometown: null,
-            phoneNumber: null,
-            hometown: {
-                city: "",
-                state: "",
-                country: ""
+            host: null, // TODO: align host w/ their uuid
+            date: {
+                month: "",
+                day: "",
+                startTime: "",
+                endTime: ""
             },
-            bio: "",
-            states: states,
-            countries: countries,
-
+            location: {
+                locale: "",
+                city: ""
+            },
+            title: "",
+            shortDescription: "",
+            longDescription: "",
             // form rules
-            nameRules: [
-                v => !!v || "Name is required",
-                v => (v && v.length <= 15) || "Name must be less than 15 characters."
-            ],
-            ageRules: [
-                v => (v >= 18 && v <= 65) || "You must be between ages 18-65 to use this service."
-            ],
-            emailRules: [
-                v => !!v || "Email is required",
-                v => /.+@.+/.test(v) || "E-mail must be valid",
-                v => this.newEmail(v) || "Email is already in use"
-            ],
-            phoneNumberRules: [
-                v => !!v || "Phone number is required",
-                v => (v && v.length > 9) || "Phone number must be valid"
-            ],
-            bioRules: [
-                v => !!v || "Bio is required",
-                v => (v && v.length <= 300) || "Enter up to 300 characters"
-            ],
 
-            // profile picture upload
+            // event picture upload
             selectedFile: null,
             propicUrl: "http://placekitten.com/g/200/300",
-            pics: [
-                "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fnugget.png?alt=media&token=80f52fcc-f961-4c05-a84b-d4c476589534", 
-                "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fparis.png?alt=media&token=a23b4919-a217-4eac-a537-84c12572513e", 
-                "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fspain.png?alt=media&token=3a5e42a2-610b-4947-b7cc-21da1ae97677"
-            ],
+            pics: [],
             uploadFinished: false,
 
             // TODO: regular picture upload
 
-            // preferences
-            transportation: [
-                "Walking",
-                "Taxi/Uber/Lyft",
-                "Car",
-                "Bus",
-                "Train"
-            ],
-            selectedTransportation: [],
-            accommodation: [
-                "Hostel",
-                "Hotel",
-                "Airbnb/Dorm",
-                "Couchsurfing"
-            ],
-            selectedAccommodation: [],
-
-            // TODO: add to more info after profile is already created
-            lifestyle: [
-                "Smoking",
-                "Drinking",
-                "Partying"
-            ],
-            selectedLifestyle: [],
-
-            tickLabels: [1, 2, 3, 4, 5],
-            experienceRating: null,
-
-            emoji: {
-                "Art": "em em-art",
-                "Culture": "em em-shinto_shrine",
-                "Food": "em em-spaghetti",
-                "History": "em em-european_castle",
-                "Music": "em em-musical_note",
-                "Nightlife": "em em-cocktail",
-                "Outdoors": "em em-partly_sunny",
-                "Sports": "em em-basketball",
-                "Tours": "em em-scooter"
-            },
-
-            // travel history
-            allCountries: parseCities().allCountries,
-            allCities: parseCities().allCities,
-            traveledInPast: [],
-            travelInFuture: [],
-            travelCurrent: [],
-
-            activities: [
+            categories: [
                 "Art",
                 "Culture",
                 "Food",
@@ -209,15 +145,45 @@ export default {
                 "Sports",
                 "Tours"
             ],
-            selectedActivities: []
+            selectedCategories: [],
+
+            months: [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+            ],
+            emoji: {
+                "Art": "em em-art",
+                "Culture": "em em-shinto_shrine",
+                "Food": "em em-spaghetti",
+                "History": "em em-european_castle",
+                "Music": "em em-musical_note",
+                "Nightlife": "em em-cocktail",
+                "Outdoors": "em em-partly_sunny",
+                "Sports": "em em-basketball",
+                "Tours": "em em-scooter"
+            }
+
         };
     },
     firebase: {
         users: usersRef,
         storage: storageRef
     },
+    mounted() {
+        this.setApp(false);
+    },
     methods: {
-        setApp2(res){
+        setApp2(res) {
             this.setApp(res);
         },
 
@@ -294,7 +260,6 @@ export default {
                     }
                 },
                 async function () {
-                    // Upload completed successfully, now we can get the download URL
                     var url = await uploadTask.snapshot.ref.getDownloadURL();
                     console.log('url: ', url);
                     Vue.set(that, 'propicUrl', url);
@@ -303,56 +268,39 @@ export default {
             );
         },
 
-        removePast(item) {
-            const index = this.traveledInPast.indexOf(item.name);
-            if (index >= 0) this.traveledInPast.splice(index, 1); // TODO: fix
-        },
-
-        removeFuture(item) {
-            const index = this.travelInFuture.indexOf(item.name);
-            if (index >= 0) this.travelInFuture.splice(index, 1);
-        },
-
-        setRoute2(option) {
-            this.setRoute(option);
-        },
-
-        registerUser() {
-            const uuid = require("uuid/v4");
-            let myUuid = uuid();
-            this.uuid = myUuid;
-
-            if (this.user === null || this.user === undefined) {
-                let newUser = {
-                    uuid: myUuid,
-                    firstName: this.firstName,
-                    lastName: this.lastName,
-                    age: this.age,
-                    universityOrOccupation: this.universityOrOccupation,
-                    email: this.email,
-                    phoneNumber: this.phoneNumber,
-                    hometown: this.hometown,
-                    propicUrl: this.propicUrl,
-                    pics: this.pics,
-                    bio: this.bio,
-                    selectedTransportation: this.selectedTransportation,
-                    selectedAccommodation: this.selectedAccommodation,
-                    selectedLifestyle: this.selectedLifestyle,
-                    selectedActivities: this.selectedActivities,
-                    traveledInPast: this.traveledInPast,
-                    travelInFuture: this.travelInFuture,
-                    travelCurrent: this.travelCurrent,
-                    experience: this.experienceRating
-                };
-                 
-                this.updateUser(newUser); 
-                usersRef.child(myUuid).set(newUser);
-                this.pageNumber++;
+        daysPerMonth(selection) {
+            let days = [];
+            let thirtyDays = [
+                "April",
+                "June",
+                "September",
+                "November"
+            ];
+            if (selection === "February") {
+                days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28];
+            } else if (thirtyDays.includes(selection)) {
+                days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
+            } else {
+                days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
             }
+            return days;
+        },
+
+        registerEvent() {
+            const uuid = require("uuid/v4");
+            let eid = uuid();
+            this.uuid = eid;
+
+            let newEvent = {
+
+            };
+
+            eventsRef.child(eid).set(newEvent);
+            this.pageNumber++;
         }
     },
-    props: ['user', 'updateUser', 'setRoute', 'setApp']
-};
+    props: ['user', 'setApp']
+}
 </script>
 
 <style>
@@ -384,11 +332,11 @@ ul {
     margin-bottom: 15px;
 }
 
-.text-field {
+/* .text-field {
     margin: auto 20px;
     float: left;
     width: 50%;
-}
+} */
 
 .photo-upload {
     margin-bottom: 70px;
@@ -398,7 +346,7 @@ ul {
     float: left;
 }
 
-.signup {
+.createevent {
     padding: 50px;
     height: 90%;
     width: 80%;
@@ -434,7 +382,6 @@ ul {
 }
 
 .round-chip {
-    /* background-image: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);  */
     border-radius: 50%;
     background-color: pink;
     padding: 5px 5px;
@@ -455,69 +402,75 @@ ul {
     font-size: large;
 }
 
-#rate-yourself {
-    float: left;
-    display: flex;
-    margin: auto;
-}
-
-.travel-experience {
-    display: flex;
-    flex-direction: row;
-}
-
-.autoc {
-    margin: 20px 30px 20px 30px;
-}
-
-.test {
-    display: flex;
-    margin: auto;
-    flex-direction: column;
-    height: 10% !important;
-}
-
 .input-box {
     border-radius: 25px;
     background: pink;
-    padding: 20px; 
+    padding: 20px;
     width: 200px;
     height: 150px;
 }
 
 .upload-btn-wrapper {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-  margin: 0px 10px 30px 10px;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin: 0px 10px 30px 10px;
 }
 
 .upload-btn-wrapper input[type=file] {
-  font-size: 100px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
 }
 
 .btn {
-  border: 2px solid pink;
-  color:pink;
-  background-color: pink;
-  padding: 8px 20px;
-  border-radius: 8px;
-  font-size: 20px;
-  font-weight: bold;
-  height: 150px;
-  width: 150px;
+    border: 2px solid pink;
+    color: pink;
+    background-color: pink;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    height: 150px;
+    width: 150px;
 }
 
-#heading2 {
-    margin: 50px 0px 150px 0px;
+.quarter-width {
+    width: 21%;
+    margin: auto 20px;
+    float: left;
 }
 
-.btn-signup {
-    transform: scale(1.5, 1.5);
-    background-color: pink !important;
+.full-width {
+    width: 100%;
+    margin: auto 20px;
+    float: left;
+}
+
+.v-input--selection-controls {
+    margin-top: 0px;
+}
+
+#categories-checkboxes {
+    display: flex;
+    flex-direction: column;
+}
+
+#upload-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fav-activities-title {
+    float: left;
+    margin: 30px 10px 0px 0px;
+}
+
+.fav-activities {
+    margin-left: 10px;
+    margin-bottom: 15px;
 }
 </style>

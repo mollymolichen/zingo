@@ -7,13 +7,15 @@
 		</v-layout> -->
 
 		<div class="create-event">
-			<router-link :to="{ name: 'CreateEvent', params: { } }">
+			<router-link :to="{ name: 'CreateEvent', params: { user, setApp } }">
 				<v-btn id="create-event-btn">Create Event</v-btn>
 			</router-link>
 		</div>
 
 		<div v-for="event in this.events" :key="event">
-			<event-card v-if="event.display" :event="event" :user="getHostObj(event.host)" :isInterested="isInterested"></event-card>
+			<event-card v-if="event.display" :event="event" 
+				:user="getHostObj(event.host)" :isInterested="isInterested">
+			</event-card>
 		</div>
 	</v-content>
 </template>
@@ -30,7 +32,7 @@ export default {
 		EventCard,
 		EventFilter
 	},
-	props: ['events'],
+	props: ['events', 'user', 'users', 'setApp'],
 	firebase: {
 		usersRef: usersRef,
 		eventsRef: eventsRef
@@ -54,7 +56,7 @@ export default {
 		}
 	},
 	mounted() {
-
+		this.setApp(false);
 	},
 	data() {
         return {

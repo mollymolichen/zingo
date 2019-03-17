@@ -1,7 +1,6 @@
 <template>
 <v-content class="container preferences">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
-    ]
     <v-card class="signup">
         <!--Page 1-->
         <v-form v-if="pageNumber === 1" ref="form" v-model="valid" lazy-validation>

@@ -3,6 +3,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import App from '../App'
 import About from '../components/About';
+import CreateEvent from '../components/CreateEvent';
 import Events from '../components/Events';
 import EventCard from '../components/EventCard';
 import EventList from '../components/EventList';
@@ -22,6 +23,12 @@ export default new Router({
       path: '/about',
       name: 'About',
       component: About,
+      props: true
+    },
+    {
+      path: '/new-event',
+      name: 'CreateEvent',
+      component: CreateEvent,
       props: true
     },
     {

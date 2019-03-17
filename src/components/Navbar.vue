@@ -9,17 +9,17 @@
         </router-link>
 
         <!--Choose either events or people-->
-        <router-link v-if="user != null" :to="{ name: 'EventList', params: { events, users } }">
+        <router-link v-if="user != null" :to="{ name: 'EventList', params: { events, user, users, setApp } }">
             <v-btn class="nav-btn" @click="setApp2(false)">Feed</v-btn>
         </router-link>
-        <router-link v-else-if="user != null" :to="{ name: 'ProfileList', params: { users, events } }">
+        <router-link v-else-if="user != null" :to="{ name: 'ProfileList', params: { users, events, setApp } }">
             <v-btn class="nav-btn" @click="setApp2(false)">Feed</v-btn>
         </router-link>
 
-        <router-link v-if="user === null" :to="{ name: 'SignIn', params: { user, updateUser, eventRoute, peopleRoute } }">
+        <router-link v-if="user === null" :to="{ name: 'SignIn', params: { user, updateUser, eventRoute, peopleRoute, setApp } }">
             <v-btn class="nav-btn" @click="setApp2(false)">Sign In</v-btn>
         </router-link>
-        <router-link v-if="user != null" :to="{ name: 'Profile', params: { user } }">
+        <router-link v-if="user != null" :to="{ name: 'Profile', params: { user, setApp } }">
             <v-btn class="nav-btn" @click="setApp2(false)">Profile</v-btn>
         </router-link>
         <router-link to="/" v-if="user != null">

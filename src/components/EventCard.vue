@@ -18,6 +18,7 @@
             <v-flex xs8>
                 <h2>{{event.title}}</h2>
                 <h4>{{event.date.month}} {{event.date.day}}, {{event.date.startTime}} - {{event.date.endTime}}</h4>
+                <h4>{{event.location.locale}}, {{event.location.city}}</h4>
                 <h4>{{event.shortDescription}}</h4>
                 <v-btn v-if="!learnMore" @click="learnMore = true">Learn More...</v-btn>
                 <p v-if="learnMore">{{event.longDescription}}</p>
