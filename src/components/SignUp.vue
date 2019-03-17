@@ -78,6 +78,10 @@
                     <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
                 </router-link>
                 <h1>Tell us a little about yourself!</h1>
+                <h4> For example: </h4>
+                <p>I'm a student at Duke interested in writing, debate, and startups!</p>
+                <h4> or </h4>
+                <p> I'm on my way to medical school and am looking to see much of the world before I start!</p>
             </div>
 
             <v-flex>
@@ -197,7 +201,7 @@
             </v-layout>
 
             <v-flex xs12 class="autoc">
-                <h4 id="rate-yourself">Rate yourself on how experienced of a traveler you are (1: first time traveling, 5: professional)</h4>
+                <h4 id="rate-yourself">Rate yourself on how experienced of a traveler you are (1: first time traveling, 5: constant/world traveler)</h4>
                 <v-card-text>
                     <v-slider v-model="experienceRating" :tick-labels="tickLabels" :max="4" step="1" ticks="always" tick-size="2"></v-slider>
                 </v-card-text>
@@ -344,8 +348,8 @@ export default {
             // TODO: add to more info after profile is already created
             lifestyle: [
                 "Smoking",
-                "Drinking",
-                "Partying"
+                "Drinks",
+                "Parties"
             ],
             selectedLifestyle: [],
 

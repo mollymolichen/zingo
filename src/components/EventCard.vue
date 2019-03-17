@@ -7,7 +7,7 @@
                 <v-avatar class="propic2">
                     <img :src="this.user.propicUrl">
                 </v-avatar>
-                <h1>{{user.firstName}} {{user.lastName}}, {{user.age}}</h1>
+                <h1>{{user.firstName}}, {{user.age}}</h1>
                 <h3>{{user.universityOrOccupation}}</h3>
                 <v-icon @click="addToFavorites(event)" class="icon">favorite</v-icon>
                 <v-icon @click="attending = true" class="icon">check_circle</v-icon>

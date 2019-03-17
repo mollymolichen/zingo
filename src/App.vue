@@ -20,7 +20,7 @@
                     <h1>Connecting awesome travelers to awesome friends.</h1>
                     <div v-if="this.user === null">
                         <router-link :to="{ name: 'SignUp', params: { user, updateUser, setRoute, setApp } }">
-                            <v-btn id="signup-btn">Get started</v-btn>
+                            <v-btn id="signup-btn">Get started now!</v-btn>
                         </router-link>
                     </div>
                 </v-flex>
