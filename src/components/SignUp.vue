@@ -210,7 +210,7 @@
             <!--Arrows-->
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
             <span class="pagenumbers">{{pageNumber}} / 4</span>
-            <v-btn :disabled="!valid" @click="registerUser()">Register</v-btn>
+            <v-icon class="arrows" @click="registerUser()" :disabled="!valid">chevron_right</v-icon>
         </v-form>
 
         <!--Page 5-->
@@ -300,7 +300,7 @@ export default {
                 v => (v && v.length <= 15) || "Name must be less than 15 characters."
             ],
             ageRules: [
-                v => (v >= 18 && v <= 65) || "You must be between ages 18-65 to use this service."
+                v => (v >= 18 && v <= 35) || "You must be between ages 18-35 to use this service."
             ],
             emailRules: [
                 v => !!v || "Email is required",

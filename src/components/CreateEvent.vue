@@ -1,5 +1,5 @@
 <template>
-<v-content class="container preferences">
+<v-content class="container preferences" id="create-event-container">
     <v-card class="createevent">
         <!--Page 1-->
         <v-form v-if="pageNumber === 1" ref="form" v-model="valid" lazy-validation>
@@ -10,32 +10,35 @@
                 <h1 style="margin-top:10px; margin-bottom:20px">Create an Event</h1>
             </div>
 
-            <v-text-field v-model="title" label="Event title" required class="full-width" id="float"></v-text-field>
-            <v-autocomplete v-model="date.month" :items="months" label="Month" required class="quarter-width" id="float"></v-autocomplete>
-            <v-autocomplete v-model="date.day" :items="daysPerMonth(date.month)" label="Day" required class="quarter-width"></v-autocomplete>
-            <v-text-field v-model="date.startTime" label="Start time" required class="quarter-width"></v-text-field>
-            <v-text-field v-model="date.endTime" label="End time" required class="quarter-width"></v-text-field>
+            <!--Date and time picker-->
+            <v-text-field v-model="title" label="Event title" required></v-text-field>
+            <v-layout row wrap>
+                <v-flex xs4>
+                    <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
+                        <template v-slot:activator="{ on }">
+                            <v-text-field v-model="dateFormatted" label="Date" hint="MM/DD/YYYY format" persistent-hint prepend-icon="event" @blur="date = parseDate(dateFormatted)" v-on="on"></v-text-field>
+                        </template>
+                        <v-date-picker v-model="date" no-title @input="menu1 = false"></v-date-picker>
+                    </v-menu>
+                </v-flex>
+                <v-flex xs4>
+                    <v-text-field v-model="date.startTime" label="Start time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
+                </v-flex>
+                <v-flex xs4>
+                    <v-text-field v-model="date.endTime" label="End time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
+                </v-flex>
+            </v-layout>
+
             <v-text-field v-model="location.locale" label="Location" required class="full-width"></v-text-field>
             <v-autocomplete v-model="location.city" :items="allCities" label="City" class="full-width" required></v-autocomplete>
             <v-text-field v-model="shortDescription" label="Enter a short description." required class="full-width"></v-text-field>
             <v-textarea :value="longDescription" v-model="longDescription" label="Enter a more detailed description (optional)." class="full-width"></v-textarea>
 
-            <!-- <div id="categories-checkboxes"> -->
-                <!-- <v-checkbox v-model="selectedCategories" :label="categories[0]" :value="categories[0]"></v-checkbox>
-                <v-checkbox v-model="selectedCategories" :label="categories[1]" :value="categories[1]"></v-checkbox>
-                <v-checkbox v-model="selectedCategories" :label="categories[2]" :value="categories[2]"></v-checkbox>
-                <v-checkbox v-model="selectedCategories" :label="categories[3]" :value="categories[3]"></v-checkbox>
-                <v-checkbox v-model="selectedCategories" :label="categories[4]" :value="categories[4]"></v-checkbox>
-                <v-checkbox v-model="selectedCategories" :label="categories[5]" :value="categories[5]"></v-checkbox>
-                <v-checkbox v-model="selectedCategories" :label="categories[6]" :value="categories[6]"></v-checkbox>
-                <v-checkbox v-model="selectedCategories" :label="categories[7]" :value="categories[7]"></v-checkbox>
-                <v-checkbox v-model="selectedCategories" :label="categories[8]" :value="categories[8]"></v-checkbox> -->
-            <!-- </div> -->
-            <div row wrap>
-                <h2 class="fav-activities-title">Favorite Activities</h2>
+            <div class="event-type">
+                <h3>Event Type</h3>
                 <v-layout>
                     <v-flex>
-                        <v-select class="fav-activities" v-model="selectedCategories" :items="categories" multiple persistent-hint>
+                        <v-select class="event-type" v-model="selectedCategories" :items="categories" multiple persistent-hint>
                             <template slot="selection" slot-scope="data">
                                 <span class="round-chip">
                                     <i style="margin-right: 10px" :class=emoji[data.item]></i>
@@ -47,36 +50,45 @@
                 </v-layout>
             </div>
 
-            <!-- <h3>Upload up to three photos of the event.</h3>
-            <h4>Press Upload to make sure your file was uploaded successfully.</h4>
-            <div class="photo-upload">
-            <br>
-            <div class="upload-btn-wrapper">
-                <button class="btn">
-                    <v-icon>add_a_photo</v-icon>
-                </button>
-                <input type="file" @change="onFileChanged"/>
-            </div>
-            <div class="upload-btn-wrapper">
-                <button class="btn">
-                    <v-icon>add_a_photo</v-icon>
-                </button>
-                <input type="file" @change="onFileChanged"/>
-            </div>
-            <div class="upload-btn-wrapper">
-                <button class="btn">
-                    <v-icon>add_a_photo</v-icon>
-                </button>
-                <input type="file" @change="onFileChanged"/>
-            </div>
-                <v-btn id="upload-btn" @click="onUpload">Upload</v-btn>
-                <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
-            </div> -->
-
             <!--Arrows-->
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
-            <span class="pagenumbers">{{pageNumber}} / 4</span>
+            <span class="pagenumbers">{{pageNumber}} / 2</span>
             <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
+        </v-form>
+
+        <v-form v-else-if="pageNumber === 2">
+            <h3>Upload up to three photos of the event.</h3>
+            <h4>Press Upload to make sure your file was uploaded successfully.</h4>
+            <div class="photo-upload">
+                <br>
+                <div class="upload-btn-wrapper">
+                    <button class="btn">
+                    <v-icon>add_a_photo</v-icon>
+                </button>
+                    <input type="file" @change="onFileChanged"/>
+            </div>
+                    <div class="upload-btn-wrapper">
+                        <button class="btn">
+                    <v-icon>add_a_photo</v-icon>
+                </button>
+                        <input type="file" @change="onFileChanged"/>
+            </div>
+                        <div class="upload-btn-wrapper">
+                            <button class="btn">
+                    <v-icon>add_a_photo</v-icon>
+                </button>
+                            <input type="file" @change="onFileChanged"/>
+            </div>
+                            <v-btn id="upload-btn" @click="onUpload">Upload</v-btn>
+                            <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
+                        </div>
+
+                        <!--Arrows-->
+                        <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
+                        <span class="pagenumbers">{{pageNumber}} / 2</span>
+                        <router-link :to="{ name: 'EventList', params: { user }}">
+                            <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
+                        </router-link>
         </v-form>
     </v-card>
 </v-content>
@@ -147,6 +159,12 @@ export default {
             ],
             selectedCategories: [],
 
+            // dates
+            date: new Date().toISOString().substr(0, 10),
+            dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
+            menu1: false,
+            menu2: false,
+
             months: [
                 "January",
                 "February",
@@ -188,7 +206,7 @@ export default {
         },
 
         next() {
-            if (this.pageNumber < 6) {
+            if (this.pageNumber < 2) {
                 this.pageNumber += 1;
             } else {
                 this.pageNumber = 1;
@@ -286,6 +304,21 @@ export default {
             return days;
         },
 
+        formatDate(date) {
+            if (!date) {
+                return null;
+            }
+            const [year, month, day] = date.split('-');
+            return `${month}/${day}/${year}`
+        },
+        parseDate(date) {
+            if (!date) {
+                return null;
+            }
+            const [month, day, year] = date.split('/');
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        },
+
         registerEvent() {
             const uuid = require("uuid/v4");
             let eid = uuid();
@@ -297,6 +330,16 @@ export default {
 
             eventsRef.child(eid).set(newEvent);
             this.pageNumber++;
+        }
+    },
+    watch: {
+        date(val) {
+            this.dateFormatted = this.formatDate(this.date);
+        }
+    },
+    computed: {
+        computedDateFormatted() {
+            return this.formatDate(this.date);
         }
     },
     props: ['user', 'setApp']
@@ -322,22 +365,6 @@ ul {
     transform: scale(1.2, 1.2);
 }
 
-.fav-activities-title {
-    float: left;
-    margin: 30px 10px 0px 0px;
-}
-
-.fav-activities {
-    margin-left: 10px;
-    margin-bottom: 15px;
-}
-
-/* .text-field {
-    margin: auto 20px;
-    float: left;
-    width: 50%;
-} */
-
 .photo-upload {
     margin-bottom: 70px;
 }
@@ -348,7 +375,7 @@ ul {
 
 .createevent {
     padding: 50px;
-    height: 90%;
+    height: 95%;
     width: 80%;
     background-color: aliceblue !important;
     margin: auto;
@@ -438,9 +465,7 @@ ul {
 }
 
 .quarter-width {
-    width: 21%;
-    margin: auto 20px;
-    float: left;
+    margin-left: 20px;
 }
 
 .full-width {
@@ -453,24 +478,23 @@ ul {
     margin-top: 0px;
 }
 
-#categories-checkboxes {
-    display: flex;
-    flex-direction: column;
-}
-
 #upload-btn {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.fav-activities-title {
+.event-type-title {
     float: left;
     margin: 30px 10px 0px 0px;
 }
 
-.fav-activities {
+.event-type {
     margin-left: 10px;
     margin-bottom: 15px;
+}
+
+#create-event-container {
+    height: 100%;
 }
 </style>

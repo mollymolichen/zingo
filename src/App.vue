@@ -20,7 +20,7 @@
                     <h1>Connecting awesome travelers to awesome friends.</h1>
                     <div v-if="this.user === null">
                         <router-link :to="{ name: 'SignUp', params: { user, updateUser, setRoute, setApp } }">
-                            <v-btn id="signup-btn">Get started now!</v-btn>
+                            <v-btn id="signup-btn">Sign up here</v-btn>
                         </router-link>
                     </div>
                 </v-flex>
@@ -141,11 +141,6 @@ a {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-}
-
-#toolbar {
-    display: flex;
-    justify-content: flex-end;
 }
 
 #signup-btn {

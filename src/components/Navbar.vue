@@ -1,9 +1,10 @@
 <template>
-<v-toolbar color="pink lighten-5" id="toolbar">
+<v-toolbar color="pink lighten-5">
     <router-link to="/" class="remove-line">
-        <h1 @click="setApp2(true)">Weekendr</h1>   <!--@click="setApp2(false)" makes app disappear-->
+        <img src="../assets/logo.png" id="flamingo-logo" @click="setApp2(true)"/>      <!--@click="setApp2(false)" makes app disappear-->
     </router-link>
-    <ul>
+
+    <ul class="toolbar-btns">
         <router-link to="/about">
             <v-btn class="nav-btn" @click="setApp2(false)">About</v-btn>
         </router-link>
@@ -37,11 +38,6 @@ export default {
         'setApp', 'eventRoute', 'peopleRoute',
         'events', 'users'
     ],
-    data() {
-        return {
-            
-        }
-    },
     methods: {
         signOut(user){
             this.setApp2(true);
@@ -50,7 +46,7 @@ export default {
             }
         },
         setApp2(res){
-            this.setApp(res);
+            this.setApp(res); // add to mounted instead
         }
     }
 }
@@ -59,5 +55,16 @@ export default {
 <style>
 .nav-btn {
     background-color: aliceblue !important;
+    justify-content: flex-end !important;
+}
+
+.toolbar-btns {
+    display: flex;
+    justify-content: flex-end !important;
+}
+
+#flamingo-logo {
+    height: 55px;
+    width: 55px;
 }
 </style>
