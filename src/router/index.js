@@ -1,13 +1,14 @@
 /* eslint-disable */
 import Vue from 'vue'
 import Router from 'vue-router'
-import App from '../App'
 import About from '../components/About';
 import CreateEvent from '../components/CreateEvent';
+import EditEvent from '../components/EditEvent';
 import Events from '../components/Events';
 import EventCard from '../components/EventCard';
 import EventList from '../components/EventList';
-import Landing from '../components/Landing';
+import MatchCard from '../components/MatchCard';
+import MatchList from '../components/MatchList';
 import Profile from '../components/Profile';
 import ProfileCard from '../components/ProfileCard';
 import ProfileList from '../components/ProfileList';
@@ -32,6 +33,12 @@ export default new Router({
       props: true
     },
     {
+      path: '/edit-event',
+      name: 'EditEvent',
+      component: EditEvent,
+      props: true
+    },
+    {
       path: '/events',
       name: 'Events',
       component: Events,
@@ -49,12 +56,18 @@ export default new Router({
       component: EventList,
       props: true
     },
-    // {
-    //   path: '/',
-    //   name: 'Landing',
-    //   component: Landing,
-    //   props: { default: true, user: null }
-    // },
+    {
+      path: '/matches/match',
+      name: 'MatchCard',
+      component: MatchCard,
+      props: true
+    },
+    {
+      path: '/matches/list',
+      name: 'MatchList',
+      component: MatchList,
+      props: true
+    },
     {
       path: '/our-story',
       name: 'OurStory',

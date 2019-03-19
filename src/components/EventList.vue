@@ -25,6 +25,7 @@
 import EventCard from "./EventCard";
 import EventFilter from "./EventFilter";
 import { usersRef, eventsRef } from "../database.js";
+// import { events, users } from "../assets/dbEntries.js";
 
 export default {
 	name: 'EventList',
@@ -38,6 +39,16 @@ export default {
 		eventsRef: eventsRef
 	},
 	methods: {
+		getEvents() {
+            let allEvents = null;
+            eventsRef.on("value", function (snapshot) {
+                allEvents = snapshot.val();
+            });
+            for (let e in allEvents) {
+                this.events.push(allEvents[e]);
+            }
+		},
+		
 		isInterested(interest, e){
 			e.display = false;
 		},
@@ -55,12 +66,16 @@ export default {
 			return null;
 		}
 	},
-	mounted() {
-		this.setApp(false);
+	// mounted() {
+	// 	this.getEvents();
+	// },
+	mounted(){
+		this.getEvents();
 	},
 	data() {
         return {
-			interested: true
+			interested: true,
+			events: []
 		}
 	}
 }

@@ -17,6 +17,13 @@
             <v-text-field v-model="universityOrOccupation" label="University or Occupation" required class="text-field"></v-text-field>
             <v-text-field v-model="email" label="Email" required class="text-field"></v-text-field>
             <v-text-field v-model="phoneNumber" :rules="phoneNumberRules" label="Phone number" required class="text-field"></v-text-field>
+            <v-autocomplete xs6 :items="allLangs" v-model="languagesSpoken" chips multiple style="margin: 0px 10px 0px 10px" label="What languages do you speak?">
+                <template slot="selection" slot-scope="data">
+                    <v-chip :selected="data.selected" close class="chip--select-multi" @click="removePast(data.item)">
+                        {{ data.item }}
+                    </v-chip>
+                </template>
+            </v-autocomplete>
 
             <v-text-field v-model="hometown.city" label="City" class="text-field" style="float:left"></v-text-field>
             <v-autocomplete :items="allCountries" v-model="hometown.country" label="Country" class="text-field"></v-autocomplete>
@@ -49,27 +56,29 @@
                     </button>
                     <input type="file" @change="onFileChanged"/>
                 </div>
-                <div class="upload-btn-wrapper">
-                    <button class="btn">
+                    <div class="upload-btn-wrapper">
+                        <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
-                    <input type="file" @change="onFileChanged"/>
+                        <input type="file" @change="onFileChanged"/>
                 </div>
-                <div class="upload-btn-wrapper">
-                    <button class="btn">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
-                    <input type="file" @change="onFileChanged"/>
+                            <input type="file" @change="onFileChanged"/>
                 </div>
-                <v-btn @click="onUpload">Upload</v-btn>
-                <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
-            </div>
+                            <v-btn @click="onUpload">Upload</v-btn>
+                            <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
+                        </div>
 
-            <!--Arrows-->
-            <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
-            <span class="pagenumbers">{{pageNumber}} / 4</span>
-            <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
+                        <!--Arrows-->
+                        <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
+                        <span class="pagenumbers">{{pageNumber}} / 4</span>
+                        <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
         </v-form>
+
+        <!--TODO: itinerary-->
 
         <!--Page 2-->
         <v-form v-else-if="pageNumber === 2" ref="form" v-model="valid" lazy-validation>
@@ -243,20 +252,19 @@ import Events from './Events.vue';
 import Navbar from './Navbar.vue';
 import ProfileCard from './ProfileCard.vue';
 import ProfileList from './ProfileList.vue';
-
 import {
     db,
     usersRef,
     storageRef
 } from "../database";
-
 import {
     parseCities,
     states,
     countries,
 } from "../assets/locations.js";
-
-var world = require("../assets/world.json");
+import {
+    allLangs
+} from "../assets/languages.js";
 let forEach = require('lodash.foreach');
 
 export default {
@@ -293,6 +301,8 @@ export default {
             bio: "",
             states: states,
             countries: countries,
+            allLangs: allLangs,
+            languagesSpoken: [],
 
             // form rules
             nameRules: [
@@ -320,8 +330,8 @@ export default {
             selectedFile: null,
             propicUrl: "http://placekitten.com/g/200/300",
             pics: [
-                "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fnugget.png?alt=media&token=80f52fcc-f961-4c05-a84b-d4c476589534", 
-                "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fparis.png?alt=media&token=a23b4919-a217-4eac-a537-84c12572513e", 
+                "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fnugget.png?alt=media&token=80f52fcc-f961-4c05-a84b-d4c476589534",
+                "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fparis.png?alt=media&token=a23b4919-a217-4eac-a537-84c12572513e",
                 "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fspain.png?alt=media&token=3a5e42a2-610b-4947-b7cc-21da1ae97677"
             ],
             uploadFinished: false,
@@ -394,7 +404,7 @@ export default {
         storage: storageRef
     },
     methods: {
-        setApp2(res){
+        setApp2(res) {
             this.setApp(res);
         },
 
@@ -495,9 +505,9 @@ export default {
         },
 
         registerUser() {
-            // const uuid = require("uuid/v4");
-            // let myUuid = uuid();
-            // this.uuid = myUuid;
+            const uuid = require("uuid/v4");
+            let myUuid = uuid();
+            this.uuid = myUuid;
 
             if (this.user === null || this.user === undefined) {
                 let newUser = {
@@ -509,6 +519,7 @@ export default {
                     email: this.email,
                     phoneNumber: this.phoneNumber,
                     hometown: this.hometown,
+                    languagesSpoken: this.languagesSpoken,
                     propicUrl: this.propicUrl,
                     pics: this.pics,
                     bio: this.bio,
@@ -521,8 +532,8 @@ export default {
                     travelCurrent: this.travelCurrent,
                     experience: this.experienceRating
                 };
-                 
-                this.updateUser(newUser); 
+
+                this.updateUser(newUser);
                 usersRef.child(myUuid).set(newUser);
                 this.pageNumber++;
             }
@@ -530,9 +541,9 @@ export default {
     },
     props: ['user', 'updateUser', 'setRoute', 'setApp'],
     mounted() {
-        const uuid = require("uuid/v4");
-        let myUuid = uuid();
-        this.uuid = myUuid;
+        // const uuid = require("uuid/v4");
+        // let myUuid = uuid();
+        // this.uuid = myUuid;
 
         this.setApp(false);
     }
@@ -583,11 +594,11 @@ ul {
 }
 
 .signup {
-    padding: 50px;
-    height: 95%;
+    padding: 30px;
+    height: 100%;
     width: 80%;
     background-color: aliceblue !important;
-    margin: auto;
+    margin: 30px auto;
 }
 
 .checkboxes {
@@ -664,36 +675,36 @@ ul {
 .input-box {
     border-radius: 25px;
     background: pink;
-    padding: 20px; 
+    padding: 20px;
     width: 200px;
     height: 150px;
 }
 
 .upload-btn-wrapper {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-  margin: 0px 10px 30px 10px;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin: 0px 10px 30px 10px;
 }
 
 .upload-btn-wrapper input[type=file] {
-  font-size: 100px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
 }
 
 .btn {
-  border: 2px solid pink;
-  color:pink;
-  background-color: pink;
-  padding: 8px 20px;
-  border-radius: 8px;
-  font-size: 20px;
-  font-weight: bold;
-  height: 150px;
-  width: 150px;
+    border: 2px solid pink;
+    color: pink;
+    background-color: pink;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    height: 150px;
+    width: 150px;
 }
 
 #heading2 {

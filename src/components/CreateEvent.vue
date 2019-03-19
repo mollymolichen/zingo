@@ -3,6 +3,12 @@
     <v-card class="createevent">
         <!--Page 1-->
         <v-form v-if="pageNumber === 1" ref="form" v-model="valid" lazy-validation>
+            <!--Test-->
+            <router-link :to="{ name: 'EditEvent', params: { event, onFileChanged, onUpload, next,
+                back, clear, formatDate, parseDate, registerEvent, allCities, categories } }">
+                <v-btn>Edit Event (TEST)</v-btn>
+            </router-link>
+
             <div style="margin-bottom: 20px">
                 <router-link to="/">
                     <v-icon class="material-icons" style="float:right" @click="this.setApp2(true)">clear</v-icon>
@@ -22,10 +28,10 @@
                     </v-menu>
                 </v-flex>
                 <v-flex xs4>
-                    <v-text-field v-model="date.startTime" label="Start time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
+                    <v-text-field v-model="time.startTime" label="Start time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
                 </v-flex>
                 <v-flex xs4>
-                    <v-text-field v-model="date.endTime" label="End time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
+                    <v-text-field v-model="time.endTime" label="End time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
                 </v-flex>
             </v-layout>
 
@@ -56,6 +62,7 @@
             <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
         </v-form>
 
+        <!--Page 2-->
         <v-form v-else-if="pageNumber === 2">
             <h3>Upload up to three photos of the event.</h3>
             <h4>Press Upload to make sure your file was uploaded successfully.</h4>
@@ -63,33 +70,37 @@
                 <br>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
-                    <v-icon>add_a_photo</v-icon>
-                </button>
+                        <v-icon>add_a_photo</v-icon>
+                    </button>
                     <input type="file" @change="onFileChanged"/>
-            </div>
-                    <div class="upload-btn-wrapper">
-                        <button class="btn">
-                    <v-icon>add_a_photo</v-icon>
-                </button>
-                        <input type="file" @change="onFileChanged"/>
-            </div>
-                        <div class="upload-btn-wrapper">
-                            <button class="btn">
-                    <v-icon>add_a_photo</v-icon>
-                </button>
-                            <input type="file" @change="onFileChanged"/>
-            </div>
-                            <v-btn id="upload-btn" @click="onUpload">Upload</v-btn>
-                            <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
-                        </div>
+                </div>
+                <div class="upload-btn-wrapper">
+                    <button class="btn">
+                        <v-icon>add_a_photo</v-icon>
+                    </button>
+                    <input type="file" @change="onFileChanged"/>
+                </div>
+                <div class="upload-btn-wrapper">
+                    <button class="btn">
+                        <v-icon>add_a_photo</v-icon>
+                    </button>
+                    <input type="file" @change="onFileChanged"/>
+                </div>
+                    <v-btn id="upload-btn" @click="onUpload">Upload</v-btn>
+                    <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
+                </div>
 
-                        <!--Arrows-->
-                        <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
-                        <span class="pagenumbers">{{pageNumber}} / 2</span>
-                        <router-link :to="{ name: 'EventList', params: { user }}">
-                            <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
-                        </router-link>
+            <!--Arrows-->
+            <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
+            <span class="pagenumbers">{{pageNumber}} / 2</span>
+
+            <!--TODO: have user edit event by having same forms, just with fields populated-->
+            <router-link :to="{ name: 'EditEvent', params: { event, onFileChanged, onUpload, next,
+                back, clear, formatDate, parseDate, registerEvent, allCities, categories } }">
+                <v-icon class="arrows" @click="registerEvent()" :disabled="!valid">chevron_right</v-icon>
+            </router-link>
         </v-form>
+
     </v-card>
 </v-content>
 </template>
@@ -98,37 +109,29 @@
 /* eslint-disable */
 import Vue from "vue";
 import Firebase from "firebase";
-
 import {
     db,
     usersRef,
+    eventsRef,
     storageRef
 } from "../database";
-
 import {
     parseCities
 } from "../assets/locations.js";
-
-var world = require("../assets/world.json");
 let forEach = require('lodash.foreach');
 
 export default {
     name: "CreateEvent",
     data() {
         return {
+            // events: [],     // for editing, only have 1 max, change name to event?
             eventRoute: false,
             peopleRoute: false,
             pageNumber: 1,
             allCities: parseCities().allCities,
 
             // data validation rules
-            host: null, // TODO: align host w/ their uuid
-            date: {
-                month: "",
-                day: "",
-                startTime: "",
-                endTime: ""
-            },
+            host: this.user.uuid,
             location: {
                 locale: "",
                 city: ""
@@ -155,30 +158,23 @@ export default {
                 "Nightlife",
                 "Outdoors",
                 "Sports",
-                "Tours"
+                "Tours",
+                "Other"
             ],
             selectedCategories: [],
 
             // dates
             date: new Date().toISOString().substr(0, 10),
             dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
+            time: {
+                startTime: "",
+                endTime: "",
+                startTimePm: false,
+                endTimePm: false
+            },
             menu1: false,
             menu2: false,
 
-            months: [
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December"
-            ],
             emoji: {
                 "Art": "em em-art",
                 "Culture": "em em-shinto_shrine",
@@ -189,12 +185,45 @@ export default {
                 "Outdoors": "em em-partly_sunny",
                 "Sports": "em em-basketball",
                 "Tours": "em em-scooter"
-            }
+            },
 
+            // event: null
+            event: {
+                "eid": "c6c024bd-4fcd-4210-994b-bd2382d297d5",
+                "host": "f475e0b6-ecf4-46cb-8ddc-9557fd1f68fd",
+                "pics": [
+                    "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2Fc6c024bd-4fcd-4210-994b-bd2382d297d5%2Fjames%20bay.png?alt=media&token=12f2c5d1-4dae-448e-9167-dd74b55c717e",
+                    "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2Fmusic.png?alt=media&token=8254f48e-f9d1-4ff7-8387-610aa0553932",
+                    "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2Fnightlife.png?alt=media&token=a0d2cfe2-6f96-4305-9219-c002ab787bb0"
+                ],
+                "date": "2019-03-01",
+                "dateFormatted": "3/1/19",
+                "time": {
+                    "startTime": "19:00",
+                    "endTime": "22:00",
+                    "startTimePm": true,
+                    "endTimePm": true
+                },
+                "menu1": false,
+                "menu2": false,
+                "location": {
+                    "locale": "Duke Performing Arts Center",
+                    "city": "Durham"
+                },
+                "title": "See James Bay live at DPAC",
+                "shortDescription": "Going to see a great singer and would love company!",
+                "longDescription": "James Bay is performing this evening at DPAC. He's performing some of his newest songs!",
+                "categories": [
+                    "Music",
+                    "Nightlife"
+                ],
+                "display": true
+            }
         };
     },
     firebase: {
         users: usersRef,
+        eventsRef: eventsRef,
         storage: storageRef
     },
     mounted() {
@@ -221,21 +250,6 @@ export default {
 
         clear() {
             this.$refs.form.reset();
-        },
-
-        newEmail(v) {
-            let users = null;
-            usersRef.on('value', function (snapshot) {
-                users = snapshot.val();
-            });
-            console.log("My email: ", v);
-            for (let user in users) {
-                console.log("Their email: ", users[user].email);
-                if (users[user].email === v) {
-                    return false;
-                }
-            };
-            return true;
         },
 
         // file uploading
@@ -325,11 +339,19 @@ export default {
             this.uuid = eid;
 
             let newEvent = {
-
+                eid: eid,
+                host: this.user.uuid,
+                pics: this.pics,
+                date: this.date,
+                location: this.location,
+                title: this.title,
+                shortDescription: this.shortDescription,
+                longDescription: this.longDescription,
+                selectedCategories: this.selectedCategories
             };
 
+            this.event = newEvent;
             eventsRef.child(eid).set(newEvent);
-            this.pageNumber++;
         }
     },
     watch: {
@@ -340,6 +362,19 @@ export default {
     computed: {
         computedDateFormatted() {
             return this.formatDate(this.date);
+        },
+
+        amOrPm(){   // am by default
+            let p1 = this.time.startTime.split(":")[0];
+            let parseStartTime = parseInt(p1);
+            if (parseStartTime >= 12){
+                this.time.startTimePm = true;
+            }
+            let p2 = this.time.endTime.split(":")[0];
+            let parseEndTime = parseInt(p2);
+            if (parseEndTime >= 12){
+                this.time.endTimePm = true;
+            }
         }
     },
     props: ['user', 'setApp']
