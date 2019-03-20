@@ -16,14 +16,16 @@
 
 		<!--single event, review the event you just created-->
 		<div v-if="singleEvent">
-			<event-card :event="event" :user="getHostObj(event.host)" :isInterested="isInterested"></event-card>
+			<event-card 
+				:event="event" :host="getHostObj(event.host)" :user="user" :isInterested="isInterested">
+			</event-card>
 		</div>
 
 		<!--multiple events, regular feed-->
 		<div v-else>
 			<div v-for="e in this.events" :key="e">
-				<event-card v-if="e.display" :event="e" 
-					:user="getHostObj(e.host)" :isInterested="isInterested">
+				<event-card v-if="e.display" 
+					:event="e" :host="getHostObj(e.host)" :user="user" :isInterested="isInterested">
 				</event-card>
 			</div>
 		</div>

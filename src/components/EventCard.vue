@@ -5,10 +5,10 @@
             <!--Profile picture-->
             <v-flex xs3>
                 <v-avatar class="propic2">
-                    <img :src="this.user.propicUrl">
+                    <img :src="host.propicUrl">
                 </v-avatar>
-                <h1>{{user.firstName}}, {{user.age}}</h1>
-                <h3>{{user.universityOrOccupation}}</h3>
+                <h1>{{this.host.firstName}}, {{this.host.age}}</h1>
+                <h3>{{this.host.universityOrOccupation}}</h3>
                 <v-icon @click="addToFavorites(event)" class="icon">favorite</v-icon>
                 <v-icon @click="attending = true" class="icon">check_circle</v-icon>
                 <v-icon @click="interest(false, event)" class="icon">cancel</v-icon>
@@ -30,7 +30,7 @@
             </v-flex>
 
             <!--Edit button-->
-            <v-flex xs1>
+            <v-flex xs1 v-if="this.host.uuid === this.user.uuid">
                 <router-link :to="{ name: 'EditEvent', params: { event, onFileChanged, onUpload, next,
                     back, clear, formatDate, parseDate, registerEvent, allCities, categories } }">
                     <v-icon class="edit-btn" :disabled="!valid">edit</v-icon>
@@ -45,7 +45,7 @@
 /* eslint-disable */
 export default {
     name: 'EventCard',
-    props: ['user', 'event', 'isInterested'],
+    props: ['host', 'user', 'event', 'isInterested'],
     data() {
         return {
             learnMore: false,
