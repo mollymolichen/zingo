@@ -154,8 +154,20 @@ export default {
         }
 	},
 	// basically all the methods and editable (drop down) data from CreateEvent
-	props: ['event', 'onFileChanged', 'onUpload', 'next', 'back', 'clear', 
-			'formatDate', 'parseDate', 'registerEvent', 'allCities', 'categories']		
+    props: [
+        'event',
+        'setApp',               // not needed?
+        'onFileChanged',
+        'onUpload',
+        'next',
+        'back',
+        'clear',
+        'formatDate',
+        'parseDate',
+        'registerEvent',
+        'allCities',
+        'categories'
+	],		
 }
 </script>
 

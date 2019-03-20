@@ -45,7 +45,27 @@
 /* eslint-disable */
 export default {
     name: 'EventCard',
-    props: ['host', 'user', 'event', 'isInterested'],
+    // props: ['host', 'user', 'event', 'isInterested'],
+    props: [
+        'host',
+        'event',
+        'events',
+        'user',
+        'users',
+        'setApp',
+        'singleEvent',
+        'onFileChanged',
+        'onUpload',
+        'next',
+        'back',
+        'clear',
+        'formatDate',
+        'parseDate',
+        'registerEvent',
+        'allCities',
+        'categories',
+        'isInterested'
+    ],
     data() {
         return {
             learnMore: false,
