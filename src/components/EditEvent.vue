@@ -50,14 +50,7 @@
                 </v-layout>
             </div>
 
-            <!--Arrows-->
-            <!-- <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
-            <span class="pagenumbers">{{pageNumber}} / 2</span>
-            <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>-->
-        </v-form>
-
-		<!--Page 2-->
-        <!-- <v-form>
+            <!--Photos-->
             <h3>Upload up to three photos of the event.</h3>
             <h4>Press Upload to make sure your file was uploaded successfully.</h4>
             <div class="photo-upload">
@@ -82,17 +75,13 @@
                 </div>
                     <v-btn id="upload-btn" @click="onUpload">Upload</v-btn>
                     <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
-                </div> -->
-
-            <!--Arrows-->
-            <!-- <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
-            <span class="pagenumbers">{{pageNumber}} / 2</span> -->
+                </div>
 
             <!--TODO: have user edit event by having same forms, just with fields populated-->
             <!-- <router-link :to="{ name: 'EventList', params: { user, events } }"> -->
                 <!-- <v-icon class="arrows" @click="registerEvent()" :disabled="!valid">chevron_right</v-icon> -->
             <!-- </router-link> -->
-        <!-- </v-form> -->
+        </v-form>
 
     </v-card>
 </v-content>

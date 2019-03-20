@@ -3,7 +3,7 @@
     <v-card class="event">
         <v-layout row wrap>
             <!--Profile picture-->
-            <v-flex xs4>
+            <v-flex xs3>
                 <v-avatar class="propic2">
                     <img :src="this.user.propicUrl">
                 </v-avatar>
@@ -27,6 +27,14 @@
                 <v-layout row wrap>
                     <v-img v-for="p in event.pics" :key="p" :src=p class="picture"></v-img>
                 </v-layout>
+            </v-flex>
+
+            <!--Edit button-->
+            <v-flex xs1>
+                <router-link :to="{ name: 'EditEvent', params: { event, onFileChanged, onUpload, next,
+                    back, clear, formatDate, parseDate, registerEvent, allCities, categories } }">
+                    <v-icon class="edit-btn" :disabled="!valid">edit</v-icon>
+                </router-link>
             </v-flex>
         </v-layout>
     </v-card>
@@ -67,11 +75,13 @@ export default {
 }
 
 .event {
-    padding: 30px;
+    padding: 20px;
     height: 50%;
     width: 80%;
     background-color: aliceblue !important;
     margin: auto;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .picture {
@@ -89,5 +99,10 @@ export default {
 .icon {
     transform: scale(1.3, 1.3);
     margin: 5px 10px 5px 10px;
+}
+
+.edit-btn {
+    transform: scale(1.2, 1.2);
+    margin: 20px 5px 5px 5px;
 }
 </style>

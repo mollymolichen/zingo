@@ -93,10 +93,9 @@
             <!--Arrows-->
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
             <span class="pagenumbers">{{pageNumber}} / 2</span>
-
-            <!--TODO: have user edit event by having same forms, just with fields populated-->
-            <router-link :to="{ name: 'EditEvent', params: { event, onFileChanged, onUpload, next,
-                back, clear, formatDate, parseDate, registerEvent, allCities, categories } }">
+            
+            <!--navigate to an empty EventList page w/ only your newly created event-->
+            <router-link :to="{ name: 'EventList', params: { event, singleEvent, user } }">
                 <v-icon class="arrows" @click="registerEvent()" :disabled="!valid">chevron_right</v-icon>
             </router-link>
         </v-form>
@@ -124,7 +123,8 @@ export default {
     name: "CreateEvent",
     data() {
         return {
-            // events: [],     // for editing, only have 1 max, change name to event?
+            events: [],     // for editing, only have 1 max, change name to event?
+            singleEvent: true,
             eventRoute: false,
             peopleRoute: false,
             pageNumber: 1,
@@ -350,6 +350,7 @@ export default {
                 selectedCategories: this.selectedCategories
             };
 
+            this.events.push(newEvent);
             this.event = newEvent;
             eventsRef.child(eid).set(newEvent);
         }

@@ -1,21 +1,31 @@
 <template>
 	<v-content class="eventlist">
+		<!--filter through events-->
 		<!-- <v-layout row wrap xs3>
 			<div>
 				<event-filter></event-filter>
 			</div>
 		</v-layout> -->
 
+		<!--button to create event-->
 		<div class="create-event">
 			<router-link :to="{ name: 'CreateEvent', params: { user, setApp } }">
 				<v-btn id="create-event-btn">Create Event</v-btn>
 			</router-link>
 		</div>
 
-		<div v-for="event in this.events" :key="event">
-			<event-card v-if="event.display" :event="event" 
-				:user="getHostObj(event.host)" :isInterested="isInterested">
-			</event-card>
+		<!--single event, review the event you just created-->
+		<div v-if="singleEvent">
+			<event-card :event="event" :user="getHostObj(event.host)" :isInterested="isInterested"></event-card>
+		</div>
+
+		<!--multiple events, regular feed-->
+		<div v-else>
+			<div v-for="e in this.events" :key="e">
+				<event-card v-if="e.display" :event="e" 
+					:user="getHostObj(e.host)" :isInterested="isInterested">
+				</event-card>
+			</div>
 		</div>
 	</v-content>
 </template>
@@ -33,7 +43,7 @@ export default {
 		EventCard,
 		EventFilter
 	},
-	props: ['events', 'user', 'users', 'setApp'],
+	props: ['events', 'user', 'users', 'setApp', 'event', 'singleEvent'],
 	firebase: {
 		usersRef: usersRef,
 		eventsRef: eventsRef

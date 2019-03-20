@@ -66,7 +66,7 @@ export default {
             peopleRoute: false,
             onApp: true,
             events: [],
-            users: []
+            users: [],
         }
     },
     methods: {
@@ -109,9 +109,13 @@ export default {
         }
     },
     props: [],
-    created() {  // might need to be mounted as new data comes, or does on take care of this?
-       this.getEvents();
-       this.getUsers();
+    // mounted() {  // might need to be mounted as new data comes, or does on take care of this?
+    //     this.getEvents();
+    //     this.getUsers();
+    // },
+    created() {
+        // this.getEvents();
+        // this.getUsers();
     }
 }
 </script>
