@@ -11,10 +11,10 @@
 
         <!--Choose either events or people-->
         <router-link v-if="user != null" :to="{ name: 'EventList', params: { events, user, users, setApp } }">
-            <v-btn class="nav-btn" @click="setApp2(false)">Feed</v-btn>
+            <v-btn class="nav-btn" @click="setApp2(false)">Events</v-btn>
         </router-link>
         <router-link v-if="user != null" :to="{ name: 'ProfileList', params: { users, events, setApp } }">
-            <v-btn class="nav-btn" @click="setApp2(false)">Feed</v-btn>
+            <v-btn class="nav-btn" @click="setApp2(false)">People</v-btn>
         </router-link>
 
         <router-link v-if="user === null" :to="{ name: 'SignIn', params: { user, updateUser, eventRoute, peopleRoute, setApp } }">

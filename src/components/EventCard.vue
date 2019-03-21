@@ -17,23 +17,22 @@
             <!--Event description-->
             <v-flex xs8>
                 <h2>{{event.title}}</h2>
-                <h4>{{event.date.month}} {{event.date.day}}, {{event.date.startTime}} - {{event.date.endTime}}</h4>
+                <h4>{{event.dateFormatted}}, {{event.time.startTime}} - {{event.time.endTime}}</h4>
                 <h4>{{event.location.locale}}, {{event.location.city}}</h4>
                 <h4>{{event.shortDescription}}</h4>
                 <v-btn v-if="!learnMore" @click="learnMore = true">Learn More...</v-btn>
                 <p v-if="learnMore">{{event.longDescription}}</p>
 
                 <!-- Event images -->
-                <v-layout row wrap>
+                <v-layout row wrap v-if="event.pics">
                     <v-img v-for="p in event.pics" :key="p" :src=p class="picture"></v-img>
                 </v-layout>
             </v-flex>
 
             <!--Edit button-->
             <v-flex xs1 v-if="this.host.uuid === this.user.uuid">
-                <router-link :to="{ name: 'EditEvent', params: { event, onFileChanged, onUpload, next,
-                    back, clear, formatDate, parseDate, registerEvent, allCities, categories } }">
-                    <v-icon class="edit-btn" :disabled="!valid">edit</v-icon>
+                <router-link :to="{ name: 'EditEvent', params: { event } }">
+                    <v-icon class="edit-btn">edit</v-icon>
                 </router-link>
             </v-flex>
         </v-layout>
@@ -45,27 +44,7 @@
 /* eslint-disable */
 export default {
     name: 'EventCard',
-    // props: ['host', 'user', 'event', 'isInterested'],
-    props: [
-        'host',
-        'event',
-        'events',
-        'user',
-        'users',
-        'setApp',
-        'singleEvent',
-        'onFileChanged',
-        'onUpload',
-        'next',
-        'back',
-        'clear',
-        'formatDate',
-        'parseDate',
-        'registerEvent',
-        'allCities',
-        'categories',
-        'isInterested'
-    ],
+    props: ['host', 'user', 'event', 'isInterested'],
     data() {
         return {
             learnMore: false,

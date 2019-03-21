@@ -16,12 +16,12 @@
                     <h2>{{currentUser.firstName}}, {{$route.params.user.age}}  <i class="em em-flag-um"/></h2>
                 </li>
                 <li>{{currentUser.universityOrOccupation}}</li>
-                <li>{{currentUser.hometown.city}} {{currentUser.hometown.state}}</li>
+                <li>{{currentUser.hometown.city}} | {{currentUser.hometown.state}} | {{currentUser.hometown.country}}</li>
             </ul>
         </v-flex>
     </div>
 
-    <!-- <div class="photos">
+    <!-- <div class="photos" v-if="currentUser.pics.length">
         <v-layout v-for="photo in currentUser.pics" :key="photo" row wrap>
             <v-flex xs6 sm4>
                 <v-img class="profile-img" :src="photo"></v-img>

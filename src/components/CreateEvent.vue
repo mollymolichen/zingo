@@ -95,9 +95,12 @@
             <span class="pagenumbers">{{pageNumber}} / 2</span>
             
             <!--navigate to an empty EventList page w/ only your newly created event-->
-            <router-link :to="{ name: 'EventList', params: { event, singleEvent, user,
-                onFileChanged, onUpload, next,back, clear, formatDate, parseDate, 
-                registerEvent, allCities, categories } }">
+            <!-- <router-link :to="{ name: 'EventList', params: { event, singleEvent, user,
+                onFileChanged, onUpload, next, back, clear, formatDate, parseDate, 
+                registerEvent, allCities, categories, computedDateFormatted, amOrPm } }">
+                <v-icon class="arrows" @click="registerEvent()" :disabled="!valid">chevron_right</v-icon>
+            </router-link> -->
+            <router-link :to="{ name: 'EventList', params: { event, user } }">
                 <v-icon class="arrows" @click="registerEvent()" :disabled="!valid">chevron_right</v-icon>
             </router-link>
         </v-form>
@@ -188,39 +191,7 @@ export default {
                 "Sports": "em em-basketball",
                 "Tours": "em em-scooter"
             },
-
-            // event: null
-            event: {
-                "eid": "c6c024bd-4fcd-4210-994b-bd2382d297d5",
-                "host": "f475e0b6-ecf4-46cb-8ddc-9557fd1f68fd",
-                "pics": [
-                    "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2Fc6c024bd-4fcd-4210-994b-bd2382d297d5%2Fjames%20bay.png?alt=media&token=12f2c5d1-4dae-448e-9167-dd74b55c717e",
-                    "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2Fmusic.png?alt=media&token=8254f48e-f9d1-4ff7-8387-610aa0553932",
-                    "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2Fnightlife.png?alt=media&token=a0d2cfe2-6f96-4305-9219-c002ab787bb0"
-                ],
-                "date": "2019-03-01",
-                "dateFormatted": "3/1/19",
-                "time": {
-                    "startTime": "19:00",
-                    "endTime": "22:00",
-                    "startTimePm": true,
-                    "endTimePm": true
-                },
-                "menu1": false,
-                "menu2": false,
-                "location": {
-                    "locale": "Duke Performing Arts Center",
-                    "city": "Durham"
-                },
-                "title": "See James Bay live at DPAC",
-                "shortDescription": "Going to see a great singer and would love company!",
-                "longDescription": "James Bay is performing this evening at DPAC. He's performing some of his newest songs!",
-                "categories": [
-                    "Music",
-                    "Nightlife"
-                ],
-                "display": true
-            }
+            event: null
         };
     },
     firebase: {
@@ -345,6 +316,10 @@ export default {
                 host: this.user.uuid,
                 pics: this.pics,
                 date: this.date,
+                dateFormatted: this.dateFormatted,
+                menu1: this.menu1,
+                menu2: this.menu2,
+                time: this.time,
                 location: this.location,
                 title: this.title,
                 shortDescription: this.shortDescription,

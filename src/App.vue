@@ -70,15 +70,15 @@ export default {
         }
     },
     methods: {
-        getEvents() {
-            let allEvents = null;
-            eventsRef.on("value", function (snapshot) {
-                allEvents = snapshot.val();
-            });
-            for (let e in allEvents) {
-                this.events.push(allEvents[e]);
-            }
-        },
+        // getEvents() {
+        //     let allEvents = null;
+        //     eventsRef.on("value", function (snapshot) {
+        //         allEvents = snapshot.val();
+        //     });
+        //     for (let e in allEvents) {
+        //         this.events.push(allEvents[e]);
+        //     }
+        // },
 
         getUsers() {
             let allUsers = null;

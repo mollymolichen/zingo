@@ -13,6 +13,19 @@
 				"state": "NC",
 				"country": "United States"
 			},
+			"languagesSpoken": ["English", "Chinese"],
+			"itinerary": {
+				"Miami": {
+					"city": "Miami",
+					"startDate": "3/14/19",
+					"endDate": "3/20/19"
+				},
+				"Orlando": {
+					"city": "Orlando",
+					"startDate": "3/21/19",
+					"endDate": "3/25/19"
+				}
+			},
 			"propicUrl": "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/people%2Fmolly.jpg?alt=media&token=b90ed99b-b5d7-4113-a4ad-e23b7283713e",
 			"pics": ["http://placekitten.com/g/200/300", "http://placekitten.com/g/200/300", "http://placekitten.com/g/200/300"],
 			"bio": "CompSci major at Duke, lead developer at Weekendr.",
@@ -71,6 +84,19 @@
 				"state": "MA",
 				"country": "United States"
 			},
+			"languagesSpoken": ["English", "Chinese"],
+			"itinerary": {
+				"Gibraltar": {
+					"city": "Gibraltar",
+					"startDate": "3/10/19",
+					"endDate": "3/15/19"
+				},
+				"Casablanca": {
+					"city": "Casablanca",
+					"startDate": "3/17/19",
+					"endDate": "3/20/19"
+				}
+			},
 			"propicUrl": "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/people%2Falexandra.jpg?alt=media&token=e425c9b6-ad7c-4811-9c90-fbcf00861b20",
 			"pics": ["http://placekitten.com/g/200/300", "http://placekitten.com/g/200/300", "http://placekitten.com/g/200/300"],
 			"bio": "Founder of Weekendr. Join me on my next trip!",
@@ -122,6 +148,24 @@
 				"city": "Dallas",
 				"state": "TX",
 				"country": "United States"
+			},
+			"languagesSpoken": ["English", "Spanish"],
+			"itinerary": {
+				"Miami": {
+					"city": "Miami",
+					"startDate": "3/14/19",
+					"endDate": "3/20/19"
+				},
+				"Orlando": {
+					"city": "Orlando",
+					"startDate": "3/21/19",
+					"endDate": "3/25/19"
+				},
+				"West Palm Beach": {
+					"city": "West Palm Beach",
+					"startDate": "3/30/19",
+					"endDate": "4/2/19"
+				}
 			},
 			"propicUrl": "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/people%2Ftim.png?alt=media&token=29c910c6-3d66-4e34-a3eb-26aa867c44a3",
 			"pics": ["http://placekitten.com/g/200/300", "http://placekitten.com/g/200/300", "http://placekitten.com/g/200/300"],
@@ -175,12 +219,16 @@
 				"https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2Fmusic.png?alt=media&token=8254f48e-f9d1-4ff7-8387-610aa0553932",
 				"https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2Fnightlife.png?alt=media&token=a0d2cfe2-6f96-4305-9219-c002ab787bb0"
 			],
-			"date": {
-				"month": "March",
-				"day": "1",
-				"startTime": "7:00pm",
-				"endTime": "10:00pm"
+			"date": "2019-03-01",
+			"dateFormatted": "3/1/19",
+			"time": {
+				"startTime": "19:00",
+				"endTime": "22:00",
+				"startTimePm": true,
+				"endTimePm": true
 			},
+			"menu1": false,
+			"menu2": false,
 			"location": {
 				"locale": "Duke Performing Arts Center",
 				"city": "Durham"
@@ -202,12 +250,16 @@
 				"https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2F991aa097-dd60-436c-a712-760038dfc002%2Feno2.png?alt=media&token=3cc5ad64-e4a5-410a-8d88-d94e991942e8",
 				"https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2Foutdoors.png?alt=media&token=ce58ae83-32f4-422a-8a5f-08a28567dc35"
 			],
-			"date": {
-				"month": "March",
-				"day": "5",
-				"startTime": "12:00pm",
-				"endTime": "2:00pm"
+			"date": "2019-03-05",
+			"dateFormatted": "3/5/19",
+			"time": {
+				"startTime": "12:00",
+				"endTime": "14:00",
+				"startTimePm": true,
+				"endTimePm": true
 			},
+			"menu1": false,
+			"menu2": false,
 			"location": {
 				"locale": "Eno River State Park",
 				"city": "Durham"
@@ -228,12 +280,16 @@
 				"https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2F55bd3adc-4438-4647-b684-29e32ff9a652%2Fbball1.png?alt=media&token=94dda1d4-3b13-404f-813a-95f74946d403",
 				"https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2F55bd3adc-4438-4647-b684-29e32ff9a652%2Fbball3.png?alt=media&token=579d9d89-0392-4376-8cc9-888a0da3d94e"
 			],
-			"date": {
-				"month": "March",
-				"day": "9",
-				"startTime": "6:00pm",
-				"endTime": "8:30pm"
+			"date": "2019-03-09",
+			"dateFormatted": "3/9/19",
+			"time": {
+				"startTime": "18:00",
+				"endTime": "20:30",
+				"startTimePm": true,
+				"endTimePm": true
 			},
+			"menu1": false,
+			"menu2": false,			
 			"location": {
 				"locale": "West Union 067",
 				"city": "Durham"
@@ -243,6 +299,37 @@
 			"longDescription": "We'll be watching the game in West Union 067, snacks and drinks provided.",
 			"categories": [
 				"Sports"
+			],
+			"display": true
+		},
+		"540763b7-bf6a-484b-9ae5-f38923725756": {
+			"eid": "540763b7-bf6a-484b-9ae5-f38923725756",
+			"host": "f475e0b6-ecf4-46cb-8ddc-9557fd1f68fd",
+			"pics": [
+				"https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2F540763b7-bf6a-484b-9ae5-f38923725756%2Fcherry2.png?alt=media&token=802030fd-dea8-4126-8882-1e5d1a4bc680",
+				"https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2F540763b7-bf6a-484b-9ae5-f38923725756%2Fcherry3.png?alt=media&token=6bbabd5a-925e-4fac-ac2e-4ffeca717895",
+				"https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/events%2F540763b7-bf6a-484b-9ae5-f38923725756%2Fcherry1.png?alt=media&token=76d08fcd-b930-4fea-9f70-8e1c4f0a3ac8"
+			],
+			"date": "2019-04-06",
+			"dateFormatted": "4/6/19",
+			"time": {
+				"startTime": "11:00",
+				"endTime": "16:00",
+				"startTimePm": false,
+				"endTimePm": true
+			},
+			"menu1": false,
+			"menu2": false,			
+			"location": {
+				"locale": "National Mall",
+				"city": "Washington"
+			},
+			"title": "Cherry Blossom Festival @ Washington DC",
+			"shortDescription": "It's cherry blossom season!",
+			"longDescription": "Petalpalooza will take place on the National Mall starting from 11am - 4pm. There will be food, vendors, and entertainment in addition to the beautiful cherry blossoms!",
+			"categories": [
+				"Food",
+				"Outdoors"
 			],
 			"display": true
 		}

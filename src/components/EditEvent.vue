@@ -5,7 +5,7 @@
         <v-form ref="form" lazy-validation>
             <div style="margin-bottom: 20px">
                 <router-link to="/">
-                    <v-icon class="material-icons" style="float:right" @click="this.setApp2(true)">clear</v-icon>
+                    <v-icon class="material-icons" style="float:right">clear</v-icon>
                 </router-link>
                 <h1 style="margin-top:10px; margin-bottom:20px">Edit Your Event</h1>
             </div>
@@ -16,7 +16,7 @@
                 <v-flex xs4>
                     <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
                         <template v-slot:activator="{ on }">
-                            <v-text-field v-model="dateFormatted" label="Date" hint="MM/DD/YYYY format" persistent-hint prepend-icon="event" @blur="date = parseDate(dateFormatted)" v-on="on"></v-text-field>
+                            <v-text-field v-model="event.dateFormatted" label="Date" hint="MM/DD/YYYY format" persistent-hint prepend-icon="event" @blur="date = parseDate(dateFormatted)" v-on="on"></v-text-field>
                         </template>
                         <v-date-picker v-model="event.date" no-title @input="menu1 = false"></v-date-picker>
                     </v-menu>
@@ -77,12 +77,10 @@
                     <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
                 </div>
 
-            <!--TODO: have user edit event by having same forms, just with fields populated-->
-            <!-- <router-link :to="{ name: 'EventList', params: { user, events } }"> -->
-                <!-- <v-icon class="arrows" @click="registerEvent()" :disabled="!valid">chevron_right</v-icon> -->
-            <!-- </router-link> -->
+            <router-link :to="{ name: 'EventList', params: { user, events } }">
+                <v-btn @click="registerEvent()">Save</v-btn>
+            </router-link>
         </v-form>
-
     </v-card>
 </v-content>
 </template>
@@ -97,11 +95,62 @@ import {
     eventsRef,
     storageRef
 } from "../database";
+import {
+    parseCities
+} from "../assets/locations.js";
 
 export default {
     name: "EditEvent",
-    data() {
+    data() {                // TODO: remove extraneous methods and data copied over from CreateEvent
         return {
+            events: [],     // for editing, only have 1 max, change name to event?
+            singleEvent: true,
+            eventRoute: false,
+            peopleRoute: false,
+            pageNumber: 1,
+            allCities: parseCities().allCities,
+
+            // data validation rules
+            host: this.user.uuid,
+            location: {
+                locale: "",
+                city: ""
+            },
+            title: "",
+            shortDescription: "",
+            longDescription: "",
+
+            // event picture upload
+            selectedFile: null,
+            propicUrl: "http://placekitten.com/g/200/300",
+            pics: [],
+            uploadFinished: false,
+
+            // TODO: regular picture upload
+
+            categories: [
+                "Art",
+                "Culture",
+                "Food",
+                "History",
+                "Music",
+                "Nightlife",
+                "Outdoors",
+                "Sports",
+                "Tours",
+                "Other"
+            ],
+            selectedCategories: [],
+
+            // dates
+            date: new Date().toISOString().substr(0, 10),
+            dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)), // TODO: not updating
+            time: {
+                startTime: "",
+                endTime: "",
+                startTimePm: false,
+                endTimePm: false
+            },
 			menu1: false,
             menu2: false,
 			emoji: {
@@ -123,11 +172,96 @@ export default {
         storage: storageRef
     },
     mounted() {
-        // this.setApp(false);
+
     },
-    methods: {		// shouldn't have many
+    methods: {		
         setApp2(res) {
             this.setApp(res);
+        },
+
+        next() {
+            if (this.pageNumber < 2) {
+                this.pageNumber += 1;
+            } else {
+                this.pageNumber = 1;
+            }
+        },
+
+        back() {
+            if (this.pageNumber > 1) {
+                this.pageNumber--;
+            }
+        },
+
+        clear() {
+            this.$refs.form.reset();
+        },
+
+        // file uploading
+        onFileChanged(event) {
+            console.log("Files: ", event.target.files);
+            this.selectedFile = event.target.files[0];
+            console.log("Selected file: ", this.selectedFile);
+        },
+
+        onUpload() {
+            const storageRef = Firebase.storage().ref();
+            var file = this.selectedFile;
+            var metadata = {
+                contentType: 'image/jpeg'
+            };
+            var uploadTask = storageRef.child(this.uuid + "/" + file.name).put(file, metadata);
+            console.log('upload task', uploadTask);
+            let that = this;
+            uploadTask.on(Firebase.storage.TaskEvent.STATE_CHANGED,
+                function (snapshot) {
+                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                    switch (snapshot.state) {
+                        case Firebase.storage.TaskState.PAUSED:
+                            console.log('Upload is paused');
+                            break;
+                        case Firebase.storage.TaskState.RUNNING:
+                            console.log('Upload is running');
+                            break;
+                    }
+                },
+                function (error) {
+                    switch (error.code) {
+                        case 'storage/unauthorized':
+                            break;
+                        case 'storage/canceled':
+                            break;
+                        case 'storage/unknown':
+                            break;
+                    }
+                },
+                async function () {
+                    var url = await uploadTask.snapshot.ref.getDownloadURL();
+                    console.log('url: ', url);
+                    Vue.set(that, 'propicUrl', url);
+                    Vue.set(that, 'uploadFinished', true);
+                }
+            );
+        },
+
+        formatDate(date) {
+            if (!date) {
+                return null;
+            }
+            const [year, month, day] = date.split('-');
+            return `${month}/${day}/${year}`
+        },
+        parseDate(date) {
+            if (!date) {
+                return null;
+            }
+            const [month, day, year] = date.split('/');
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        },
+
+        registerEvent() {
+            eventsRef.child(this.event.eid).update(this.event);
         }
     },
     watch: {
@@ -153,21 +287,7 @@ export default {
             }
         }
 	},
-	// basically all the methods and editable (drop down) data from CreateEvent
-    props: [
-        'event',
-        'setApp',               // not needed?
-        'onFileChanged',
-        'onUpload',
-        'next',
-        'back',
-        'clear',
-        'formatDate',
-        'parseDate',
-        'registerEvent',
-        'allCities',
-        'categories'
-	],		
+    props: ['event', 'user']	
 }
 </script>
 

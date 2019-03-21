@@ -16,22 +16,14 @@
 
     <!--single event, review the event you just created-->
     <div v-if="singleEvent">
-        <event-card :event="event" :user="user" :host="getHostObj(event.host)" :onFileChanged="onFileChanged" 
-					:onUpload="onUpload" :next="next" :back="back" :clear="clear" :formatDate="formatDate" 
-					:parseDate="parseDate" :registerEvent="registerEvent" :allCities="allCities" 
-					:categories="categories" :isInterested="isInterested"
-		>
+        <event-card :event="event" :user="user" :host="getHostObj(event.host)" :isInterested="isInterested">
         </event-card>
     </div>
 
     <!--multiple events, regular feed-->
     <div v-else>
         <div v-for="e in this.events" :key="e">
-            <event-card v-if="e.display" :event="e" :host="getHostObj(e.host)" :user="user" 
-					:onUpload="onUpload" :next="next" :back="back" :clear="clear" :formatDate="formatDate" 
-					:parseDate="parseDate" :registerEvent="registerEvent" :allCities="allCities" 
-					:categories="categories" :isInterested="isInterested" :onFileChanged="onFileChanged" 
-			>
+            <event-card :event="e" :user="user" :host="getHostObj(e.host)" :isInterested="isInterested">
             </event-card>
         </div>
     </div>
@@ -53,25 +45,7 @@ export default {
         EventCard,
         EventFilter
     },
-    // props: ['events', 'user', 'users', 'setApp', 'event', 'singleEvent'],
-    props: [
-        'event',
-        // 'events',
-        'user',
-        'users',
-        'setApp',
-        'singleEvent',
-        'onFileChanged',
-        'onUpload',
-        'next',
-        'back',
-        'clear',
-        'formatDate',
-        'parseDate',
-        'registerEvent',
-        'allCities',
-        'categories'
-    ],
+    props: ['events', 'user', 'users', 'setApp', 'event', 'singleEvent'],
     firebase: {
         usersRef: usersRef,
         eventsRef: eventsRef
