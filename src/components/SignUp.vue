@@ -16,6 +16,8 @@
             <v-text-field v-model="age" :rules="ageRules" label="Age" required class="text-field"></v-text-field>
             <v-text-field v-model="universityOrOccupation" label="University or Occupation" required class="text-field"></v-text-field>
             <v-text-field v-model="email" label="Email" required class="text-field"></v-text-field>
+            <v-text-field v-model="password" label="Password" required class="text-field"></v-text-field>
+
             <v-text-field v-model="phoneNumber" :rules="phoneNumberRules" label="Phone number" required class="text-field"></v-text-field>
             <v-autocomplete xs6 :items="allLangs" v-model="languagesSpoken" chips multiple style="margin: 0px 10px 0px 10px" label="What languages do you speak?">
                 <template slot="selection" slot-scope="data">
@@ -255,7 +257,8 @@ import ProfileList from './ProfileList.vue';
 import {
     db,
     usersRef,
-    storageRef
+    storageRef,
+    authRef
 } from "../database";
 import {
     parseCities,
@@ -536,7 +539,17 @@ export default {
                 this.updateUser(newUser);
                 usersRef.child(myUuid).set(newUser);
                 this.pageNumber++;
+                this.signUp();
             }
+        },
+        signUp(){
+            authRef.createUserWithEmailAndPassword(this.email,this.password)
+            .then((user)=>{
+                alert('created')
+            })
+            .catch((e)=>{
+                alert('oops'+ e.message);
+            })
         }
     },
     props: ['user', 'updateUser', 'setRoute', 'setApp'],
