@@ -13,8 +13,8 @@
         <router-link v-if="user != null" :to="{ name: 'EventList', params: { events, user, users, setApp } }">
             <v-btn class="nav-btn" @click="setApp2(false)">Events</v-btn>
         </router-link>
-        <router-link v-if="user != null" :to="{ name: 'ProfileList', params: { users, events, setApp } }">
-            <v-btn class="nav-btn" @click="setApp2(false)">People</v-btn>
+        <router-link v-if="user != null" :to="{ name: 'MatchList', params: { users, events, setApp } }">
+            <v-btn class="nav-btn" @click="setApp2(false)">Matches</v-btn>
         </router-link>
 
         <router-link v-if="user === null" :to="{ name: 'SignIn', params: { user, updateUser, eventRoute, peopleRoute, setApp } }">
@@ -33,11 +33,7 @@
 <script>
 export default {
     name: 'Navbar',
-    props: [
-        'user', 'updateUser', 'setRoute', 
-        'setApp', 'eventRoute', 'peopleRoute',
-        'events', 'users'
-    ],
+    props: ['user', 'updateUser', 'setApp', 'events', 'users'],
     methods: {
         signOut(user){
             this.setApp2(true);

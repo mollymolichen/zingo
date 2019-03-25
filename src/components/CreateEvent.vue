@@ -1,14 +1,8 @@
 <template>
-<v-content class="container preferences" id="create-event-container">
+<v-content class="preferences" id="create-event-container">
     <v-card class="createevent">
         <!--Page 1-->
         <v-form v-if="pageNumber === 1" ref="form" v-model="valid" lazy-validation>
-            <!--Test-->
-            <!-- <router-link :to="{ name: 'EditEvent', params: { event, onFileChanged, onUpload, next,
-                back, clear, formatDate, parseDate, registerEvent, allCities, categories } }">
-                <v-btn>Edit Event (TEST)</v-btn>
-            </router-link> -->
-
             <div style="margin-bottom: 20px">
                 <router-link to="/">
                     <v-icon class="material-icons" style="float:right" @click="this.setApp2(true)">clear</v-icon>
@@ -95,11 +89,6 @@
             <span class="pagenumbers">{{pageNumber}} / 2</span>
             
             <!--navigate to an empty EventList page w/ only your newly created event-->
-            <!-- <router-link :to="{ name: 'EventList', params: { event, singleEvent, user,
-                onFileChanged, onUpload, next, back, clear, formatDate, parseDate, 
-                registerEvent, allCities, categories, computedDateFormatted, amOrPm } }">
-                <v-icon class="arrows" @click="registerEvent()" :disabled="!valid">chevron_right</v-icon>
-            </router-link> -->
             <router-link :to="{ name: 'EventList', params: { event, user } }">
                 <v-icon class="arrows" @click="registerEvent()" :disabled="!valid">chevron_right</v-icon>
             </router-link>
@@ -130,8 +119,6 @@ export default {
         return {
             events: [],     // for editing, only have 1 max, change name to event?
             singleEvent: true,
-            eventRoute: false,
-            peopleRoute: false,
             pageNumber: 1,
             allCities: parseCities().allCities,
 

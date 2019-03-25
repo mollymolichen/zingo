@@ -1,19 +1,13 @@
 <template>
-<v-content class="container preferences">
+<v-content class="preferences">
     <v-card class="signin">
         <v-form id="form">
             <h1 id="label">Sign in to your account.</h1>
-            <v-text-field id="textfield" v-model="email" label="Email" :rules="emailRules" required class="margins"></v-text-field>
+            <v-text-field id="textfield" v-model="email" label="Email" :rules="emailRules" required></v-text-field>
             <router-link to="/">
                 <v-btn id="btn">Exit</v-btn>
             </router-link>
-            <!-- <router-link to="/profile">
-                <v-btn id="btn" @click="submit()">Submit</v-btn>
-            </router-link> -->
-            <router-link v-if="eventRoute = true" :to="{ name: 'EventList' }">
-                <v-btn id="btn" @click="submit()">Submit</v-btn>
-            </router-link>
-            <router-link v-else :to="{ name: 'ProfileList' }">
+            <router-link :to="{ name: 'Profile', params: { user } }">
                 <v-btn id="btn" @click="submit()">Submit</v-btn>
             </router-link>
         </v-form>
@@ -35,10 +29,11 @@ export default {
                 v => !!v || "Email is required",
                 v => /.+@.+/.test(v) || "E-mail must be valid",
                 v => this.existingEmail(v) || "We could not find an account with this email."
-            ]
+            ],
+            user: null                          // replacing the prop
         }
     },
-    props: ['user', 'updateUser', 'eventRoute', 'peopleRoute'],
+    props: ['updateUser'],
     methods: {
         setApp2(res){
             this.setApp(res);
@@ -59,11 +54,10 @@ export default {
             for (let user in users) {
                 if (users[user].email === this.email) {
                     myAccount = users[String(user)];
+                    this.user = myAccount;
                     this.updateUser(myAccount);
                 }
             }
-
-            this.setApp2(false);
         },
 
         existingEmail(v) {
@@ -81,11 +75,17 @@ export default {
 
 <style>
 .signin {
-    height: 80%;
-    width: 70%;
+    height: 90%;
+    width: 90%;
     margin: auto;
     padding: 10px 10px 10px 10px;
     background-color: aliceblue !important;
+}
+
+.signin-text {
+    width: 500px;
+    display: flex;
+    flex-direction: row;
 }
 
 #form {
@@ -108,5 +108,6 @@ export default {
 
 .preferences .v-content__wrap {
     display: flex;
+    height: 1000px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-<v-content class="container preferences" id="create-event-container">
+<v-content class="preferences" id="create-event-container">
     <v-card class="createevent">
         <!--Page 1-->
         <v-form ref="form" lazy-validation>
@@ -30,15 +30,16 @@
             </v-layout>
 
             <v-text-field v-model="event.location.locale" label="Location" required class="full-width"></v-text-field>
-            <v-autocomplete v-model="event.location.city" :items="allCities" label="City" class="full-width" required></v-autocomplete>
+            <!-- <v-autocomplete v-model="event.location.city" :items="allCities" label="City" class="full-width" required></v-autocomplete> -->
+            <v-text-field v-model="event.location.city" label="City" class="full-width" required></v-text-field>
             <v-text-field v-model="event.shortDescription" label="Enter a short description." required class="full-width"></v-text-field>
-            <v-textarea :value="event.longDescription" v-model="longDescription" label="Enter a more detailed description (optional)." class="full-width"></v-textarea>
+            <v-textarea v-model="event.longDescription" label="Enter a more detailed description (optional)." class="full-width"></v-textarea>
 
-            <div class="event-type">
+            <!-- <div class="event-type">
                 <h3>Event Type</h3>
                 <v-layout>
                     <v-flex>
-                        <v-select class="event-type" v-model="event.selectedCategories" :items="categories" multiple persistent-hint>
+                        <v-select class="event-type" v-model="event.selectedCategories" :items="this.categories" multiple persistent-hint>
                             <template slot="selection" slot-scope="data">
                                 <span class="round-chip">
                                     <i style="margin-right: 10px" :class=emoji[data.item]></i>
@@ -48,7 +49,7 @@
                         </v-select>
                     </v-flex>
                 </v-layout>
-            </div>
+            </div> -->
 
             <!--Photos-->
             <h3>Upload up to three photos of the event.</h3>
@@ -105,8 +106,6 @@ export default {
         return {
             events: [],     // for editing, only have 1 max, change name to event?
             singleEvent: true,
-            eventRoute: false,
-            peopleRoute: false,
             pageNumber: 1,
             allCities: parseCities().allCities,
 

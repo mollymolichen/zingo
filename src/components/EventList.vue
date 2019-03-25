@@ -45,7 +45,7 @@ export default {
         EventCard,
         EventFilter
     },
-    props: ['events', 'user', 'users', 'setApp', 'event', 'singleEvent'],
+    props: ['user', 'users', 'setApp', 'event', 'singleEvent'],
     firebase: {
         usersRef: usersRef,
         eventsRef: eventsRef

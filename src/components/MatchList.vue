@@ -6,18 +6,48 @@
 			</div>
 		</v-layout> -->
 
+        <!-- <div v-for="u in this.users" :key="u">
+            <profile-card :user="u"></profile-card>
+        </div> -->
+
 		<div v-for="match in this.matches" :key="match">
-			<profile-card>
-			</profile-card>
+			<profile-card :user="match"></profile-card>
 		</div>
 	</v-content>
 </template>
 
 <script>
 /*eslint-disable*/
+import ProfileCard from "./ProfileCard.vue";
+import {
+    usersRef
+} from "../database.js";
+
 export default {
     name: 'MatchList',
+    components: {
+		ProfileCard
+	},
+	data() {
+		return {
+			users: []
+		}
+    },
+    firebase: {
+        usersRef: usersRef
+    },
     methods: {
+        // gets all users in db
+        getUsers() {
+            let allUsers = null;
+            usersRef.on("value", function (snapshot) {
+                allUsers = snapshot.val();
+            });
+            for (let u in allUsers) {
+                this.users.push(allUsers[u]);
+            }
+        },
+
         // 2 users must speak the same language and have itinerary overlap to get matched
         matchScore(match) {     
             totalScore = 0;

@@ -1,11 +1,9 @@
 <template>
-<v-content class="container">
-	<div class="people">
-		<h1 id="title">Find people you're interested in:</h1>
-		<v-layout row wrap>
-			<v-flex xs12 class="center">
-			</v-flex>
-		</v-layout>
+<v-content>
+	<!-- <h1 id="title">Find people you're interested in:</h1> -->
+	
+	<div v-for="u in this.users" :key="u">
+		<profile-card :user="u"></profile-card>
 	</div>
 </v-content>
 </template>
@@ -13,26 +11,39 @@
 <script>
 /* eslint-disable */
 import ProfileCard from "./ProfileCard.vue";
+import {
+    usersRef
+} from "../database.js";
 
 export default {
-	name: 'People',
+	name: 'ProfileList',
 	components: {
 		ProfileCard
 	},
 	data() {
 		return {
-			
+			users: []
 		}
-	}
+	},
+	methods: {
+		getUsers() {
+            let allUsers = null;
+            usersRef.on("value", function (snapshot) {
+                allUsers = snapshot.val();
+            });
+            for (let u in allUsers) {
+                this.users.push(allUsers[u]);
+            }
+        },
+	},
+	created() {
+		this.getUsers();
+	},
+	firebase: {
+        usersRef: usersRef
+    },
 }
 </script>
 
 <style>
-.container {
-	flex-direction: row;
-	background-color: aliceblue;
-	background-size: cover;
-	height: 93%;
-	text-align: center;
-}
 </style>

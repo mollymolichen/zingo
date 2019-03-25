@@ -2,14 +2,10 @@
 <div id="app">
     <v-app>
         <navbar 
-            :user="user" 
+            v-bind:user="user" 
             :updateUser="updateUser" 
-            :setRoute="setRoute" 
             :setApp="setApp" 
-            :eventRoute="eventRoute" 
-            :peopleRoute="peopleRoute" 
             :events="events"
-            :users="users"    
         >
         </navbar>
 
@@ -19,7 +15,7 @@
                     <h1 id="title">Weekendr</h1>
                     <h1>Connecting awesome travelers to awesome friends.</h1>
                     <div v-if="this.user === null">
-                        <router-link :to="{ name: 'SignUp', params: { user, updateUser, setRoute, setApp } }">
+                        <router-link :to="{ name: 'SignUp', params: { user, updateUser, setApp } }">
                             <v-btn id="signup-btn">Sign up here</v-btn>
                         </router-link>
                     </div>
@@ -62,57 +58,35 @@ export default {
     data() {
         return {
             user: null,
-            eventRoute: false,
-            peopleRoute: false,
             onApp: true,
             events: [],
-            users: [],
+            // users: [],
         }
     },
     methods: {
-        // getEvents() {
-        //     let allEvents = null;
-        //     eventsRef.on("value", function (snapshot) {
-        //         allEvents = snapshot.val();
-        //     });
-        //     for (let e in allEvents) {
-        //         this.events.push(allEvents[e]);
-        //     }
-        // },
-
-        getUsers() {
-            let allUsers = null;
-            usersRef.on("value", function (snapshot) {
-                allUsers = snapshot.val();
-            });
-            for (let u in allUsers) {
-                this.users.push(allUsers[u]);
-            }
-        },
-
         updateUser(newUser) {
-            this.user = newUser;
-        },
-
-        setRoute(route) {
-            if (route === 'eventRoute') {
-                this.eventRoute = true;
-                this.peopleRoute = false;
-            } else {
-                this.eventRoute = false;
-                this.peopleRoute = true;
-            }
+            this.user = newUser;           
         },
 
         setApp(res) {
             this.onApp = res; // res: boolean
+        },
+
+        getEvents() {
+            let allEvents = null;
+            eventsRef.on("value", function (snapshot) {
+                allEvents = snapshot.val();
+            });
+            for (let e in allEvents) {
+                this.events.push(allEvents[e]);
+            }
         }
     },
     props: [],
-    // mounted() {  // might need to be mounted as new data comes, or does on take care of this?
-    //     this.getEvents();
-    //     this.getUsers();
-    // },
+    mounted() {                  // might need to be mounted as new data comes, or does on() take care of this?
+        this.getEvents();
+        // this.getUsers();
+    },
     created() {
         // this.getEvents();
         // this.getUsers();

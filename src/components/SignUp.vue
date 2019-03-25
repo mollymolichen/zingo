@@ -1,5 +1,5 @@
 <template>
-<v-content class="container preferences">
+<v-content class="preferences">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <v-card class="signup">
         <!--Page 1-->
@@ -223,25 +223,6 @@
             <span class="pagenumbers">{{pageNumber}} / 4</span>
             <v-icon class="arrows" @click="registerUser()" :disabled="!valid">chevron_right</v-icon>
         </v-form>
-
-        <!--Page 5-->
-        <v-form v-else-if="pageNumber === 5" ref="form" v-model="valid" lazy-validation>
-            <v-layout column wrap>
-                <h1 id="heading2">Choose your default setting. You can easily change this in Settings later.</h1>
-                <v-flex xs12>
-                    <router-link :to="{ name: 'EventList', params: { user }}">
-                        <v-btn class="btn-signup" @click="setRoute2('eventRoute')">Find Events</v-btn>
-                    </router-link>
-                </v-flex>
-                <br><br>
-                <v-flex xs12>
-                    <router-link to="/profilelist">
-                        <v-btn class="btn-signup" @click="setRoute2('peopleRoute')">Find People</v-btn>
-                    </router-link>
-                </v-flex>
-            </v-layout>
-        </v-form>
-
     </v-card>
 </v-content>
 </template>
@@ -283,8 +264,6 @@ export default {
     },
     data() {
         return {
-            eventRoute: false,
-            peopleRoute: false,
             pageNumber: 1,
 
             // data validation rules
@@ -412,7 +391,7 @@ export default {
         },
 
         next() {
-            if (this.pageNumber < 6) {
+            if (this.pageNumber < 5) {
                 this.pageNumber += 1;
             } else {
                 this.pageNumber = 1;
@@ -503,10 +482,6 @@ export default {
             if (index >= 0) this.travelInFuture.splice(index, 1);
         },
 
-        setRoute2(option) {
-            this.setRoute(option);
-        },
-
         registerUser() {
             const uuid = require("uuid/v4");
             let myUuid = uuid();
@@ -552,7 +527,7 @@ export default {
             })
         }
     },
-    props: ['user', 'updateUser', 'setRoute', 'setApp'],
+    props: ['user', 'updateUser', 'setApp'],
     mounted() {
         // const uuid = require("uuid/v4");
         // let myUuid = uuid();
