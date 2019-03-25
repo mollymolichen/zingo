@@ -17,7 +17,6 @@
             <v-text-field v-model="universityOrOccupation" label="University or Occupation" required class="text-field"></v-text-field>
             <v-text-field v-model="email" label="Email" required class="text-field"></v-text-field>
             <v-text-field v-model="password" label="Password" required class="text-field"></v-text-field>
-
             <v-text-field v-model="phoneNumber" :rules="phoneNumberRules" label="Phone number" required class="text-field"></v-text-field>
             <v-autocomplete xs6 :items="allLangs" v-model="languagesSpoken" chips multiple style="margin: 0px 10px 0px 10px" label="What languages do you speak?">
                 <template slot="selection" slot-scope="data">
@@ -495,6 +494,7 @@ export default {
                     age: this.age,
                     universityOrOccupation: this.universityOrOccupation,
                     email: this.email,
+                    password: this.password,
                     phoneNumber: this.phoneNumber,
                     hometown: this.hometown,
                     languagesSpoken: this.languagesSpoken,
