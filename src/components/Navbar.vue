@@ -13,11 +13,11 @@
         <router-link v-if="user != null" :to="{ name: 'EventList', params: { events, user, users, setApp } }">
             <v-btn class="nav-btn" @click="setApp2(false)">Events</v-btn>
         </router-link>
-        <router-link v-if="user != null" :to="{ name: 'MatchList', params: { users, events, setApp } }">
+        <router-link v-if="user != null" :to="{ name: 'MatchList', params: { user, setApp } }">
             <v-btn class="nav-btn" @click="setApp2(false)">Matches</v-btn>
         </router-link>
 
-        <router-link v-if="user === null" :to="{ name: 'SignIn', params: { user, updateUser, eventRoute, peopleRoute, setApp } }">
+        <router-link v-if="user === null" :to="{ name: 'SignIn', params: { user, updateUser, setApp } }">
             <v-btn class="nav-btn" @click="setApp2(false)">Sign In</v-btn>
         </router-link>
         <router-link v-if="user != null" :to="{ name: 'Profile', params: { user, setApp } }">

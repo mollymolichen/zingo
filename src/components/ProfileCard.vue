@@ -3,26 +3,28 @@
     <v-card class="profile">
         <v-layout row wrap id="matches">
             <!--Profile picture-->
-            <v-flex xs3>
-                <v-avatar class="avatar2">
-                    <img
-                        :src="user.propicUrl"
-                        alt="Profile picture"
-                        >
-                    </v-avatar>
-            </v-flex>
+            <router-link :to="{ name: 'Profile', params: { user } }">
+                <v-flex xs3>
+                    <v-avatar class="profile-avatar">
+                        <img
+                            :src="user.propicUrl"
+                            alt="Profile picture"
+                            >
+                        </v-avatar>
+                </v-flex>
+            </router-link>
 
             <!--Information-->
             <v-flex xs4>
-                <ul style="float:left; text-align:left">
+                <ul>
                     <li>
                         <h2>{{user.firstName}} {{user.lastName}}</h2>
                     </li>
                 </ul>
             </v-flex>
-            <v-flex xs2 style="align-text:right">
+            <v-flex xs2>
                 <v-tooltip bottom>
-                    <span slot="activator"><h4>95% MATCH</h4></span>
+                    <span slot="activator"><h4>{{score}}% MATCH</h4></span>
                     <span>Match score is generated based on your profile.</span>
                 </v-tooltip>
                 <br>
@@ -57,7 +59,7 @@ export default {
     firebase: {
         usersRef
     },
-    props: ['user'],
+    props: ['user', 'score'],
     methods: {
         viewProfile() {
             this.view = true;
@@ -88,7 +90,7 @@ export default {
 	background-color:aliceblue;
 }
 
-.avatar2 {
+.profile-avatar {
     float: left;
     margin-left: 20px;
     height: 150px !important;
