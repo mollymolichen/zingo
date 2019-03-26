@@ -3,10 +3,33 @@
 	<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 	
     <div class="heading">
-        <h1>Your Profile</h1>
-        <v-avatar class="propic">
+		<!--Heading and edit button-->
+		<v-flex style="display: flex; flex-direction:row">
+			<div id="heading-div">
+			</div>
+			<div id="heading-div">
+				<h1>Your Profile</h1>
+			</div>
+			<div id="edit-btn-div">
+				<router-link :to="{ name: 'EditProfile', params: { user } }">
+					<v-icon @click="display = true" class="edit-btn">edit</v-icon>
+				</router-link>
+			</div>
+		</v-flex>
+
+		<!--Propic-->
+		<v-avatar class="propic" @mouseover="hover = true" @mouseleave="hover = false">
 			<img :src=currentUser.propicUrl alt="Profile picture" style="transform: scale(5, 5);">
 		</v-avatar>
+
+		<!--Edit propic button-->
+		<v-flex v-if="hover" @click="display = true">
+			<router-link :to="{ name: 'ChangeProPic', params: { user } }">
+				<v-icon @click="display = true" class="edit-btn">edit</v-icon>
+			</router-link>
+		</v-flex>
+
+		<!-- <div v-if="display"><h1>Hi</h1></div> -->
     </div>
 
     <div class="summary">
@@ -120,6 +143,8 @@ export default {
     data() {
         return {
 			currentUser: null,
+			hover: false,
+			display: false,
 			
 			// TODO: tim
 			emoji_categories: {
@@ -244,6 +269,26 @@ export default {
 	margin: auto;
 	margin-top: 20px;
 	margin-bottom: 20px;
+}
+
+.edit-btn {
+    transform: scale(1.2, 1.2);
+    margin: 20px 5px 5px 5px;
+	pointer-events: none;
+}
+
+#heading-div {
+	display: flex;
+	justify-content: center;
+	width: 33%;
+	margin-left: 25px;
+}
+
+#edit-btn-div {
+	display: flex;
+	justify-content: flex-end;
+	margin-right: 50px;
+	width: 33%;
 }
 
 .photos {

@@ -2,17 +2,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import About from '../components/About';
+import ChangeProPic from '../components/ChangeProPic';
 import CreateEvent from '../components/CreateEvent';
 import EditEvent from '../components/EditEvent';
+import EditProfile from '../components/EditProfile';
 import Events from '../components/Events';
 import EventCard from '../components/EventCard';
 import EventList from '../components/EventList';
-import MatchCard from '../components/MatchCard';
 import MatchList from '../components/MatchList';
 import Profile from '../components/Profile';
 import ProfileCard from '../components/ProfileCard';
 import ProfileList from '../components/ProfileList';
-import Story from '../components/Story';
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 
@@ -27,15 +27,27 @@ export default new Router({
       props: true
     },
     {
+      path: '/profile/edit/pro-pic',
+      name: 'ChangeProPic',
+      component: ChangeProPic,
+      props: true
+    },
+    {
       path: '/new-event',
       name: 'CreateEvent',
       component: CreateEvent,
       props: true
     },
     {
-      path: '/edit-event',
+      path: 'events/event/edit',
       name: 'EditEvent',
       component: EditEvent,
+      props: true
+    },
+    {
+      path: '/profile/edit',
+      name: 'EditProfile',
+      component: EditProfile,
       props: true
     },
     {
@@ -45,7 +57,7 @@ export default new Router({
       props: true,
     },
     {
-      path: '/events/eventcard',
+      path: '/events/event',
       name: 'EventCard',
       component: EventCard,
       props: true
@@ -57,21 +69,9 @@ export default new Router({
       props: true
     },
     {
-      path: '/matches/match',
-      name: 'MatchCard',
-      component: MatchCard,
-      props: true
-    },
-    {
       path: '/matches/list',
       name: 'MatchList',
       component: MatchList,
-      props: true
-    },
-    {
-      path: '/our-story',
-      name: 'OurStory',
-      component: Story,
       props: true
     },
     {

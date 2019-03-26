@@ -31,9 +31,7 @@
 <script>
 /* eslint-disable */
 import About from "./components/About";
-import Landing from "./components/Landing";
 import SignUp from "./components/SignUp";
-import Story from "./components/Story";
 import Navbar from "./components/Navbar";
 import {
     db,
@@ -46,9 +44,7 @@ export default {
     name: 'app',
     components: {
         About,
-        Landing,
         SignUp,
-        Story,
         Navbar
     },
     firebase: {

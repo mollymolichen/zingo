@@ -4,9 +4,11 @@
         <v-layout row wrap>
             <!--Profile picture-->
             <v-flex xs3>
-                <v-avatar class="propic2">
-                    <img :src="host.propicUrl">
-                </v-avatar>
+                <router-link :to="{ name: 'Profile', params: { user: host } }">
+                    <v-avatar class="event-profile-pic">
+                        <img :src="host.propicUrl">
+                    </v-avatar>
+                </router-link>
                 <h1>{{this.host.firstName}}, {{this.host.age}}</h1>
                 <h3>{{this.host.universityOrOccupation}}</h3>
                 <v-icon @click="addToFavorites(event)" class="icon">favorite</v-icon>
@@ -87,7 +89,7 @@ export default {
     margin: 0px 10px 0px 10px;
 }
 
-.propic2 {
+.event-profile-pic {
     display: flex;
     margin: 50px 30px 30px 100px;
     height: 150px !important;

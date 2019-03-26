@@ -10,7 +10,7 @@
     <!--button to create event-->
     <div class="create-event">
         <router-link :to="{ name: 'CreateEvent', params: { user, setApp } }">
-            <v-btn id="create-event-btn">Create Event</v-btn>
+            <v-icon id="add">add_circle</v-icon>
         </router-link>
     </div>
 
@@ -105,5 +105,9 @@ export default {
 #create-event-btn {
     display: flex;
     float: left;
+}
+
+#add {
+    transform: scale(2, 2);
 }
 </style>
