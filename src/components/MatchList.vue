@@ -6,9 +6,6 @@
 			</div>
 		</v-layout> -->
 
-        <v-btn @click="getUsers()">1. Get users</v-btn>
-        <v-btn @click="calculateMatches()">2. Calculate Matches</v-btn>
-
 		<div v-for="match in this.matches" :key="match">
 			<profile-card :user="match" :score="getScore(match.uuid)"></profile-card>
 		</div>
@@ -189,7 +186,8 @@ export default {
         }
     },
     mounted() {
-        // this.calculateMatches();
+        this.getUsers();
+        this.calculateMatches();
     }
 }
 </script>
