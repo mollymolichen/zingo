@@ -4,7 +4,7 @@
         <!--Page 1-->
         <v-form v-if="pageNumber === 1" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
-                <router-link to="/">
+                <router-link :to="{ name: 'EventList', params: { event, user } }">
                     <v-icon class="material-icons" style="float:right" @click="this.setApp2(true)">clear</v-icon>
                 </router-link>
                 <h1 style="margin-top:10px; margin-bottom:20px">Create an Event</h1>

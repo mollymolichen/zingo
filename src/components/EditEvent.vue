@@ -4,7 +4,7 @@
         <!--Page 1-->
         <v-form ref="form" lazy-validation>
             <div style="margin-bottom: 20px">
-                <router-link to="/">
+                <router-link :to="{ name: 'EventList', params: { event, user } }">
                     <v-icon class="material-icons" style="float:right">clear</v-icon>
                 </router-link>
                 <h1 style="margin-top:10px; margin-bottom:20px">Edit Your Event</h1>
@@ -30,7 +30,6 @@
             </v-layout>
 
             <v-text-field v-model="event.location.locale" label="Location" required class="full-width"></v-text-field>
-            <!-- <v-autocomplete v-model="event.location.city" :items="allCities" label="City" class="full-width" required></v-autocomplete> -->
             <v-text-field v-model="event.location.city" label="City" class="full-width" required></v-text-field>
             <v-text-field v-model="event.shortDescription" label="Enter a short description." required class="full-width"></v-text-field>
             <v-textarea v-model="event.longDescription" label="Enter a more detailed description (optional)." class="full-width"></v-textarea>
@@ -74,13 +73,21 @@
                     </button>
                     <input type="file" @change="onFileChanged"/>
                 </div>
-                    <v-btn id="upload-btn" @click="onUpload">Upload</v-btn>
+                <div id="upload-btn">
+                    <v-btn @click="onUpload">Upload</v-btn>
                     <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
                 </div>
-
+            </div>
             <router-link :to="{ name: 'EventList', params: { user, events } }">
                 <v-btn @click="registerEvent()">Save</v-btn>
             </router-link>
+
+            <!--Delete event-->
+            <!-- <v-btn @click="this.showPopup = true">Delete</v-btn>
+            <popup v-if="this.showPopup" :deleteEvent="deleteEvent" v-show="showPopup" @close="this.showPopup = false"></popup> -->
+      
+            <v-btn @click="this.showModal = true">Delete</v-btn>
+            <modal :show="showModal" @close="this.showModal = false"></modal>
         </v-form>
     </v-card>
 </v-content>
@@ -99,11 +106,14 @@ import {
 import {
     parseCities
 } from "../assets/locations.js";
+import Popup from "./Popup.vue";
+import Modal from "./Modal.vue"
 
 export default {
     name: "EditEvent",
     data() {                // TODO: remove extraneous methods and data copied over from CreateEvent
         return {
+            showModal: false,
             events: [],     // for editing, only have 1 max, change name to event?
             singleEvent: true,
             pageNumber: 1,
@@ -163,6 +173,7 @@ export default {
                 "Sports": "em em-basketball",
                 "Tours": "em em-scooter"
             },
+            showPopup: false
 		};
     },
     firebase: {
@@ -172,6 +183,10 @@ export default {
     },
     mounted() {
 
+    },
+    components: {
+        Popup,
+        Modal
     },
     methods: {		
         setApp2(res) {
@@ -194,6 +209,14 @@ export default {
 
         clear() {
             this.$refs.form.reset();
+        },
+
+        showP(){
+            this.showPopup = true;
+        },
+
+        closeP(){
+            this.showPopup = false;
         },
 
         // file uploading
@@ -261,6 +284,10 @@ export default {
 
         registerEvent() {
             eventsRef.child(this.event.eid).update(this.event);
+        },
+
+        deleteEvent(){
+            eventsRef.child(this.event.eid).remove();
         }
     },
     watch: {
@@ -310,7 +337,7 @@ ul {
 }
 
 .photo-upload {
-    margin-bottom: 70px;
+    margin-bottom: 30px;
 }
 
 #float {
@@ -319,10 +346,11 @@ ul {
 
 .createevent {
     padding: 50px;
-    height: 95%;
+    height: 100%;
     width: 80%;
     background-color: aliceblue !important;
     margin: auto;
+    margin-top: 50px;
 }
 
 .checkboxes {
@@ -424,7 +452,6 @@ ul {
 
 #upload-btn {
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 
