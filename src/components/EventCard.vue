@@ -73,12 +73,13 @@ export default {
     display: flex;
     flex-direction: column;
     margin: 20px 20px 0px 20px;
+    width: 100%;
 }
 
 .event {
     padding: 20px;
     height: 50%;
-    width: 80%;
+    width: 100%;
     background-color: aliceblue !important;
     margin: auto;
     display: flex;

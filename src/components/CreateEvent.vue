@@ -118,7 +118,6 @@ export default {
     data() {
         return {
             events: [],     // for editing, only have 1 max, change name to event?
-            singleEvent: true,
             pageNumber: 1,
             allCities: parseCities().allCities,
 

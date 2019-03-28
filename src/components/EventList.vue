@@ -1,31 +1,23 @@
 <template>
 <v-content class="eventlist">
-    <!--filter through events-->
-    <!-- <v-layout row wrap xs3>
-		<div>
-			<event-filter></event-filter>
-		</div>
-	</v-layout> -->
-
     <!--button to create event-->
-    <div class="create-event">
-        <router-link :to="{ name: 'CreateEvent', params: { user, setApp } }">
-            <v-icon id="add">add_circle</v-icon>
-        </router-link>
-    </div>
+    <div id="eventlist-container">
+        <v-flex xs3>
+            <event-filter></event-filter>
+        </v-flex>
 
-    <!--single event, review the event you just created-->
-    <div v-if="singleEvent">
-        <event-card :event="event" :user="user" :host="getHostObj(event.host)" :isInterested="isInterested">
-        </event-card>
-    </div>
+        <!--multiple events, regular feed-->
+        <v-flex xs12>
+            <div v-for="e in this.events" :key="e">
+                <event-card :event="e" :user="user" :host="getHostObj(e.host)" :isInterested="isInterested"></event-card>
+            </div>
+        </v-flex>
 
-    <!--multiple events, regular feed-->
-    <div v-else>
-        <div v-for="e in this.events" :key="e">
-            <event-card :event="e" :user="user" :host="getHostObj(e.host)" :isInterested="isInterested">
-            </event-card>
-        </div>
+        <v-flex xs1 class="create-event">
+            <router-link :to="{ name: 'CreateEvent', params: { user, setApp } }">
+                <v-icon id="add">add_circle</v-icon>
+            </router-link>
+        </v-flex>
     </div>
 </v-content>
 </template>
@@ -95,11 +87,17 @@ export default {
     background-size: cover;
     height: 93%;
     text-align: center;
+    display: flex;
+    flex-direction: row;
+}
+
+#eventlist-container {
+    display: flex;
+    width: 100%;
 }
 
 .create-event {
-    display: flex;
-    margin: 30px 0px 30px 200px;
+    margin: 30px 0px 30px 20px;
 }
 
 #create-event-btn {
@@ -109,5 +107,15 @@ export default {
 
 #add {
     transform: scale(2, 2);
+}
+
+#filter {
+    display: flex;
+    width: 20%;
+}
+
+#events {
+    display: flex;
+    width: 80%;
 }
 </style>
