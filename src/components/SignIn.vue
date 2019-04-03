@@ -3,7 +3,8 @@
     <v-card class="signin">
         <v-form id="form">
             <h1 id="label">Sign in to your account.</h1>
-            <v-text-field id="textfield" v-model="email" label="Email" :rules="emailRules" required></v-text-field>
+            <v-text-field id="textfield" v-model="email" :rules="emailRules" label="Email" required></v-text-field>
+            <!-- <v-text-field id="textfield" v-model="password" :rules="passwordRules" label="Password" required></v-text-field> -->
             <router-link to="/">
                 <v-btn id="btn">Exit</v-btn>
             </router-link>
@@ -18,6 +19,7 @@
 <script>
 /* eslint-disable */
 import {
+    authRef,
     usersRef
 } from "../database";
 export default {
@@ -30,6 +32,11 @@ export default {
                 v => /.+@.+/.test(v) || "E-mail must be valid",
                 v => this.existingEmail(v) || "We could not find an account with this email."
             ],
+            // password: "",
+            // passwordRules: [
+            //     v => !!v || "Password is required",
+            //     v => this.existingPassword(v) || "Incorrect password"
+            // ],
             user: null                          // replacing the prop
         }
     },
@@ -69,6 +76,19 @@ export default {
             };
             return false;
         }
+
+        // signIn(){
+        //     console.log("reached signin");
+        //     authRef.signInWithEmailAndPassword(this.email, this.password)
+        //     .then((user)=>{
+        //         this.user = authRef.currentUser;
+        //         console.log(this.user);
+        //         alert('signed in');
+        //     })
+        //     .catch((e)=>{
+        //         alert('oops '+ e.message);
+        //     })
+        // }
     }
 }
 </script>

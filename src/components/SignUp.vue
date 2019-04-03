@@ -16,7 +16,7 @@
             <v-text-field v-model="age" :rules="ageRules" label="Age" required class="text-field"></v-text-field>
             <v-text-field v-model="universityOrOccupation" label="University or Occupation" required class="text-field"></v-text-field>
             <v-text-field v-model="email" label="Email" required class="text-field"></v-text-field>
-            <v-text-field v-model="password" label="Password" required class="text-field"></v-text-field>
+            <!-- <v-text-field v-model="password" label="Password" required class="text-field"></v-text-field> -->
             <v-text-field v-model="phoneNumber" :rules="phoneNumberRules" label="Phone number" required class="text-field"></v-text-field>
             <v-autocomplete xs6 :items="allLangs" v-model="languagesSpoken" chips multiple style="margin: 0px 10px 0px 10px" label="What languages do you speak?">
                 <template slot="selection" slot-scope="data">
@@ -30,53 +30,51 @@
             <v-autocomplete :items="allCountries" v-model="hometown.country" label="Country" class="text-field"></v-autocomplete>
             <v-autocomplete v-if="fromUS" v-model="hometown.state" :items="states" label="State (if in US)" class="text-field" style="float:left"></v-autocomplete>
 
-            <div class="photo-upload">
+            <div id="profile-pic-upload">
                 <br>
                 <h3>Upload a profile picture.</h3>
                 <h4>Press Upload to make sure your file was uploaded successfully.</h4>
                 <br>
+
                 <input type="file" @change="onFileChanged">
-                <!-- <div class="upload-btn-wrapper">
+                <v-btn @click="onUpload(true)">Upload</v-btn>
+            </div>
+
+            <h3>Upload up to three more photos of yourself.</h3>
+            <br>
+
+            <div class="photo-upload">
+                <br>
+    
+                <div class="upload-btn-wrapper" style="margin-left:30px">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                </div> -->
-                <v-btn @click="onUpload">Upload</v-btn>
-                <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
-            </div>
-
-            <div class="photo-upload">
-                <h3>Upload up to three more photos of yourself.</h3>
-                <h4>Press Upload to make sure your file was uploaded successfully.</h4>
-                <br>
-                <!-- <input type="file" @change="onFileChanged" style="input-box"> -->
+                    <v-btn @click="onUpload(false)" class="upload-btn">Upload</v-btn>
+                </div>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
+                    <v-btn @click="onUpload(false)" class="upload-btn">Upload</v-btn>
                 </div>
-                    <div class="upload-btn-wrapper">
-                        <button class="btn">
+                <div class="upload-btn-wrapper">
+                    <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
-                        <input type="file" @change="onFileChanged"/>
+                    <input type="file" @change="onFileChanged"/>
+                    <v-btn @click="onUpload(false)" class="upload-btn">Upload</v-btn>
                 </div>
-                        <div class="upload-btn-wrapper">
-                            <button class="btn">
-                        <v-icon>add_a_photo</v-icon>
-                    </button>
-                            <input type="file" @change="onFileChanged"/>
-                </div>
-                            <v-btn @click="onUpload">Upload</v-btn>
-                            <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
-                        </div>
 
-                        <!--Arrows-->
-                        <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
-                        <span class="pagenumbers">{{pageNumber}} / 4</span>
-                        <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
+                <!-- <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3> -->
+            </div>
+
+            <!--Arrows-->
+            <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
+            <span class="pagenumbers">{{pageNumber}} / 4</span>
+            <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
         </v-form>
 
         <!--TODO: itinerary-->
@@ -87,16 +85,31 @@
                 <router-link to="/">
                     <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
                 </router-link>
+
                 <h1>Tell us a little about yourself!</h1>
-                <h4> For example: </h4>
-                <p>I'm a student at Duke interested in writing, debate, and startups!</p>
-                <h4> or </h4>
-                <p> I'm on my way to medical school and am looking to see much of the world before I start!</p>
+                <p>These quesitons are optional, but they might help us and other users to get to know you better!</p>
+                
+                <h3>What's the craziest fact about you?</h3>
+                <v-flex> 
+                    <v-textarea :value="crazyFact" solo v-model="crazyFact" :rules="questionRules"></v-textarea>
+                </v-flex>
+                <h3>What's your go-to midnight snack?</h3>
+                <v-flex> 
+                    <v-textarea :value="midnightSnack" solo v-model="midnightSnack" :rules="questionRules"></v-textarea>
+                </v-flex>
+                <h3>What's the biggest tea of 2019?</h3>
+                <v-flex> 
+                    <v-textarea :value="biggestTea" solo v-model="biggestTea" :rules="questionRules"></v-textarea>
+                </v-flex>
+                <h3>What's your go-to karaoke song?</h3>
+                <v-flex> 
+                    <v-textarea :value="karaokeSong" solo v-model="karaokeSong" :rules="questionRules"></v-textarea>
+                </v-flex>
             </div>
 
-            <v-flex>
+            <!-- <v-flex>
                 <v-textarea :value="bio" solo v-model="bio" :rules="bioRules"></v-textarea>
-            </v-flex>
+            </v-flex> -->
 
             <!--Arrows-->
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
@@ -279,7 +292,11 @@ export default {
                 state: "",
                 country: ""
             },
-            bio: "",
+            // bio: "",
+            crazyFact: "",
+            midnightSnack: "",
+            biggestTea: "",
+            karaokeSong: "",
             states: states,
             countries: countries,
             allLangs: allLangs,
@@ -310,11 +327,7 @@ export default {
             // profile picture upload
             selectedFile: null,
             propicUrl: "http://placekitten.com/g/200/300",
-            pics: [
-                "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fnugget.png?alt=media&token=80f52fcc-f961-4c05-a84b-d4c476589534",
-                "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fparis.png?alt=media&token=a23b4919-a217-4eac-a537-84c12572513e",
-                "https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/molly-chen%2Fspain.png?alt=media&token=3a5e42a2-610b-4947-b7cc-21da1ae97677"
-            ],
+            pics: [],
             uploadFinished: false,
 
             // TODO: regular picture upload
@@ -429,7 +442,12 @@ export default {
             console.log("Selected file: ", this.selectedFile);
         },
 
-        onUpload() {
+        onUpload(profilePic) {  
+            // let picArray;                               // profilePic: boolean
+            // if (!this.pics.length){
+            //     picArray = [];                          // first picture, array was just created
+            // }
+
             const storageRef = Firebase.storage().ref();
             var file = this.selectedFile;
             var metadata = {
@@ -461,11 +479,20 @@ export default {
                             break;
                     }
                 },
+                // TODO: since this is async, this.pics gets reset to null ea time and the max we can store is 1 pic
                 async function () {
                     // Upload completed successfully, now we can get the download URL
                     var url = await uploadTask.snapshot.ref.getDownloadURL();
                     console.log('url: ', url);
-                    Vue.set(that, 'propicUrl', url);
+                    if (profilePic){
+                        Vue.set(that, 'propicUrl', url);
+                    } else {
+                        if (!this.pics){
+                            this.pics = [];                     // first picture, array was just created
+                        } 
+                        this.pics.push(url);                    // add URL of new photo to pics array
+                        Vue.set(that, 'pics', this.pics);
+                    }
                     Vue.set(that, 'uploadFinished', true);
                 }
             );
@@ -494,7 +521,7 @@ export default {
                     age: this.age,
                     universityOrOccupation: this.universityOrOccupation,
                     email: this.email,
-                    password: this.password,
+                    // password: this.password,
                     phoneNumber: this.phoneNumber,
                     hometown: this.hometown,
                     languagesSpoken: this.languagesSpoken,
@@ -514,7 +541,7 @@ export default {
                 this.updateUser(newUser);
                 usersRef.child(myUuid).set(newUser);
                 this.pageNumber++;
-                this.signUp();
+                // this.signUp();
             }
         },
         signUp(){
@@ -529,10 +556,6 @@ export default {
     },
     props: ['user', 'updateUser', 'setApp'],
     mounted() {
-        // const uuid = require("uuid/v4");
-        // let myUuid = uuid();
-        // this.uuid = myUuid;
-
         this.setApp(false);
     }
 };
@@ -574,7 +597,10 @@ ul {
 }
 
 .photo-upload {
-    margin-bottom: 70px;
+    /* margin: 30px 30px 0px 30px; */
+    margin-left: 30px;
+    display: flex;
+    flex-direction: row;
 }
 
 #float {
@@ -617,7 +643,6 @@ ul {
 }
 
 .round-chip {
-    /* background-image: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);  */
     border-radius: 50%;
     background-color: pink;
     padding: 5px 5px;
@@ -653,6 +678,10 @@ ul {
     margin: 20px 30px 20px 30px;
 }
 
+#profile-pic-upload {
+    margin-bottom: 50px;
+}
+
 .test {
     display: flex;
     margin: auto;
@@ -668,11 +697,16 @@ ul {
     height: 150px;
 }
 
+.upload-btn {
+    width: 20%;
+}
+
 .upload-btn-wrapper {
     position: relative;
     overflow: hidden;
-    display: inline-block;
-    margin: 0px 10px 30px 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .upload-btn-wrapper input[type=file] {
