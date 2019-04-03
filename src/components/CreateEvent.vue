@@ -80,9 +80,9 @@
                     </button>
                     <input type="file" @change="onFileChanged"/>
                 </div>
-                    <v-btn id="upload-btn" @click="onUpload">Upload</v-btn>
-                    <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
-                </div>
+                <v-btn id="upload-btn" @click="onUpload">Upload</v-btn>
+                <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
+            </div>
 
             <!--Arrows-->
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>

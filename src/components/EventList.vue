@@ -30,6 +30,9 @@ import {
     usersRef,
     eventsRef
 } from "../database.js";
+import {
+    allLangs
+} from "../assets/languages.js";
 
 export default {
     name: 'EventList',

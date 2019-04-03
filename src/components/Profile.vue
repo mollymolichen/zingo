@@ -11,7 +11,7 @@
 				<h1>Your Profile</h1>
 			</div>
 			<div id="edit-btn-div">
-				<router-link :to="{ name: 'EditProfile', params: { user } }">
+				<router-link :to="{ name: 'EditProfile', params: { user, updateUser } }">
 					<v-icon @click="display = true" class="edit-btn">edit</v-icon>
 				</router-link>
 			</div>
@@ -28,8 +28,6 @@
 				<v-icon @click="display = true" class="edit-btn">edit</v-icon>
 			</router-link>
 		</v-flex>
-
-		<!-- <div v-if="display"><h1>Hi</h1></div> -->
     </div>
 
     <div class="summary">
@@ -59,7 +57,7 @@
 			<!--Row 1-->
 			<v-flex xs4>
 				<v-card class="card">
-					<v-card-text class="left-margin px-0">
+					<v-card-text>
 						<h3>Intro</h3>
 						<p>{{currentUser.bio}}</p>
 					</v-card-text>
@@ -67,7 +65,7 @@
 			</v-flex>
 			<v-flex xs4>
 				<v-card class="card">
-					<v-card-text class="left-margin px-0">
+					<v-card-text>
 						<h3>Favorite Travel Activities</h3>
 						<ul class="square">
 							<li v-for="activity in currentUser.selectedActivities" :key="activity" id="li-activity">								
@@ -79,7 +77,7 @@
 			</v-flex>
 			<v-flex xs4>
 				<v-card class="card">
-					<v-card-text class="left-margin px-0">
+					<v-card-text>
 						<h3>Preferences</h3>
 						<ul class="square">
 							<li v-for="habit in currentUser.selectedLifestyle" :key="habit" id="li-lifestyle">
@@ -93,7 +91,7 @@
 			<!--Row 2-->
 			<v-flex xs4>
 				<v-card class="card">
-					<v-card-text class="left-margin px-0">
+					<v-card-text>
 						<h3>Places I Want to Go</h3>
 						<ul class="square">
 							<li v-for="place in currentUser.travelInFuture" :key="place" id="li-future">
@@ -105,7 +103,7 @@
 			</v-flex>
 			<v-flex xs4>
 				<v-card class="card">
-					<v-card-text class="left-margin px-0">
+					<v-card-text>
 						<h3>Places I've Been</h3>
 						<ul class="square">
 							<li v-for="place in currentUser.traveledInPast" :key="place" id="li-past">
@@ -117,7 +115,7 @@
 			</v-flex>
 			<v-flex xs4>
 				<v-card class="card">
-					<v-card-text class="left-margin px-0">
+					<v-card-text>
 						<h3>Itinerary</h3>
 						<ul class="square">
 							<li v-for="place in currentUser.travelCurrent" :key="place" id="li-current">
@@ -139,96 +137,12 @@ export default {
     components: {
 
 	},
-	props: ['user'],
+	props: ['user', 'updateUser'],
     data() {
         return {
 			currentUser: null,
 			hover: false,
-			display: false,
-			
-			// TODO: tim
-			emoji_categories: {
-                art: [
-                    "em em-art",
-                    "em em-lower_left_paintbrush",
-                    "em em-pencil2",
-                    "em em-frame_with_picture",
-                    "em em-lower_left_crayon",
-                    "em em-frame_with_picture",
-                    "em em-amphora"
-                ],
-                culture: [
-                    "em em-shinto_shrine",
-                    "em em-bridge_at_night",
-                    "em em-circus_tent",
-                    "em em-izakaya_lantern",
-                    "em em-kaaba",
-                    "em em-synagogue",
-                    "em em-moyai",
-                    "em em-tokyo_tower",
-                    "em em-church"
-                ],
-                food: [
-                    "em em-spaghetti",
-                    "em em-carrot",
-                    "em em-corn",
-                    "em em-curry",
-                    "em em-fried_egg",
-                    "em em-green_salad",
-                    "em em-hamburger",
-                    "em em-ice_cream",
-                    "em em-meat_on_bone",
-                    "em em-pizza",
-                    "em em-sandwich",
-                    "em em-taco"
-                ],
-                history: [
-                    "em em-classical_building",
-                    "em em-european_castle",
-                ],
-                music: [
-                    "em em-drum_with_drumsticks",
-                    "em em-headphones",
-                    "em em-guitar",
-                    "em em-musical_keyboard",
-                    "em em-musical_note",
-                    "em em-musical_score",
-                    "em em-cd"
-
-                ],
-                nightlife: [
-                    "em em-beer",
-                    "em em-cocktail",
-                    "em em-clinking_glasses",
-                    "em em-cityscape",
-                    "em em-night_with_stars"
-                ],
-                outdoors: [
-                    "em em-beach_with_umbrella",
-                    "em em-boat",
-                    "em em-camping",
-                    "em em-canoe",
-                    "em em-national_park",
-                    "em em-ocean",
-                    "em em-snow_capped_mountain"
-                ],
-                sports: [
-                    "em em-woman-surfing",
-                    "em em-bowling",
-                    "em em-bow_and_arrow",
-                    "em em-handball",
-                    "em em-golf",
-                    "em em-man-bouncing-ball",
-                    "em em-table_tennis_paddle_and_ball",
-                    "em em-tennis"
-                ],
-                tours: [
-                    "em em-bus",
-                    "em em-ferry",
-                    "em em-world_map",
-                    "em em-camera_with_flash"
-				]
-			}
+			display: false
         }
 	},
 	mounted() {

@@ -92,7 +92,7 @@ export default {
 
 .event-profile-pic {
     display: flex;
-    margin: 50px 30px 30px 100px;
+    margin: 100px 30px 30px 100px;
     height: 150px !important;
     width: 150px !important;
     transform: scale(1.3, 1.3);
