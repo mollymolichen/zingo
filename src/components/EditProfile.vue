@@ -351,6 +351,9 @@ export default {
         },
 
         onUpload(profilePic) {  
+            let that = this.user;
+            let that2 = this;
+
             const storageRef = Firebase.storage().ref();
             var file = this.selectedFile;
             var metadata = {
@@ -358,7 +361,6 @@ export default {
             };
             var uploadTask = storageRef.child(this.uuid + "/" + file.name).put(file, metadata);
             console.log('upload task', uploadTask);
-            let that = this;
             uploadTask.on(Firebase.storage.TaskEvent.STATE_CHANGED,
                 function (snapshot) {
                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -396,7 +398,7 @@ export default {
                         this.pics.push(url);                    // add URL of new photo to pics array
                         Vue.set(that, 'pics', this.pics);
                     }
-                    Vue.set(that, 'uploadFinished', true);
+                    Vue.set(that2, 'uploadFinished', true);
                 }
             );
         },
@@ -414,16 +416,6 @@ export default {
         editUser() {
 			this.updateUser(this.user);
 			usersRef.child(this.user.uuid).update(this.user);
-			// this.signUp();
-        },
-        signUp(){
-            authRef.createUserWithEmailAndPassword(this.email,this.password)
-            .then((user)=>{
-                alert('created')
-            })
-            .catch((e)=>{
-                alert('oops'+ e.message);
-            })
         }
     },
     props: ['user', 'updateUser', 'setApp'],

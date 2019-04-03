@@ -8,7 +8,7 @@
             <router-link to="/">
                 <v-btn id="btn">Exit</v-btn>
             </router-link>
-            <router-link :to="{ name: 'Profile', params: { user } }">
+            <router-link :to="{ name: 'Profile', params: { user, updateUser } }">
                 <v-btn id="btn" @click="submit()">Submit</v-btn>
             </router-link>
         </v-form>
