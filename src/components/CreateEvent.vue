@@ -164,7 +164,6 @@ export default {
                 endTimePm: false
             },
             menu1: false,
-            menu2: false,
 
             emoji: {
                 "Art": "em em-art",
@@ -259,24 +258,6 @@ export default {
             );
         },
 
-        daysPerMonth(selection) {
-            let days = [];
-            let thirtyDays = [
-                "April",
-                "June",
-                "September",
-                "November"
-            ];
-            if (selection === "February") {
-                days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28];
-            } else if (thirtyDays.includes(selection)) {
-                days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
-            } else {
-                days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
-            }
-            return days;
-        },
-
         formatDate(date) {
             if (!date) {
                 return null;
@@ -284,6 +265,7 @@ export default {
             const [year, month, day] = date.split('-');
             return `${month}/${day}/${year}`
         },
+        
         parseDate(date) {
             if (!date) {
                 return null;
@@ -304,7 +286,6 @@ export default {
                 date: this.date,
                 dateFormatted: this.dateFormatted,
                 menu1: this.menu1,
-                menu2: this.menu2,
                 time: this.time,
                 location: this.location,
                 title: this.title,

@@ -3,7 +3,7 @@
     <!--button to create event-->
     <div id="eventlist-container">
         <v-flex xs3>
-            <event-filter></event-filter>
+            <event-filter :events="events" :users="users"></event-filter>
         </v-flex>
 
         <!--multiple events, regular feed-->
