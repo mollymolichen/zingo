@@ -2,7 +2,7 @@
 <div id="app">
     <v-app>
         <navbar 
-            v-bind:user="user" 
+            :user="user" 
             :updateUser="updateUser" 
             :setApp="setApp" 
             :events="events"
@@ -55,8 +55,7 @@ export default {
         return {
             user: null,
             onApp: true,
-            events: [],
-            // users: [],
+            events: []
         }
     },
     methods: {
@@ -78,14 +77,8 @@ export default {
             }
         }
     },
-    props: [],
-    mounted() {                  // might need to be mounted as new data comes, or does on() take care of this?
+    mounted() {
         this.getEvents();
-        // this.getUsers();
-    },
-    created() {
-        // this.getEvents();
-        // this.getUsers();
     }
 }
 </script>

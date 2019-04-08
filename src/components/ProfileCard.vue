@@ -3,7 +3,7 @@
     <v-card class="profile">
         <v-layout row wrap id="matches">
             <!--Profile picture-->
-            <router-link :to="{ name: 'Profile', params: { user, changeTitle } }">
+            <router-link :to="{ name: 'Profile', params: { user, myProfile } }">
                 <v-flex xs3>
                     <v-avatar class="profile-avatar">
                         <img
@@ -53,7 +53,7 @@ export default {
     firebase: {
         usersRef
     },
-    props: ['user', 'score', 'changeTitle'],
+    props: ['user', 'score', 'myProfile'],
     methods: {
         viewProfile() {
             this.view = true;

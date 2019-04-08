@@ -7,13 +7,13 @@
 		<v-flex style="display: flex; flex-direction:row">
 			<div id="heading-div">
 			</div>
-			<div id="heading-div" v-if="changeTitle">
+			<div id="heading-div" v-if="!myProfile">
 				<h1>{{user.firstName}}'s Profile</h1>
 			</div>
 			<div id="heading-div" v-else>
 				<h1>Your Profile</h1>
 			</div>
-			<div id="edit-btn-div">
+			<div id="edit-btn-div" v-if="myProfile">
 				<router-link :to="{ name: 'EditProfile', params: { user, updateUser } }">
 					<v-icon @click="display = true" class="edit-btn">edit</v-icon>
 				</router-link>
@@ -26,7 +26,7 @@
 		</v-avatar>
 
 		<!--Edit propic button-->
-		<v-flex v-if="hover" @click="display = true">
+		<v-flex v-if="hover && !myProfile" @click="display = true">
 			<router-link :to="{ name: 'ChangeProPic', params: { user } }">
 				<v-icon @click="display = true" class="edit-btn">edit</v-icon>
 			</router-link>
@@ -144,7 +144,7 @@ export default {
     components: {
 
 	},
-	props: ['user', 'updateUser', 'changeTitle'],
+	props: ['user', 'updateUser', 'myProfile'],
     data() {
         return {
 			currentUser: null,

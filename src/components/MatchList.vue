@@ -1,13 +1,7 @@
 <template>
-    <v-content class="eventlist">
-		<!-- <v-layout row wrap xs3>
-			<div>
-				<event-filter></event-filter>
-			</div>
-		</v-layout> -->
-
+    <v-content>
 		<div v-for="match in this.matches" :key="match">
-			<profile-card :user="match" :score="getScore(match.uuid)" :changeTitle="changeTitle"></profile-card>
+			<profile-card :user="match" :score="getScore(match.uuid)" :myProfile="myProfile"></profile-card>
 		</div>
 	</v-content>
 </template>
@@ -29,7 +23,7 @@ export default {
             users: [],
             matches: [],
             scoreMap: [],        // can't make keys vars in JS objs, so need to use array of objs
-            changeTitle: true
+            myProfile: true
 		}
     },
     props: ['user', 'setApp'],
@@ -37,7 +31,6 @@ export default {
         usersRef: usersRef
     },
     methods: {
-        // gets all users in db
         getUsers() {
             let allUsers = null;
             usersRef.on("value", function (snapshot) {

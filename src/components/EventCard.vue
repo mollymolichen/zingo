@@ -4,7 +4,7 @@
         <v-layout row wrap>
             <!--Profile picture-->
             <v-flex xs3>
-                <router-link :to="{ name: 'Profile', params: { user: host } }">
+                <router-link :to="{ name: 'Profile', params: { user: host, myProfile: myOwnEvent } }">
                     <v-avatar class="event-profile-pic">
                         <img :src="host.propicUrl">
                     </v-avatar>
@@ -52,17 +52,23 @@ export default {
             learnMore: false,
             attending: false,
             notAttending: true,
-            favorites: []
+            favorites: [],
+            myProfile: false
         }
     },
     methods: {
-        addToFavorites(event){
-            if (event){
+        addToFavorites(event) {
+            if (event) {
                 this.favorites.push(event);
             }
         },
-        interest(res, event){
+        interest(res, event) {
             this.isInterested(res, event);
+        }
+    },
+    computed: {
+        myOwnEvent() {
+            return this.user.uuid === this.host.uuid;
         }
     }
 }
