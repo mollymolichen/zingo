@@ -56,7 +56,6 @@
             </v-select>
 
             <v-btn id="search-btn" @click="filter()">Search</v-btn>
-
         </v-flex>
     </v-layout>
 </v-card>
@@ -64,9 +63,8 @@
 
 <script>
 /*eslint-enable*/
-import {
-    allLangs
-} from "../assets/languages.js";
+import { allLangs } from "../assets/languages.js";
+import { usersRef } from "../database.js";
 
 export default {
     name: 'EventFilter',
@@ -91,59 +89,77 @@ export default {
         filter(){
             // time
             // 5 checks: host speaks same language, same location, date falls w/i range, time falls w/i range, categories w/i range
+            // this.setFilters();
+            this.filtered = [];
+            this.setFilterApplied(true);
             let langInCommon = false;
             let categoryInCommon = false;
 
             for (let e in this.events){
                 // languagesSpoken
-                // for (let l in this.languagesSpoken){
-                //     let lang = this.languagesSpoken[l];
-                //     let hostID = this.events[e].host;
-                //     let hostLangs = this.getHostLang(hostID);
-                //     if (hostLangs.length && hostLangs.indexOf(lang) != -1){
-                //         langInCommon = true;
-                //         break;
-                //     }
-                // }
-                // if (!langInCommon) break;
+                if (this.languagesSpoken.length){
+                    for (let l in this.languagesSpoken){
+                        let lang = this.languagesSpoken[l];
+                        let hostID = this.events[e].host;
+                        let hostLangs = this.getHostLang(hostID);
+                        if (hostLangs.length && hostLangs.indexOf(lang) != -1){
+                            langInCommon = true;
+                            break;
+                        }
+                    }
+                    if (!langInCommon) continue;
+                }
 
                 // TODO: location (itinerary)
 
-                // startDateFormatted, endDateFormatted
-                let eventStartDate = this.events[e].startDate;
-                let eventEndDate = this.events[e].endDate;
-                let yourStartDate = this.startDateFormatted;
-                let yourEndDate = this.endDateFormatted;
-                if (!(eventStartDate <= yourEndDate || eventEndDate >= yourStartDate)) break;
-                
-                selectedCategories
-                for (let s in this.selectedCategories){
-                    let category = this.selectedCategories[s];
-                    let eventCategories = this.events[e].categories;
-                    if (eventCategories.indexOf(category) != -1){
-                        categoryInCommon = true;
-                    }
+                // startDate, endDate
+                let yourStartDate = this.date;
+                let yourEndDate = this.date2;
+                if (yourStartDate && yourEndDate){
+                    let eventDate = this.events[e].date;
+                    if (eventDate < yourStartDate || eventDate > yourEndDate) continue;
                 }
-                if (!categoryInCommon) break;
+                
+                // selectedCategories: too strict?
+                if (this.selectedCategories.length){
+                    for (let s in this.selectedCategories){
+                        let category = this.selectedCategories[s];
+                        let eventCategories = this.events[e].categories;
+                        if (eventCategories.indexOf(category) != -1){
+                            categoryInCommon = true;
+                        }
+                    }
+                    if (!categoryInCommon) continue;
+                }
 
                 // passes all filters
                 this.filtered.push(this.events[e]);
             }
+            this.setFilters(this.filtered);
         },
 
         getHostLang(hostID){
+            this.getUsers();
+
             for (let u in this.users){
                 if (this.users[u].uuid === hostID){
                     return this.users[u].languagesSpoken;
                 }
             }
-            return [];
-        }
+        },
+
+        getUsers() {
+            let allUsers = null;
+            usersRef.on("value", function (snapshot) {
+                allUsers = snapshot.val();
+            });
+            for (let u in allUsers) {
+                this.users.push(allUsers[u]);
+            }
+        },
     },
     data() {
         return {
-            filtered: [],
-
             allLangs: allLangs,
             languagesSpoken: [],
 
@@ -191,9 +207,10 @@ export default {
                 "Sports": "em em-basketball",
                 "Tours": "em em-scooter"
             },
+            users: []
         }
     },
-    props: ['events', 'users'],
+    props: ['events', 'filtered', 'setFilterApplied', 'setFilters'],
     watch: {
         date(val) {
             this.startDateFormatted = this.formatDate(this.date);
@@ -201,6 +218,10 @@ export default {
         date2(val) {
             this.endDateFormatted = this.formatDate(this.date2);
         }
+    },
+    mounted() {
+        // this.getUsers();
+        // this.filtered = [];                 // clear to avoid duplicates
     }
 }
 </script>
@@ -210,7 +231,7 @@ export default {
     display: flex;
     flex-direction: column;
     margin: 20px 0px 20px 20px;
-    height: 33%;
+    height: 95%;
     width: 90%;
     background-color: aliceblue !important;
     justify-content: left;

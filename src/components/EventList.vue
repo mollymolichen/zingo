@@ -3,13 +3,21 @@
     <!--button to create event-->
     <div id="eventlist-container">
         <v-flex xs3>
-            <event-filter :events="events" :users="users"></event-filter>
+            <event-filter :events="events" :filtered="filtered" :setFilterApplied="setFilterApplied" :setFilters="setFilters"></event-filter>
         </v-flex>
 
         <!--multiple events, regular feed-->
         <v-flex xs12>
-            <div v-for="e in this.events" :key="e">
-                <event-card :event="e" :user="user" :host="getHostObj(e.host)" :isInterested="isInterested"></event-card>
+            <!--event-header-->
+            <div v-if="filterApplied">
+                <div v-for="e in this.filtered" :key="e">
+                    <event-card :event="e" :user="user" :host="getHostObj(e.host)" :isInterested="isInterested"></event-card>
+                </div>
+            </div>
+            <div v-else>
+                <div v-for="e in this.events" :key="e">
+                    <event-card :event="e" :user="user" :host="getHostObj(e.host)" :isInterested="isInterested"></event-card>
+                </div>
             </div>
         </v-flex>
 
@@ -40,7 +48,7 @@ export default {
         EventCard,
         EventFilter
     },
-    props: ['user', 'users', 'setApp', 'event', 'singleEvent'],
+    props: ['user', 'setApp', 'event', 'singleEvent'],
     firebase: {
         usersRef: usersRef,
         eventsRef: eventsRef
@@ -71,6 +79,14 @@ export default {
                 }
             }
             return null;
+        },
+
+        setFilterApplied(res){              // TODO: replace w/ computed?
+            this.filterApplied = res;
+        },
+
+        setFilters(arr){
+            this.filtered = arr;
         }
     },
     mounted() {
@@ -79,7 +95,9 @@ export default {
     data() {
         return {
             interested: true,
-            events: []
+            events: [],
+            filtered: [],
+            filterApplied: false
         }
     }
 }
