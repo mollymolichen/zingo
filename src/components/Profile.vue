@@ -7,7 +7,10 @@
 		<v-flex style="display: flex; flex-direction:row">
 			<div id="heading-div">
 			</div>
-			<div id="heading-div">
+			<div id="heading-div" v-if="changeTitle">
+				<h1>{{user.firstName}}'s Profile</h1>
+			</div>
+			<div id="heading-div" v-else>
 				<h1>Your Profile</h1>
 			</div>
 			<div id="edit-btn-div">
@@ -137,7 +140,7 @@ export default {
     components: {
 
 	},
-	props: ['user', 'updateUser'],
+	props: ['user', 'updateUser', 'changeTitle'],
     data() {
         return {
 			currentUser: null,

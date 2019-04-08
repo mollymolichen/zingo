@@ -3,7 +3,7 @@
     <v-card class="profile">
         <v-layout row wrap id="matches">
             <!--Profile picture-->
-            <router-link :to="{ name: 'Profile', params: { user } }">
+            <router-link :to="{ name: 'Profile', params: { user, changeTitle } }">
                 <v-flex xs3>
                     <v-avatar class="profile-avatar">
                         <img
@@ -28,14 +28,8 @@
                     <span>Match score is generated based on your profile.</span>
                 </v-tooltip>
                 <br>
-                <!-- <v-btn @click="viewProfile()">View Profile</v-btn> -->
             </v-flex>
         </v-layout>
-
-    <!-- <v-container v-if="view">
-        <v-icon class="material-icons" style="margin-left:98%" @click="exit()">clear</v-icon>
-        <profile :user="user"></profile>
-    </v-container> -->
     </v-card>
 </v-content>
 </template>
@@ -59,7 +53,7 @@ export default {
     firebase: {
         usersRef
     },
-    props: ['user', 'score'],
+    props: ['user', 'score', 'changeTitle'],
     methods: {
         viewProfile() {
             this.view = true;

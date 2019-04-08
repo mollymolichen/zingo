@@ -7,7 +7,7 @@
 		</v-layout> -->
 
 		<div v-for="match in this.matches" :key="match">
-			<profile-card :user="match" :score="getScore(match.uuid)"></profile-card>
+			<profile-card :user="match" :score="getScore(match.uuid)" :changeTitle="changeTitle"></profile-card>
 		</div>
 	</v-content>
 </template>
@@ -28,7 +28,8 @@ export default {
 		return {
             users: [],
             matches: [],
-            scoreMap: []        // can't make keys vars in JS objs, so need to use array of objs
+            scoreMap: [],        // can't make keys vars in JS objs, so need to use array of objs
+            changeTitle: true
 		}
     },
     props: ['user', 'setApp'],

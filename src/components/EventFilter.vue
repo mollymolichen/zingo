@@ -220,8 +220,7 @@ export default {
         }
     },
     mounted() {
-        // this.getUsers();
-        // this.filtered = [];                 // clear to avoid duplicates
+
     }
 }
 </script>
