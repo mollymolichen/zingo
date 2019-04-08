@@ -45,13 +45,17 @@
         </v-flex>
     </div>
 
-    <!-- <div class="photos" v-if="currentUser.pics.length">
-        <v-layout v-for="photo in currentUser.pics" :key="photo" row wrap>
-            <v-flex xs6 sm4>
-                <v-img class="profile-img" :src="photo"></v-img>
-            </v-flex>
-        </v-layout>
-    </div> -->
+    <div class="photos" v-if="currentUser.p1 || currentUser.p2 || currentUser.p3">
+		<v-flex xs6 sm4>
+			<v-img class="profile-img" :src="currentUser.p1"></v-img>
+		</v-flex>
+		<v-flex xs6 sm4>
+			<v-img class="profile-img" :src="currentUser.p2"></v-img>
+		</v-flex>
+		<v-flex xs6 sm4>
+			<v-img class="profile-img" :src="currentUser.p3"></v-img>
+		</v-flex>
+    </div>
 
     <div class="about">
 		<br>
@@ -209,6 +213,7 @@ export default {
 }
 
 .photos {
+	display: flex;
 	margin-top: 20px;
 }
 

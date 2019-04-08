@@ -62,7 +62,7 @@
 </template>
 
 <script>
-/*eslint-enable*/
+/*eslint-disable*/
 import { allLangs } from "../assets/languages.js";
 import { usersRef } from "../database.js";
 

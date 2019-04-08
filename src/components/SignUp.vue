@@ -37,7 +37,7 @@
                 <br>
 
                 <input type="file" @change="onFileChanged">
-                <v-btn @click="onUpload(true)">Upload</v-btn>
+                <v-btn @click="onUpload(true, false, false, false)">Upload</v-btn>
             </div>
 
             <h3>Upload up to three more photos of yourself.</h3>
@@ -51,21 +51,21 @@
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(false, true, false, false)" class="upload-btn">Upload</v-btn>
                 </div>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(false, false, true, false)" class="upload-btn">Upload</v-btn>
                 </div>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(false, false, false, true)" class="upload-btn">Upload</v-btn>
                 </div>
 
                 <!-- <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3> -->
@@ -233,7 +233,9 @@
             <!--Arrows-->
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
             <span class="pagenumbers">{{pageNumber}} / 4</span>
-            <v-icon class="arrows" @click="registerUser()" :disabled="!valid">chevron_right</v-icon>
+            <router-link :to="{ name: 'Profile', params: { user: newUser } }">
+                <v-icon class="arrows" @click="registerUser()" :disabled="!valid">chevron_right</v-icon>
+            </router-link>
         </v-form>
     </v-card>
 </v-content>
@@ -276,6 +278,7 @@ export default {
     },
     data() {
         return {
+            newUser: null,
             pageNumber: 1,
 
             // data validation rules
@@ -327,10 +330,11 @@ export default {
             // profile picture upload
             selectedFile: null,
             propicUrl: "http://placekitten.com/g/200/300",
-            pics: [],
+            p1: "http://placekitten.com/g/200/300",
+            p2: "http://placekitten.com/g/200/300",
+            p3: "http://placekitten.com/g/200/300",
+            // pics: [],
             uploadFinished: false,
-
-            // TODO: regular picture upload
 
             // preferences
             transportation: [
@@ -442,11 +446,8 @@ export default {
             console.log("Selected file: ", this.selectedFile);
         },
 
-        onUpload(profilePic) {  
-            // let picArray;                               // profilePic: boolean
-            // if (!this.pics.length){
-            //     picArray = [];                          // first picture, array was just created
-            // }
+        onUpload(profilePic, p1, p2, p3) {  
+            let that = this;
 
             const storageRef = Firebase.storage().ref();
             var file = this.selectedFile;
@@ -455,7 +456,6 @@ export default {
             };
             var uploadTask = storageRef.child(this.uuid + "/" + file.name).put(file, metadata);
             console.log('upload task', uploadTask);
-            let that = this;
             uploadTask.on(Firebase.storage.TaskEvent.STATE_CHANGED,
                 function (snapshot) {
                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -479,28 +479,27 @@ export default {
                             break;
                     }
                 },
-                // TODO: since this is async, this.pics gets reset to null ea time and the max we can store is 1 pic
                 async function () {
-                    // Upload completed successfully, now we can get the download URL
                     var url = await uploadTask.snapshot.ref.getDownloadURL();
                     console.log('url: ', url);
                     if (profilePic){
                         Vue.set(that, 'propicUrl', url);
-                    } else {
-                        if (!this.pics){
-                            this.pics = [];                     // first picture, array was just created
-                        } 
-                        this.pics.push(url);                    // add URL of new photo to pics array
-                        Vue.set(that, 'pics', this.pics);
+                    } else if (p1) {
+                        Vue.set(that, 'p1', url);
+                    } else if (p2) {
+                        Vue.set(that, 'p2', url);
+                    } else if (p3) {
+                        Vue.set(that, 'p3', url);
                     }
                     Vue.set(that, 'uploadFinished', true);
                 }
             );
         },
 
+        // TODO: fix
         removePast(item) {
             const index = this.traveledInPast.indexOf(item.name);
-            if (index >= 0) this.traveledInPast.splice(index, 1); // TODO: fix
+            if (index >= 0) this.traveledInPast.splice(index, 1); 
         },
 
         removeFuture(item) {
@@ -526,8 +525,10 @@ export default {
                     hometown: this.hometown,
                     languagesSpoken: this.languagesSpoken,
                     propicUrl: this.propicUrl,
-                    pics: this.pics,
-                    bio: this.bio,
+                    // pics: this.pics,
+                    p1: this.p1,
+                    p2: this.p2,
+                    p3: this.p3,
                     selectedTransportation: this.selectedTransportation,
                     selectedAccommodation: this.selectedAccommodation,
                     selectedLifestyle: this.selectedLifestyle,
@@ -538,9 +539,9 @@ export default {
                     experience: this.experienceRating
                 };
 
+                this.newUser = newUser;
                 this.updateUser(newUser);
                 usersRef.child(myUuid).set(newUser);
-                this.pageNumber++;
                 // this.signUp();
             }
         },
