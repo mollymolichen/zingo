@@ -1,6 +1,9 @@
 <template>
 <v-content class="eventlist">
-    <!--button to create event-->
+    <div>
+        <event-header :filtered="filtered" :filterApplied="filterApplied" :events="events"></event-header>
+    </div>
+    
     <div id="eventlist-container">
         <v-flex xs3>
             <event-filter :events="events" :filtered="filtered" :setFilterApplied="setFilterApplied" :setFilters="setFilters"></event-filter>
@@ -34,6 +37,7 @@
 /* eslint-disable */
 import EventCard from "./EventCard";
 import EventFilter from "./EventFilter";
+import EventHeader from "./EventHeader";
 import {
     usersRef,
     eventsRef
@@ -46,7 +50,8 @@ export default {
     name: 'EventList',
     components: {
         EventCard,
-        EventFilter
+        EventFilter,
+        EventHeader
     },
     props: ['user', 'setApp', 'event', 'singleEvent'],
     firebase: {
@@ -139,4 +144,6 @@ export default {
     display: flex;
     width: 80%;
 }
+
+
 </style>

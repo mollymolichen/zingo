@@ -235,7 +235,6 @@ export default {
     width: 90%;
     background-color: aliceblue !important;
     justify-content: left;
-    /* align-items: left !important; */
     padding: 5px;
 }
 
