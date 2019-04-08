@@ -1,7 +1,5 @@
 <template>
-<v-content>
-	<!-- <h1 id="title">Find people you're interested in:</h1> -->
-	
+<v-content>	
 	<div v-for="u in this.users" :key="u">
 		<profile-card :user="u"></profile-card>
 	</div>

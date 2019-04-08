@@ -23,7 +23,7 @@ export default {
             users: [],
             matches: [],
             scoreMap: [],        // can't make keys vars in JS objs, so need to use array of objs
-            myProfile: true
+            myProfile: false
 		}
     },
     props: ['user', 'setApp'],
@@ -43,6 +43,10 @@ export default {
 
         calculateMatches(){
             for (let u in this.users){
+                if (this.users[u].uuid === this.user.uuid){     // don't match with yourself
+                    continue;
+                }
+
                 let score = this.matchScore(this.users[u]);
                 if (score > 70){
                     let mid = this.users[u].uuid;

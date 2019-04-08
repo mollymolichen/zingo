@@ -1,6 +1,7 @@
 <template>
 <div id="app">
     <v-app>
+        <!-- <link rel="shortcut icon" type="image/x-icon" href="./assets/favicon.ico"> -->
         <navbar 
             :user="user" 
             :updateUser="updateUser" 
