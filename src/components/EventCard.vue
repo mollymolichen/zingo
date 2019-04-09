@@ -11,8 +11,8 @@
                 </router-link>
                 <h1>{{this.host.firstName}}, {{this.host.age}}</h1>
                 <h3>{{this.host.universityOrOccupation}}</h3>
-                <v-icon @click="addToFavorites(event.eid)" class="icon">favorite</v-icon>
-                <v-icon @click="interest(false, event)" class="icon">cancel</v-icon>
+                <v-icon v-if="!myOwnEvent" @click="expressInterest(event.eid)" class="icon">favorite</v-icon>
+                <v-icon v-if="!myOwnEvent" @click="interest(false, event)" class="icon">cancel</v-icon>
             </v-flex>
 
             <!--Event description-->
@@ -49,7 +49,7 @@ import {
 
 export default {
     name: 'EventCard',
-    props: ['host', 'user', 'event', 'isInterested'],
+    props: ['host', 'user', 'event', 'notInterested'],
     data() {
         return {
             learnMore: false,
@@ -71,21 +71,27 @@ export default {
             }
         },
 
-        addToFavorites(eid) {
+        expressInterest(eid) {
             this.getEvents();
-            let interestedGuests = [];
+            let interestedGuests;
             for (let e in this.events){
                 if (this.events[e].eid === eid){
-                    interestedGuests = this.interested;
+                    if (this.events[e].interested){
+                        interestedGuests = this.events[e].interested;
+                    } else {
+                        interestedGuests = [];          // first person expressing interest
+                    }
+                    interestedGuests.push(this.user.uuid);
+                    break;
                 }
             }
-            eventsRef.child(eid).set({
+            eventsRef.child(eid).update({
                 interested: interestedGuests
             });
         },
 
         interest(res, event) {
-            this.isInterested(res, event);
+            this.notInterested(res, event);
         }
     },
     computed: {

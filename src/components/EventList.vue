@@ -19,17 +19,17 @@
             <!--event-header-->
             <div v-if="filterApplied">
                 <div v-for="e in this.filtered" :key="e">
-                    <event-card :event="e" :user="user" :host="getHostObj(e.host)" :isInterested="isInterested"></event-card>
+                    <event-card :event="e" :user="user" :host="getHostObj(e.host)" :notInterested="notInterested"></event-card>
                 </div>
             </div>
             <div v-else-if="eventsImHosting">
                 <div v-for="e in this.events" :key="e">
-                    <event-card v-if="e.host === user.uuid" :event="e" :user="user" :host="getHostObj(e.host)" :isInterested="isInterested"></event-card>
+                    <event-card v-if="e.host === user.uuid" :event="e" :user="user" :host="getHostObj(e.host)" :notInterested="notInterested"></event-card>
                 </div>
             </div>
             <div v-else> <!--default: sort by match score-->
                 <div v-for="e in this.events" :key="e">
-                    <event-card :event="e" :user="user" :host="getHostObj(e.host)" :isInterested="isInterested"></event-card>
+                    <event-card :event="e" :user="user" :host="getHostObj(e.host)" :notInterested="notInterested"></event-card>
                 </div>
             </div>
         </v-flex>
@@ -79,7 +79,7 @@ export default {
             }
         },
 
-        isInterested(interest, e) {
+        notInterested(interest, e) {
             e.display = false;
         },
 

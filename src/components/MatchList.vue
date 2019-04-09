@@ -1,9 +1,42 @@
 <template>
-    <v-content>
-		<div v-for="match in this.matches" :key="match">
-			<profile-card :user="match" :score="getScore(match.uuid)" :myProfile="myProfile"></profile-card>
-		</div>
-	</v-content>
+<v-content>
+    <v-tabs centered color="pink accent-2" dark icons-and-text>
+        <v-tabs-slider color="white"></v-tabs-slider>
+
+        <v-tab href="#tab-1" @click="tabs(true, false, false)">
+            Hosts
+            <v-icon>person</v-icon>
+        </v-tab>
+
+        <v-tab href="#tab-2" @click="tabs(false, true, false)">
+            Confirmed
+            <v-icon>assignment_ind</v-icon>
+        </v-tab>
+
+        <v-tab href="#tab-3" @click="tabs(false, false, true)">
+            Pending
+            <v-icon>person_outline</v-icon>
+        </v-tab>
+    </v-tabs>
+
+    <!--TODO: group all tabs by event-->
+    <!--Tab 1: Hosts-->
+    <div v-if="tab1">
+        <div v-for="match in this.matches" :key="match">
+            <profile-card :user="match" :score="getScore(match.uuid)" :myProfile="myProfile"></profile-card>
+        </div>
+    </div>
+
+    <!--Tab 2: Confirmed guests-->
+    <div v-else-if="tab2">
+        
+    </div>
+
+    <!--Tab 1: Pending guests-->
+    <div v-else-if="tab3">
+        
+    </div>
+</v-content>
 </template>
 
 <script>
@@ -16,21 +49,30 @@ import {
 export default {
     name: 'MatchList',
     components: {
-		ProfileCard
-	},
-	data() {
-		return {
+        ProfileCard
+    },
+    data() {
+        return {
             users: [],
             matches: [],
-            scoreMap: [],        // can't make keys vars in JS objs, so need to use array of objs
-            myProfile: false
-		}
+            scoreMap: [], // can't make keys vars in JS objs, so need to use array of objs
+            myProfile: false,
+            tab1: true,
+            tab2: false,
+            tab3: false
+        }
     },
     props: ['user', 'setApp'],
     firebase: {
         usersRef: usersRef
     },
     methods: {
+        tabs(tab1, tab2, tab3) {    // args are bools
+            this.tab1 = tab1;
+            this.tab2 = tab2;
+            this.tab3 = tab3;
+        },
+
         getUsers() {
             let allUsers = null;
             usersRef.on("value", function (snapshot) {
@@ -41,14 +83,14 @@ export default {
             }
         },
 
-        calculateMatches(){
-            for (let u in this.users){
-                if (this.users[u].uuid === this.user.uuid){     // don't match with yourself
+        calculateMatches() {
+            for (let u in this.users) {
+                if (this.users[u].uuid === this.user.uuid) { // don't match with yourself
                     continue;
                 }
 
                 let score = this.matchScore(this.users[u]);
-                if (score > 70){
+                if (score > 70) {
                     let mid = this.users[u].uuid;
                     let newEntry = {
                         mid: mid,
@@ -60,15 +102,15 @@ export default {
             }
         },
 
-        getScore(mid){
-           for (let s in this.scoreMap){
-                if (this.scoreMap[s].mid === mid){
+        getScore(mid) {
+            for (let s in this.scoreMap) {
+                if (this.scoreMap[s].mid === mid) {
                     return (this.scoreMap[s].score) ? this.scoreMap[s].score : 70;
                 }
             }
         },
 
-        matchScore(match) {     
+        matchScore(match) {
             let totalScore = 0;
 
             // TODO: // filter by itinerary
@@ -122,7 +164,7 @@ export default {
                     lifestyleInCommon++;
                 }
             }
-            if (lifestyle && lifestyle.length){
+            if (lifestyle && lifestyle.length) {
                 let lifestyleFrac = lifestyleInCommon / lifestyle.length;
                 totalScore += lifestyleFrac * 0.2;
             }
@@ -153,8 +195,8 @@ export default {
                 if (this.user.selectedAccommodation.indexOf(accommodation[a] != -1)) {
                     accommodationInCommon++;
                 }
-            } 
-            if (accommodation && accommodation.length){
+            }
+            if (accommodation && accommodation.length) {
                 let accommodationFrac = accommodationInCommon / accommodation.length;
                 totalScore += accommodationFrac * 0.05;
             }
@@ -167,7 +209,7 @@ export default {
                     transportationInCommon++;
                 }
             }
-            if (transportation && transportation.length){
+            if (transportation && transportation.length) {
                 let transportationFrac = transportationInCommon / transportation.length;
                 totalScore += transportationFrac * 0.05;
             }
