@@ -291,7 +291,9 @@ export default {
                 title: this.title,
                 shortDescription: this.shortDescription,
                 longDescription: this.longDescription,
-                selectedCategories: this.selectedCategories
+                selectedCategories: this.selectedCategories,
+                interested: [],
+                confirmed: []
             };
 
             this.events.push(newEvent);

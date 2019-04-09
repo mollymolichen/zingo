@@ -7,8 +7,13 @@
                 <h1 v-else>{{numEvents}} Event</h1>
             </div>
         </v-flex>
-		<v-flex xs8 id="sort">
-			<!-- <h3 class="event-header">Sort By</h3> -->
+        <v-flex xs2 id="my-events">
+            <v-btn @click="seeMyEvents(true)">Events I'm Hosting</v-btn>
+        </v-flex>
+        <v-flex xs2 id="my-events">
+            <v-btn @click="seeMyEvents(false)">All Events</v-btn>
+        </v-flex>
+		<v-flex xs4 id="sort">
 			<v-icon id="sort-icons">sort_by_alpha</v-icon>
 			<v-icon id="sort-icons">swap_vert</v-icon>
 		</v-flex>
@@ -32,7 +37,12 @@ export default {
 			return this.events.length;
         }
     },
-    props: ['filtered', 'filterApplied', 'events']
+    methods: {
+        seeMyEvents(res){
+            this.hosting(true);
+        }
+    },
+    props: ['filtered', 'filterApplied', 'events', 'hosting']
 }
 </script>
 
@@ -49,6 +59,12 @@ export default {
     margin: auto;
     margin-top: 30px;
     background-color: aliceblue !important;
+}
+
+#my-events {
+    display: flex;
+	justify-content: center;
+	margin: auto;
 }
 
 #sort {

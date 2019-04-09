@@ -16,7 +16,7 @@
             <v-text-field v-model="age" :rules="ageRules" label="Age" required class="text-field"></v-text-field>
             <v-text-field v-model="universityOrOccupation" label="University or Occupation" required class="text-field"></v-text-field>
             <v-text-field v-model="email" label="Email" required class="text-field"></v-text-field>
-            <!-- <v-text-field v-model="password" label="Password" required class="text-field"></v-text-field> -->
+            <v-text-field v-model="password" label="Password" required class="text-field"></v-text-field>
             <v-text-field v-model="phoneNumber" :rules="phoneNumberRules" label="Phone number" required class="text-field"></v-text-field>
             <v-autocomplete xs6 :items="allLangs" v-model="languagesSpoken" chips multiple style="margin: 0px 10px 0px 10px" label="What languages do you speak?">
                 <template slot="selection" slot-scope="data">
@@ -45,7 +45,7 @@
 
             <div class="photo-upload">
                 <br>
-    
+
                 <div class="upload-btn-wrapper" style="margin-left:30px">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
@@ -70,7 +70,6 @@
 
                 <!-- <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3> -->
             </div>
-
             <!--Arrows-->
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
             <span class="pagenumbers">{{pageNumber}} / 4</span>
@@ -88,28 +87,24 @@
 
                 <h1>Tell us a little about yourself!</h1>
                 <p>These quesitons are optional, but they might help us and other users to get to know you better!</p>
-                
+
                 <h3>What's the craziest fact about you?</h3>
-                <v-flex> 
+                <v-flex>
                     <v-textarea :value="crazyFact" solo v-model="crazyFact" :rules="questionRules"></v-textarea>
                 </v-flex>
                 <h3>What's your go-to midnight snack?</h3>
-                <v-flex> 
+                <v-flex>
                     <v-textarea :value="midnightSnack" solo v-model="midnightSnack" :rules="questionRules"></v-textarea>
                 </v-flex>
                 <h3>What's the biggest tea of 2019?</h3>
-                <v-flex> 
+                <v-flex>
                     <v-textarea :value="biggestTea" solo v-model="biggestTea" :rules="questionRules"></v-textarea>
                 </v-flex>
                 <h3>What's your go-to karaoke song?</h3>
-                <v-flex> 
+                <v-flex>
                     <v-textarea :value="karaokeSong" solo v-model="karaokeSong" :rules="questionRules"></v-textarea>
                 </v-flex>
             </div>
-
-            <!-- <v-flex>
-                <v-textarea :value="bio" solo v-model="bio" :rules="bioRules"></v-textarea>
-            </v-flex> -->
 
             <!--Arrows-->
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
@@ -279,10 +274,12 @@ export default {
     data() {
         return {
             newUser: null,
+            user: null,
             pageNumber: 1,
 
             // data validation rules
-            uuid: "",
+            uuid: null,
+            uuid2: "",
             firstName: "",
             lastName: "",
             age: null,
@@ -446,7 +443,7 @@ export default {
             console.log("Selected file: ", this.selectedFile);
         },
 
-        onUpload(profilePic, p1, p2, p3) {  
+        onUpload(profilePic, p1, p2, p3) {
             let that = this;
 
             const storageRef = Firebase.storage().ref();
@@ -482,7 +479,7 @@ export default {
                 async function () {
                     var url = await uploadTask.snapshot.ref.getDownloadURL();
                     console.log('url: ', url);
-                    if (profilePic){
+                    if (profilePic) {
                         Vue.set(that, 'propicUrl', url);
                     } else if (p1) {
                         Vue.set(that, 'p1', url);
@@ -499,7 +496,7 @@ export default {
         // TODO: fix
         removePast(item) {
             const index = this.traveledInPast.indexOf(item.name);
-            if (index >= 0) this.traveledInPast.splice(index, 1); 
+            if (index >= 0) this.traveledInPast.splice(index, 1);
         },
 
         removeFuture(item) {
@@ -508,13 +505,15 @@ export default {
         },
 
         registerUser() {
-            const uuid = require("uuid/v4");
-            let myUuid = uuid();
-            this.uuid = myUuid;
+            this.signUp();
+            // const uuid2 = require("uuid/v4");
+            // let myUuid = uuid();
+            // this.uuid2 = myUuid;
 
-            if (this.user === null || this.user === undefined) {
+            if (this.user) {                    // already signed in via FB auth
                 let newUser = {
                     uuid: this.uuid,
+                    // uuid2: this.uuid2,
                     firstName: this.firstName,
                     lastName: this.lastName,
                     age: this.age,
@@ -541,18 +540,34 @@ export default {
 
                 this.newUser = newUser;
                 this.updateUser(newUser);
-                usersRef.child(myUuid).set(newUser);
-                // this.signUp();
+                usersRef.child(this.uuid).set(newUser);
             }
         },
-        signUp(){
-            authRef.createUserWithEmailAndPassword(this.email,this.password)
-            .then((user)=>{
-                alert('created')
-            })
-            .catch((e)=>{
-                alert('oops'+ e.message);
-            })
+
+        signUp() {
+            authRef.createUserWithEmailAndPassword(this.email, this.password)
+                .then((user) => {
+                    // alert('created')
+                })
+                .catch((e) => {
+                    alert('oops' + e.message);
+                })
+
+            authRef.onAuthStateChanged((user) => {
+                if (user) {
+                    console.log(user.uid);
+                } else {
+                    console.log("User not logged in or has just logged out.");
+                }
+            });
+
+            if (authRef.currentUser !== null){
+                console.log("user id: " + authRef.currentUser.uid);
+                this.user = authRef.currentUser;
+                this.uuid = authRef.currentUser.uid;
+                console.log(this.user);
+                console.log(this.uuid);                     // grab uuid from here
+            }
         }
     },
     props: ['user', 'updateUser', 'setApp'],

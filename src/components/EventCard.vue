@@ -11,8 +11,7 @@
                 </router-link>
                 <h1>{{this.host.firstName}}, {{this.host.age}}</h1>
                 <h3>{{this.host.universityOrOccupation}}</h3>
-                <v-icon @click="addToFavorites(event)" class="icon">favorite</v-icon>
-                <v-icon @click="attending = true" class="icon">check_circle</v-icon>
+                <v-icon @click="addToFavorites(event.eid)" class="icon">favorite</v-icon>
                 <v-icon @click="interest(false, event)" class="icon">cancel</v-icon>
             </v-flex>
 
@@ -44,6 +43,10 @@
 
 <script>
 /* eslint-disable */
+import {
+    eventsRef
+} from "../database.js";
+
 export default {
     name: 'EventCard',
     props: ['host', 'user', 'event', 'isInterested'],
@@ -53,15 +56,34 @@ export default {
             attending: false,
             notAttending: true,
             favorites: [],
-            myProfile: false
+            myProfile: false,
+            events: []
         }
     },
     methods: {
-        addToFavorites(event) {
-            if (event) {
-                this.favorites.push(event);
+        getEvents() {
+            let allEvents = null;
+            eventsRef.on("value", function (snapshot) {
+                allEvents = snapshot.val();
+            });
+            for (let e in allEvents) {
+                this.events.push(allEvents[e]);
             }
         },
+
+        addToFavorites(eid) {
+            this.getEvents();
+            let interestedGuests = [];
+            for (let e in this.events){
+                if (this.events[e].eid === eid){
+                    interestedGuests = this.interested;
+                }
+            }
+            eventsRef.child(eid).set({
+                interested: interestedGuests
+            });
+        },
+
         interest(res, event) {
             this.isInterested(res, event);
         }
@@ -70,6 +92,9 @@ export default {
         myOwnEvent() {
             return this.user.uuid === this.host.uuid;
         }
+    },
+    firebase: {
+        eventsRef: eventsRef
     }
 }
 </script>

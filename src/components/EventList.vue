@@ -1,9 +1,14 @@
 <template>
 <v-content class="eventlist">
     <div>
-        <event-header :filtered="filtered" :filterApplied="filterApplied" :events="events"></event-header>
+        <event-header 
+            :filtered="filtered" 
+            :filterApplied="filterApplied" 
+            :events="events"
+            :hosting="hosting"
+        ></event-header>
     </div>
-    
+
     <div id="eventlist-container">
         <v-flex xs3>
             <event-filter :events="events" :filtered="filtered" :setFilterApplied="setFilterApplied" :setFilters="setFilters"></event-filter>
@@ -17,7 +22,12 @@
                     <event-card :event="e" :user="user" :host="getHostObj(e.host)" :isInterested="isInterested"></event-card>
                 </div>
             </div>
-            <div v-else>
+            <div v-else-if="eventsImHosting">
+                <div v-for="e in this.events" :key="e">
+                    <event-card v-if="e.host === user.uuid" :event="e" :user="user" :host="getHostObj(e.host)" :isInterested="isInterested"></event-card>
+                </div>
+            </div>
+            <div v-else> <!--default: sort by match score-->
                 <div v-for="e in this.events" :key="e">
                     <event-card :event="e" :user="user" :host="getHostObj(e.host)" :isInterested="isInterested"></event-card>
                 </div>
@@ -86,12 +96,48 @@ export default {
             return null;
         },
 
-        setFilterApplied(res){              // TODO: replace w/ computed?
+        setFilterApplied(res) { // TODO: replace w/ computed?
             this.filterApplied = res;
         },
 
-        setFilters(arr){
+        setFilters(arr) {
             this.filtered = arr;
+        },
+
+        getSortedMatches(user) {
+            if (!this.matchesObj || !this.matchesObj[user.uuid]) {
+                return null;
+            }
+            let myMatches = [...this.matchesObj[user.uuid]]; // spread operator to create new instance, prevent infinite loop
+            if (!myMatches) {
+                return null;
+            }
+            let direction = "desc";
+            let sorted = myMatches.sort(this.compareValues("score", direction));
+            return sorted ? sorted : null;
+        },
+
+        compareValues(key, order) {
+            return function (a, b) {
+                if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+                    return 0;
+                }
+                let varA = typeof a[key] === 'string' ? a[key].toUpperCase() : a[key];
+                let varB = typeof b[key] === 'string' ? b[key].toUpperCase() : b[key];
+                let comparison = 0;
+                if (varA > varB) {
+                    comparison = 1;
+                } else if (varA < varB) {
+                    comparison = -1;
+                }
+                return (
+                    (order === 'desc') ? (comparison * -1) : comparison
+                );
+            }
+        },
+
+        hosting(res){
+            this.eventsImHosting = res;
         }
     },
     mounted() {
@@ -102,7 +148,8 @@ export default {
             interested: true,
             events: [],
             filtered: [],
-            filterApplied: false
+            filterApplied: false,
+            eventsImHosting: false
         }
     }
 }
@@ -144,6 +191,4 @@ export default {
     display: flex;
     width: 80%;
 }
-
-
 </style>

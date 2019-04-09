@@ -153,7 +153,7 @@ export default {
 
             // dates
             date: new Date().toISOString().substr(0, 10),
-            dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)), // TODO: not updating
+            dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
             time: {
                 startTime: "",
                 endTime: "",
@@ -173,7 +173,11 @@ export default {
                 "Sports": "em em-basketball",
                 "Tours": "em em-scooter"
             },
-            showPopup: false
+            showPopup: false,
+
+            // attendees
+            interested: [],
+            confirmed: []
 		};
     },
     firebase: {
