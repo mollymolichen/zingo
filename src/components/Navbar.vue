@@ -21,7 +21,7 @@
             <router-link v-if="user === null" :to="{ name: 'SignIn', params: { user, updateUser, setApp } }">
                 <v-btn class="nav-btn" @click="setApp2(false)">Sign In</v-btn>
             </router-link>
-            <router-link v-if="user != null" :to="{ name: 'Profile', params: { user, updateUser, setApp } }">
+            <router-link v-if="user != null" :to="{ name: 'Profile', params: { user, updateUser, setApp, myProfile: true } }">
                 <v-btn class="nav-btn" @click="setApp2(false)">Profile</v-btn>
             </router-link>
             <router-link to="/" v-if="user != null">
