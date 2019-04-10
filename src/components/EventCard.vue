@@ -74,14 +74,25 @@ export default {
         expressInterest(eid) {
             this.getEvents();
             let interestedGuests;
+            let alreadyInterested = false;
+
             for (let e in this.events){
                 if (this.events[e].eid === eid){
                     if (this.events[e].interested){
                         interestedGuests = this.events[e].interested;
+                        for (let g in interestedGuests){
+                            if (interestedGuests[g] === this.user.uuid){
+                                console.log("User already expressed interest in this event.");
+                                alreadyInterested = true;
+                                break;
+                            }
+                        }
                     } else {
                         interestedGuests = [];          // first person expressing interest
                     }
-                    interestedGuests.push(this.user.uuid);
+                    if (!alreadyInterested){
+                        interestedGuests.push(this.user.uuid);
+                    }
                     break;
                 }
             }
