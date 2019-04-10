@@ -23,7 +23,7 @@
     <!--Tab 1: Hosts-->
     <div v-if="tab1">
         <div v-for="match in this.matches" :key="match">
-            <profile-card :user="match" :score="getScore(match.uuid)" :myProfile="myProfile"></profile-card>
+            <profile-card :user="user" :host="match" :score="getScore(match.uuid)" :myProfile="myProfile" :events="events"></profile-card>
         </div>
     </div>
 
@@ -62,7 +62,7 @@ export default {
             tab3: false
         }
     },
-    props: ['user', 'setApp'],
+    props: ['user', 'setApp', 'events'],
     firebase: {
         usersRef: usersRef
     },

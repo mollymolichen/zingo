@@ -1,8 +1,10 @@
 <template>
 <v-toolbar color="pink lighten-5">
-    <router-link to="/" class="remove-line">
-        <img src="../assets/logo.png" id="flamingo-logo" @click="setApp2(true)"/>      <!--@click="setApp2(false)" makes app disappear-->
-    </router-link>
+    <div v-if="user === null">
+        <router-link to="/" class="remove-line">
+            <img src="../assets/logo.png" id="flamingo-logo" @click="setApp2(true)"/>      <!--@click="setApp2(false)" makes app disappear-->
+        </router-link>
+    </div>
 
     <div id="right">
         <ul>
