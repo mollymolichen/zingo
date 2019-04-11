@@ -426,9 +426,9 @@ export default {
             usersRef.on('value', function (snapshot) {
                 users = snapshot.val();
             });
-            console.log("My email: ", v);
+            // console.log("My email: ", v);
             for (let user in users) {
-                console.log("Their email: ", users[user].email);
+                // console.log("Their email: ", users[user].email);
                 if (users[user].email === v) {
                     return false;
                 }
@@ -561,7 +561,7 @@ export default {
                 }
             });
 
-            if (authRef.currentUser !== null){
+            if (authRef.currentUser !== null && authRef.currentUser !== undefined){
                 console.log("user id: " + authRef.currentUser.uid);
                 this.user = authRef.currentUser;
                 this.uuid = authRef.currentUser.uid;

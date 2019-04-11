@@ -9,7 +9,7 @@
                 <v-btn id="btn">Exit</v-btn>
             </router-link>
             <router-link :to="{ name: 'Profile', params: { user, updateUser, myProfile: true } }">
-                <v-btn id="btn" @click="submit()">Submit</v-btn>
+                <v-btn id="btn" @click="signIn()">Submit</v-btn>
             </router-link>
         </v-form>
     </v-card>
@@ -36,55 +36,73 @@ export default {
             passwordRules: [
                 v => !!v || "Password is required"
             ],
-            user: null                         
+            user: null,
+            users: [],
+            uuid: null
         }
     },
     props: ['updateUser'],
     methods: {
-        setApp2(res){
+        setApp2(res) {
             this.setApp(res);
         },
 
         getUsers() {
-            let users = null;
+            this.users = [];
+            let allUsers = [];
             usersRef.on('value', function (snapshot) {
-                users = snapshot.val();
+                allUsers = snapshot.val();
             });
-            return users;
-        },
-
-        submit() {
-            let myAccount = null;
-            let users = this.getUsers();
-
-            for (let user in users) {
-                if (users[user].email === this.email) {
-                    myAccount = users[String(user)];
-                    this.user = myAccount;
-                    this.updateUser(myAccount);
-                }
+            for (let u in allUsers) {
+                this.users.push(allUsers[u]);
             }
         },
 
+        // submit() {
+        //     let myAccount = null;
+        //     let users = this.getUsers();
+
+        //     for (let user in users) {
+        //         if (users[user].email === this.email) {
+        //             myAccount = users[String(user)];
+        //             this.user = myAccount;
+        //             this.updateUser(myAccount);
+        //         }
+        //     }
+        // },
+
         existingEmail(v) {
-            let users = this.getUsers();
-            for (let user in users) {
-                if (users[user].email === v) {
+            this.getUsers();
+            for (let user in this.users) {
+                if (this.users[user].email === v) {
                     return true;
                 }
             };
             return false;
         },
 
-        signIn(){
+        signIn() {
             authRef.signInWithEmailAndPassword(this.email, this.password)
-            .then((user)=>{
-                this.user = authRef.currentUser;
-                console.log(this.user);
-            })
-            .catch((e)=>{
-                alert('oops '+ e.message);
-            })
+                .then((user) => {
+                    this.user = authRef.currentUser;
+                    console.log("User: ", this.user);
+                })
+                .catch((e) => {
+                    alert('oops ' + e.message);
+                    console.log("Incorrect username or password combination.");
+                })
+
+            if (authRef.currentUser !== null && authRef.currentUser !== undefined){
+                // TODO: currentUser goes null every other attempt (need to login twice?)
+                this.uuid = authRef.currentUser.uid; // weird but need to set this first
+                this.getUsers();
+                for (let u in this.users) {
+                    if (this.users[u].uuid === this.uuid) {
+                        this.user = this.users[u];
+                        this.updateUser(this.users[u]);
+                    }
+                }
+            }
         }
     }
 }

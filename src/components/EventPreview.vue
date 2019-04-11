@@ -6,6 +6,9 @@
 				<h3>{{event.location.locale}}, {{event.time.startTime}}</h3>
 				<v-btn v-if="!learnMore" @click="learnMore = true">Learn More...</v-btn>
 				<h3 v-if="learnMore">{{event.shortDescription}}</h3>
+				<br>
+				<v-icon v-if="!myOwnEvent" @click="expressInterest(event.eid)" class="icon">favorite</v-icon>
+                <v-icon v-if="!myOwnEvent" @click="interest(false, event)" class="icon">cancel</v-icon>
 			</v-card>
 		<!-- </router-link> -->
 	</v-content>
@@ -31,5 +34,10 @@ export default {
 .event-preview-card {
     margin: auto;
     display: flex;
+}
+
+.icon {
+    transform: scale(1.3, 1.3);
+    margin: 5px 10px 5px 10px;
 }
 </style>

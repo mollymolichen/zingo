@@ -19,17 +19,17 @@
             <!--event-header-->
             <div v-if="filterApplied">
                 <div v-for="e in this.filtered" :key="e">
-                    <event-card :event="e" :user="user" :host="getHostObj(e.host)" :notInterested="notInterested"></event-card>
+                    <event-card :event="e" :events="events" :user="user" :host="getHostObj(e.host)" :notInterested="notInterested"></event-card>
                 </div>
             </div>
             <div v-else-if="eventsImHosting">
                 <div v-for="e in this.events" :key="e">
-                    <event-card v-if="e.host === user.uuid" :event="e" :user="user" :host="getHostObj(e.host)" :notInterested="notInterested"></event-card>
+                    <event-card v-if="e.host === user.uuid" :event="e" :events="events" :user="user" :host="getHostObj(e.host)" :notInterested="notInterested"></event-card>
                 </div>
             </div>
             <div v-else> <!--default: sort by match score-->
                 <div v-for="e in this.events" :key="e">
-                    <event-card :event="e" :user="user" :host="getHostObj(e.host)" :notInterested="notInterested"></event-card>
+                    <event-card :event="e" :events="events" :user="user" :host="getHostObj(e.host)" :notInterested="notInterested"></event-card>
                 </div>
             </div>
         </v-flex>
@@ -63,21 +63,21 @@ export default {
         EventFilter,
         EventHeader
     },
-    props: ['user', 'setApp', 'event', 'singleEvent'],
+    props: ['user', 'users', 'setApp', 'event', 'singleEvent', 'events'],
     firebase: {
         usersRef: usersRef,
         eventsRef: eventsRef
     },
     methods: {
-        getEvents() {
-            let allEvents = null;
-            eventsRef.on("value", function (snapshot) {
-                allEvents = snapshot.val();
-            });
-            for (let e in allEvents) {
-                this.events.push(allEvents[e]);
-            }
-        },
+        // getEvents() {
+        //     let allEvents = null;
+        //     eventsRef.on("value", function (snapshot) {
+        //         allEvents = snapshot.val();
+        //     });
+        //     for (let e in allEvents) {
+        //         this.events.push(allEvents[e]);
+        //     }
+        // },
 
         notInterested(interest, e) {
             e.display = false;
@@ -96,7 +96,7 @@ export default {
             return null;
         },
 
-        setFilterApplied(res) { // TODO: replace w/ computed?
+        setFilterApplied(res) {                 // TODO: replace w/ computed?
             this.filterApplied = res;
         },
 
@@ -141,12 +141,12 @@ export default {
         }
     },
     mounted() {
-        this.getEvents();
+        // this.getEvents();
     },
     data() {
         return {
             interested: true,
-            events: [],
+            // events: [],
             filtered: [],
             filterApplied: false,
             eventsImHosting: false

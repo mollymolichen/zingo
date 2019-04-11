@@ -15,7 +15,7 @@
             </v-flex>
 
             <!--Events they're hosting-->
-                <h1>Events</h1>
+                <!-- <h1>Events</h1> -->
             <v-flex xs4 id="hosts">
                 <div v-for="e in this.attendingHostEvent" :key="e">
                     <event-preview class="preview" :event="e"></event-preview>
@@ -57,7 +57,7 @@ export default {
     firebase: {
         eventsRef
     },
-    props: ['user', 'score', 'myProfile', 'host'],
+    props: ['user', 'score', 'myProfile', 'host', 'events'],
     methods: {
         viewProfile() {
             this.view = true;
@@ -68,21 +68,21 @@ export default {
             this.view = false;
         },
 
-        getEvents() {
-            this.events = [];   // clear
-            let allEvents = null;
-            eventsRef.on("value", function (snapshot) {
-                allEvents = snapshot.val();
-            });
-            for (let e in allEvents) {
-                this.events.push(allEvents[e]);
-            }
-        },
+        // getEvents() {
+        //     this.events = [];   // clear
+        //     let allEvents = null;
+        //     eventsRef.on("value", function (snapshot) {
+        //         allEvents = snapshot.val();
+        //     });
+        //     for (let e in allEvents) {
+        //         this.events.push(allEvents[e]);
+        //     }
+        // },
 
         // get info of events you're attending
         getHostEvents(){
-            console.log("get events im attending");
-            this.getEvents();
+            // console.log("get events im attending");
+            // this.getEvents();
 
             if (this.events.length){
                 for (let e in this.events){
