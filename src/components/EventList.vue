@@ -17,19 +17,19 @@
         <!--multiple events, regular feed-->
         <v-flex xs12>
             <!--event-header-->
-            <div v-if="filterApplied">
-                <div v-for="e in this.filtered" :key="e">
-                    <event-card :event="e" :events="events" :user="user" :host="getHostObj(e.host)" :notInterested="notInterested"></event-card>
+            <!-- <div v-if="filterApplied">
+                <div v-for="(obj, index) in this.filtered" :key="index">
+                    <event-card :event="obj" :user="user" :host="getHostObj(obj.host)" :notInterested="notInterested"></event-card>
                 </div>
             </div>
             <div v-else-if="eventsImHosting">
-                <div v-for="e in this.events" :key="e">
-                    <event-card v-if="e.host === user.uuid" :event="e" :events="events" :user="user" :host="getHostObj(e.host)" :notInterested="notInterested"></event-card>
+                <div v-for="(obj, index) in this.events" :key="index">
+                    <event-card v-if="obj.host === user.uuid" :event="obj" :user="user" :host="getHostObj(obj.host)" :notInterested="notInterested"></event-card>
                 </div>
-            </div>
-            <div v-else> <!--default: sort by match score-->
-                <div v-for="e in this.events" :key="e">
-                    <event-card :event="e" :events="events" :user="user" :host="getHostObj(e.host)" :notInterested="notInterested"></event-card>
+            </div> -->
+            <div> <!--default: sort by match score-->
+                <div v-for="(obj, index) in this.events" :key="index">
+                    <event-card :event="obj" :user="user" :host="getHostObj(obj.host)" :notInterested="notInterested"></event-card>
                 </div>
             </div>
         </v-flex>
@@ -55,7 +55,6 @@ import {
 import {
     allLangs
 } from "../assets/languages.js";
-
 export default {
     name: 'EventList',
     components: {
@@ -63,26 +62,24 @@ export default {
         EventFilter,
         EventHeader
     },
-    props: ['user', 'users', 'setApp', 'event', 'singleEvent', 'events'],
+    props: ['user', 'setApp', 'event', 'singleEvent'],
     firebase: {
         usersRef: usersRef,
         eventsRef: eventsRef
     },
     methods: {
-        // getEvents() {
-        //     let allEvents = null;
-        //     eventsRef.on("value", function (snapshot) {
-        //         allEvents = snapshot.val();
-        //     });
-        //     for (let e in allEvents) {
-        //         this.events.push(allEvents[e]);
-        //     }
-        // },
-
+        getEvents() {
+            let allEvents = null;
+            eventsRef.on("value", function (snapshot) {
+                allEvents = snapshot.val();
+            });
+            for (let e in allEvents) {
+                this.events.push(allEvents[e]);
+            }
+        },
         notInterested(interest, e) {
             e.display = false;
         },
-
         getHostObj(uuid) {
             let allUsers = null;
             usersRef.on("value", function (snapshot) {
@@ -95,15 +92,12 @@ export default {
             }
             return null;
         },
-
-        setFilterApplied(res) {                 // TODO: replace w/ computed?
+        setFilterApplied(res) { // TODO: replace w/ computed?
             this.filterApplied = res;
         },
-
         setFilters(arr) {
             this.filtered = arr;
         },
-
         getSortedMatches(user) {
             if (!this.matchesObj || !this.matchesObj[user.uuid]) {
                 return null;
@@ -116,7 +110,6 @@ export default {
             let sorted = myMatches.sort(this.compareValues("score", direction));
             return sorted ? sorted : null;
         },
-
         compareValues(key, order) {
             return function (a, b) {
                 if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
@@ -135,18 +128,17 @@ export default {
                 );
             }
         },
-
         hosting(res){
             this.eventsImHosting = res;
         }
     },
-    mounted() {
-        // this.getEvents();
+    created() {     // taking a while to load but at least no errs
+        this.getEvents();
     },
     data() {
         return {
             interested: true,
-            // events: [],
+            events: [],
             filtered: [],
             filterApplied: false,
             eventsImHosting: false
@@ -163,30 +155,24 @@ export default {
     display: flex;
     flex-direction: row;
 }
-
 #eventlist-container {
     display: flex;
     width: 100%;
 }
-
 .create-event {
     margin: 30px 0px 30px 20px;
 }
-
 #create-event-btn {
     display: flex;
     float: left;
 }
-
 #add {
     transform: scale(2, 2);
 }
-
 #filter {
     display: flex;
     width: 20%;
 }
-
 #events {
     display: flex;
     width: 80%;

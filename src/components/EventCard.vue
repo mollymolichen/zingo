@@ -49,7 +49,7 @@ import {
 
 export default {
     name: 'EventCard',
-    props: ['host', 'user', 'event', 'events', 'notInterested'],
+    props: ['host', 'user', 'event', 'notInterested'],
     data() {
         return {
             learnMore: false,
@@ -61,18 +61,18 @@ export default {
         }
     },
     methods: {
-        // getEvents() {
-        //     let allEvents = null;
-        //     eventsRef.on("value", function (snapshot) {
-        //         allEvents = snapshot.val();
-        //     });
-        //     for (let e in allEvents) {
-        //         this.events.push(allEvents[e]);
-        //     }
-        // },
+        getEvents() {
+            let allEvents = null;
+            eventsRef.on("value", function (snapshot) {
+                allEvents = snapshot.val();
+            });
+            for (let e in allEvents) {
+                this.events.push(allEvents[e]);
+            }
+        },
 
         expressInterest(eid) {
-            // this.getEvents();
+            this.getEvents();
             let interestedGuests;
             let alreadyInterested = false;
 

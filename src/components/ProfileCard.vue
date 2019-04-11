@@ -68,21 +68,20 @@ export default {
             this.view = false;
         },
 
-        // getEvents() {
-        //     this.events = [];   // clear
-        //     let allEvents = null;
-        //     eventsRef.on("value", function (snapshot) {
-        //         allEvents = snapshot.val();
-        //     });
-        //     for (let e in allEvents) {
-        //         this.events.push(allEvents[e]);
-        //     }
-        // },
+        getEvents() {
+            this.events = [];   // clear
+            let allEvents = null;
+            eventsRef.on("value", function (snapshot) {
+                allEvents = snapshot.val();
+            });
+            for (let e in allEvents) {
+                this.events.push(allEvents[e]);
+            }
+        },
 
         // get info of events you're attending
         getHostEvents(){
-            // console.log("get events im attending");
-            // this.getEvents();
+            this.getEvents();
 
             if (this.events.length){
                 for (let e in this.events){
@@ -96,7 +95,6 @@ export default {
         }
     },
     mounted() {
-        // this.getEvents();
         this.getHostEvents();
     }
 }

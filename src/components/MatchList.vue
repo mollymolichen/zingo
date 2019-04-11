@@ -23,7 +23,7 @@
     <!--Tab 1: Hosts-->
     <div v-if="tab1">
         <div v-for="match in this.matches" :key="match">
-            <profile-card :user="user" :host="match" :score="getScore(match.uuid)" :myProfile="myProfile" :events="events"></profile-card>
+            <profile-card :getEvents="getEvents" :user="user" :host="match" :score="getScore(match.uuid)" :myProfile="myProfile" :events="events"></profile-card>
         </div>
     </div>
 

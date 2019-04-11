@@ -14,7 +14,7 @@
             </router-link>
 
             <!--Choose either events or people-->
-            <router-link v-if="user != null" :to="{ name: 'EventList', params: { events, user, users, setApp } }">
+            <router-link v-if="user != null" :to="{ name: 'EventList', params: { user, users, setApp } }">
                 <v-btn class="nav-btn" @click="setApp2(false)">Events</v-btn>
             </router-link>
             <router-link v-if="user != null" :to="{ name: 'MatchList', params: { user, setApp, events } }">
@@ -43,10 +43,10 @@ import {
 } from "../database.js";
 export default {
     name: 'Navbar',
-    props: ['user', 'updateUser', 'setApp', 'events', 'users'],
+    props: ['user', 'updateUser', 'setApp'],
     data() {
         return {
-            events: [],
+            // events: [],
             users: []
         }
     },
@@ -69,31 +69,32 @@ export default {
 
         setApp2(res) {
             this.setApp(res); // add to mounted instead
-            this.getEvents();
-            this.getUsers();
+            // this.getEvents();
+            // this.getUsers();
         },
 
-        getEvents() {
-            this.events = []; // clear
-            let allEvents = null;
-            eventsRef.on("value", function (snapshot) {
-                allEvents = snapshot.val();
-            });
-            for (let e in allEvents) {
-                this.events.push(allEvents[e]);
-            }
-        },
+        // getEvents() {
+        //     let events = []; // clear
+        //     let allEvents = null;
+        //     eventsRef.on("value", function (snapshot) {
+        //         allEvents = snapshot.val();
+        //     });
+        //     for (let e in allEvents) {
+        //         events.push(allEvents[e]);
+        //     }
+        //     return events;
+        // },
 
-        getUsers() {
-            this.users = [];
-            let allUsers = null;
-            usersRef.on("value", function (snapshot) {
-                allUsers = snapshot.val();
-            });
-            for (let u in allUsers) {
-                this.users.push(allUsers[u]);
-            }
-        }
+        // getUsers() {
+        //     this.users = [];
+        //     let allUsers = null;
+        //     usersRef.on("value", function (snapshot) {
+        //         allUsers = snapshot.val();
+        //     });
+        //     for (let u in allUsers) {
+        //         this.users.push(allUsers[u]);
+        //     }
+        // }
     },
     mounted() {
         // this.getEvents();

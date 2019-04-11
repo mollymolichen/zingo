@@ -58,18 +58,18 @@ export default {
             }
         },
 
-        // submit() {
-        //     let myAccount = null;
-        //     let users = this.getUsers();
+        submit() {
+            let myAccount = null;
+            let users = this.getUsers();
 
-        //     for (let user in users) {
-        //         if (users[user].email === this.email) {
-        //             myAccount = users[String(user)];
-        //             this.user = myAccount;
-        //             this.updateUser(myAccount);
-        //         }
-        //     }
-        // },
+            for (let user in users) {
+                if (users[user].email === this.email) {
+                    myAccount = users[String(user)];
+                    this.user = myAccount;
+                    this.updateUser(myAccount);
+                }
+            }
+        },
 
         existingEmail(v) {
             this.getUsers();

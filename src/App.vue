@@ -5,8 +5,7 @@
         <navbar 
             :user="user" 
             :updateUser="updateUser" 
-            :setApp="setApp" 
-            :events="events"
+            :setApp="setApp"
         >
         </navbar>
 
@@ -55,8 +54,7 @@ export default {
     data() {
         return {
             user: null,
-            onApp: true,
-            events: []
+            onApp: true
         }
     },
     methods: {
@@ -66,20 +64,10 @@ export default {
 
         setApp(res) {
             this.onApp = res; // res: boolean
-        },
-
-        getEvents() {
-            let allEvents = null;
-            eventsRef.on("value", function (snapshot) {
-                allEvents = snapshot.val();
-            });
-            for (let e in allEvents) {
-                this.events.push(allEvents[e]);
-            }
         }
     },
     mounted() {
-        this.getEvents();
+
     }
 }
 </script>
