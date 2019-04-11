@@ -17,7 +17,7 @@
             <router-link v-if="user != null" :to="{ name: 'EventList', params: { user, users, setApp } }">
                 <v-btn class="nav-btn" @click="setApp2(false)">Events</v-btn>
             </router-link>
-            <router-link v-if="user != null" :to="{ name: 'MatchList', params: { user, setApp, events } }">
+            <router-link v-if="user != null" :to="{ name: 'MatchList', params: { user, setApp } }">
                 <v-btn class="nav-btn" @click="setApp2(false)">Matches</v-btn>
             </router-link>
 
@@ -45,8 +45,7 @@ export default {
     name: 'Navbar',
     props: ['user', 'updateUser', 'setApp'],
     data() {
-        return {
-            // events: [],
+        return {            
             users: []
         }
     },
@@ -69,36 +68,7 @@ export default {
 
         setApp2(res) {
             this.setApp(res); // add to mounted instead
-            // this.getEvents();
-            // this.getUsers();
         },
-
-        // getEvents() {
-        //     let events = []; // clear
-        //     let allEvents = null;
-        //     eventsRef.on("value", function (snapshot) {
-        //         allEvents = snapshot.val();
-        //     });
-        //     for (let e in allEvents) {
-        //         events.push(allEvents[e]);
-        //     }
-        //     return events;
-        // },
-
-        // getUsers() {
-        //     this.users = [];
-        //     let allUsers = null;
-        //     usersRef.on("value", function (snapshot) {
-        //         allUsers = snapshot.val();
-        //     });
-        //     for (let u in allUsers) {
-        //         this.users.push(allUsers[u]);
-        //     }
-        // }
-    },
-    mounted() {
-        // this.getEvents();
-        // this.getUsers();
     }
 }
 </script>

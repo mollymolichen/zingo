@@ -22,9 +22,10 @@
     <!--TODO: group all tabs by event-->
     <!--Tab 1: Hosts-->
     <div v-if="tab1">
-        <div v-for="match in this.matches" :key="match">
+        <v-btn @click="getEventInfo()">Get Event Info</v-btn>
+        <!-- <div v-for="match in this.matches" :key="match">
             <profile-card :getEvents="getEvents" :user="user" :host="match" :score="getScore(match.uuid)" :myProfile="myProfile" :events="events"></profile-card>
-        </div>
+        </div> -->
     </div>
 
     <!--Tab 2: Confirmed guests-->
@@ -43,6 +44,7 @@
 /*eslint-disable*/
 import ProfileCard from "./ProfileCard.vue";
 import {
+    eventsRef,
     usersRef
 } from "../database.js";
 
@@ -55,14 +57,18 @@ export default {
         return {
             users: [],
             matches: [],
-            scoreMap: [], // can't make keys vars in JS objs, so need to use array of objs
+            scoreMap: [],
+            hosts: [],
+            eventsImAttending: [],
+            eventsImHosting: [],
             myProfile: false,
             tab1: true,
             tab2: false,
-            tab3: false
+            tab3: false,
+            attendees: {}
         }
     },
-    props: ['user', 'setApp', 'events'],
+    props: ['user', 'setApp'],
     firebase: {
         usersRef: usersRef
     },
@@ -71,6 +77,49 @@ export default {
             this.tab1 = tab1;
             this.tab2 = tab2;
             this.tab3 = tab3;
+        },
+
+        getEvents() {
+            this.events = [];   // clear
+            let allEvents = null;
+            eventsRef.on("value", function (snapshot) {
+                allEvents = snapshot.val();
+            });
+            for (let e in allEvents) {
+                this.events.push(allEvents[e]);
+            }
+        },
+
+        // fill map of event-attendee relationships
+        getEventInfo(){
+            this.getEvents();
+            this.eventsImAttending = [];
+            this.eventsImHosting = [];
+
+            for (let e in this.events){
+                if (this.events[e].confirmed && this.events[e].confirmed.indexOf(this.user.uuid) != -1){
+                    this.eventsImAttending.push(this.events[e]);
+                }
+                if (this.events[e].host === this.user.uuid){
+                    this.eventsImHosting.push(this.events[e]);
+                }
+            }
+
+            for (let e in this.eventsImAttending){
+                this.hosts.push(this.eventsImAttending[e].host);
+            }
+
+            for (let e in this.eventsImHosting){
+                let eventID = this.eventsImHosting[e].eid;
+                let interested = this.eventsImHosting[e].interested;
+                let confirmed = this.eventsImHosting[e].confirmed;
+                let event = {             
+                    eid: eventID,
+                    interested: interested,
+                    confirmed: confirmed
+                }
+                this.attendees[eventID] = event;
+            }
         },
 
         getUsers() {
@@ -110,6 +159,7 @@ export default {
             }
         },
 
+        // deprecated
         matchScore(match) {
             let totalScore = 0;
 

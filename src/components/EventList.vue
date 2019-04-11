@@ -17,7 +17,7 @@
         <!--multiple events, regular feed-->
         <v-flex xs12>
             <!--event-header-->
-            <!-- <div v-if="filterApplied">
+            <div v-if="filterApplied">
                 <div v-for="(obj, index) in this.filtered" :key="index">
                     <event-card :event="obj" :user="user" :host="getHostObj(obj.host)" :notInterested="notInterested"></event-card>
                 </div>
@@ -26,8 +26,8 @@
                 <div v-for="(obj, index) in this.events" :key="index">
                     <event-card v-if="obj.host === user.uuid" :event="obj" :user="user" :host="getHostObj(obj.host)" :notInterested="notInterested"></event-card>
                 </div>
-            </div> -->
-            <div> <!--default: sort by match score-->
+            </div>
+            <div v-else> <!--default: sort by match score-->
                 <div v-for="(obj, index) in this.events" :key="index">
                     <event-card :event="obj" :user="user" :host="getHostObj(obj.host)" :notInterested="notInterested"></event-card>
                 </div>
