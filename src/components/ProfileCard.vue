@@ -2,7 +2,6 @@
 <v-content class="profilecard">
     <v-card class="profile">
         <v-layout row wrap>
-            <!-- <v-btn @click="getHostEvents()">Get Event Preview</v-btn> -->
             <!--Profile picture-->
             <v-flex xs3>
                 <router-link :to="{ name: 'Profile', params: { user: host, myProfile } }">
@@ -18,7 +17,7 @@
                 <!-- <h1>Events</h1> -->
             <v-flex xs4 id="hosts">
                 <div v-for="e in this.attendingHostEvent" :key="e">
-                    <event-preview class="preview" :event="e"></event-preview>
+                    <event-preview class="preview" :event="e" :user="user"></event-preview>
                 </div>
             </v-flex>
 
@@ -116,6 +115,7 @@ export default {
     margin: auto;
     display: flex;
     flex-wrap: wrap;
+    border-radius: 25px !important;
 }
 
 .profile-avatar {

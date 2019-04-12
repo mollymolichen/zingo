@@ -55,10 +55,9 @@ export default {
 
 #event-filter-container {
     display: flex;
-    width: 100%;
-    margin: auto;
-    margin-top: 30px;
+    margin: 30px 20px 0px 20px;
     background-color: aliceblue !important;
+    border-radius: 25px !important;
 }
 
 #my-events {

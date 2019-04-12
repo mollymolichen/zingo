@@ -132,6 +132,7 @@ export default {
     margin: auto;
     display: flex;
     flex-wrap: wrap;
+    border-radius: 25px !important;
 }
 
 .picture {

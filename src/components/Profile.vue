@@ -164,6 +164,7 @@ export default {
 .card {
 	margin: 10px 10px 10px 10px;
 	height: 175px;
+	border-radius: 25px !important;
 }
 
 .propic {
@@ -190,6 +191,7 @@ export default {
 	margin: auto;
 	margin-top: 20px;
 	margin-bottom: 20px;
+	border-radius: 25px !important;
 }
 
 .edit-btn {

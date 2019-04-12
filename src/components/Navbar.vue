@@ -83,6 +83,7 @@ export default {
 .nav-btn {
     background-color: aliceblue !important;
     justify-content: flex-end !important;
+    border-radius: 15px !important;
 }
 
 #flamingo-logo {

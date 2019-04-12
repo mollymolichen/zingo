@@ -235,6 +235,7 @@ export default {
     background-color: aliceblue !important;
     justify-content: left;
     padding: 5px;
+    border-radius: 25px !important;
 }
 
 #filter-title {
