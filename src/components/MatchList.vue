@@ -19,23 +19,21 @@
         </v-tab>
     </v-tabs>
 
-    <!--TODO: group all tabs by event-->
     <!--Tab 1: Hosts-->
     <div v-if="tab1">
-        <v-btn @click="getEventInfo()">Get Event Info</v-btn>
-        <!-- <div v-for="match in this.matches" :key="match">
-            <profile-card :getEvents="getEvents" :user="user" :host="match" :score="getScore(match.uuid)" :myProfile="myProfile" :events="events"></profile-card>
-        </div> -->
+        <div v-for="h in this.hosts" :key="h">
+            <profile-card :getEvents="getEvents" :user="user" :host="h" :myProfile="myProfile" :events="events"></profile-card>
+        </div>
     </div>
 
     <!--Tab 2: Confirmed guests-->
     <div v-else-if="tab2">
-        
+        <!--confirmed users in eventsImHosting-->
     </div>
 
     <!--Tab 1: Pending guests-->
     <div v-else-if="tab3">
-        
+        <!--interested users in eventsImHosting-->
     </div>
 </v-content>
 </template>
@@ -90,11 +88,24 @@ export default {
             }
         },
 
+        getHostObj(uuid) {
+            let allUsers = null;
+            usersRef.on("value", function (snapshot) {
+                allUsers = snapshot.val();
+            });
+            for (let u in allUsers) {
+                if (allUsers[u].uuid === uuid) {
+                    return allUsers[u];
+                }
+            }
+        },
+
         // fill map of event-attendee relationships
         getEventInfo(){
             this.getEvents();
             this.eventsImAttending = [];
             this.eventsImHosting = [];
+            this.hosts = [];
 
             for (let e in this.events){
                 if (this.events[e].confirmed && this.events[e].confirmed.indexOf(this.user.uuid) != -1){
@@ -106,7 +117,8 @@ export default {
             }
 
             for (let e in this.eventsImAttending){
-                this.hosts.push(this.eventsImAttending[e].host);
+                let hostObj = this.getHostObj(this.eventsImAttending[e].host)
+                this.hosts.push(hostObj);
             }
 
             for (let e in this.eventsImHosting){
@@ -129,33 +141,6 @@ export default {
             });
             for (let u in allUsers) {
                 this.users.push(allUsers[u]);
-            }
-        },
-
-        calculateMatches() {
-            for (let u in this.users) {
-                if (this.users[u].uuid === this.user.uuid) { // don't match with yourself
-                    continue;
-                }
-
-                let score = this.matchScore(this.users[u]);
-                if (score > 70) {
-                    let mid = this.users[u].uuid;
-                    let newEntry = {
-                        mid: mid,
-                        score: score
-                    }
-                    this.scoreMap.push(newEntry);
-                    this.matches.push(this.users[u]);
-                }
-            }
-        },
-
-        getScore(mid) {
-            for (let s in this.scoreMap) {
-                if (this.scoreMap[s].mid === mid) {
-                    return (this.scoreMap[s].score) ? this.scoreMap[s].score : 70;
-                }
             }
         },
 
@@ -276,8 +261,7 @@ export default {
         }
     },
     mounted() {
-        this.getUsers();
-        this.calculateMatches();
+        this.getEventInfo();
     }
 }
 </script>
