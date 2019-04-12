@@ -22,7 +22,7 @@
 
 		<!--Propic-->
 		<v-avatar class="propic" @mouseover="hover = true" @mouseleave="hover = false">
-			<img :src=currentUser.propicUrl alt="Profile picture" style="transform: scale(5, 5);">
+			<img :src="currentUser.propicUrl" alt="Profile picture" style="transform: scale(5, 5);">
 		</v-avatar>
 
 		<!--Edit propic button-->
@@ -222,6 +222,7 @@ export default {
 .profile-img {
     height: 300px;
 	margin: 10px 10px 10px 10px;
+	border-radius: 15px !important;
 }
 
 #title {

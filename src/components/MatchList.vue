@@ -29,11 +29,21 @@
     <!--Tab 2: Confirmed guests-->
     <div v-else-if="tab2">
         <!--confirmed users in eventsImHosting-->
+        <div v-for="e in this.tab2Events" :key="e">
+            <my-event-preview :event="e" :user="user"></my-event-preview>
+        </div>
     </div>
 
-    <!--Tab 1: Pending guests-->
+    <!--Tab 3: Pending guests-->
     <div v-else-if="tab3">
         <!--interested users in eventsImHosting-->
+        <!-- <div v-for="e in this.attendees" :key="e">
+            <my-event-preview :event="getEventObj(e)" :user="user"></my-event-preview>
+        </div> -->
+    </div>
+
+    <!--Tab 4: Overview of your events--> <!--Move to tab 2? Combine tabs 3,4 into one to manage your event attendees?-->
+    <div v-else-if="tab4">
     </div>
 </v-content>
 </template>
@@ -41,6 +51,7 @@
 <script>
 /*eslint-disable*/
 import ProfileCard from "./ProfileCard.vue";
+import MyEventPreview from "./MyEventPreview.vue";
 import {
     eventsRef,
     usersRef
@@ -49,7 +60,8 @@ import {
 export default {
     name: 'MatchList',
     components: {
-        ProfileCard
+        ProfileCard,
+        MyEventPreview
     },
     data() {
         return {
@@ -63,7 +75,8 @@ export default {
             tab1: true,
             tab2: false,
             tab3: false,
-            attendees: {}
+            attendees: {},
+            tab2Events: []
         }
     },
     props: ['user', 'setApp'],
@@ -77,6 +90,17 @@ export default {
             this.tab3 = tab3;
         },
 
+        tab2Parse(){
+            this.tab2Events = [];
+
+            for (let e in this.attendees){
+                console.log(e);
+                let obj = this.getEventObj(e);
+                console.log(obj);
+                this.tab2Events.push(obj);
+            }
+        },
+
         getEvents() {
             this.events = [];   // clear
             let allEvents = null;
@@ -85,6 +109,15 @@ export default {
             });
             for (let e in allEvents) {
                 this.events.push(allEvents[e]);
+            }
+        },
+
+		getEventObj(eid) {
+			this.getEvents();
+			for (let e in this.events){
+                if (this.events[e].eid === eid){
+                    return this.events[e];
+                }
             }
         },
 
@@ -132,6 +165,9 @@ export default {
                 }
                 this.attendees[eventID] = event;
             }
+            console.log(this.attendees);
+
+            this.tab2Parse();
         },
 
         getUsers() {

@@ -25,8 +25,10 @@
                 <p v-if="learnMore">{{event.longDescription}}</p>
 
                 <!-- Event images -->
-                <v-layout row wrap v-if="event.pics">
-                    <v-img v-for="p in event.pics" :key="p" :src=p class="picture"></v-img>
+                <v-layout row wrap>
+                    <v-img :src="event.p1" class="picture"></v-img>
+                    <v-img :src="event.p2" class="picture"></v-img>
+                    <v-img :src="event.p3" class="picture"></v-img>
                 </v-layout>
             </v-flex>
 
