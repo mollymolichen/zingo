@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import Firebase from 'firebase';
 
 // Initialize Firebase
@@ -12,5 +13,7 @@ var config = {
 var app = Firebase.initializeApp(config);
 
 export const db = app.database();
-export const userRef = db.ref('users');
+export const usersRef = db.ref('users');
+export const eventsRef = db.ref('events');
 export const storageRef = app.storage().ref(); 
+export const authRef = app.auth();
