@@ -23,14 +23,14 @@
     <div v-if="tab1">
         <h1 class="header-text">Events You're Attending</h1>
         <div v-for="h in this.hosts" :key="h">
-            <attending-card :getEvents="getEvents" :user="user" :host="h" :myProfile="myProfile" :events="events"></attending-card>
+            <attending-card :user="user" :host="h" :myProfile="myProfile" :events="events"></attending-card>
         </div>
     </div>
 
     <!--Tab 2: Events and confirmed guests-->
     <div v-else-if="tab2">
         <h1 class="header-text">Events You're Hosting</h1>
-        <div v-for="e in this.myEvents" :key="e">
+        <div v-for="e in this.eventsImHosting" :key="e">
             <hosting :event="e" :user="user"></hosting>
         </div>
     </div>
@@ -38,8 +38,8 @@
     <!--Tab 3: Pending guests-->
     <div v-else-if="tab3">
         <h1 class="header-text">Pending Guests</h1>
-        <div v-for="e in this.myEvents" :key="e">
-            <hosting :event="e" :user="user"></hosting>
+        <div v-for="e in this.eventsImHosting" :key="e">
+            <hosting :event="e" :user="user" :attendees="attendees"></hosting>
         </div>
     </div>
 </v-content>
@@ -69,11 +69,11 @@ export default {
             eventsImAttending: [],
             eventsImHosting: [],
             myProfile: false,
+            attendees: {},
+            myEvents: [],
             tab1: true,
             tab2: false,
-            tab3: false,
-            attendees: {},
-            myEvents: []
+            tab3: false
         }
     },
     props: ['user', 'setApp'],
@@ -87,59 +87,27 @@ export default {
             this.tab3 = tab3;
         },
 
-        getMyEvents(){
-            this.myEvents = [];
-            for (let e in this.attendees){
-                let obj = this.getEventObj(e);
-                this.myEvents.push(obj);
-            }
-        },
-
-        getEvents() {
-            this.events = [];   // clear
-            let allEvents = null;
-            eventsRef.on("value", function (snapshot) {
-                allEvents = snapshot.val();
-            });
-            for (let e in allEvents) {
-                this.events.push(allEvents[e]);
-            }
-        },
-
-		getEventObj(eid) {
-			this.getEvents();
-			for (let e in this.events){
-                if (this.events[e].eid === eid){
-                    return this.events[e];
-                }
-            }
-        },
-
-        getHostObj(uuid) {
-            let allUsers = null;
-            usersRef.on("value", function (snapshot) {
-                allUsers = snapshot.val();
-            });
-            for (let u in allUsers) {
-                if (allUsers[u].uuid === uuid) {
-                    return allUsers[u];
-                }
-            }
-        },
-
-        // fill map of event-attendee relationships
-        getEventInfo(){
-            this.getEvents();
+        getEventInfo() {
+            // clear
+            this.events = [];   
             this.eventsImAttending = [];
             this.eventsImHosting = [];
             this.hosts = [];
 
-            for (let e in this.events){
-                if (this.events[e].confirmed && this.events[e].confirmed.indexOf(this.user.uuid) != -1){
-                    this.eventsImAttending.push(this.events[e]);
+            // read events table from DB
+            let allEvents = null;
+            eventsRef.on("value", function (snapshot) {
+                allEvents = snapshot.val();
+            });
+
+            // get events you're attending, events you're hosting (tabs 1, 2)
+            for (let e in allEvents) {
+                this.events.push(allEvents[e]);
+                if (allEvents[e].confirmed && allEvents[e].confirmed.indexOf(this.user.uuid) != -1){
+                    this.eventsImAttending.push(allEvents[e]);
                 }
-                if (this.events[e].host === this.user.uuid){
-                    this.eventsImHosting.push(this.events[e]);
+                if (allEvents[e].host === this.user.uuid){
+                    this.eventsImHosting.push(allEvents[e]);
                 }
             }
 
@@ -160,8 +128,24 @@ export default {
                 this.attendees[eventID] = event;
             }
             console.log(this.attendees);
+        },
 
-            this.getMyEvents();
+        getHostObj(uuid) {
+            let allUsers = null;
+            usersRef.on("value", function (snapshot) {
+                allUsers = snapshot.val();
+            });
+            for (let u in allUsers) {
+                if (allUsers[u].uuid === uuid) {
+                    return allUsers[u];
+                }
+            }
+        },
+
+        getPendingGuests(){
+            for (let e in this.attendees){
+                // TODO: tab 3
+            }
         },
 
         getUsers() {

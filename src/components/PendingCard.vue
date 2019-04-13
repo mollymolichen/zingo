@@ -20,14 +20,6 @@
                     <event-preview class="preview" :event="e" :user="user"></event-preview>
                 </div>
             </v-flex>
-
-            <!-- <v-flex xs2>
-                <v-tooltip bottom>
-                    <span slot="activator"><h4>{{score}}% MATCH</h4></span>
-                    <span>Match score is generated based on your profile.</span>
-                </v-tooltip>
-                <br>
-            </v-flex> -->
         </v-layout>
     </v-card>
 </v-content>
@@ -56,7 +48,7 @@ export default {
     firebase: {
         eventsRef
     },
-    props: ['user', 'score', 'myProfile', 'host', 'events'],
+    props: ['user', 'host', 'events', 'attendees'],
     methods: {
         viewProfile() {
             this.view = true;
@@ -91,7 +83,19 @@ export default {
                     }
                 }
             }
-        }
+        },
+
+        getUserObj(uuid) {
+            let allUsers = null;
+            usersRef.on("value", function (snapshot) {
+                allUsers = snapshot.val();
+            });
+            for (let u in allUsers) {
+                if (allUsers[u].uuid === uuid) {
+                    return allUsers[u];
+                }
+            }
+        },
     },
     mounted() {
         this.getHostEvents();
