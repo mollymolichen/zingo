@@ -2,7 +2,7 @@
 <v-content class="my-event-preview">
     <v-card class="mep">
         <v-layout row wrap>
-            <!--Event picture (optional)-->
+            <!--Event picture-->
             <v-flex xs3>
 				<v-avatar class="event-profile-pic">
 					<img :src="event.p1">
@@ -10,13 +10,6 @@
                 <h2>{{event.title}}</h2>
                 <h4>{{event.dateFormatted}}, {{event.time.startTime}} - {{event.time.endTime}}</h4>
             </v-flex>
-
-            <!--Event description-->
-            <!-- <v-flex xs4 class="text">
-                <h2>{{event.title}}</h2>
-                <h4>{{event.dateFormatted}}, {{event.time.startTime}} - {{event.time.endTime}}</h4> -->
-                <!-- <h4>{{event.location.locale}}, {{event.location.city}}</h4> -->
-            <!-- </v-flex> -->
 
 			<!--Attendees-->
 			<v-flex xs4 class="text">
@@ -207,6 +200,5 @@ export default {
 .text {
     margin-top: 20px;
     display: flex;
-
 }
 </style>

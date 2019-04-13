@@ -38,7 +38,8 @@ export default {
             ],
             user: null,
             users: [],
-            uuid: null
+            uuid: null,
+            // correctCredentials: false
         }
     },
     props: ['updateUser'],
@@ -86,10 +87,12 @@ export default {
                 .then((user) => {
                     this.user = authRef.currentUser;
                     console.log("User: ", this.user);
+                    this.correctCredentials = true;
                 })
                 .catch((e) => {
                     alert('oops ' + e.message);
                     console.log("Incorrect username or password combination.");
+                    // this.wrongCredentials = true;
                 })
 
             if (authRef.currentUser !== null && authRef.currentUser !== undefined){

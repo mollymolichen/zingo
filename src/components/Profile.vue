@@ -1,5 +1,5 @@
 <template>
-<v-content class="bkgd">
+<v-content class="bkgd" v-if="user">
 	<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 	
     <div class="heading">
@@ -22,7 +22,7 @@
 
 		<!--Propic-->
 		<v-avatar class="propic" @mouseover="hover = true" @mouseleave="hover = false">
-			<img :src="currentUser.propicUrl" alt="Profile picture" style="transform: scale(5, 5);">
+			<img :src="user.propicUrl" alt="Profile picture" style="transform: scale(5, 5);">
 		</v-avatar>
 
 		<!--Edit propic button-->
@@ -37,23 +37,23 @@
         <v-flex>
             <ul>
                 <li>
-                    <h2>{{currentUser.firstName}}, {{$route.params.user.age}}  <i class="em em-flag-um"/></h2>
+                    <h2>{{user.firstName}}, {{$route.params.user.age}}  <i class="em em-flag-um"/></h2>
                 </li>
-                <li>{{currentUser.universityOrOccupation}}</li>
-                <li>{{currentUser.hometown.city}} | {{currentUser.hometown.state}} | {{currentUser.hometown.country}}</li>
+                <li>{{user.universityOrOccupation}}</li>
+                <li>{{user.hometown.city}} | {{user.hometown.state}} | {{user.hometown.country}}</li>
             </ul>
         </v-flex>
     </div>
 
-    <div class="photos" v-if="currentUser.p1 || currentUser.p2 || currentUser.p3">
+    <div class="photos" v-if="user.p1 || user.p2 || user.p3">
 		<v-flex xs6 sm4>
-			<v-img class="profile-img" :src="currentUser.p1"></v-img>
+			<v-img class="profile-img" :src="user.p1"></v-img>
 		</v-flex>
 		<v-flex xs6 sm4>
-			<v-img class="profile-img" :src="currentUser.p2"></v-img>
+			<v-img class="profile-img" :src="user.p2"></v-img>
 		</v-flex>
 		<v-flex xs6 sm4>
-			<v-img class="profile-img" :src="currentUser.p3"></v-img>
+			<v-img class="profile-img" :src="user.p3"></v-img>
 		</v-flex>
     </div>
 
@@ -66,7 +66,7 @@
 				<v-card class="card">
 					<v-card-text>
 						<h3>Intro</h3>
-						<p>{{currentUser.bio}}</p>
+						<p>{{user.bio}}</p>
 					</v-card-text>
 				</v-card>
 			</v-flex>
@@ -75,7 +75,7 @@
 					<v-card-text>
 						<h3>Favorite Travel Activities</h3>
 						<ul class="square">
-							<li v-for="activity in currentUser.selectedActivities" :key="activity" id="li-activity">								
+							<li v-for="activity in user.selectedActivities" :key="activity" id="li-activity">								
 								{{activity}}
 							</li>
 						</ul>
@@ -87,7 +87,7 @@
 					<v-card-text>
 						<h3>Preferences</h3>
 						<ul class="square">
-							<li v-for="habit in currentUser.selectedLifestyle" :key="habit" id="li-lifestyle">
+							<li v-for="habit in user.selectedLifestyle" :key="habit" id="li-lifestyle">
 								{{habit}}
 							</li>
 						</ul>
@@ -101,7 +101,7 @@
 					<v-card-text>
 						<h3>Places I Want to Go</h3>
 						<ul class="square">
-							<li v-for="place in currentUser.travelInFuture" :key="place" id="li-future">
+							<li v-for="place in user.travelInFuture" :key="place" id="li-future">
 								{{place}}
 							</li>							
 						</ul>
@@ -113,7 +113,7 @@
 					<v-card-text>
 						<h3>Places I've Been</h3>
 						<ul class="square">
-							<li v-for="place in currentUser.traveledInPast" :key="place" id="li-past">
+							<li v-for="place in user.traveledInPast" :key="place" id="li-past">
 								{{place}}
 							</li>
 						</ul>
@@ -125,7 +125,7 @@
 					<v-card-text>
 						<h3>Itinerary</h3>
 						<ul class="square">
-							<li v-for="place in currentUser.travelCurrent" :key="place" id="li-current">
+							<li v-for="place in user.travelCurrent" :key="place" id="li-current">
 								{{place}}
 							</li>
 						</ul>
@@ -144,18 +144,18 @@ export default {
     components: {
 
 	},
-	props: ['user', 'updateUser', 'myProfile'],
+	props: ['user', 'updateUser', 'myProfile', 'correctCredentials'],
     data() {
         return {
-			currentUser: null,
+			// user: null,
 			hover: false,
 			display: false
         }
 	},
 	mounted() {
-		if (this.user){
-			this.currentUser = this.user;
-		}
+		// if (this.user){
+		// 	this.user = this.user;
+		// }
 	}
 }
 </script>
