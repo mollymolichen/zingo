@@ -4,12 +4,12 @@
         <v-tabs-slider color="white"></v-tabs-slider>
 
         <v-tab href="#tab-1" @click="tabs(true, false, false)">
-            Hosts
+            Attending
             <v-icon>person</v-icon>
         </v-tab>
 
         <v-tab href="#tab-2" @click="tabs(false, true, false)">
-            Confirmed
+            Hosting
             <v-icon>assignment_ind</v-icon>
         </v-tab>
 
@@ -21,37 +21,34 @@
 
     <!--Tab 1: Hosts-->
     <div v-if="tab1">
+        <h1 class="header-text">Events You're Attending</h1>
         <div v-for="h in this.hosts" :key="h">
-            <profile-card :getEvents="getEvents" :user="user" :host="h" :myProfile="myProfile" :events="events"></profile-card>
+            <attending-card :getEvents="getEvents" :user="user" :host="h" :myProfile="myProfile" :events="events"></attending-card>
         </div>
     </div>
 
-    <!--Tab 2: Confirmed guests-->
+    <!--Tab 2: Events and confirmed guests-->
     <div v-else-if="tab2">
-        <!--confirmed users in eventsImHosting-->
-        <div v-for="e in this.tab2Events" :key="e">
-            <my-event-preview :event="e" :user="user"></my-event-preview>
+        <h1 class="header-text">Events You're Hosting</h1>
+        <div v-for="e in this.myEvents" :key="e">
+            <hosting :event="e" :user="user"></hosting>
         </div>
     </div>
 
     <!--Tab 3: Pending guests-->
     <div v-else-if="tab3">
-        <!--interested users in eventsImHosting-->
-        <!-- <div v-for="e in this.attendees" :key="e">
-            <my-event-preview :event="getEventObj(e)" :user="user"></my-event-preview>
-        </div> -->
-    </div>
-
-    <!--Tab 4: Overview of your events--> <!--Move to tab 2? Combine tabs 3,4 into one to manage your event attendees?-->
-    <div v-else-if="tab4">
+        <h1 class="header-text">Pending Guests</h1>
+        <div v-for="e in this.myEvents" :key="e">
+            <hosting :event="e" :user="user"></hosting>
+        </div>
     </div>
 </v-content>
 </template>
 
 <script>
 /*eslint-disable*/
-import ProfileCard from "./ProfileCard.vue";
-import MyEventPreview from "./MyEventPreview.vue";
+import AttendingCard from "./AttendingCard.vue";
+import Hosting from "./Hosting.vue";
 import {
     eventsRef,
     usersRef
@@ -60,8 +57,8 @@ import {
 export default {
     name: 'MatchList',
     components: {
-        ProfileCard,
-        MyEventPreview
+        AttendingCard,
+        Hosting
     },
     data() {
         return {
@@ -76,7 +73,7 @@ export default {
             tab2: false,
             tab3: false,
             attendees: {},
-            tab2Events: []
+            myEvents: []
         }
     },
     props: ['user', 'setApp'],
@@ -90,14 +87,11 @@ export default {
             this.tab3 = tab3;
         },
 
-        tab2Parse(){
-            this.tab2Events = [];
-
+        getMyEvents(){
+            this.myEvents = [];
             for (let e in this.attendees){
-                console.log(e);
                 let obj = this.getEventObj(e);
-                console.log(obj);
-                this.tab2Events.push(obj);
+                this.myEvents.push(obj);
             }
         },
 
@@ -167,7 +161,7 @@ export default {
             }
             console.log(this.attendees);
 
-            this.tab2Parse();
+            this.getMyEvents();
         },
 
         getUsers() {
@@ -303,5 +297,7 @@ export default {
 </script>
 
 <style>
-
+.header-text {
+    margin: 30px 0px 30px 0px;
+}
 </style>

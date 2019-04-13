@@ -242,7 +242,7 @@ import Vue from "vue";
 import Firebase from "firebase";
 import Events from './Events.vue';
 import Navbar from './Navbar.vue';
-import ProfileCard from './ProfileCard.vue';
+import AttendingCard from './AttendingCard.vue';
 import ProfileList from './ProfileList.vue';
 import {
     db,

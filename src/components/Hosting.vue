@@ -1,6 +1,6 @@
 <template>
-<v-content class="my-event-preview">
-    <v-card class="mep">
+<v-content class="hosting">
+    <v-card class="host">
         <v-layout row wrap>
             <!--Event picture-->
             <v-flex xs3>
@@ -11,7 +11,7 @@
                 <h4>{{event.dateFormatted}}, {{event.time.startTime}} - {{event.time.endTime}}</h4>
             </v-flex>
 
-			<!--Attendees-->
+			<!--Hosting-->
 			<v-flex xs4 class="text">
                 <h2 v-if="event.confirmed">{{event.confirmed.length}} Confirmed</h2>
                 <h2 v-else>0 Confirmed</h2>
@@ -44,7 +44,7 @@ import {
 } from "../database.js";
 
 export default {
-    name: 'MyEventPreview',
+    name: 'Hosting',
     props: ['user', 'event'],
     data() {
         return {
@@ -146,7 +146,7 @@ export default {
 </script>
 
 <style>
-.my-event-preview {
+.hosting {
     display: flex;
     flex-direction: column;
     width: 80%;
@@ -155,7 +155,7 @@ export default {
     margin-bottom: 20px;
 }
 
-.mep {
+.host {
     height: 50%;
     width: 100%;
     background-color: aliceblue !important;

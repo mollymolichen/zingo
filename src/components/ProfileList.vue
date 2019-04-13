@@ -8,7 +8,7 @@
 
 <script>
 /* eslint-disable */
-import ProfileCard from "./ProfileCard.vue";
+import AttendingCard from "./AttendingCard.vue";
 import {
     usersRef
 } from "../database.js";
@@ -16,7 +16,7 @@ import {
 export default {
 	name: 'ProfileList',
 	components: {
-		ProfileCard
+		AttendingCard
 	},
 	data() {
 		return {
