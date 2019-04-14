@@ -38,8 +38,8 @@
     <!--Tab 3: Pending guests-->
     <div v-else-if="tab3">
         <h1 class="header-text">Pending Guests</h1>
-        <div v-for="(obj, index) in this.pending" :key="index">
-            <pending-card :user="obj.guest" :event="obj.event" :attendees="attendees"></pending-card>
+        <div v-for="(obj, index) in this.pending" :key="index" id="tab3">
+            <pending-card :guest="obj.guest" :event="obj.event" :attendees="attendees"></pending-card>
         </div>
     </div>
 </v-content>
@@ -186,5 +186,10 @@ export default {
 <style>
 .header-text {
     margin: 30px 0px 30px 0px;
+}
+
+#tab3 {
+    display: flex;
+    flex-direction: row !important;
 }
 </style>

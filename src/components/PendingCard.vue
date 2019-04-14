@@ -1,25 +1,32 @@
 <template>
-<v-content class="profilecard">
-    <v-card class="profile">
-        <v-layout row wrap>
+<v-content class="pendingcard">
+    <v-card class="pending">
+        <v-layout column wrap id="center">
             <!--Profile picture-->
             <v-flex xs3>
-                <router-link :to="{ name: 'Profile', params: { user: host, myProfile } }">
+                <router-link :to="{ name: 'Profile', params: { user: guest, myProfile } }">
                     <v-avatar class="profile-avatar">
-                        <img :src="host.propicUrl" alt="Profile picture">
-                    </v-avatar>
+                        <img :src="guest.propicUrl" alt="Profile picture">
+                    </v-avatar><br>
                 </router-link>
-                <h1>{{host.firstName}}, {{host.age}}</h1>
-                <h3>{{host.universityOrOccupation}}</h3>
+                <h1>{{guest.firstName}}, {{guest.age}}</h1>
+                <h2>{{guest.universityOrOccupation}}</h2>
             </v-flex>
 
-            <!--Events they're hosting-->
-                <!-- <h1>Events</h1> -->
-            <v-flex xs4 id="hosts">
-                <div v-for="e in this.attendingHostEvent" :key="e">
-                    <event-preview class="preview" :event="e" :user="user"></event-preview>
-                </div>
+            <!--Events they're pending for-->
+            <v-flex xs4 id="pink">
+                <h2>Responded to:</h2> 
+                <h2><strong>{{event.title}}</strong></h2>
+                <h2>{{event.dateFormatted}}, {{event.time.startTime}} - {{event.time.endTime}}</h2>
             </v-flex>
+
+            <div id="icons">
+                <v-icon class="icon">done_outline</v-icon>
+            <!-- </div> -->
+
+            <!-- <div id="right"> -->
+                <v-icon class="icon">block</v-icon>
+            </div>
         </v-layout>
     </v-card>
 </v-content>
@@ -48,78 +55,43 @@ export default {
     firebase: {
         eventsRef
     },
-    props: ['user', 'host', 'events', 'attendees'],
+    props: ['guest', 'event', 'attendees'],
     methods: {
-        viewProfile() {
-            this.view = true;
-            this.toggleProfile();
-        },
 
-        exit() {
-            this.view = false;
-        },
-
-        getEvents() {
-            this.events = [];   // clear
-            let allEvents = null;
-            eventsRef.on("value", function (snapshot) {
-                allEvents = snapshot.val();
-            });
-            for (let e in allEvents) {
-                this.events.push(allEvents[e]);
-            }
-        },
-
-        // get info of events you're attending
-        getHostEvents(){
-            this.getEvents();
-
-            if (this.events.length){
-                for (let e in this.events){
-                    if (this.host.uuid === this.events[e].host){
-                        if (this.events[e].confirmed.indexOf(this.user.uuid) != -1){
-                            this.attendingHostEvent.push(this.events[e]);
-                        }
-                    }
-                }
-            }
-        },
-
-        getUserObj(uuid) {
-            let allUsers = null;
-            usersRef.on("value", function (snapshot) {
-                allUsers = snapshot.val();
-            });
-            for (let u in allUsers) {
-                if (allUsers[u].uuid === uuid) {
-                    return allUsers[u];
-                }
-            }
-        },
     },
     mounted() {
-        this.getHostEvents();
+
     }
 }
 </script>
 
 <style>
-.profilecard {
+.pendingcard {
     display: flex;
-    flex-direction: column;
     margin: 20px 20px 0px 20px;
-    width: 100%;
 }
 
-.profile {
-    padding: 20px;
-    height: 50%;
-    width: 80%;
+.pending {
+    width: 20%;
     background-color: aliceblue !important;
-    margin: auto;
     display: flex;
-    flex-wrap: wrap;
-    border-radius: 25px !important;
+    flex-direction: column;
+    border-radius: 25px;
+}
+
+#center {
+    align-items: center;
+}
+
+#pink {
+    background-color: pink;
+    margin: 20px 20px 20px 20px;
+    padding: 15px;
+    border-radius: 25px;
+}
+
+#icons {
+    margin: 10px 0px 20px 0px;
 }
 
 .profile-avatar {
@@ -130,15 +102,15 @@ export default {
     width: 150px !important;
 }
 
-#hosts {
+/* #left {
+    width: 50% !important;
     display: flex;
-    flex-direction: row;
-}
+    justify-content: left;
+} */
 
-.preview {
+/* #right {
+    width: 50% !important;
     display: flex;
-    margin: 20px 20px 20px 20px;
-    width: 350px;
-    height: 350;
-}
+    justify-content: right;
+} */
 </style>
