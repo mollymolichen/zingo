@@ -5,7 +5,6 @@
             :filtered="filtered" 
             :filterApplied="filterApplied" 
             :events="events"
-            :hosting="hosting"
         ></event-header>
     </div>
 
@@ -20,11 +19,6 @@
             <div v-if="filterApplied">
                 <div v-for="(obj, index) in this.filtered" :key="index">
                     <event-card :event="obj" :user="user" :host="getHostObj(obj.host)" :notInterested="notInterested"></event-card>
-                </div>
-            </div>
-            <div v-else-if="eventsImHosting">
-                <div v-for="(obj, index) in this.events" :key="index">
-                    <event-card v-if="obj.host === user.uuid" :event="obj" :user="user" :host="getHostObj(obj.host)" :notInterested="notInterested"></event-card>
                 </div>
             </div>
             <div v-else> <!--default: sort by match score-->
@@ -127,9 +121,6 @@ export default {
                     (order === 'desc') ? (comparison * -1) : comparison
                 );
             }
-        },
-        hosting(res){
-            this.eventsImHosting = res;
         }
     },
     created() {     // taking a while to load but at least no errs
@@ -140,8 +131,7 @@ export default {
             interested: true,
             events: [],
             filtered: [],
-            filterApplied: false,
-            eventsImHosting: false
+            filterApplied: false
         }
     }
 }

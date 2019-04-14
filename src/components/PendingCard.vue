@@ -9,23 +9,20 @@
                         <img :src="guest.propicUrl" alt="Profile picture">
                     </v-avatar><br>
                 </router-link>
-                <h1>{{guest.firstName}}, {{guest.age}}</h1>
-                <h2>{{guest.universityOrOccupation}}</h2>
+                        <h1>{{guest.firstName}}, {{guest.age}}</h1>
+                        <h2>{{guest.universityOrOccupation}}</h2>
             </v-flex>
 
             <!--Events they're pending for-->
             <v-flex xs4 id="pink">
-                <h2>Responded to:</h2> 
+                <h2>Responded to:</h2>
                 <h2><strong>{{event.title}}</strong></h2>
                 <h2>{{event.dateFormatted}}, {{event.time.startTime}} - {{event.time.endTime}}</h2>
             </v-flex>
 
             <div id="icons">
-                <v-icon class="icon">done_outline</v-icon>
-            <!-- </div> -->
-
-            <!-- <div id="right"> -->
-                <v-icon class="icon">block</v-icon>
+                <v-icon class="icon" @click="changeGuestStatus(guest.uuid, true)">done_outline</v-icon>
+                <v-icon class="icon" @click="changeGuestStatus(guest.uuid, true)">block</v-icon>
             </div>
         </v-layout>
     </v-card>
@@ -45,7 +42,7 @@ export default {
         return {
             view: false,
             events: [],
-            attendingHostEvent: [],    // specific to one host at a time
+            attendingHostEvent: [], // specific to one host at a time
         }
     },
     components: {
@@ -57,7 +54,22 @@ export default {
     },
     props: ['guest', 'event', 'attendees'],
     methods: {
+        async changeGuestStatus(guestID, approveGuest) {
+            // remove from interested
+            let i = this.event.interested.indexOf(guestID);
+            this.event.interested.splice(i, 1);
+            await eventsRef.child(this.event.eid).update({
+                interested: this.event.interested
+            });
 
+            // either approve or remove to confirmed
+            if (approveGuest) {
+                this.event.confirmed.push(guestID);
+                await eventsRef.child(this.event.eid).update({
+                    confirmed: this.event.confirmed
+                });
+            }
+        }
     },
     mounted() {
 
@@ -101,16 +113,4 @@ export default {
     height: 150px !important;
     width: 150px !important;
 }
-
-/* #left {
-    width: 50% !important;
-    display: flex;
-    justify-content: left;
-} */
-
-/* #right {
-    width: 50% !important;
-    display: flex;
-    justify-content: right;
-} */
 </style>
