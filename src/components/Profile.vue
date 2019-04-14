@@ -144,7 +144,7 @@ export default {
     components: {
 
 	},
-	props: ['user', 'updateUser', 'myProfile', 'correctCredentials'],
+	props: ['user', 'updateUser', 'myProfile'],
     data() {
         return {
 			// user: null,

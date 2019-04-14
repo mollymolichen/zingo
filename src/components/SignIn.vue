@@ -8,9 +8,8 @@
             <router-link to="/">
                 <v-btn id="btn">Exit</v-btn>
             </router-link>
-            <router-link :to="{ name: 'Profile', params: { user, updateUser, myProfile: true } }">
-                <v-btn id="btn" @click="signIn()">Submit</v-btn>
-            </router-link>
+            <!-- Router link handled via path, since user is async param -->
+            <v-btn id="btn" @click="signIn()">Submit</v-btn>
         </v-form>
     </v-card>
 </v-content>
@@ -22,6 +21,8 @@ import {
     authRef,
     usersRef
 } from "../database";
+
+import router from "../router";
 export default {
     name: "SignIn",
     data() {
@@ -39,36 +40,31 @@ export default {
             user: null,
             users: [],
             uuid: null,
-            // correctCredentials: false
         }
     },
     props: ['updateUser'],
+    computed: {},
     methods: {
         setApp2(res) {
             this.setApp(res);
         },
 
-        getUsers() {
-            this.users = [];
-            let allUsers = [];
+        getUser(uuid) {
+            let users;
             usersRef.on('value', function (snapshot) {
+                users = snapshot.val();
+            });
+
+            return users[uuid];
+        },
+
+        getUsers() {
+            let allUsers = null;
+            usersRef.on("value", function (snapshot) {
                 allUsers = snapshot.val();
             });
             for (let u in allUsers) {
                 this.users.push(allUsers[u]);
-            }
-        },
-
-        submit() {
-            let myAccount = null;
-            let users = this.getUsers();
-
-            for (let user in users) {
-                if (users[user].email === this.email) {
-                    myAccount = users[String(user)];
-                    this.user = myAccount;
-                    this.updateUser(myAccount);
-                }
             }
         },
 
@@ -82,30 +78,20 @@ export default {
             return false;
         },
 
-        signIn() {
-            authRef.signInWithEmailAndPassword(this.email, this.password)
-                .then((user) => {
-                    this.user = authRef.currentUser;
-                    console.log("User: ", this.user);
-                    this.correctCredentials = true;
+        async signIn() {
+            let that = this;
+
+            await authRef.signInWithEmailAndPassword(this.email, this.password)
+                .then((res) => {
+                    that.uuid = res.user.uid;
+                    that.user = this.getUser(that.uuid);
+                    that.updateUser(this.user);
+                    router.push({ name: 'Profile' , params: { user: that.user, updateUser: that.updateUser, myProfile: true }});
                 })
                 .catch((e) => {
                     alert('oops ' + e.message);
                     console.log("Incorrect username or password combination.");
-                    // this.wrongCredentials = true;
                 })
-
-            if (authRef.currentUser !== null && authRef.currentUser !== undefined){
-                // TODO: currentUser goes null every other attempt (need to login twice?)
-                this.uuid = authRef.currentUser.uid; // weird but need to set this first
-                this.getUsers();
-                for (let u in this.users) {
-                    if (this.users[u].uuid === this.uuid) {
-                        this.user = this.users[u];
-                        this.updateUser(this.users[u]);
-                    }
-                }
-            }
         }
     }
 }
