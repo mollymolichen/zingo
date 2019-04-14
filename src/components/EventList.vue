@@ -18,12 +18,12 @@
             <!--event-header-->
             <div v-if="filterApplied">
                 <div v-for="(obj, index) in this.filtered" :key="index">
-                    <event-card :event="obj" :user="user" :host="getHostObj(obj.host)" :notInterested="notInterested"></event-card>
+                    <event-card :event="obj" :user="user" :host="getHostObj(obj.host)"></event-card>
                 </div>
             </div>
             <div v-else> <!--default: sort by match score-->
                 <div v-for="(obj, index) in this.events" :key="index">
-                    <event-card :event="obj" :user="user" :host="getHostObj(obj.host)" :notInterested="notInterested"></event-card>
+                    <event-card :event="obj" :user="user" :host="getHostObj(obj.host)"></event-card>
                 </div>
             </div>
         </v-flex>
@@ -62,18 +62,17 @@ export default {
         eventsRef: eventsRef
     },
     methods: {
-        getEvents() {
-            let allEvents = null;
-            eventsRef.on("value", function (snapshot) {
-                allEvents = snapshot.val();
-            });
-            for (let e in allEvents) {
-                this.events.push(allEvents[e]);
-            }
+        async getEvents() {
+            this.events = [];
+            let snapshot = await eventsRef.once("value");
+            let allEvents = snapshot.val();
+            let keys = Object.keys(allEvents);
+            keys.forEach((key, i) => {
+                let e = allEvents[key];
+                this.$set(this.events, i, e);
+            })
         },
-        notInterested(interest, e) {
-            e.display = false;
-        },
+     
         getHostObj(uuid) {
             let allUsers = null;
             usersRef.on("value", function (snapshot) {
@@ -86,44 +85,47 @@ export default {
             }
             return null;
         },
-        setFilterApplied(res) { // TODO: replace w/ computed?
+
+        setFilterApplied(res) {
             this.filterApplied = res;
         },
         setFilters(arr) {
             this.filtered = arr;
         },
-        getSortedMatches(user) {
-            if (!this.matchesObj || !this.matchesObj[user.uuid]) {
-                return null;
-            }
-            let myMatches = [...this.matchesObj[user.uuid]]; // spread operator to create new instance, prevent infinite loop
-            if (!myMatches) {
-                return null;
-            }
-            let direction = "desc";
-            let sorted = myMatches.sort(this.compareValues("score", direction));
-            return sorted ? sorted : null;
-        },
-        compareValues(key, order) {
-            return function (a, b) {
-                if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-                    return 0;
-                }
-                let varA = typeof a[key] === 'string' ? a[key].toUpperCase() : a[key];
-                let varB = typeof b[key] === 'string' ? b[key].toUpperCase() : b[key];
-                let comparison = 0;
-                if (varA > varB) {
-                    comparison = 1;
-                } else if (varA < varB) {
-                    comparison = -1;
-                }
-                return (
-                    (order === 'desc') ? (comparison * -1) : comparison
-                );
-            }
-        }
+
+        // getSortedMatches(user) {
+        //     if (!this.matchesObj || !this.matchesObj[user.uuid]) {
+        //         return null;
+        //     }
+        //     let myMatches = [...this.matchesObj[user.uuid]]; // spread operator to create new instance, prevent infinite loop
+        //     if (!myMatches) {
+        //         return null;
+        //     }
+        //     let direction = "desc";
+        //     let sorted = myMatches.sort(this.compareValues("score", direction));
+        //     return sorted ? sorted : null;
+        // },
+        
+        // compareValues(key, order) {
+        //     return function (a, b) {
+        //         if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+        //             return 0;
+        //         }
+        //         let varA = typeof a[key] === 'string' ? a[key].toUpperCase() : a[key];
+        //         let varB = typeof b[key] === 'string' ? b[key].toUpperCase() : b[key];
+        //         let comparison = 0;
+        //         if (varA > varB) {
+        //             comparison = 1;
+        //         } else if (varA < varB) {
+        //             comparison = -1;
+        //         }
+        //         return (
+        //             (order === 'desc') ? (comparison * -1) : comparison
+        //         );
+        //     }
+        // }
     },
-    created() {     // taking a while to load but at least no errs
+    created() {
         this.getEvents();
     },
     data() {

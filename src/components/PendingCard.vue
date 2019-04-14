@@ -22,7 +22,7 @@
 
             <div id="icons">
                 <v-icon class="icon" @click="changeGuestStatus(guest.uuid, true)">done_outline</v-icon>
-                <v-icon class="icon" @click="changeGuestStatus(guest.uuid, true)">block</v-icon>
+                <v-icon class="icon" @click="changeGuestStatus(guest.uuid, false)">block</v-icon>
             </div>
         </v-layout>
     </v-card>
@@ -54,7 +54,7 @@ export default {
     },
     props: ['guest', 'event', 'attendees'],
     methods: {
-        async changeGuestStatus(guestID, approveGuest) {
+        async changeGuestStatus(guestID, approveGuest) {    // TODO: make card disappear right after change status
             // remove from interested
             let i = this.event.interested.indexOf(guestID);
             this.event.interested.splice(i, 1);

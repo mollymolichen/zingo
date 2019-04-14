@@ -4,7 +4,7 @@
         <v-form id="form">
             <h1 id="label">Sign in to your account.</h1>
             <v-text-field id="textfield" v-model="email" :rules="emailRules" label="Email" required></v-text-field>
-            <v-text-field id="textfield" v-model="password" :rules="passwordRules" label="Password" required></v-text-field>
+            <v-text-field id="textfield" v-model="password" :type="'password'" :rules="passwordRules" label="Password" required></v-text-field>
             <router-link to="/">
                 <v-btn id="btn">Exit</v-btn>
             </router-link>

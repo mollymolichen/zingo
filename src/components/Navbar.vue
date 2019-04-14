@@ -2,7 +2,7 @@
 <v-toolbar color="pink lighten-5">
     <div v-if="user === null">
         <router-link to="/" class="remove-line">
-            <img src="../assets/logo.png" id="flamingo-logo" @click="setApp2(true)"/>
+            <img src="../assets/logo.png" id="flamingo-logo" @click="setApp(true)"/>
             <!--@click="setApp2(false)" makes app disappear-->
         </router-link>
     </div>
@@ -10,22 +10,19 @@
     <div id="right">
         <ul>
             <router-link to="/about">
-                <v-btn class="nav-btn" @click="setApp2(false)">About</v-btn>
+                <v-btn class="nav-btn" @click="setApp(false)">About</v-btn>
             </router-link>
-
-            <!--Choose either events or people-->
-            <router-link v-if="user != null" :to="{ name: 'EventList', params: { user, users, setApp } }">
-                <v-btn class="nav-btn" @click="setApp2(false)">Events</v-btn>
+            <router-link v-if="user != null" :to="{ name: 'EventList', params: { user, setApp } }">
+                <v-btn class="nav-btn" @click="setApp(false)">Events</v-btn>
             </router-link>
             <router-link v-if="user != null" :to="{ name: 'MatchList', params: { user, setApp } }">
-                <v-btn class="nav-btn" @click="setApp2(false)">Matches</v-btn>
+                <v-btn class="nav-btn" @click="setApp(false)">Matches</v-btn>
             </router-link>
-
             <router-link v-if="user === null" :to="{ name: 'SignIn', params: { user, updateUser, setApp } }">
-                <v-btn class="nav-btn" @click="setApp2(false)">Sign In</v-btn>
+                <v-btn class="nav-btn" @click="setApp(false)">Sign In</v-btn>
             </router-link>
             <router-link v-if="user != null" :to="{ name: 'Profile', params: { user, updateUser, setApp, myProfile: true } }">
-                <v-btn class="nav-btn" @click="setApp2(false)">Profile</v-btn>
+                <v-btn class="nav-btn" @click="setApp(false)">Profile</v-btn>
             </router-link>
             <router-link to="/" v-if="user != null">
                 <v-btn @click="signOut(user)" class="nav-btn">Sign Out</v-btn>
@@ -44,11 +41,6 @@ import {
 export default {
     name: 'Navbar',
     props: ['user', 'updateUser', 'setApp'],
-    data() {
-        return {            
-            users: []
-        }
-    },
     firebase: {
         authRef: authRef,
         eventsRef: eventsRef,
@@ -62,13 +54,9 @@ export default {
                 console.log("An error happened.");
             });
 
-            this.setApp2(true);
+            this.setApp(true);
             this.updateUser(null);
-        },
-
-        setApp2(res) {
-            this.setApp(res); // add to mounted instead
-        },
+        }
     }
 }
 </script>
