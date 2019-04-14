@@ -14,20 +14,11 @@
             </v-flex>
 
             <!--Events they're hosting-->
-                <!-- <h1>Events</h1> -->
             <v-flex xs4 id="hosts">
-                <div v-for="e in this.attendingHostEvent" :key="e">
+                <div v-for="e in this.hostsEvents" :key="e">
                     <event-preview class="preview" :event="e" :user="user"></event-preview>
                 </div>
             </v-flex>
-
-            <!-- <v-flex xs2>
-                <v-tooltip bottom>
-                    <span slot="activator"><h4>{{score}}% MATCH</h4></span>
-                    <span>Match score is generated based on your profile.</span>
-                </v-tooltip>
-                <br>
-            </v-flex> -->
         </v-layout>
     </v-card>
 </v-content>
@@ -46,7 +37,7 @@ export default {
         return {
             view: false,
             events: [],
-            attendingHostEvent: [],    // specific to one host at a time
+            hostsEvents: [],    // specific to one host at a time
         }
     },
     components: {
@@ -56,41 +47,24 @@ export default {
     firebase: {
         eventsRef
     },
-    props: ['user', 'score', 'myProfile', 'host', 'events'],
+    props: ['user', 'host', 'myProfile', 'events', 'eventsImAttending'],
     methods: {
-        viewProfile() {
-            this.view = true;
-            this.toggleProfile();
-        },
-
-        exit() {
-            this.view = false;
-        },
-
-        getEvents() {
-            this.events = [];   // clear
-            let allEvents = null;
-            eventsRef.on("value", function (snapshot) {
-                allEvents = snapshot.val();
-            });
-            for (let e in allEvents) {
-                this.events.push(allEvents[e]);
-            }
-        },
-
         // get info of events you're attending
-        getHostEvents(){
-            this.getEvents();
+        async getHostEvents(){
+            this.events = [];
+            let allEvents;
+            let snapshot = await eventsRef.once("value"); 
+            allEvents = snapshot.val();
+            let keys = Object.keys(allEvents);
 
-            if (this.events.length){
-                for (let e in this.events){
-                    if (this.host.uuid === this.events[e].host){
-                        if (this.events[e].confirmed.indexOf(this.user.uuid) != -1){
-                            this.attendingHostEvent.push(this.events[e]);
-                        }
+            keys.forEach((key, i) => {
+                let e = allEvents[key];
+                if (this.host.uuid === e.host){
+                    if (e.confirmed.indexOf(this.user.uuid) != -1){
+                        this.hostsEvents.push(e);
                     }
                 }
-            }
+            });
         }
     },
     mounted() {

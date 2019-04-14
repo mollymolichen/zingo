@@ -23,7 +23,7 @@
     <div v-if="tab1">
         <h1 class="header-text">Events You're Attending</h1>
         <div v-for="h in this.hosts" :key="h">
-            <attending-card :user="user" :host="h" :myProfile="myProfile" :events="events"></attending-card>
+            <attending-card :user="user" :host="h" :myProfile="myProfile" :events="events" :eventsImAttending="eventsImAttending"></attending-card>
         </div>
     </div>
 
@@ -38,8 +38,8 @@
     <!--Tab 3: Pending guests-->
     <div v-else-if="tab3">
         <h1 class="header-text">Pending Guests</h1>
-        <div v-for="e in this.eventsImHosting" :key="e">
-            <hosting :event="e" :user="user" :attendees="attendees"></hosting>
+        <div v-for="(obj, index) in this.pending" :key="index">
+            <pending-card :user="obj.guest" :event="obj.event" :attendees="attendees"></pending-card>
         </div>
     </div>
 </v-content>
@@ -49,6 +49,7 @@
 /*eslint-disable*/
 import AttendingCard from "./AttendingCard.vue";
 import Hosting from "./Hosting.vue";
+import PendingCard from "./PendingCard.vue";
 import {
     eventsRef,
     usersRef
@@ -58,11 +59,13 @@ export default {
     name: 'MatchList',
     components: {
         AttendingCard,
-        Hosting
+        Hosting,
+        PendingCard
     },
     data() {
         return {
             users: [],
+            events: [],
             matches: [],
             scoreMap: [],
             hosts: [],
@@ -71,6 +74,7 @@ export default {
             myProfile: false,
             attendees: {},
             myEvents: [],
+            pending: [],
             tab1: true,
             tab2: false,
             tab3: false
@@ -81,71 +85,86 @@ export default {
         usersRef: usersRef
     },
     methods: {
-        tabs(tab1, tab2, tab3) {    // args are bools
+        tabs(tab1, tab2, tab3) { // args are bools
             this.tab1 = tab1;
             this.tab2 = tab2;
             this.tab3 = tab3;
         },
 
-        getEventInfo() {
+        async getEventInfo() {
             // clear
-            this.events = [];   
+            this.events = [];
             this.eventsImAttending = [];
             this.eventsImHosting = [];
             this.hosts = [];
+            this.pending = [];
 
             // read events table from DB
-            let allEvents = null;
-            eventsRef.on("value", function (snapshot) {
-                allEvents = snapshot.val();
-            });
+            let allEvents;
+            let snapshot = await eventsRef.once("value");
+            allEvents = snapshot.val();
 
             // get events you're attending, events you're hosting (tabs 1, 2)
-            for (let e in allEvents) {
-                this.events.push(allEvents[e]);
-                if (allEvents[e].confirmed && allEvents[e].confirmed.indexOf(this.user.uuid) != -1){
-                    this.eventsImAttending.push(allEvents[e]);
-                }
-                if (allEvents[e].host === this.user.uuid){
-                    this.eventsImHosting.push(allEvents[e]);
-                }
-            }
+            let keys = Object.keys(allEvents);
 
-            for (let e in this.eventsImAttending){
-                let hostObj = this.getHostObj(this.eventsImAttending[e].host)
-                this.hosts.push(hostObj);
-            }
+            keys.forEach((key, i) => {
+                let e = allEvents[key];
+                this.$set(this.events, i, e);
+                if (e.confirmed && e.confirmed.indexOf(this.user.uuid) != -1) {
+                    this.$set(this.eventsImAttending, this.eventsImAttending.length, e);
+                }
+                if (e.host === this.user.uuid) {
+                    this.$set(this.eventsImHosting, this.eventsImHosting.length, e);
+                }
+            });
+            
+            // get hosts of events you're attending (tab 1)
+            this.eventsImAttending.forEach((e, i) => {
+                let hostObj = this.getUser(e.host)
+                this.$set(this.hosts, i, hostObj);
+            });
 
-            for (let e in this.eventsImHosting){
-                let eventID = this.eventsImHosting[e].eid;
-                let interested = this.eventsImHosting[e].interested;
-                let confirmed = this.eventsImHosting[e].confirmed;
-                let event = {             
+            this.hosts = this.hosts.filter((host, index) => {   // unique hosts only
+                return index === this.hosts.findIndex(obj => {
+                    return JSON.stringify(obj) === JSON.stringify(host);
+                });
+            });
+
+            // get attendees of events you're hosting (tab 2)
+            this.eventsImHosting.forEach((e, i) => {
+                let eventID = e.eid;
+                let interested = e.interested;
+                let confirmed = e.confirmed;
+                let event = {
                     eid: eventID,
                     interested: interested,
                     confirmed: confirmed
                 }
-                this.attendees[eventID] = event;
-            }
-            console.log(this.attendees);
-        },
+                
+                this.$set(this.attendees, eventID, event);
 
-        getHostObj(uuid) {
-            let allUsers = null;
-            usersRef.on("value", function (snapshot) {
-                allUsers = snapshot.val();
-            });
-            for (let u in allUsers) {
-                if (allUsers[u].uuid === uuid) {
-                    return allUsers[u];
+                // get guests pending approval for events you're hosting (tab 3)
+                if (interested){
+                    interested.forEach((g, i) => {
+                        let guest = this.getUser(g);
+                        let guestAndEvent = {
+                            guest: guest,
+                            event: allEvents[e.eid] // is e the eid?
+                        }
+                        this.$set(this.pending, i, guestAndEvent);
+                    });
+                } else {
+                    this.pending = [];
                 }
-            }
+            });
         },
 
-        getPendingGuests(){
-            for (let e in this.attendees){
-                // TODO: tab 3
-            }
+        getUser(uuid) {
+            let users;
+            usersRef.on('value', function (snapshot) {
+                users = snapshot.val();
+            });
+            return users[uuid];
         },
 
         getUsers() {
@@ -156,125 +175,9 @@ export default {
             for (let u in allUsers) {
                 this.users.push(allUsers[u]);
             }
-        },
-
-        // deprecated
-        matchScore(match) {
-            let totalScore = 0;
-
-            // TODO: // filter by itinerary
-            // let itinerary = match.itinerary; // list or {} obj
-            // let destInCommon = false;
-            // for (let i in itinerary) {
-            //     let matchStartDate = itinerary[i].startDate;
-            //     let matchEndDate = itinerary[i].endDate;
-            //     let yourStartDate = this.user.itinerary[i].startDate;
-            //     let yourEndDate = this.user.itinerary[i].endDate;
-            //     if (this.user.itinerary[i].city.indexOf(itinerary[i].city) != -1) {
-            //         if (matchStartDate <= yourEndDate && matchEndDate >= yourStartDate) {
-            //             destInCommon = true;
-            //         }
-            //     }
-            // }
-            // if (!destInCommon) {
-            //     return 0;
-            // }
-
-            // // filter by language
-            // let languages = match.languages; // list or {} obj
-            // let langInCommon = false;
-            // for (let l in languages) {
-            //     if (this.user.languages.indexOf(languages[l]) != -1) {
-            //         langInCommon = true;
-            //     }
-            // }
-            // if (!langInCommon) {
-            //     return 0;
-            // }
-
-            // 30% fav activities
-            let activities = match.selectedActivities;
-            let activitiesInCommon = 0;
-            for (let a in activities) {
-                if (this.user.selectedActivities.indexOf(activities[a]) != -1) {
-                    activitiesInCommon++;
-                }
-            }
-            if (activities && activities.length) {
-                let activitiesFrac = activitiesInCommon / activities.length;
-                totalScore += activitiesFrac * 0.3;
-            }
-
-            // 20% lifestyle
-            let lifestyle = match.selectedLifestyle;
-            let lifestyleInCommon = 0;
-            for (let l in lifestyle) {
-                if (this.user.selectedLifestyle.indexOf(lifestyle[l] != -1)) {
-                    lifestyleInCommon++;
-                }
-            }
-            if (lifestyle && lifestyle.length) {
-                let lifestyleFrac = lifestyleInCommon / lifestyle.length;
-                totalScore += lifestyleFrac * 0.2;
-            }
-
-            // 15% age
-            let ageFrac = (18 - (match.age - this.user.age)) / 18;
-            totalScore += ageFrac * 0.15;
-
-            // 10% university
-            if (match.university === this.user.university) {
-                totalScore += 0.1;
-            }
-
-            // 5% country
-            if (match.hometown.country === this.user.hometown.country) {
-                totalScore += 0.05;
-            }
-
-            // 5% city
-            if (match.hometown.city === this.user.hometown.city) {
-                totalScore += 0.05;
-            }
-
-            // 5% accommodation (if they decide to room together later on in the trip)
-            let accommodation = match.selectedAccommodation;
-            let accommodationInCommon = 0;
-            for (let a in accommodation) {
-                if (this.user.selectedAccommodation.indexOf(accommodation[a] != -1)) {
-                    accommodationInCommon++;
-                }
-            }
-            if (accommodation && accommodation.length) {
-                let accommodationFrac = accommodationInCommon / accommodation.length;
-                totalScore += accommodationFrac * 0.05;
-            }
-
-            // 5% transportation
-            let transportation = match.selectedTransportation;
-            let transportationInCommon = 0;
-            for (let t in transportation) {
-                if (this.user.selectedTransportation.indexOf(transportation[t] != -1)) {
-                    transportationInCommon++;
-                }
-            }
-            if (transportation && transportation.length) {
-                let transportationFrac = transportationInCommon / transportation.length;
-                totalScore += transportationFrac * 0.05;
-            }
-
-            // 5% occupation
-            if (match.occupation && this.user.occupation) {
-                if (match.occupation === this.user.occupation) {
-                    totalScore += 0.05;
-                }
-            }
-
-            this.score = Math.ceil(totalScore * 100);
-            return this.score;
         }
     },
-    mounted() {
+    created() {
         this.getEventInfo();
     }
 }
