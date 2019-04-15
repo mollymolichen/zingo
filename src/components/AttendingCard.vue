@@ -35,8 +35,6 @@ import EventPreview from "./EventPreview";
 export default {
     data() {
         return {
-            view: false,
-            events: [],
             hostsEvents: [],    // specific to one host at a time
         }
     },
@@ -49,25 +47,22 @@ export default {
     },
     props: ['user', 'host', 'myProfile', 'events', 'eventsImAttending'],
     methods: {
-        // get info of events you're attending
         async getHostEvents(){
-            this.events = [];
             let allEvents;
             let snapshot = await eventsRef.once("value"); 
             allEvents = snapshot.val();
             let keys = Object.keys(allEvents);
-
             keys.forEach((key, i) => {
                 let e = allEvents[key];
                 if (this.host.uuid === e.host){
-                    if (e.confirmed.indexOf(this.user.uuid) != -1){
+                    if (e.confirmed && e.confirmed.indexOf(this.user.uuid) != -1){
                         this.hostsEvents.push(e);
                     }
                 }
             });
         }
     },
-    mounted() {
+    created() {
         this.getHostEvents();
     }
 }

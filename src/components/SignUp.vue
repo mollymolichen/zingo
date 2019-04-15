@@ -67,8 +67,6 @@
                     <input type="file" @change="onFileChanged"/>
                     <v-btn @click="onUpload(false, false, false, true)" class="upload-btn">Upload</v-btn>
                 </div>
-
-                <!-- <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3> -->
             </div>
             <!--Arrows-->
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>

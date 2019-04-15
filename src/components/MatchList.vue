@@ -93,11 +93,11 @@ export default {
 
         async getEventInfo() {
             // clear
-            this.events = [];
-            this.eventsImAttending = [];
-            this.eventsImHosting = [];
-            this.hosts = [];
-            this.pending = [];
+            // this.events = [];
+            // this.eventsImAttending = [];
+            // this.eventsImHosting = [];
+            // this.hosts = [];
+            // this.pending = [];
 
             // read events table from DB
             let allEvents;
