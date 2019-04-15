@@ -57,7 +57,7 @@ export default {
         async changeGuestStatus(guestID, approveGuest) {    // TODO: make card disappear right after change status
             // remove from interested
             let i = this.event.interested.indexOf(guestID);
-            this.event.interested.splice(i, 1);
+            this.event.interested.splice(i, 1);             // removing everyone, not just one
             await eventsRef.child(this.event.eid).update({
                 interested: this.event.interested
             });

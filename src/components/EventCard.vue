@@ -11,7 +11,7 @@
                 </router-link>
                 <h1>{{this.host.firstName}}, {{this.host.age}}</h1>
                 <h3>{{this.host.universityOrOccupation}}</h3>
-                <v-icon v-if="!myOwnEvent" @click="expressInterest(event.eid)" class="icon">favorite</v-icon>
+                <v-icon v-if="!myOwnEvent" @click="expressInterest()" class="icon" :disabled="alreadyInterested">favorite</v-icon>
                 <v-icon v-if="!myOwnEvent" @click="interest(false, event)" class="icon">cancel</v-icon>
             </v-flex>
 
@@ -63,46 +63,21 @@ export default {
         }
     },
     methods: {
-        getEvents() {
-            let allEvents = null;
-            eventsRef.on("value", function (snapshot) {
-                allEvents = snapshot.val();
-            });
-            for (let e in allEvents) {
-                this.events.push(allEvents[e]);
+        expressInterest() {
+            if (this.alreadyInterested) {
+                return;
+            } 
+            let interested = this.event.interested;
+            if (!interested) {
+                interested = [];
             }
-        },
-
-        expressInterest(eid) {
-            this.getEvents();
-            let interestedGuests;
-            let alreadyInterested = false;
-
-            for (let e in this.events){
-                if (this.events[e].eid === eid){
-                    if (this.events[e].interested){
-                        interestedGuests = this.events[e].interested;
-                        for (let g in interestedGuests){
-                            if (interestedGuests[g] === this.user.uuid){
-                                console.log("User already expressed interest in this event.");
-                                alreadyInterested = true;
-                                break;
-                            }
-                        }
-                    } else {
-                        interestedGuests = [];          // first person expressing interest
-                    }
-                    if (!alreadyInterested){
-                        interestedGuests.push(this.user.uuid);
-                    }
-                    break;
-                }
-            }
-            eventsRef.child(eid).update({
-                interested: interestedGuests
+            interested.push(this.user.uuid);
+            eventsRef.child(this.event.eid).update({
+                interested: interested
             });
         },
 
+        // deprecated
         interest(res, event) {
             this.notInterested(res, event);
         }
@@ -110,6 +85,16 @@ export default {
     computed: {
         myOwnEvent() {
             return this.user.uuid === this.host.uuid;
+        },
+
+        alreadyInterested() {
+            for (let g in this.event.interested) {
+                if (this.event.interested[g] === this.user.uuid) {
+                    console.log("User already expressed interest in this event.");
+                    return true;
+                }
+            }
+            return false;
         }
     },
     firebase: {
