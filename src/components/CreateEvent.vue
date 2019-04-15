@@ -62,26 +62,27 @@
             <h4>Press Upload to make sure your file was uploaded successfully.</h4>
             <div class="photo-upload">
                 <br>
-                <div class="upload-btn-wrapper">
+                <div class="upload-btn-wrapper" style="margin-left:30px">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
+                    <v-btn @click="onUpload(false, true, false, false)" class="upload-btn">Upload</v-btn>
                 </div>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
+                    <v-btn @click="onUpload(false, false, true, false)" class="upload-btn">Upload</v-btn>
                 </div>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
+                    <v-btn @click="onUpload(false, false, false, true)" class="upload-btn">Upload</v-btn>
                 </div>
-                <v-btn id="upload-btn" @click="onUpload">Upload</v-btn>
-                <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
             </div>
 
             <!--Arrows-->
@@ -134,8 +135,9 @@ export default {
 
             // event picture upload
             selectedFile: null,
-            propicUrl: "http://placekitten.com/g/200/300",
-            pics: [],
+            p1: "http://placekitten.com/g/200/300",
+            p2: "http://placekitten.com/g/200/300",
+            p3: "http://placekitten.com/g/200/300",
             uploadFinished: false,
 
             // TODO: regular picture upload
@@ -217,7 +219,8 @@ export default {
             console.log("Selected file: ", this.selectedFile);
         },
 
-        onUpload() {
+        onUpload(p1, p2, p3) {
+            let that = this;
             const storageRef = Firebase.storage().ref();
             var file = this.selectedFile;
             var metadata = {
@@ -225,7 +228,6 @@ export default {
             };
             var uploadTask = storageRef.child(this.uuid + "/" + file.name).put(file, metadata);
             console.log('upload task', uploadTask);
-            let that = this;
             uploadTask.on(Firebase.storage.TaskEvent.STATE_CHANGED,
                 function (snapshot) {
                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -252,7 +254,13 @@ export default {
                 async function () {
                     var url = await uploadTask.snapshot.ref.getDownloadURL();
                     console.log('url: ', url);
-                    Vue.set(that, 'propicUrl', url);
+                    if (p1) {
+                        Vue.set(that, 'p1', url);
+                    } else if (p2) {
+                        Vue.set(that, 'p2', url);
+                    } else if (p3) {
+                        Vue.set(that, 'p3', url);
+                    }
                     Vue.set(that, 'uploadFinished', true);
                 }
             );
@@ -282,7 +290,9 @@ export default {
             let newEvent = {
                 eid: eid,
                 host: this.user.uuid,
-                pics: this.pics,
+                p1: this.p1,
+                p2: this.p2,
+                p3: this.p3,
                 date: this.date,
                 dateFormatted: this.dateFormatted,
                 menu1: this.menu1,

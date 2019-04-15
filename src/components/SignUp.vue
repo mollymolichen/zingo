@@ -41,11 +41,10 @@
             </div>
 
             <h3>Upload up to three more photos of yourself.</h3>
+            <h4>Press Upload to make sure your file was uploaded successfully.</h4>
             <br>
-
             <div class="photo-upload">
                 <br>
-
                 <div class="upload-btn-wrapper" style="margin-left:30px">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
@@ -443,7 +442,6 @@ export default {
 
         onUpload(profilePic, p1, p2, p3) {
             let that = this;
-
             const storageRef = Firebase.storage().ref();
             var file = this.selectedFile;
             var metadata = {
@@ -611,7 +609,6 @@ ul {
 }
 
 .photo-upload {
-    /* margin: 30px 30px 0px 30px; */
     margin-left: 30px;
     display: flex;
     flex-direction: row;

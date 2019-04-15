@@ -4,9 +4,7 @@
         <!--Page 1-->
         <v-form ref="form" lazy-validation>
             <div style="margin-bottom: 20px">
-                <router-link :to="{ name: 'EventList', params: { event, user } }">
-                    <v-icon class="material-icons" style="float:right">clear</v-icon>
-                </router-link>
+                <v-icon class="material-icons" style="float:right" @click="closeEE()">clear</v-icon>
                 <h1 style="margin-top:10px; margin-bottom:20px">Edit Your Event</h1>
             </div>
 
@@ -51,43 +49,42 @@
             </div> -->
 
             <!--Photos-->
-            <h3>Upload up to three photos of the event.</h3>
-            <h4>Press Upload to make sure your file was uploaded successfully.</h4>
-            <div class="photo-upload">
+            <h3 class="upload-text">Upload up to three photos of the event.</h3>
+            <h4 class="upload-text">Press Upload to make sure your file was uploaded successfully.</h4>
+            <div class="photo-upload-ee">
                 <br>
-                <div class="upload-btn-wrapper">
+                <div class="upload-btn-wrapper" style="margin-left:30px">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
+                    <v-btn @click="onUpload(false, true, false, false)" class="upload-btn">Upload</v-btn>
                 </div>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
+                    <v-btn @click="onUpload(false, false, true, false)" class="upload-btn">Upload</v-btn>
                 </div>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                </div>
-                <div id="upload-btn">
-                    <v-btn @click="onUpload">Upload</v-btn>
-                    <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3>
+                    <v-btn @click="onUpload(false, false, false, true)" class="upload-btn">Upload</v-btn>
                 </div>
             </div>
-            <router-link :to="{ name: 'EventList', params: { user, events } }">
-                <v-btn @click="registerEvent()">Save</v-btn>
-            </router-link>
 
-            <!--Delete event-->
-            <!-- <v-btn @click="this.showPopup = true">Delete</v-btn>
-            <popup v-if="this.showPopup" :deleteEvent="deleteEvent" v-show="showPopup" @close="this.showPopup = false"></popup> -->
-      
-            <v-btn @click="this.showModal = true">Delete</v-btn>
-            <modal :show="showModal" @close="this.showModal = false"></modal>
+            <div id="buttons">
+                <router-link :to="{ name: 'EventList', params: { user } }">
+                    <v-btn @click="registerEvent()">Save</v-btn>
+                </router-link>
+                <!-- <v-btn @click="this.showPopup = true">Delete</v-btn>
+                <popup v-if="this.showPopup" :deleteEvent="deleteEvent" v-show="showPopup" @close="this.showPopup = false"></popup> -->
+                <!-- <modal :show="showModal" @close="this.showModal = false"></modal> -->
+                <v-btn @click="deleteEvent()">Delete</v-btn>
+            </div>
         </v-form>
     </v-card>
 </v-content>
@@ -107,14 +104,15 @@ import {
     parseCities
 } from "../assets/locations.js";
 import Popup from "./Popup.vue";
-import Modal from "./Modal.vue"
+import Modal from "./Modal.vue";
+import router from "../router";
 
 export default {
     name: "EditEvent",
-    data() {                // TODO: remove extraneous methods and data copied over from CreateEvent
+    data() {
         return {
             showModal: false,
-            events: [],     // for editing, only have 1 max, change name to event?
+            events: [],
             singleEvent: true,
             pageNumber: 1,
             allCities: parseCities().allCities,
@@ -230,7 +228,8 @@ export default {
             console.log("Selected file: ", this.selectedFile);
         },
 
-        onUpload() {
+        onUpload(p1, p2, p3) {
+            let that = this;
             const storageRef = Firebase.storage().ref();
             var file = this.selectedFile;
             var metadata = {
@@ -238,7 +237,6 @@ export default {
             };
             var uploadTask = storageRef.child(this.uuid + "/" + file.name).put(file, metadata);
             console.log('upload task', uploadTask);
-            let that = this;
             uploadTask.on(Firebase.storage.TaskEvent.STATE_CHANGED,
                 function (snapshot) {
                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -265,7 +263,13 @@ export default {
                 async function () {
                     var url = await uploadTask.snapshot.ref.getDownloadURL();
                     console.log('url: ', url);
-                    Vue.set(that, 'propicUrl', url);
+                    if (p1) {
+                        Vue.set(that, 'p1', url);
+                    } else if (p2) {
+                        Vue.set(that, 'p2', url);
+                    } else if (p3) {
+                        Vue.set(that, 'p3', url);
+                    }
                     Vue.set(that, 'uploadFinished', true);
                 }
             );
@@ -292,6 +296,11 @@ export default {
 
         deleteEvent(){
             eventsRef.child(this.event.eid).remove();
+            router.push({ name: 'EventList' , params: { user: this.user }});
+        },
+
+        closeEE(){
+            router.push({ name: 'EventList' , params: { user: this.user }});
         }
     },
     watch: {
@@ -340,8 +349,10 @@ ul {
     transform: scale(1.2, 1.2);
 }
 
-.photo-upload {
-    margin-bottom: 30px;
+.photo-upload-ee {
+    justify-content: center;
+    margin: auto;
+    display: flex;
 }
 
 #float {
@@ -471,5 +482,17 @@ ul {
 
 #create-event-container {
     height: 100%;
+}
+
+.v-btn {
+    border-radius: 15px !important;
+}
+
+.upload-text {
+    margin: 5px 0px 5px 0px;
+}
+
+#buttons {
+    margin: 35px 0px 10px 0px;
 }
 </style>

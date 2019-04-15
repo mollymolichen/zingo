@@ -3,7 +3,6 @@
     <div v-if="user === null">
         <router-link to="/" class="remove-line">
             <img src="../assets/logo.png" id="flamingo-logo" @click="setApp(true)"/>
-            <!--@click="setApp2(false)" makes app disappear-->
         </router-link>
     </div>
 

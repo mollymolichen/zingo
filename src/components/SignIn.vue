@@ -21,8 +21,8 @@ import {
     authRef,
     usersRef
 } from "../database";
-
 import router from "../router";
+
 export default {
     name: "SignIn",
     data() {

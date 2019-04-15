@@ -14,15 +14,15 @@
             </v-flex>
 
             <!--Events they're pending for-->
-            <v-flex xs4 id="pink">
+            <v-flex xs4 id="pink" color="pink lighten-5">
                 <h2>Responded to:</h2>
                 <h2><strong>{{event.title}}</strong></h2>
                 <h2>{{event.dateFormatted}}, {{event.time.startTime}} - {{event.time.endTime}}</h2>
             </v-flex>
 
             <div id="icons">
-                <v-icon class="icon" @click="changeGuestStatus(guest.uuid, true)">done_outline</v-icon>
-                <v-icon class="icon" @click="changeGuestStatus(guest.uuid, false)">block</v-icon>
+                <v-icon @click="changeGuestStatus(guest.uuid, true)">done_outline</v-icon>
+                <v-icon @click="changeGuestStatus(guest.uuid, false)">block</v-icon>
             </div>
         </v-layout>
     </v-card>
@@ -84,7 +84,6 @@ export default {
 }
 
 .pending {
-    width: 20%;
     background-color: aliceblue !important;
     display: flex;
     flex-direction: column;
@@ -96,13 +95,14 @@ export default {
 }
 
 #pink {
-    background-color: pink;
+    background-color: #fce4ec;
     margin: 20px 20px 20px 20px;
     padding: 15px;
     border-radius: 25px;
 }
 
 #icons {
+    display: flex;
     margin: 10px 0px 20px 0px;
 }
 

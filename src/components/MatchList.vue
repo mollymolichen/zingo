@@ -36,9 +36,9 @@
     </div>
 
     <!--Tab 3: Pending guests-->
-    <div v-else-if="tab3">
+    <div v-else-if="tab3" id="tab3">
         <h1 class="header-text">Pending Guests</h1>
-        <div v-for="(obj, index) in this.pending" :key="index" id="tab3">
+        <div v-for="(obj, index) in this.pending" :key="index">
             <pending-card :guest="obj.guest" :event="obj.event" :attendees="attendees"></pending-card>
         </div>
     </div>
@@ -117,14 +117,14 @@ export default {
                     this.$set(this.eventsImHosting, this.eventsImHosting.length, e);
                 }
             });
-            
+
             // get hosts of events you're attending (tab 1)
             this.eventsImAttending.forEach((e, i) => {
                 let hostObj = this.getUser(e.host)
                 this.$set(this.hosts, i, hostObj);
             });
 
-            this.hosts = this.hosts.filter((host, index) => {   // unique hosts only
+            this.hosts = this.hosts.filter((host, index) => { // unique hosts only
                 return index === this.hosts.findIndex(obj => {
                     return JSON.stringify(obj) === JSON.stringify(host);
                 });
@@ -140,11 +140,11 @@ export default {
                     interested: interested,
                     confirmed: confirmed
                 }
-                
+
                 this.$set(this.attendees, eventID, event);
 
                 // get guests pending approval for events you're hosting (tab 3)
-                if (interested){
+                if (interested) {
                     interested.forEach((g, i) => {
                         let guest = this.getUser(g);
                         let guestAndEvent = {
@@ -190,6 +190,6 @@ export default {
 
 #tab3 {
     display: flex;
-    flex-direction: row !important;
+
 }
 </style>
