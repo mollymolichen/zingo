@@ -1,5 +1,5 @@
 <template>
-<v-content class="pendingcard">
+<v-content v-if="showCard" class="pendingcard">
     <v-card class="pending">
         <v-layout column wrap id="center">
             <!--Profile picture-->
@@ -45,6 +45,7 @@ export default {
             view: false,
             events: [],
             attendingHostEvent: [], // specific to one host at a time
+            showCard: true
         }
     },
     components: {
@@ -64,6 +65,7 @@ export default {
                 await eventsRef.child(this.event.eid).update({
                     confirmed: this.event.confirmed
                 });
+                this.showCard = false;
             }
             
             // still pending, remove from interested
@@ -83,6 +85,9 @@ export default {
                     await eventsRef.child(this.event.eid).update({
                         confirmed: this.event.confirmed
                     });
+                    this.showCard = false;
+                } else {
+                    this.showCard = false;
                 }
             }
         }

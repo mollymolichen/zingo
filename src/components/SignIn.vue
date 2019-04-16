@@ -104,6 +104,7 @@ export default {
     margin: auto;
     padding: 10px 10px 10px 10px;
     background-color: aliceblue !important;
+    border-radius: 25px !important;
 }
 
 .signin-text {
