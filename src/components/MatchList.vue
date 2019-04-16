@@ -3,19 +3,24 @@
     <v-tabs centered color="pink accent-2" dark icons-and-text>
         <v-tabs-slider color="white"></v-tabs-slider>
 
-        <v-tab href="#tab-1" @click="tabs(true, false, false)">
+        <v-tab href="#tab-1" @click="tabs(true, false, false, false)">
             Attending
-            <v-icon>person</v-icon>
+            <v-icon>face</v-icon>
         </v-tab>
 
-        <v-tab href="#tab-2" @click="tabs(false, true, false)">
+        <v-tab href="#tab-2" @click="tabs(false, true, false, false)">
             Hosting
             <v-icon>assignment_ind</v-icon>
         </v-tab>
 
-        <v-tab href="#tab-3" @click="tabs(false, false, true)">
+        <v-tab href="#tab-3" @click="tabs(false, false, true, false)">
             Pending
             <v-icon>person_outline</v-icon>
+        </v-tab>
+
+        <v-tab href="#tab-4" @click="tabs(false, false, false, true)">
+            Confirmed
+            <v-icon>person</v-icon>
         </v-tab>
     </v-tabs>
 
@@ -37,9 +42,17 @@
 
     <!--Tab 3: Pending guests-->
     <div v-else-if="tab3" id="tab3">
-        <h1 class="header-text">Pending Guests</h1>
+        <!-- <h1 class="header-text">Pending Guests</h1> -->
         <div v-for="(obj, index) in this.pending" :key="index">
             <pending-card :guest="obj.guest" :event="obj.event" :attendees="attendees"></pending-card>
+        </div>
+    </div>
+
+    <!--Tab 4: Confirmed guests-->
+    <div v-else-if="tab4" id="tab4">
+        <!-- <div id="tab41"><h1 class="header-text">Confirmed Guests</h1></div> -->
+        <div v-for="(obj, index) in this.confirmed" :key="index">
+            <pending-card :guest="obj.guest" :event="obj.event" :attendees="attendees" :confirm="true"></pending-card>
         </div>
     </div>
 </v-content>
@@ -75,9 +88,12 @@ export default {
             attendees: {},
             myEvents: [],
             pending: [],
+            confirmed: [],
+
             tab1: true,
             tab2: false,
-            tab3: false
+            tab3: false,
+            tab4: false
         }
     },
     props: ['user', 'setApp'],
@@ -85,20 +101,14 @@ export default {
         usersRef: usersRef
     },
     methods: {
-        tabs(tab1, tab2, tab3) { // args are bools
+        tabs(tab1, tab2, tab3, tab4) { // args are bools
             this.tab1 = tab1;
             this.tab2 = tab2;
             this.tab3 = tab3;
+            this.tab4 = tab4;
         },
 
         async getEventInfo() {
-            // clear
-            // this.events = [];
-            // this.eventsImAttending = [];
-            // this.eventsImHosting = [];
-            // this.hosts = [];
-            // this.pending = [];
-
             // read events table from DB
             let allEvents;
             let snapshot = await eventsRef.once("value");
@@ -149,12 +159,24 @@ export default {
                         let guest = this.getUser(g);
                         let guestAndEvent = {
                             guest: guest,
-                            event: allEvents[e.eid] // is e the eid?
+                            event: allEvents[e.eid]
                         }
-                        this.$set(this.pending, i, guestAndEvent);
+                        this.pending.push(guestAndEvent);
+                    });
+                }
+
+                // get guests already approved for events you're hosting (tab 4)
+                if (confirmed) {
+                    confirmed.forEach((g, i) => {
+                        let guest = this.getUser(g);
+                        let guestAndEvent = {
+                            guest: guest,
+                            event: allEvents[e.eid]
+                        }
+                        this.$set(this.confirmed, this.confirmed.length, guestAndEvent);
                     });
                 } else {
-                    this.pending = [];
+                    this.confirmed = [];
                 }
             });
         },
@@ -190,6 +212,16 @@ export default {
 
 #tab3 {
     display: flex;
+}
 
+#tab4 {
+    display: flex;
+}
+
+#tab41 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 10%;
 }
 </style>

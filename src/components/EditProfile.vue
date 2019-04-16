@@ -16,7 +16,6 @@
             <v-text-field v-model="user.age" :rules="ageRules" label="Age" required class="text-field"></v-text-field>
             <v-text-field v-model="user.universityOrOccupation" label="University or Occupation" required class="text-field"></v-text-field>
             <v-text-field v-model="user.email" label="Email" required class="text-field"></v-text-field>
-            <!-- <v-text-field v-model="user.password" label="Password" required class="text-field"></v-text-field> -->
             <v-text-field v-model="user.phoneNumber" :rules="phoneNumberRules" label="Phone number" required class="text-field"></v-text-field>
             <v-autocomplete xs6 :items="allLangs" v-model="user.languagesSpoken" chips multiple style="margin: 0px 10px 0px 10px" label="What languages do you speak?">
                 <template slot="selection" slot-scope="data">
@@ -35,7 +34,6 @@
                 <h3>Upload a profile picture.</h3>
                 <h4>Press Upload to make sure your file was uploaded successfully.</h4>
                 <br>
-
                 <input type="file" @change="onFileChanged">
                 <v-btn @click="onUpload(true, false, false, false)">Upload</v-btn>
             </div>
@@ -45,7 +43,6 @@
 
             <div class="photo-upload">
                 <br>
-    
                 <div class="upload-btn-wrapper" style="margin-left:30px">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
@@ -67,8 +64,6 @@
                     <input type="file" @change="onFileChanged"/>
                     <v-btn @click="onUpload(false, false, false, true)" class="upload-btn">Upload</v-btn>
                 </div>
-
-                <!-- <h3 v-if="uploadFinished" id="green">Uploaded successfully</h3> -->
             </div>
 
             <!--Arrows-->
@@ -161,7 +156,7 @@
             <!--Arrows-->
             <v-icon class="arrows" @click="back()">chevron_left</v-icon>
             <span class="pagenumbers">{{pageNumber}} / 3</span>
-			<router-link :to="{ name: 'Profile', params: { user } }">
+			<router-link :to="{ name: 'Profile', params: { user, myProfile: true } }">
             	<v-icon class="arrows" @click="editUser()">chevron_right</v-icon>
 			</router-link>
         </v-form>
@@ -414,7 +409,7 @@ export default {
 
         editUser() {
 			this.updateUser(this.user);
-			usersRef.child(this.user.uuid).update(this.user);
+            usersRef.child(this.user.uuid).update(this.user);
         }
     },
     props: ['user', 'updateUser', 'setApp'],
@@ -463,6 +458,7 @@ ul {
     margin-left: 30px;
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }
 
 #float {

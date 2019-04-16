@@ -134,10 +134,11 @@ export default {
     display: flex;
     background-color: aliceblue;
 }
-.team-photo{
+.team-photo {
     margin: 10px;
     flex-wrap: wrap;
     height: 250px;
+    border-radius: 25px !important;
 }
 .team-info {
   text-align: center;

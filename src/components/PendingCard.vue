@@ -15,14 +15,16 @@
 
             <!--Events they're pending for-->
             <v-flex xs4 id="pink" color="pink lighten-5">
-                <h2>Responded to:</h2>
+                <h2 v-if="!confirm">Responded to:</h2>
+                <h2 v-else>Confirmed for:</h2>
                 <h2><strong>{{event.title}}</strong></h2>
                 <h2>{{event.dateFormatted}}, {{event.time.startTime}} - {{event.time.endTime}}</h2>
             </v-flex>
 
             <div id="icons">
-                <v-icon @click="changeGuestStatus(guest.uuid, true)">done_outline</v-icon>
-                <v-icon @click="changeGuestStatus(guest.uuid, false)">block</v-icon>
+                <v-icon v-if="!confirm" @click="changeGuestStatus(guest.uuid, true, false)">done_outline</v-icon>
+                <v-icon v-if="!confirm" @click="changeGuestStatus(guest.uuid, false, false)">block</v-icon>
+                <v-icon v-else @click="changeGuestStatus(guest.uuid, false, true)">block</v-icon>
             </div>
         </v-layout>
     </v-card>
@@ -52,27 +54,38 @@ export default {
     firebase: {
         eventsRef
     },
-    props: ['guest', 'event', 'attendees'],
+    props: ['guest', 'event', 'attendees', 'confirm'],
     methods: {
-        async changeGuestStatus(guestID, approveGuest) {    // TODO: make card disappear right after change status
-            // remove from interested
-            let i = this.event.interested.indexOf(guestID);
-            this.event.interested.splice(i, 1);             // removing everyone, not just one
-            await eventsRef.child(this.event.eid).update({
-                interested: this.event.interested
-            });
-
-            // either approve or remove to confirmed
-            if (approveGuest) {
-                this.event.confirmed.push(guestID);
+        async changeGuestStatus(guestID, approveGuest, removeConfirmed) {    // TODO: make card disappear right after change status
+            // already confirmed, remove from confirmed
+            if (removeConfirmed){
+                let i = this.event.confirmed.indexOf(guestID);
+                this.event.confirmed.splice(i, 1);
                 await eventsRef.child(this.event.eid).update({
                     confirmed: this.event.confirmed
                 });
             }
-        }
-    },
-    mounted() {
+            
+            // still pending, remove from interested
+            else {
+                let i = this.event.interested.indexOf(guestID);
+                this.event.interested.splice(i, 1);             // removing everyone, not just one
+                await eventsRef.child(this.event.eid).update({
+                    interested: this.event.interested
+                });
 
+                // confirm
+                if (approveGuest) {
+                    if (!this.event.confirmed){
+                        this.event.confirmed = [];
+                    }
+                    this.event.confirmed.push(guestID);
+                    await eventsRef.child(this.event.eid).update({
+                        confirmed: this.event.confirmed
+                    });
+                }
+            }
+        }
     }
 }
 </script>
@@ -88,6 +101,8 @@ export default {
     display: flex;
     flex-direction: column;
     border-radius: 25px;
+    width: 300px;
+    height: 675px;
 }
 
 #center {
