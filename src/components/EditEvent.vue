@@ -1,5 +1,5 @@
 <template>
-<v-content class="preferences" id="create-event-container">
+<v-content id="create-event-container">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <v-card class="createevent">
         <!--Page 1-->
@@ -102,21 +102,8 @@ export default {
             pageNumber: 1,
             allCities: parseCities().allCities,
 
-            // data validation rules
-            host: this.user.uuid,
-            location: {
-                locale: "",
-                city: ""
-            },
-            title: "",
-            shortDescription: "",
-            longDescription: "",
-
             // event picture upload
             selectedFile: null,
-            p1: "http://placekitten.com/g/200/300",
-            p2: "http://placekitten.com/g/200/300",
-            p3: "http://placekitten.com/g/200/300",
             uploadFinished: false,
 
             categories: [
@@ -136,12 +123,7 @@ export default {
             // dates
             date: new Date().toISOString().substr(0, 10),
             dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
-            time: {
-                startTime: "",
-                endTime: "",
-                startTimePm: false,
-                endTimePm: false
-            },
+     
             menu1: false,
             menu2: false,
             emoji: {
@@ -155,11 +137,7 @@ export default {
                 "Sports": "em em-basketball",
                 "Tours": "em em-scooter"
             },
-            showPopup: false,
-
-            // attendees
-            interested: [],
-            confirmed: []
+            showPopup: false
         };
     },
     firebase: {
@@ -325,6 +303,7 @@ export default {
 <style>
 .preferences .v-content__wrap {
     display: flex;
+    background-size: cover;
 }
 
 ul {
@@ -353,7 +332,7 @@ ul {
 
 .createevent {
     padding: 50px;
-    height: 100%;
+    height: 93%;
     width: 80%;
     background-color: aliceblue !important;
     margin: auto;

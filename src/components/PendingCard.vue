@@ -99,7 +99,7 @@ export default {
 <style>
 .pendingcard {
     display: flex;
-    margin: 20px 10px 0px 10px;
+    margin: 15px 15px 25px 15px;
 }
 
 .pending {
