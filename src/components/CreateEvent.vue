@@ -1,5 +1,6 @@
 <template>
 <v-content class="preferences" id="create-event-container">
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <v-card class="createevent">
         <!--Page 1-->
         <v-form v-if="pageNumber === 1" ref="form" v-model="valid" lazy-validation>

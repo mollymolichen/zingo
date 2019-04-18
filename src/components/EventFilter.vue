@@ -196,17 +196,6 @@ export default {
                 "Other"
             ],
             selectedCategories: [],
-            emoji: {
-                "Art": "em em-art",
-                "Culture": "em em-shinto_shrine",
-                "Food": "em em-spaghetti",
-                "History": "em em-european_castle",
-                "Music": "em em-musical_note",
-                "Nightlife": "em em-cocktail",
-                "Outdoors": "em em-partly_sunny",
-                "Sports": "em em-basketball",
-                "Tours": "em em-scooter"
-            },
             users: []
         }
     },

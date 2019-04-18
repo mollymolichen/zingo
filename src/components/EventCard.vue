@@ -1,5 +1,6 @@
 <template>
 <v-content class="eventcard">
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <v-card class="event">
         <v-layout row wrap>
             <!--Profile picture-->
@@ -30,6 +31,16 @@
                     <v-img :src="event.p2" class="picture"></v-img>
                     <v-img :src="event.p3" class="picture"></v-img>
                 </v-layout>
+
+                <!--Event categories-->
+                <div id="categories">
+                    <div v-for="category in event.categories" :key="category">
+                        <span class="round-chip">
+                            <i style="margin-right: 10px" :class=emoji[category]></i>
+                            {{ category }}
+                        </span>
+                    </div>
+                </div>
             </v-flex>
 
             <!--Edit button-->
@@ -59,7 +70,18 @@ export default {
             notAttending: true,
             favorites: [],
             myProfile: false,
-            events: []
+            events: [],
+            emoji: {
+                "Art": "em em-art",
+                "Culture": "em em-shinto_shrine",
+                "Food": "em em-spaghetti",
+                "History": "em em-european_castle",
+                "Music": "em em-musical_note",
+                "Nightlife": "em em-cocktail",
+                "Outdoors": "em em-partly_sunny",
+                "Sports": "em em-basketball",
+                "Tours": "em em-scooter"
+            }
         }
     },
     methods: {
@@ -149,5 +171,9 @@ export default {
 .edit-btn {
     transform: scale(1.2, 1.2);
     margin: 20px 5px 5px 5px;
+}
+
+#categories {
+    display: flex;
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
 <v-content class="preferences" id="create-event-container">
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <v-card class="createevent">
         <!--Page 1-->
         <v-form ref="form" lazy-validation>
@@ -113,11 +114,10 @@ export default {
 
             // event picture upload
             selectedFile: null,
-            propicUrl: "http://placekitten.com/g/200/300",
-            pics: [],
+            p1: "http://placekitten.com/g/200/300",
+            p2: "http://placekitten.com/g/200/300",
+            p3: "http://placekitten.com/g/200/300",
             uploadFinished: false,
-
-            // TODO: regular picture upload
 
             categories: [
                 "Art",
@@ -142,9 +142,9 @@ export default {
                 startTimePm: false,
                 endTimePm: false
             },
-			menu1: false,
+            menu1: false,
             menu2: false,
-			emoji: {
+            emoji: {
                 "Art": "em em-art",
                 "Culture": "em em-shinto_shrine",
                 "Food": "em em-spaghetti",
@@ -160,21 +160,18 @@ export default {
             // attendees
             interested: [],
             confirmed: []
-		};
+        };
     },
     firebase: {
         users: usersRef,
         eventsRef: eventsRef,
         storage: storageRef
     },
-    mounted() {
-
-    },
     components: {
         Popup,
         Modal
     },
-    methods: {		
+    methods: {
         setApp2(res) {
             this.setApp(res);
         },
@@ -197,11 +194,11 @@ export default {
             this.$refs.form.reset();
         },
 
-        showP(){
+        showP() {
             this.showPopup = true;
         },
 
-        closeP(){
+        closeP() {
             this.showPopup = false;
         },
 
@@ -213,7 +210,8 @@ export default {
         },
 
         onUpload(p1, p2, p3) {
-            let that = this;
+            let that = this.event;
+            let that2 = this;
             const storageRef = Firebase.storage().ref();
             var file = this.selectedFile;
             var metadata = {
@@ -254,7 +252,7 @@ export default {
                     } else if (p3) {
                         Vue.set(that, 'p3', url);
                     }
-                    Vue.set(that, 'uploadFinished', true);
+                    Vue.set(that2, 'uploadFinished', true);
                 }
             );
         },
@@ -278,13 +276,23 @@ export default {
             eventsRef.child(this.event.eid).update(this.event);
         },
 
-        deleteEvent(){
+        deleteEvent() {
             eventsRef.child(this.event.eid).remove();
-            router.push({ name: 'EventList' , params: { user: this.user }});
+            router.push({
+                name: 'EventList',
+                params: {
+                    user: this.user
+                }
+            });
         },
 
-        closeEE(){
-            router.push({ name: 'EventList' , params: { user: this.user }});
+        closeEE() {
+            router.push({
+                name: 'EventList',
+                params: {
+                    user: this.user
+                }
+            });
         }
     },
     watch: {
@@ -297,20 +305,20 @@ export default {
             return this.formatDate(this.date);
         },
 
-        amOrPm(){   // am by default
+        amOrPm() { // am by default
             let p1 = this.time.startTime.split(":")[0];
             let parseStartTime = parseInt(p1);
-            if (parseStartTime >= 12){
+            if (parseStartTime >= 12) {
                 this.time.startTimePm = true;
             }
             let p2 = this.time.endTime.split(":")[0];
             let parseEndTime = parseInt(p2);
-            if (parseEndTime >= 12){
+            if (parseEndTime >= 12) {
                 this.time.endTimePm = true;
             }
         }
-	},
-    props: ['event', 'user']	
+    },
+    props: ['event', 'user']
 }
 </script>
 
@@ -350,6 +358,7 @@ ul {
     background-color: aliceblue !important;
     margin: auto;
     margin-top: 50px;
+    border-radius: 25px !important;
 }
 
 .checkboxes {

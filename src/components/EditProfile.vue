@@ -8,7 +8,7 @@
                 <router-link :to="{ name: 'Profile', params: { user } }">
                     <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
                 </router-link>
-                <h1 style="margin-top:10px; margin-bottom:20px">Let's make your profile.</h1>
+                <h1 style="margin-top:10px; margin-bottom:20px">Let's edit your profile.</h1>
             </div>
 
             <v-text-field v-model="user.firstName" label="First name" required class="text-field" id="float"></v-text-field>
@@ -471,6 +471,7 @@ ul {
     width: 80%;
     background-color: aliceblue !important;
     margin: 30px auto;
+    border-radius: 25px !important;
 }
 
 .checkboxes {
