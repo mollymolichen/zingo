@@ -153,6 +153,7 @@ export default {
 .picture {
     margin: 0px 10px 0px 10px;
     border-radius: 15px !important;
+    height: 175px;
 }
 
 .event-profile-pic {

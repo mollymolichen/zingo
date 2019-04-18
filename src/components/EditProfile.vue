@@ -348,7 +348,6 @@ export default {
         onUpload(profilePic, p1, p2, p3) {  
             let that = this.user;
             let that2 = this;
-
             const storageRef = Firebase.storage().ref();
             var file = this.selectedFile;
             var metadata = {

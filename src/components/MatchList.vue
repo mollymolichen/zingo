@@ -25,7 +25,7 @@
     </v-tabs>
 
     <!--Tab 1: Hosts-->
-    <div v-if="tab1">
+    <div v-if="tab1" style="flex-wrap:wrap !important">
         <h1 class="header-text">Events You're Attending</h1>
         <div v-for="h in this.hosts" :key="h">
             <attending-card :user="user" :host="h" :myProfile="myProfile" :events="events" :eventsImAttending="eventsImAttending"></attending-card>
@@ -210,16 +210,11 @@ export default {
 
 #tab3 {
     display: flex;
+    flex-wrap: wrap !important;
 }
 
 #tab4 {
     display: flex;
-}
-
-#tab41 {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 10%;
+    flex-wrap: wrap !important;
 }
 </style>

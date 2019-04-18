@@ -3,7 +3,7 @@
     <v-card class="profile">
         <v-layout row wrap>
             <!--Profile picture-->
-            <v-flex xs3>
+            <v-flex xs3 style="justify-content:center !important">
                 <router-link :to="{ name: 'Profile', params: { user: host, myProfile } }">
                     <v-avatar class="profile-avatar">
                         <img :src="host.propicUrl" alt="Profile picture">

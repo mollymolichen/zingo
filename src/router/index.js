@@ -2,7 +2,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import About from '../components/About';
-import ChangeProPic from '../components/ChangeProPic';
 import CreateEvent from '../components/CreateEvent';
 import EditEvent from '../components/EditEvent';
 import EditProfile from '../components/EditProfile';
@@ -11,7 +10,7 @@ import EventCard from '../components/EventCard';
 import EventList from '../components/EventList';
 import MatchList from '../components/MatchList';
 import Profile from '../components/Profile';
-import ProfileCard from '../components/ProfileCard';
+import AttendingCard from '../components/AttendingCard';
 import ProfileList from '../components/ProfileList';
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
@@ -24,12 +23,6 @@ export default new Router({
       path: '/about',
       name: 'About',
       component: About,
-      props: true
-    },
-    {
-      path: '/profile/edit/pro-pic',
-      name: 'ChangeProPic',
-      component: ChangeProPic,
       props: true
     },
     {
@@ -82,8 +75,8 @@ export default new Router({
     },
     {
       path: '/profilecard',
-      name: 'ProfileCard',
-      component: ProfileCard,
+      name: 'AttendingCard',
+      component: AttendingCard,
       props: true
     },
     {
