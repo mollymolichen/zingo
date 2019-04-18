@@ -7,15 +7,9 @@
                     <h1>About Us</h1>
                 </div>
                 <span class="pg1">We're working toward making solo-traveling a breeze.</span>
-                <span class="pg1">As solo-travelers ourselves,
-                    we know how important it is to have the freedom to do what you want, when you want
-                    to, whenever you travel.
-                </span>
-                <span class="pg1">We know it can be fun to spontaneously meet up with new friends
-                    in new cities. We agree.</span>
-                <span class="pg1">Use Weekendr to meet up with friends just like you who love
-                    to adventure.
-                </span>
+                <span class="pg1">As solo-travelers ourselves, we know how important freedom is when you travel.</span>
+                <span class="pg1">We know it can be fun to spontaneously meet up with new friends in new cities. We agree.</span>
+                <span class="pg1">Use Weekendr to meet up with friends just like you who love to adventure.</span>
             </v-flex>
         </div>
 

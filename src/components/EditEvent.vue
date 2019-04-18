@@ -32,22 +32,6 @@
             <v-text-field v-model="event.shortDescription" label="Enter a short description." required class="full-width"></v-text-field>
             <v-textarea v-model="event.longDescription" label="Enter a more detailed description (optional)." class="full-width"></v-textarea>
 
-            <!-- <div class="event-type">
-                <h3>Event Type</h3>
-                <v-layout>
-                    <v-flex>
-                        <v-select class="event-type" v-model="event.selectedCategories" :items="this.categories" multiple persistent-hint>
-                            <template slot="selection" slot-scope="data">
-                                <span class="round-chip">
-                                    <i style="margin-right: 10px" :class=emoji[data.item]></i>
-                                    {{ data.item }}
-                                </span>
-                            </template>
-                        </v-select>
-                    </v-flex>
-                </v-layout>
-            </div> -->
-
             <!--Photos-->
             <h3 class="upload-text">Upload up to three photos of the event.</h3>
             <h4 class="upload-text">Press Upload to make sure your file was uploaded successfully.</h4>
@@ -58,21 +42,21 @@
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false, true, false, false)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(true, false, false)" class="upload-btn">Upload</v-btn>
                 </div>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false, false, true, false)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(false, true, false)" class="upload-btn">Upload</v-btn>
                 </div>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false, false, false, true)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(false, false, true)" class="upload-btn">Upload</v-btn>
                 </div>
             </div>
 

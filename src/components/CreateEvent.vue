@@ -67,21 +67,21 @@
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false, true, false, false)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(true, false, false)" class="upload-btn">Upload</v-btn>
                 </div>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false, false, true, false)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(false, true, false)" class="upload-btn">Upload</v-btn>
                 </div>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false, false, false, true)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(false, false, true)" class="upload-btn">Upload</v-btn>
                 </div>
             </div>
 
