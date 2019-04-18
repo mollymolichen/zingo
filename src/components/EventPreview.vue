@@ -5,7 +5,7 @@
         <h2 class="preview-text">{{event.title}}</h2>
         <h3>{{event.location.locale}}</h3>
         <h3 class="preview-text">{{event.time.startTime}} - {{event.time.endTime}}</h3>
-        <v-btn style="margin-bottom: 30px" class="preview-text-btn" v-if="!learnMore" @click="learnMore = true">Learn More...</v-btn>
+        <v-btn class="preview-text-btn" v-if="!learnMore" @click="learnMore = true">Learn More...</v-btn>
         <h3 v-if="learnMore">{{event.shortDescription}}</h3>
         <br>
         <v-icon @click="decline()" class="icon">cancel</v-icon>
@@ -56,13 +56,14 @@ export default {
 .event-preview-card {
     margin: auto;
     display: flex;
+    flex-direction: column;
     height: 300px;
     padding: 0px 15px 0px 15px;
     border-radius: 25px !important;
+    align-items: center;
 }
 
 .icon {
-    transform: scale(1.3, 1.3);
     margin: 5px 10px 5px 10px;
 }
 
@@ -70,4 +71,8 @@ export default {
     margin-bottom: 20px;
 }
 
+.preview-text-btn {
+    margin-bottom: 30px;
+    width: 50%;
+}
 </style>

@@ -11,7 +11,7 @@
 
         <v-content class="container">
             <v-layout row wrap v-if="this.onApp === true">
-                <v-flex xs12>
+                <v-flex>
                     <h1 id="title">Weekendr</h1>
                     <h1>Connecting awesome travelers to awesome friends.</h1>
                     <div v-if="this.user === null">
@@ -81,7 +81,7 @@ a {
 
 .container {
     flex-direction: row;
-    background-image: url("./assets/flamingo2.png");
+    background-image: url("./assets/flamingo.png");
     background-size: cover;
     height: 93%;
     text-align: center;

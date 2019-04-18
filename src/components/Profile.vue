@@ -45,6 +45,45 @@
         </v-flex>
     </div>
 
+	<!--Fun facts-->
+	<div>
+		<v-layout row wrap>
+			<v-flex xs3>
+				<v-card class="funfact">
+					<v-card-text>
+						<h2>Craziest Fact About You</h2><br>
+						<h3>{{user.crazyFact}}</h3>
+					</v-card-text>
+				</v-card>
+			</v-flex>
+			<v-flex xs3>
+				<v-card class="funfact">
+					<v-card-text>
+						<h2>Go-to Midnight Snack</h2><br>
+						<h3>{{user.midnightSnack}}</h3><br><br>
+					</v-card-text>
+				</v-card>
+			</v-flex>
+			<v-flex xs3>
+				<v-card class="funfact">
+					<v-card-text>
+						<h2>My Vacation Activities</h2><br>
+						<h3>{{user.vacation}}</h3><br><br>
+					</v-card-text>
+				</v-card>
+			</v-flex>
+			<v-flex xs3>
+				<v-card class="funfact">
+					<v-card-text>
+						<h2>Favorite Karaoke Song</h2><br>
+						<h3>{{user.karaokeSong}}</h3><br><br>
+					</v-card-text>
+				</v-card>
+			</v-flex>
+		</v-layout>
+	</div>
+
+	<!--Photos-->
     <div class="photos" v-if="user.p1 || user.p2 || user.p3">
 		<v-flex xs6 sm4>
 			<v-img class="profile-img" :src="user.p1"></v-img>
@@ -250,5 +289,17 @@ li {
 }
 #li-current:before {
 	content: '\1F3F0';
+}
+
+.summary {
+	margin-bottom: 20px;
+}
+
+.funfact {
+	background-color: #fce4ec !important;
+	border-radius: 25px;
+	margin: 20px 10px 0px 10px;
+	text-align: left;
+	height: 85%;
 }
 </style>

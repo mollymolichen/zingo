@@ -11,7 +11,7 @@
                 </router-link>
                 <h1>{{this.host.firstName}}, {{this.host.age}}</h1>
                 <h3>{{this.host.universityOrOccupation}}</h3>
-                <v-icon v-if="!myOwnEvent" @click="expressInterest()" class="icon" :disabled="alreadyInterested">favorite</v-icon>
+                <v-icon v-if="!myOwnEvent" @click="expressInterest()" class="icon" :disabled="alreadyOnGuestList">favorite</v-icon>
                 <v-icon v-if="!myOwnEvent" @click="interest(false, event)" class="icon">cancel</v-icon>
             </v-flex>
 
@@ -87,10 +87,16 @@ export default {
             return this.user.uuid === this.host.uuid;
         },
 
-        alreadyInterested() {
+        alreadyOnGuestList() {
             for (let g in this.event.interested) {
                 if (this.event.interested[g] === this.user.uuid) {
                     console.log("User already expressed interest in this event.");
+                    return true;
+                }
+            }
+            for (let g in this.event.confirmed) {
+                if (this.event.confirmed[g] === this.user.uuid) {
+                    console.log("User is already confirmed to attend this event.");
                     return true;
                 }
             }

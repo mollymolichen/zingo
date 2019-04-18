@@ -57,7 +57,7 @@ export default {
     },
     props: ['guest', 'event', 'attendees', 'confirm'],
     methods: {
-        async changeGuestStatus(guestID, approveGuest, removeConfirmed) {    // TODO: make card disappear right after change status
+        async changeGuestStatus(guestID, approveGuest, removeConfirmed) {
             // already confirmed, remove from confirmed
             if (removeConfirmed){
                 let i = this.event.confirmed.indexOf(guestID);
@@ -77,6 +77,7 @@ export default {
                 });
 
                 // confirm
+                // TODO: when you click check to approve, user doesn’t automatically move to confirmed until you click tabs
                 if (approveGuest) {
                     if (!this.event.confirmed){
                         this.event.confirmed = [];

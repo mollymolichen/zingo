@@ -42,7 +42,6 @@
 
     <!--Tab 3: Pending guests-->
     <div v-else-if="tab3" id="tab3">
-        <!-- <h1 class="header-text">Pending Guests</h1> -->
         <div v-for="(obj, index) in this.pending" :key="index">
             <pending-card :guest="obj.guest" :event="obj.event" :attendees="attendees"></pending-card>
         </div>
@@ -50,7 +49,6 @@
 
     <!--Tab 4: Confirmed guests-->
     <div v-else-if="tab4" id="tab4">
-        <!-- <div id="tab41"><h1 class="header-text">Confirmed Guests</h1></div> -->
         <div v-for="(obj, index) in this.confirmed" :key="index">
             <pending-card :guest="obj.guest" :event="obj.event" :attendees="attendees" :confirm="true"></pending-card>
         </div>
