@@ -92,7 +92,7 @@
             
             <!--navigate to an empty EventList page w/ only your newly created event-->
             <router-link :to="{ name: 'EventList', params: { event, user } }">
-                <v-icon class="arrows" @click="registerEvent()" :disabled="!valid">chevron_right</v-icon>
+                <v-icon class="arrows" @click="createEvent()" :disabled="!valid">chevron_right</v-icon>
             </router-link>
         </v-form>
 
@@ -283,7 +283,7 @@ export default {
             return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
         },
 
-        registerEvent() {
+        createEvent() {
             const uuid = require("uuid/v4");
             let eid = uuid();
             this.uuid = eid;
@@ -302,7 +302,7 @@ export default {
                 title: this.title,
                 shortDescription: this.shortDescription,
                 longDescription: this.longDescription,
-                selectedCategories: this.selectedCategories,
+                categories: this.selectedCategories,
                 interested: [],
                 confirmed: []
             };

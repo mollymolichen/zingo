@@ -63,7 +63,7 @@
 
             <div id="buttons">
                 <router-link :to="{ name: 'EventList', params: { user } }">
-                    <v-btn @click="registerEvent()">Save</v-btn>
+                    <v-btn @click="editEvent()">Save</v-btn>
                 </router-link>
                 <!-- <v-btn @click="this.showPopup = true">Delete</v-btn>
                 <popup v-if="this.showPopup" :deleteEvent="deleteEvent" v-show="showPopup" @close="this.showPopup = false"></popup> -->
@@ -272,7 +272,7 @@ export default {
             return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
         },
 
-        registerEvent() {
+        editEvent() {
             eventsRef.child(this.event.eid).update(this.event);
         },
 

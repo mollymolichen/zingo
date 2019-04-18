@@ -37,10 +37,11 @@
         <v-flex>
             <ul>
                 <li>
-                    <h1>{{user.firstName}}, {{$route.params.user.age}}  <i class="em em-flag-um"/></h1>
+                    <h1>{{user.firstName}}, {{$route.params.user.age}} {{getFlag}}</h1>
                 </li>
                 <li style="font-size: large">{{user.universityOrOccupation}}</li>
-                <li style="font-size: large">{{user.hometown.city}} | {{user.hometown.state}} | {{user.hometown.country}}</li>
+                <li style="font-size: large" v-if="user.hometown.state">{{user.hometown.city}}, {{user.hometown.state}}, {{user.hometown.country}}</li>
+				<li style="font-size: large" v-else>{{user.hometown.city}}, {{user.hometown.country}}</li>
             </ul>
         </v-flex>
     </div>
@@ -52,7 +53,7 @@
 			<v-flex xs3>
 				<v-card class="funfact">
 					<v-card-text>
-						<h2>Craziest Fact About You</h2><br>
+						<h2>Craziest Fact About You <i class="em em-100"/></h2><br>
 						<h3>{{user.crazyFact}}</h3>
 					</v-card-text>
 				</v-card>
@@ -60,7 +61,7 @@
 			<v-flex xs3>
 				<v-card class="funfact">
 					<v-card-text>
-						<h2>Go-to Midnight Snack</h2><br>
+						<h2>Go-to Midnight Snack <i class="em em-hamburger"/></h2><br>
 						<h3>{{user.midnightSnack}}</h3><br><br>
 					</v-card-text>
 				</v-card>
@@ -68,7 +69,7 @@
 			<v-flex xs3>
 				<v-card class="funfact">
 					<v-card-text>
-						<h2>My Vacation Activities</h2><br>
+						<h2>My Vacation Activities <i class="em em-man-mountain-biking"/></h2><br>
 						<h3>{{user.vacation}}</h3><br><br>
 					</v-card-text>
 				</v-card>
@@ -76,7 +77,7 @@
 			<v-flex xs3>
 				<v-card class="funfact">
 					<v-card-text>
-						<h2>Favorite Karaoke Song</h2><br>
+						<h2>Favorite Karaoke Song <i class="em em-microphone"/></h2><br>
 						<h3>{{user.karaokeSong}}</h3><br><br>
 					</v-card-text>
 				</v-card>
@@ -180,23 +181,32 @@
 
 <script>
 /* eslint-disable */
+import flag from 'country-code-emoji';
+import {
+	getCountryCode
+} from "../assets/countryCodes.js";
+
 export default {
     name: 'Profile',
-    components: {
-
-	},
 	props: ['user', 'updateUser', 'myProfile'],
     data() {
         return {
-			// user: null,
 			hover: false,
 			display: false
+
         }
 	},
-	mounted() {
-		// if (this.user){
-		// 	this.user = this.user;
-		// }
+	computed: {
+		// usa(){
+		// 	return ['US'].map(flag)[0];
+		// },
+		getFlag(){
+			if (this.user.hometown.country){
+				let code = getCountryCode(this.user.hometown.country);
+				console.log("emoji: ", [code].map(flag)[0]);
+				return [code].map(flag)[0];
+			}
+		}
 	}
 }
 </script>
