@@ -135,7 +135,7 @@ export default {
 .eventcard {
     display: flex;
     flex-direction: column;
-    margin: 20px 20px 0px 20px;
+    margin: 20px 20px 20px 20px;
     width: 100%;
 }
 

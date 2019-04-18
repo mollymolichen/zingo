@@ -5,6 +5,8 @@
             :filtered="filtered" 
             :filterApplied="filterApplied" 
             :events="events"
+            :sortEventsByDate="sortEventsByDate"
+            :sortEventsByTitle="sortEventsByTitle"
         ></event-header>
     </div>
 
@@ -21,7 +23,7 @@
                     <event-card :event="obj" :user="user" :host="getHostObj(obj.host)"></event-card>
                 </div>
             </div>
-            <div v-else> <!--default: sort by match score-->
+            <div v-else>
                 <div v-for="(obj, index) in this.events" :key="index">
                     <event-card :event="obj" :user="user" :host="getHostObj(obj.host)"></event-card>
                 </div>
@@ -56,13 +58,13 @@ export default {
         EventFilter,
         EventHeader
     },
-    props: ['user', 'setApp', 'event', 'singleEvent'],
+    props: ['user', 'setApp', 'event', 'singleEvent', 'sortEventsByDate'],
     firebase: {
         usersRef: usersRef,
         eventsRef: eventsRef
     },
     methods: {
-        async getEvents() {
+        async getEvents(direction) {
             this.events = [];
             let snapshot = await eventsRef.once("value");
             let allEvents = snapshot.val();
@@ -70,7 +72,8 @@ export default {
             keys.forEach((key, i) => {
                 let e = allEvents[key];
                 this.$set(this.events, i, e);
-            })
+            });
+            this.sortEventsByDate(this.events, direction);
         },
      
         getHostObj(uuid) {
@@ -93,40 +96,39 @@ export default {
             this.filtered = arr;
         },
 
-        // getSortedMatches(user) {
-        //     if (!this.matchesObj || !this.matchesObj[user.uuid]) {
-        //         return null;
-        //     }
-        //     let myMatches = [...this.matchesObj[user.uuid]]; // spread operator to create new instance, prevent infinite loop
-        //     if (!myMatches) {
-        //         return null;
-        //     }
-        //     let direction = "desc";
-        //     let sorted = myMatches.sort(this.compareValues("score", direction));
-        //     return sorted ? sorted : null;
-        // },
+        sortEventsByDate(events, direction) {
+            if (!events) { return null; }
+            let sortedByDate = events.sort(this.compareValues("date", direction));
+            return sortedByDate ? sortedByDate : null;
+        },
+
+        sortEventsByTitle(events, direction) {
+            if (!events) { return null; }
+            let sortedByTitle = events.sort(this.compareValues("title", direction));
+            return sortedByTitle ? sortedByTitle : null;
+        },
         
-        // compareValues(key, order) {
-        //     return function (a, b) {
-        //         if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-        //             return 0;
-        //         }
-        //         let varA = typeof a[key] === 'string' ? a[key].toUpperCase() : a[key];
-        //         let varB = typeof b[key] === 'string' ? b[key].toUpperCase() : b[key];
-        //         let comparison = 0;
-        //         if (varA > varB) {
-        //             comparison = 1;
-        //         } else if (varA < varB) {
-        //             comparison = -1;
-        //         }
-        //         return (
-        //             (order === 'desc') ? (comparison * -1) : comparison
-        //         );
-        //     }
-        // }
+        compareValues(key, order) {
+            return function (a, b) {
+                if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+                    return 0;
+                }
+                let varA = typeof a[key] === 'string' ? a[key].toUpperCase() : a[key];
+                let varB = typeof b[key] === 'string' ? b[key].toUpperCase() : b[key];
+                let comparison = 0;
+                if (varA > varB) {
+                    comparison = 1;
+                } else if (varA < varB) {
+                    comparison = -1;
+                }
+                return (
+                    (order === 'desc') ? (comparison * -1) : comparison
+                );
+            }
+        }
     },
     created() {
-        this.getEvents();
+        this.getEvents("asc");      // sort ascending by default
     },
     data() {
         return {

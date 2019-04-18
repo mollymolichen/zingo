@@ -8,8 +8,8 @@
             </div>
         </v-flex>
 		<v-flex xs8 id="sort">
-			<v-icon id="sort-icons">sort_by_alpha</v-icon>
-			<v-icon id="sort-icons">swap_vert</v-icon>
+			<v-icon id="sort-icons" @click="sortByTitle()">sort_by_alpha</v-icon>
+			<v-icon id="sort-icons" @click="sortByDate()">swap_vert</v-icon>
 		</v-flex>
     </v-layout>
 </v-card>
@@ -20,7 +20,7 @@
 export default {
     data() {
         return {
-
+            numClicks: 0
         }
     },
     computed: {
@@ -32,9 +32,24 @@ export default {
         }
     },
     methods: {
-
+        sortByDate(){
+            if (this.numClicks % 2){
+                this.sortEventsByDate(this.events, "asc");
+            } else {
+                this.sortEventsByDate(this.events, "desc");
+            }
+            this.numClicks++;
+        },
+        sortByTitle(){
+            if (this.numClicks % 2){
+                this.sortEventsByTitle(this.events, "asc");
+            } else {
+                this.sortEventsByTitle(this.events, "desc");
+            }
+            this.numClicks++;
+        },
     },
-    props: ['filtered', 'filterApplied', 'events']
+    props: ['filtered', 'filterApplied', 'events', 'sortEventsByDate', 'sortEventsByTitle']
 }
 </script>
 

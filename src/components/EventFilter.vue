@@ -21,7 +21,7 @@
                 <h3>Date range</h3>
                 <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
                     <template v-slot:activator="{ on }">
-                        <v-text-field v-model="startDateFormatted" label="Date" hint="MM/DD/YYYY format" persistent-hint prepend-icon="event" @blur="date = parseDate(startDateFormatted)" v-on="on"></v-text-field>
+                        <v-text-field v-model="startDateFormatted" label="Date" hint="MM/DD/YYYY format" persistent-hint prepend-icon="event" @blur="date = parseDate(startDateFormatted)" v-on="on" :rules="startDateRules"></v-text-field>
                     </template>
                     <v-date-picker v-model="date" no-title @input="menu1 = false"></v-date-picker>
                 </v-menu>
@@ -30,7 +30,7 @@
             <div class="section">
                 <v-menu ref="menu2" v-model="menu2" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
                     <template v-slot:activator="{ on }">
-                        <v-text-field v-model="endDateFormatted" label="Date" hint="MM/DD/YYYY format" persistent-hint prepend-icon="event" @blur="date2 = parseDate(endDateFormatted)" v-on="on"></v-text-field>
+                        <v-text-field v-model="endDateFormatted" label="Date" hint="MM/DD/YYYY format" persistent-hint prepend-icon="event" @blur="date2 = parseDate(endDateFormatted)" v-on="on" :rules="endDateRules"></v-text-field>
                     </template>
                     <v-date-picker v-model="date2" no-title @input="menu2 = false"></v-date-picker>
                 </v-menu>
@@ -86,23 +86,23 @@ export default {
         },
 
         // contingent on which filters are filled out, may need null check
+        // 5 checks: host speaks same language, same location, date falls w/i range, time falls w/i range, categories w/i range
         filter(){
-            // time
-            // 5 checks: host speaks same language, same location, date falls w/i range, time falls w/i range, categories w/i range
-            // this.setFilters();
             this.filtered = [];
             this.setFilterApplied(true);
-            let langInCommon = false;
-            let categoryInCommon = false;
 
             for (let e in this.events){
+                // reset
+                let langInCommon = false;
+                let categoryInCommon = false;
+
                 // languagesSpoken
                 if (this.languagesSpoken.length){
                     for (let l in this.languagesSpoken){
                         let lang = this.languagesSpoken[l];
                         let hostID = this.events[e].host;
                         let hostLangs = this.getHostLang(hostID);
-                        if (hostLangs.length && hostLangs.indexOf(lang) != -1){
+                        if (hostLangs && hostLangs.indexOf(lang) != -1){
                             langInCommon = true;
                             break;
                         }
@@ -125,8 +125,9 @@ export default {
                     for (let s in this.selectedCategories){
                         let category = this.selectedCategories[s];
                         let eventCategories = this.events[e].categories;
-                        if (eventCategories.indexOf(category) != -1){
+                        if (eventCategories && eventCategories.indexOf(category) != -1){
                             categoryInCommon = true;
+                            break;
                         }
                     }
                     if (!categoryInCommon) continue;
@@ -135,6 +136,7 @@ export default {
                 // passes all filters
                 this.filtered.push(this.events[e]);
             }
+            console.log(this.filtered);
             this.setFilters(this.filtered);
         },
 
@@ -177,12 +179,11 @@ export default {
             menu1: false,
             menu2: false,
             startDateRules: [
-                // v => v > date2 || "Start date must be before end date"
+                v => v > date2 || "Start date must be before end date"
             ],
             endDateRules: [
-                // v => v < date2 || "End date must be after start date"
+                v => v < date || "End date must be after start date"
             ],
-
             categories: [
                 "Art",
                 "Culture",
