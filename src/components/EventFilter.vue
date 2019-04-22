@@ -208,9 +208,6 @@ export default {
         date2(val) {
             this.endDateFormatted = this.formatDate(this.date2);
         }
-    },
-    mounted() {
-
     }
 }
 </script>

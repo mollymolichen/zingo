@@ -17,7 +17,7 @@
             <v-text-field v-model="universityOrOccupation" label="University or Occupation" required class="text-field"></v-text-field>
             <v-text-field v-model="email" label="Email" required class="text-field"></v-text-field>
             <v-text-field v-model="password" label="Password" :type="'password'" required class="text-field"></v-text-field>
-            <v-text-field v-model="phoneNumber" :rules="phoneNumberRules" label="Phone number" required class="text-field"></v-text-field>
+            <vue-tel-input v-model="phoneNumber" mask="phone" @onInput="onInput" :preferredCountries="['us']" class="text-field-ph" required :rules="phoneNumberRules"></vue-tel-input>
             <v-autocomplete xs6 :items="allLangs" v-model="languagesSpoken" chips multiple style="margin: 0px 10px 0px 10px" label="What languages do you speak?">
                 <template slot="selection" slot-scope="data">
                     <v-chip :selected="data.selected" close class="chip--select-multi" @click="removePast(data.item)">
@@ -26,8 +26,8 @@
                 </template>
             </v-autocomplete>
 
-            <v-text-field v-model="hometown.city" label="City" class="text-field" style="float:left"></v-text-field>
-            <v-autocomplete :items="allCountries" v-model="hometown.country" label="Country" class="text-field"></v-autocomplete>
+            <v-text-field v-model="hometown.city" label="City" class="text-field" style="float:left" required></v-text-field>
+            <v-autocomplete :items="allCountries" v-model="hometown.country" label="Country" class="text-field" required></v-autocomplete>
             <v-autocomplete v-if="fromUS" v-model="hometown.state" :items="states" label="State (if in US)" class="text-field" style="float:left"></v-autocomplete>
 
             <div id="profile-pic-upload">
@@ -35,14 +35,56 @@
                 <h3>Upload a profile picture.</h3>
                 <h4>Press Upload to make sure your file was uploaded successfully.</h4>
                 <br>
-
-                <input type="file" @change="onFileChanged">
+                <input type="file" @change="onFileChanged"/>
                 <v-btn @click="onUpload(true, false, false, false)">Upload</v-btn>
             </div>
 
             <h3>Upload up to three more photos of yourself.</h3>
             <h4>Press Upload to make sure your file was uploaded successfully.</h4>
             <br>
+
+            <!--testing-->
+            <!-- <div> -->
+            <!-- parent -->
+            <!-- <div @click="launchFilePicker()">
+                    <slot name="activator"></slot>
+                </div> -->
+            <!-- image input: style is set to hidden and assigned a ref so that it can be triggered -->
+            <!-- <input type="file"
+                    ref="file"
+                    :name="uploadFieldName"
+                    @change="fileChangeAvatar($event.target.name, $event.target.files)"
+                    style="display:none"> -->
+
+            <!-- child -->
+            <!-- <div slot="activator">
+                    <v-avatar size="150px" v-ripple v-if="!avatar" class="grey lighten-3 mb-3">
+                        <span>Click to add avatar</span>
+                    </v-avatar>
+                    <v-avatar size="150px" v-ripple v-else class="mb-3">
+                        <img :src="avatar.imageURL" alt="avatar">
+                    </v-avatar>
+                </div>
+                <v-slide-x-transition>
+                    <div>
+                        <v-btn class="primary" @click="onUploadAvatar(false, true, false, false)">Save Avatar</v-btn>
+                    </div>
+                </v-slide-x-transition>
+            </div> -->
+
+            <!-- <image-input v-model="avatar" :onFileChanged="onFileChanged">
+                <div slot="activator">
+                    <v-avatar size="150px" v-ripple v-if="!avatar" class="grey lighten-3 mb-3">
+                        <span>Click to add avatar</span>
+                    </v-avatar>
+                    <v-avatar size="150px" v-ripple v-else class="mb-3">
+                        <img :src="avatar.imageURL" alt="avatar">
+                    </v-avatar>
+                </div>
+            </image-input> -->
+
+            <!--end of testing-->
+
             <div class="photo-upload">
                 <br>
                 <div class="upload-btn-wrapper" style="margin-left:30px">
@@ -67,13 +109,12 @@
                     <v-btn @click="onUpload(false, false, false, true)" class="upload-btn">Upload</v-btn>
                 </div>
             </div>
+
             <!--Arrows-->
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
             <span class="pagenumbers">{{pageNumber}} / 4</span>
             <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
         </v-form>
-
-        <!--TODO: itinerary-->
 
         <!--Page 2-->
         <v-form v-else-if="pageNumber === 2" ref="form" v-model="valid" lazy-validation>
@@ -83,23 +124,23 @@
                 </router-link>
 
                 <h1>Tell us a little about yourself!</h1>
-                <p>These quesitons are optional, but they might help us and other users to get to know you better!</p>
+                <p>These questions are optional, but they might help us and other users to get to know you better!</p>
 
                 <h3>What's the craziest fact about you?</h3>
                 <v-flex>
-                    <v-textarea :value="crazyFact" solo v-model="crazyFact" :rules="questionRules"></v-textarea>
+                    <v-textarea :value="crazyFact" solo v-model="crazyFact"></v-textarea>
                 </v-flex>
                 <h3>What's your go-to midnight snack?</h3>
                 <v-flex>
-                    <v-textarea :value="midnightSnack" solo v-model="midnightSnack" :rules="questionRules"></v-textarea>
+                    <v-textarea :value="midnightSnack" solo v-model="midnightSnack"></v-textarea>
                 </v-flex>
-                <h3>What's the biggest tea of 2019?</h3>
+                <h3>What do you like to do on vacation?</h3>
                 <v-flex>
-                    <v-textarea :value="biggestTea" solo v-model="biggestTea" :rules="questionRules"></v-textarea>
+                    <v-textarea :value="vacation" solo v-model="vacation"></v-textarea>
                 </v-flex>
-                <h3>What's your go-to karaoke song?</h3>
+                <h3>What's your favorite karaoke song?</h3>
                 <v-flex>
-                    <v-textarea :value="karaokeSong" solo v-model="karaokeSong" :rules="questionRules"></v-textarea>
+                    <v-textarea :value="karaokeSong" solo v-model="karaokeSong"></v-textarea>
                 </v-flex>
             </div>
 
@@ -111,6 +152,61 @@
 
         <!--Page 3-->
         <v-form v-else-if="pageNumber === 3" ref="form" v-model="valid" lazy-validation>
+            <div style="margin-bottom: 20px">
+                <router-link to="/" @click="setApp2(true)">
+                    <v-icon class="material-icons" style="float:right">clear</v-icon>
+                </router-link>
+                <h1 style="margin-top:10px; margin-bottom:20px">Itinerary</h1>
+            </div>
+
+            <h3>What are your current travel plans?</h3><br>
+            <div id="add-btn">
+                <v-icon style="float:right;" @click="addCity()">add_circle</v-icon>
+            </div>
+
+            <ul>
+                <div>
+                    <li class="itinerary" v-for="item in itinerary" :key="item.id">
+                        <!--Location-->
+                        <v-autocomplete :items="allCities" v-model="item.city" label="City name" chips multiple style="margin: 0px 10px 0px 10px">
+                            <template slot="selection" slot-scope="data">
+                                <v-chip :selected="data.selected" close class="chip--select-multi" @input="remove(data.item)">
+                                    {{ data.item }}
+                                </v-chip>
+                            </template>
+                        </v-autocomplete>
+
+                        <!--Start date-->
+                        <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
+                            <template v-slot:activator="{ on }">
+                                <v-text-field v-model="startDateFormatted" label="Date" hint="Start date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="startDate = parseDate(startDateFormatted)" v-on="on"></v-text-field>
+                            </template>
+                            <v-date-picker v-model="startDate" no-title @input="menu1 = false"></v-date-picker>
+                        </v-menu>
+
+                        <!--End date-->
+                        <v-menu ref="menu2" v-model="menu2" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
+                            <template v-slot:activator="{ on }">
+                                <v-text-field v-model="endDateFormatted" label="Date" hint="End date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="endDate = parseDate(endDateFormatted)" v-on="on"></v-text-field>
+                            </template>
+                            <v-date-picker v-model="endDate" no-title @input="menu2 = false"></v-date-picker>
+                        </v-menu>
+
+                        <!--Remove-->
+                        <v-icon v-if="itinerary.length > 1" style="float:right" @click="removeCity(city)">remove_circle
+                        </v-icon>
+                    </li>
+                </div>
+            </ul>
+
+            <!--Arrows-->
+            <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
+            <span class="pagenumbers">{{pageNumber}} / 4</span>
+            <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
+        </v-form>
+
+        <!--Page 4-->
+        <v-form v-else-if="pageNumber === 4" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
                 <router-link to="/">
                     <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
@@ -168,65 +264,8 @@
             <!--Arrows-->
             <v-icon class="arrows" @click="back()">chevron_left</v-icon>
             <span class="pagenumbers">{{pageNumber}} / 4</span>
-            <v-icon class="arrows" @click="next()">chevron_right</v-icon>
-        </v-form>
-
-        <!--Page 4-->
-        <v-form v-else-if="pageNumber === 4" ref="form" v-model="valid" lazy-validation>
-            <div style="margin-bottom: 20px">
-                <router-link to="/" @click="setApp2(true)">
-                    <v-icon class="material-icons" style="float:right">clear</v-icon>
-                </router-link>
-                <h1 style="margin-top:10px; margin-bottom:20px">Travel Experience</h1>
-            </div>
-
-            <v-layout row wrap class="travel-experience">
-                <v-flex xs12 class="autoc">
-                    <h3>Where have you traveled to before?</h3>
-                    <v-autocomplete xs6 :items="allCities" v-model="traveledInPast" chips multiple style="margin: 0px 10px 0px 10px">
-                        <template slot="selection" slot-scope="data">
-                            <v-chip :selected="data.selected" close class="chip--select-multi" @click="removePast(data.item)">
-                                {{ data.item }}
-                            </v-chip>
-                        </template>
-                    </v-autocomplete>
-                </v-flex>
-
-                <v-flex xs12 class="autoc">
-                    <h3>Where do you want to travel in the future?</h3>
-                    <v-autocomplete :items="allCities" v-model="travelInFuture" chips multiple style="margin: 0px 10px 0px 10px">
-                        <template slot="selection" slot-scope="data">
-                            <v-chip :selected="data.selected" close class="chip--select-multi" @input="removeFuture(data.item)">
-                                {{ data.item }}
-                            </v-chip>
-                        </template>
-                    </v-autocomplete>
-                </v-flex>
-
-                <v-flex xs12 class="autoc">
-                    <h3>Tell us your current itinerary.</h3>
-                    <v-autocomplete :items="allCities" v-model="travelCurrent" chips multiple style="margin: 0px 10px 0px 10px">
-                        <template slot="selection" slot-scope="data">
-                            <v-chip :selected="data.selected" close class="chip--select-multi" @input="remove(data.item)">
-                                {{ data.item }}
-                            </v-chip>
-                        </template>
-                    </v-autocomplete>
-                </v-flex>
-            </v-layout>
-
-            <v-flex xs12 class="autoc">
-                <h4 id="rate-yourself">Rate yourself on how experienced of a traveler you are (1: first time traveling, 5: constant/world traveler)</h4>
-                <v-card-text>
-                    <v-slider v-model="experienceRating" :tick-labels="tickLabels" :max="4" step="1" ticks="always" tick-size="2"></v-slider>
-                </v-card-text>
-            </v-flex>
-
-            <!--Arrows-->
-            <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
-            <span class="pagenumbers">{{pageNumber}} / 4</span>
-            <router-link :to="{ name: 'Profile', params: { user: newUser } }">
-                <v-icon class="arrows" @click="registerUser()" :disabled="!valid">chevron_right</v-icon>
+            <router-link :to="{ name: 'Profile', params: { user: newUser, updateUser: updateUser, myProfile: true } }">
+                <v-icon class="arrows" @click="registerUser()">chevron_right</v-icon>
             </router-link>
         </v-form>
     </v-card>
@@ -239,8 +278,8 @@ import Vue from "vue";
 import Firebase from "firebase";
 import Events from './Events.vue';
 import Navbar from './Navbar.vue';
-import AttendingCard from './AttendingCard.vue';
-import ProfileList from './ProfileList.vue';
+import ImageInput from './ImageInput.vue';
+import Profile from './Profile.vue';
 import {
     db,
     usersRef,
@@ -255,13 +294,18 @@ import {
 import {
     allLangs
 } from "../assets/languages.js";
-let forEach = require('lodash.foreach');
+import 'vue-tel-input/dist/vue-tel-input.css';
+import VueTelInput from 'vue-tel-input';
+// import router from "../router"; // TODO: not supported, so it doesn't go straight to profile
 
 export default {
     name: "SignUp",
     components: {
         Events,
-        Navbar
+        ImageInput,
+        Navbar,
+        Profile,
+        VueTelInput
     },
     computed: {
         fromUS() {
@@ -270,11 +314,11 @@ export default {
     },
     data() {
         return {
-            newUser: null,
-            user: null,
             pageNumber: 1,
 
-            // data validation rules
+            // user attributes
+            newUser: null,
+            user: null,
             uuid: null,
             uuid2: "",
             firstName: "",
@@ -289,10 +333,9 @@ export default {
                 state: "",
                 country: ""
             },
-            // bio: "",
             crazyFact: "",
             midnightSnack: "",
-            biggestTea: "",
+            vacation: "",
             karaokeSong: "",
             states: states,
             countries: countries,
@@ -321,14 +364,14 @@ export default {
                 v => (v && v.length <= 300) || "Enter up to 300 characters"
             ],
 
-            // profile picture upload
+            // picture upload
             selectedFile: null,
             propicUrl: "http://placekitten.com/g/200/300",
             p1: "http://placekitten.com/g/200/300",
             p2: "http://placekitten.com/g/200/300",
             p3: "http://placekitten.com/g/200/300",
-            // pics: [],
             uploadFinished: false,
+            pics: [],
 
             // preferences
             transportation: [
@@ -346,18 +389,24 @@ export default {
                 "Couchsurfing"
             ],
             selectedAccommodation: [],
-
-            // TODO: add to more info after profile is already created
             lifestyle: [
                 "Smoking",
                 "Drinks",
                 "Parties"
             ],
             selectedLifestyle: [],
-
-            tickLabels: [1, 2, 3, 4, 5],
-            experienceRating: null,
-
+            activities: [
+                "Art",
+                "Culture",
+                "Food",
+                "History",
+                "Music",
+                "Nightlife",
+                "Outdoors",
+                "Sports",
+                "Tours"
+            ],
+            selectedActivities: [],
             emoji: {
                 "Art": "em em-art",
                 "Culture": "em em-shinto_shrine",
@@ -370,34 +419,80 @@ export default {
                 "Tours": "em em-scooter"
             },
 
-            // travel history
+            // itinerary
             allCountries: parseCities().allCountries,
             allCities: parseCities().allCities,
-            traveledInPast: [],
-            travelInFuture: [],
-            travelCurrent: [],
+            startDateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
+            endDateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
+            time: {
+                startTime: "",
+                endTime: "",
+                startTimePm: false,
+                endTimePm: false
+            },
+            menu1: false,
+            menu2: false,
+            itinerary: [{
+                id: 1,
+                type: null,
+                city: null,
+                startDate: null,
+                endDate: null,
+            }],
+            // use to set dates in itinerary object
+            startDate: new Date().toISOString().substr(0, 10),
+            endDate: new Date().toISOString().substr(0, 10),
 
-            activities: [
-                "Art",
-                "Culture",
-                "Food",
-                "History",
-                "Music",
-                "Nightlife",
-                "Outdoors",
-                "Sports",
-                "Tours"
-            ],
-            selectedActivities: []
+            // photo stuff
+            avatar: null,
+            saving: false,
+            saved: false,
+            imageFile: null,
+            formData: null,
+            imageURL: null
         };
+    },
+    watch: {
+        avatar: {
+            handler: function () {
+                this.saved = false
+            },
+            deep: true
+        },
+        startDate(val) {
+            this.startDateFormatted = this.formatDate(this.startDate);
+        },
+        endDate(val) {
+            this.endDateFormatted = this.formatDate(this.endDate);
+        }
     },
     firebase: {
         users: usersRef,
         storage: storageRef
     },
+    props: ['updateUser', 'setApp'], // removed user as a prop, seemed to fix problem of sign up
+
+    mounted() {
+        this.setApp(false);
+    },
+
     methods: {
         setApp2(res) {
             this.setApp(res);
+        },
+
+        addCity() {
+            let city = {
+                id: this.itinerary.length + 1,
+                city: null,
+                startDate: this.formatDate(new Date().toISOString().substr(0, 10)), // or null?
+                endDate: this.formatDate(new Date().toISOString().substr(0, 10))
+            }
+            this.$set(this.itinerary, this.itinerary.length, city);
+        },
+
+        removeCity(city) {
+            this.itinerary.splice(city.key, 1);
         },
 
         next() {
@@ -423,14 +518,28 @@ export default {
             usersRef.on('value', function (snapshot) {
                 users = snapshot.val();
             });
-            // console.log("My email: ", v);
             for (let user in users) {
-                // console.log("Their email: ", users[user].email);
                 if (users[user].email === v) {
                     return false;
                 }
             };
             return true;
+        },
+
+        formatDate(date) {
+            if (!date) {
+                return null;
+            }
+            const [year, month, day] = date.split('-');
+            return `${month}/${day}/${year}`;
+        },
+
+        parseDate(date) {
+            if (!date) {
+                return null;
+            }
+            const [month, day, year] = date.split('/');
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
         },
 
         // file uploading
@@ -447,7 +556,7 @@ export default {
             var metadata = {
                 contentType: 'image/jpeg'
             };
-            var uploadTask = storageRef.child(this.uuid + "/" + file.name).put(file, metadata);
+            var uploadTask = storageRef.child(this.uuid + "/" + file.name).put(file, metadata); // this.uuid is null
             console.log('upload task', uploadTask);
             uploadTask.on(Firebase.storage.TaskEvent.STATE_CHANGED,
                 function (snapshot) {
@@ -474,6 +583,12 @@ export default {
                 },
                 async function () {
                     var url = await uploadTask.snapshot.ref.getDownloadURL();
+                    // if (!that.pics){
+                    //     that.pics = [];
+                    // }
+                    // that.pics.push(url);
+                    // Vue.set(that, 'pics', that.pics);
+
                     console.log('url: ', url);
                     if (profilePic) {
                         Vue.set(that, 'propicUrl', url);
@@ -489,67 +604,65 @@ export default {
             );
         },
 
-        // TODO: fix
-        removePast(item) {
-            const index = this.traveledInPast.indexOf(item.name);
-            if (index >= 0) this.traveledInPast.splice(index, 1);
-        },
+        async registerUser() {
+            let userCreated = await this.signUp();
+            console.log("registeruser: ", userCreated);
 
-        removeFuture(item) {
-            const index = this.travelInFuture.indexOf(item.name);
-            if (index >= 0) this.travelInFuture.splice(index, 1);
-        },
-
-        registerUser() {
-            this.signUp();
-            // const uuid2 = require("uuid/v4");
-            // let myUuid = uuid();
-            // this.uuid2 = myUuid;
-
-            if (this.user) {                    // already signed in via FB auth
+            if (userCreated) {
+                // if (this.user) {
                 let newUser = {
                     uuid: this.uuid,
-                    // uuid2: this.uuid2,
                     firstName: this.firstName,
                     lastName: this.lastName,
                     age: this.age,
                     universityOrOccupation: this.universityOrOccupation,
                     email: this.email,
-                    // password: this.password,
+                    password: this.password,
                     phoneNumber: this.phoneNumber,
                     hometown: this.hometown,
                     languagesSpoken: this.languagesSpoken,
                     propicUrl: this.propicUrl,
-                    // pics: this.pics,
                     p1: this.p1,
                     p2: this.p2,
                     p3: this.p3,
+                    pics: this.pics,
                     selectedTransportation: this.selectedTransportation,
                     selectedAccommodation: this.selectedAccommodation,
                     selectedLifestyle: this.selectedLifestyle,
                     selectedActivities: this.selectedActivities,
-                    traveledInPast: this.traveledInPast,
-                    travelInFuture: this.travelInFuture,
-                    travelCurrent: this.travelCurrent,
-                    experience: this.experienceRating
+                    crazyFact: this.crazyFact,
+                    midnightSnack: this.midnightSnack,
+                    vacation: this.vacation,
+                    karaokeSong: this.karaokeSong,
+                    itinerary: this.itinerary // need to insert dates
                 };
 
                 this.newUser = newUser;
                 this.updateUser(newUser);
                 usersRef.child(this.uuid).set(newUser);
+                // let that = this;
+                // router.push({
+                //     name: 'Profile',
+                //     params: {
+                //         user: that.newUser,
+                //         updateUser: that.updateUser,
+                //         myProfile: true
+                //     }
+                // });
             }
         },
 
-        signUp() {
-            authRef.createUserWithEmailAndPassword(this.email, this.password)
+        async signUp() {
+            console.log("signup");
+            await authRef.createUserWithEmailAndPassword(this.email, this.password)
                 .then((user) => {
-                    // alert('created')
+                    console.log("User created.");
                 })
                 .catch((e) => {
                     alert('oops' + e.message);
                 })
 
-            authRef.onAuthStateChanged((user) => {
+            await authRef.onAuthStateChanged((user) => {
                 if (user) {
                     console.log(user.uid);
                 } else {
@@ -557,18 +670,73 @@ export default {
                 }
             });
 
-            if (authRef.currentUser !== null && authRef.currentUser !== undefined){
-                console.log("user id: " + authRef.currentUser.uid);
-                this.user = authRef.currentUser;
+            // let that = this?
+            if (authRef.currentUser !== null && authRef.currentUser !== undefined) {
+                // this.user = authRef.currentUser; // TODO: not needed since already prop
                 this.uuid = authRef.currentUser.uid;
-                console.log(this.user);
-                console.log(this.uuid);                     // grab uuid from here
+                // console.log(this.user);
+                console.log(this.uuid);
+                return true;
             }
+            return false;
+        },
+
+        /*
+        fileChangeAvatar(fieldName, file) {
+            this.imageFile = file[0];
+            if (file.length > 0) {
+                this.formData = new FormData()
+                this.imageURL = URL.createObjectURL(imageFile)
+                this.formData.append(fieldName, imageFile)
+                // this.$emit('input', {
+                // 	formData,
+                // 	imageURL
+                // });
+            }
+        },
+
+        onUploadAvatar() {
+            let that = this;
+            const storageRef = Firebase.storage().ref();
+            var file = this.formData.imageFile;
+            var metadata = {
+                contentType: 'image/jpeg'
+            };
+            var uploadTask = storageRef.child(this.uuid + "/" + file.name).put(file, metadata);
+            console.log('upload task', uploadTask);
+            uploadTask.on(Firebase.storage.TaskEvent.STATE_CHANGED,
+                function (snapshot) {
+                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                    switch (snapshot.state) {
+                        case Firebase.storage.TaskState.PAUSED:
+                            console.log('Upload is paused');
+                            break;
+                        case Firebase.storage.TaskState.RUNNING:
+                            console.log('Upload is running');
+                            break;
+            }
+                },
+                function (error) {
+                    switch (error.code) {
+                        case 'storage/unauthorized':
+                            break;
+                        case 'storage/canceled':
+                            break;
+                        case 'storage/unknown':
+                            break;
+                }
+            },
+                async function () {
+                    var url = await uploadTask.snapshot.ref.getDownloadURL();
+                    console.log('url: ', url);
+                    Vue.set(that, 'p1', url);
+                    Vue.set(that, 'uploadFinished', true);
+                });
+            }*/
+        onInput({number, isValid,country}) {
+            console.log(number, isValid, country);
         }
-    },
-    props: ['user', 'updateUser', 'setApp'],
-    mounted() {
-        this.setApp(false);
     }
 };
 </script>
@@ -608,6 +776,19 @@ ul {
     width: 50%;
 }
 
+.text-field-ph {
+    margin: auto 20px;
+    float: left;
+    width: 50%;
+    height: 45px;
+    /* border-style: none !important; */
+    border-bottom: 5px;
+    border-left-style: none !important;
+    border-right-style: none !important;
+    border-top-style: none !important;
+    margin-bottom: 8px;
+}
+
 .photo-upload {
     margin-left: 30px;
     display: flex;
@@ -622,7 +803,7 @@ ul {
     padding: 30px;
     width: 80%;
     background-color: aliceblue !important;
-    margin: 30px auto;
+    margin: 30px;
 }
 
 .checkboxes {
@@ -654,9 +835,9 @@ ul {
 
 .round-chip {
     border-radius: 50%;
-    background-color: pink;
+    background-color: #fce4ec;
     padding: 5px 5px;
-    margin: 3px 3px;
+    margin: 0px 5px 0px 5px !important;
     width: 125px;
     box-shadow: 2px 2px 5px #888888;
     justify-content: center;
@@ -679,9 +860,13 @@ ul {
     margin: auto;
 }
 
-.travel-experience {
+.itinerary {
     display: flex;
     flex-direction: row;
+    background-color: #fce4ec;
+    border-radius: 15px !important;
+    padding: 10px;
+    margin: 15px 15px 15px 15px;
 }
 
 .autoc {
@@ -701,7 +886,7 @@ ul {
 
 .input-box {
     border-radius: 25px;
-    background: pink;
+    background: #fce4ec;
     padding: 20px;
     width: 200px;
     height: 150px;
@@ -728,9 +913,9 @@ ul {
 }
 
 .btn {
-    border: 2px solid pink;
-    color: pink;
-    background-color: pink;
+    border: 2px solid #fce4ec;
+    color: #fce4ec;
+    background-color: #fce4ec;
     padding: 8px 20px;
     border-radius: 8px;
     font-size: 20px;
@@ -745,6 +930,11 @@ ul {
 
 .btn-signup {
     transform: scale(1.5, 1.5);
-    background-color: pink !important;
+    background-color: #fce4ec !important;
+}
+
+#add-btn {
+    display: flex;
+    justify-content: flex-end;
 }
 </style>

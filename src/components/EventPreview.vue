@@ -51,6 +51,7 @@ export default {
 <style>
 .event-preview {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .event-preview-card {
@@ -61,6 +62,7 @@ export default {
     padding: 0px 15px 0px 15px;
     border-radius: 25px !important;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .icon {

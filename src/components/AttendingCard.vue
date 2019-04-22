@@ -1,6 +1,6 @@
 <template>
-<v-content class="profilecard">
-    <v-card class="profile">
+<v-content class="attendingcard">
+    <v-card class="att">
         <v-layout row wrap>
             <!--Profile picture-->
             <v-flex xs3 style="justify-content:center !important">
@@ -11,6 +11,7 @@
                 </router-link>
                 <h1>{{host.firstName}}, {{host.age}}</h1>
                 <h3>{{host.universityOrOccupation}}</h3>
+                <h3>{{host.phoneNumber}}</h3>
             </v-flex>
 
             <!--Events they're hosting-->
@@ -69,22 +70,23 @@ export default {
 </script>
 
 <style>
-.profilecard {
+.attendingcard {
     display: flex;
     flex-direction: column;
     margin: 20px 20px 0px 20px;
     width: 100%;
     margin-bottom: 20px;
+    flex-wrap: wrap !important;
 }
 
-.profile {
+.att {
     padding: 20px;
     height: 50%;
     width: 80%;
     background-color: aliceblue !important;
     margin: auto;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap !important;
     border-radius: 25px !important;
 }
 

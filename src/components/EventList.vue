@@ -58,7 +58,7 @@ export default {
         EventFilter,
         EventHeader
     },
-    props: ['user', 'setApp', 'event', 'singleEvent', 'sortEventsByDate'],
+    props: ['user', 'setApp'],
     firebase: {
         usersRef: usersRef,
         eventsRef: eventsRef
@@ -98,14 +98,14 @@ export default {
 
         sortEventsByDate(events, direction) {
             if (!events) { return null; }
-            let sortedByDate = events.sort(this.compareValues("date", direction));
-            return sortedByDate ? sortedByDate : null;
+            events.sort(this.compareValues("date", direction));
+            // return sortedByDate ? sortedByDate : null;
         },
 
         sortEventsByTitle(events, direction) {
             if (!events) { return null; }
-            let sortedByTitle = events.sort(this.compareValues("title", direction));
-            return sortedByTitle ? sortedByTitle : null;
+            events.sort(this.compareValues("title", direction));
+            // return sortedByTitle ? sortedByTitle : null;
         },
         
         compareValues(key, order) {
@@ -149,24 +149,30 @@ export default {
     display: flex;
     flex-direction: row;
 }
+
 #eventlist-container {
     display: flex;
     width: 100%;
 }
+
 .create-event {
     margin: 30px 0px 30px 20px;
 }
+
 #create-event-btn {
     display: flex;
     float: left;
 }
+
 #add {
     transform: scale(2, 2);
 }
+
 #filter {
     display: flex;
     width: 20%;
 }
+
 #events {
     display: flex;
     width: 80%;

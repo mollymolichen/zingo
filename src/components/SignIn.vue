@@ -81,12 +81,17 @@ export default {
         async signIn() {
             let that = this;
 
-            await authRef.signInWithEmailAndPassword(this.email, this.password)
+            authRef.signInWithEmailAndPassword(this.email, this.password)
                 .then((res) => {
                     that.uuid = res.user.uid;
                     that.user = this.getUser(that.uuid);
                     that.updateUser(this.user);
-                    router.push({ name: 'Profile' , params: { user: that.user, updateUser: that.updateUser, myProfile: true }});
+                    router.push({ 
+                        name: 'Profile' , 
+                        params: { 
+                            user: that.user, updateUser: that.updateUser, myProfile: true 
+                        }
+                    });
                 })
                 .catch((e) => {
                     alert('oops ' + e.message);

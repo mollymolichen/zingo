@@ -25,7 +25,7 @@
     </v-tabs>
 
     <!--Tab 1: Hosts-->
-    <div v-if="tab1" style="flex-wrap:wrap !important">
+    <div v-if="tab1">
         <h1 class="header-text">Events You're Attending</h1>
         <div v-for="h in this.hosts" :key="h">
             <attending-card :user="user" :host="h" :myProfile="myProfile" :events="events" :eventsImAttending="eventsImAttending"></attending-card>
@@ -41,14 +41,14 @@
     </div>
 
     <!--Tab 3: Pending guests-->
-    <div v-else-if="tab3" id="tab3">
+    <div v-else-if="tab3" class="tab-wrap">
         <div v-for="(obj, index) in this.pending" :key="index">
             <pending-card :guest="obj.guest" :event="obj.event" :attendees="attendees"></pending-card>
         </div>
     </div>
 
     <!--Tab 4: Confirmed guests-->
-    <div v-else-if="tab4" id="tab4">
+    <div v-else-if="tab4" class="tab-wrap">
         <div v-for="(obj, index) in this.confirmed" :key="index">
             <pending-card :guest="obj.guest" :event="obj.event" :attendees="attendees" :confirm="true"></pending-card>
         </div>
@@ -208,12 +208,7 @@ export default {
     margin: 30px 0px 30px 0px;
 }
 
-#tab3 {
-    display: flex;
-    flex-wrap: wrap !important;
-}
-
-#tab4 {
+.tab-wrap {
     display: flex;
     flex-wrap: wrap !important;
 }

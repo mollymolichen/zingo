@@ -99,6 +99,22 @@
 		</v-flex>
     </div>
 
+	<!-- <div id="newdiv"> -->
+		<!-- <div v-for="pic in user.pics" :key="pic" class="photos">
+			<v-flex xs6 sm4>
+				<v-img class="profile-img" :src="pic"></v-img>
+			</v-flex>
+		</div> -->
+	<!-- </div> -->
+
+	<!-- <div class="photos2">
+        <v-layout v-for="p in user.pics" :key="p" row wrap class="photos2">
+            <v-flex xs6 sm4>
+                <v-img class="profile-img" :src="p"></v-img>
+            </v-flex>
+        </v-layout>
+    </div> -->
+	
     <div class="about">
 		<br>
 		<h1 style="margin-left: 20px">About Me</h1>    
@@ -124,13 +140,14 @@
 					</v-card-text>
 				</v-card>
 			</v-flex>
+
 			<v-flex xs4>
 				<v-card class="card">
 					<v-card-text>
-						<h3>Preferences</h3>
+						<h3>Itinerary</h3>
 						<ul class="square">
-							<li v-for="habit in user.selectedLifestyle" :key="habit" id="li-lifestyle">
-								{{habit}}
+							<li v-for="place in user.itinerary" :key="place" id="li-current">
+								{{place.city}}, {{place.startDateFormatted}} - {{place.endDate}}
 							</li>
 						</ul>
 					</v-card-text>
@@ -141,34 +158,10 @@
 			<v-flex xs4>
 				<v-card class="card">
 					<v-card-text>
-						<h3>Places I Want to Go</h3>
+						<h3>Preferences</h3>
 						<ul class="square">
-							<li v-for="place in user.travelInFuture" :key="place" id="li-future">
-								{{place}}
-							</li>							
-						</ul>
-					</v-card-text>
-				</v-card>
-			</v-flex>
-			<v-flex xs4>
-				<v-card class="card">
-					<v-card-text>
-						<h3>Places I've Been</h3>
-						<ul class="square">
-							<li v-for="place in user.traveledInPast" :key="place" id="li-past">
-								{{place}}
-							</li>
-						</ul>
-					</v-card-text>
-				</v-card>
-			</v-flex>
-			<v-flex xs4>
-				<v-card class="card">
-					<v-card-text>
-						<h3>Itinerary</h3>
-						<ul class="square">
-							<li v-for="place in user.travelCurrent" :key="place" id="li-current">
-								{{place}}
+							<li v-for="habit in user.selectedLifestyle" :key="habit" id="li-lifestyle">
+								{{habit}}
 							</li>
 						</ul>
 					</v-card-text>
@@ -197,9 +190,6 @@ export default {
         }
 	},
 	computed: {
-		// usa(){
-		// 	return ['US'].map(flag)[0];
-		// },
 		getFlag(){
 			if (this.user.hometown.country){
 				let code = getCountryCode(this.user.hometown.country);
@@ -269,6 +259,11 @@ export default {
 	margin: 0px 10px 0px 10px;
 }
 
+.photos2 {
+	display: flex;
+	margin: 0px 10px 0px 10px;
+}
+
 .profile-img {
     height: 300px;
 	margin: 10px 10px 10px 10px;
@@ -317,5 +312,9 @@ li {
 #fun-facts {
 	text-align: left; 
 	margin: 0px 10px 10px 10px;
+}
+
+#newdiv {
+	display: flex;
 }
 </style>

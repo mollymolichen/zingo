@@ -226,6 +226,7 @@ export default {
                 v => !!v || "Bio is required",
                 v => (v && v.length <= 300) || "Enter up to 300 characters"
             ],
+            states: states,
 
             // profile picture upload
             selectedFile: null,
@@ -502,7 +503,7 @@ ul {
 
 .round-chip {
     border-radius: 50%;
-    background-color: pink;
+    background-color: #fce4ec;
     padding: 5px 5px;
     margin: 3px 3px;
     width: 125px;
@@ -549,7 +550,7 @@ ul {
 
 .input-box {
     border-radius: 25px;
-    background: pink;
+    background: #fce4ec;
     padding: 20px;
     width: 200px;
     height: 150px;
@@ -576,9 +577,9 @@ ul {
 }
 
 .btn {
-    border: 2px solid pink;
-    color: pink;
-    background-color: pink;
+    border: 2px solid #fce4ec;
+    color: #fce4ec;
+    background-color: #fce4ec;
     padding: 8px 20px;
     border-radius: 8px;
     font-size: 20px;
@@ -593,6 +594,6 @@ ul {
 
 .btn-signup {
     transform: scale(1.5, 1.5);
-    background-color: pink !important;
+    background-color: #fce4ec !important;
 }
 </style>
