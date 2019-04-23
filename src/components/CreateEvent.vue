@@ -113,13 +113,12 @@ import {
 import {
     parseCities
 } from "../assets/locations.js";
-let forEach = require('lodash.foreach');
 
 export default {
     name: "CreateEvent",
     data() {
         return {
-            events: [],     // for editing, only have 1 max, change name to event?
+            events: [],
             pageNumber: 1,
             allCities: parseCities().allCities,
 
@@ -132,13 +131,9 @@ export default {
             title: "",
             shortDescription: "",
             longDescription: "",
-            // form rules
 
             // event picture upload
             selectedFile: null,
-            p1: "http://placekitten.com/g/200/300",
-            p2: "http://placekitten.com/g/200/300",
-            p3: "http://placekitten.com/g/200/300",
             uploadFinished: false,
 
             // TODO: regular picture upload

@@ -1,6 +1,6 @@
 <template>
 <v-toolbar color="pink lighten-5">
-    <div v-if="user === null">
+    <div>
         <router-link to="/" class="remove-line">
             <img src="../assets/logo.png" id="flamingo-logo" @click="setApp(true)"/>
         </router-link>

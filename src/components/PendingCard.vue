@@ -4,13 +4,13 @@
         <v-layout column wrap id="center">
             <!--Profile picture-->
             <v-flex xs3>
-                <router-link :to="{ name: 'Profile', params: { user: guest, myProfile } }">
+                <router-link :to="{ name: 'Profile', params: { user: guest, myProfile: false, backButton: true } }">
                     <v-avatar class="profile-avatar">
                         <img :src="guest.propicUrl" alt="Profile picture">
                     </v-avatar><br>
                 </router-link>
-                        <h1>{{guest.firstName}}, {{guest.age}}</h1>
-                        <h2>{{guest.universityOrOccupation}}</h2>
+                <h1>{{guest.firstName}}, {{guest.age}} {{getFlag}}</h1>
+                <h2>{{guest.universityOrOccupation}}</h2>
             </v-flex>
 
             <!--Events they're pending for-->
@@ -38,6 +38,10 @@ import {
 } from "../database.js";
 import Profile from "./Profile";
 import EventPreview from "./EventPreview";
+import {
+	getCountryCode
+} from "../assets/countryCodes.js";
+import flag from 'country-code-emoji';
 
 export default {
     data() {
@@ -54,6 +58,14 @@ export default {
     },
     firebase: {
         eventsRef
+    },
+    computed: {
+        getFlag(){
+			if (this.guest.hometown.country){
+				let code = getCountryCode(this.guest.hometown.country);
+				return [code].map(flag)[0];
+			}
+		}
     },
     props: ['guest', 'event', 'attendees', 'confirm'],
     methods: {
@@ -106,7 +118,7 @@ export default {
     background-color: aliceblue !important;
     display: flex;
     flex-direction: column;
-    border-radius: 25px;
+    border-radius: 25px !important;
     width: 300px;
     height: 675px;
 }
@@ -120,6 +132,7 @@ export default {
     margin: 20px 20px 20px 20px;
     padding: 15px;
     border-radius: 25px;
+    height: 250px;
 }
 
 #icons {

@@ -1,11 +1,11 @@
 <template>
 <v-content class="hosting">
     <v-card class="host">
-        <v-layout row wrap>
+        <v-layout row wrap style="flex-wrap:wrap">
             <!--Event picture-->
             <v-flex xs3>
 				<v-avatar class="event-profile-pic">
-					<img :src="event.p1">
+					<img :src="event.pics[0]">
 				</v-avatar>	
                 <h2>{{event.title}}</h2>
                 <h4>{{event.dateFormatted}}, {{event.time.startTime}} - {{event.time.endTime}}</h4>
@@ -129,7 +129,7 @@ export default {
 
 .event-profile-pic {
     display: flex;
-    margin: 50px 30px 50px 100px;
+    margin: 50px 30px 50px 30px;
     height: 150px !important;
     width: 150px !important;
     transform: scale(1.3, 1.3);

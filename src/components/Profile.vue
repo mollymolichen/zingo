@@ -5,7 +5,10 @@
     <div class="heading">
 		<!--Heading and edit button-->
 		<v-flex style="display: flex; flex-direction:row">
-			<div id="heading-div">
+			<div id="back-btn-div" v-if="backButton">
+				<v-icon id="back-btn" @click="backToMatches()">keyboard_backspace</v-icon>
+			</div>
+			<div v-else id="heading-div">
 			</div>
 			<div id="heading-div" v-if="!myProfile">
 				<h1 style="font-size: xx-large">{{user.firstName}}'s Profile</h1>
@@ -15,22 +18,15 @@
 			</div>
 			<div id="edit-btn-div" v-if="myProfile">
 				<router-link :to="{ name: 'EditProfile', params: { user, updateUser } }">
-					<v-icon @click="display = true" class="edit-btn">edit</v-icon>
+					<v-icon @click="display = true" id="edit-btn">edit</v-icon>
 				</router-link>
 			</div>
 		</v-flex>
 
 		<!--Propic-->
-		<v-avatar class="propic" @mouseover="hover = true" @mouseleave="hover = false">
+		<v-avatar class="propic">
 			<img :src="user.propicUrl" alt="Profile picture" style="transform: scale(5, 5);">
 		</v-avatar>
-
-		<!--Edit propic button-->
-		<v-flex v-if="hover && !myProfile" @click="display = true">
-			<router-link :to="{ name: 'ChangeProPic', params: { user } }">
-				<v-icon @click="display = true" class="edit-btn">edit</v-icon>
-			</router-link>
-		</v-flex>
     </div>
 
     <div class="summary">
@@ -69,7 +65,7 @@
 			<v-flex xs3>
 				<v-card class="funfact">
 					<v-card-text>
-						<h2>My Vacation Activities <i class="em em-man-mountain-biking"/></h2><br>
+						<h2>During Vacations, I... <i class="em em-man-mountain-biking"/></h2><br>
 						<h3>{{user.vacation}}</h3><br><br>
 					</v-card-text>
 				</v-card>
@@ -158,10 +154,11 @@ import flag from 'country-code-emoji';
 import {
 	getCountryCode
 } from "../assets/countryCodes.js";
+import router from "../router";
 
 export default {
     name: 'Profile',
-	props: ['user', 'updateUser', 'myProfile'],
+	props: ['user', 'updateUser', 'myProfile', 'backButton'],
     data() {
         return {
 			hover: false,
@@ -173,9 +170,18 @@ export default {
 		getFlag(){
 			if (this.user.hometown.country){
 				let code = getCountryCode(this.user.hometown.country);
-				console.log("emoji: ", [code].map(flag)[0]);
 				return [code].map(flag)[0];
 			}
+		}
+	},
+	methods: {
+		backToMatches(){
+			router.push({
+				name: 'MatchList',		// can't go directly to tab3 or tab4 currently
+				params: {
+					user: this.user
+				}
+			});
 		}
 	}
 }
@@ -214,10 +220,20 @@ export default {
 	border-radius: 25px !important;
 }
 
-.edit-btn {
+#edit-btn {
     transform: scale(1.2, 1.2);
     margin: 20px 5px 5px 5px;
-	pointer-events: none;
+}
+
+#back-btn {
+	transform: scale(1.2, 1.2);
+}
+
+#back-btn-div {
+	display: flex;
+	justify-content: flex-start;
+	margin-left: 25px;
+	width: 33%;
 }
 
 #heading-div {
@@ -283,7 +299,7 @@ li {
 
 .funfact {
 	background-color: #fce4ec !important;
-	border-radius: 25px;
+	border-radius: 15px !important;
 	margin: 10px 10px 0px 10px;
 	text-align: left;
 	height: 85%;
@@ -293,8 +309,4 @@ li {
 	text-align: left; 
 	margin: 0px 10px 10px 10px;
 }
-
-/* #newdiv {
-	display: flex;
-} */
 </style>

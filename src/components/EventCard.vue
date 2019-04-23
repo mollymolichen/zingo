@@ -129,7 +129,6 @@ export default {
         getFlag(){
 			if (this.host.hometown.country){
 				let code = getCountryCode(this.host.hometown.country);
-				console.log("emoji: ", [code].map(flag)[0]);
 				return [code].map(flag)[0];
 			}
 		}

@@ -5,7 +5,9 @@
         <!--Page 1-->
         <v-form ref="form" lazy-validation>
             <div style="margin-bottom: 20px">
-                <v-icon class="material-icons" style="float:right" @click="closeEE()">clear</v-icon>
+                <router-link :to="{ name: 'EventList', params: { user, setApp } }">
+                    <v-icon class="material-icons" style="float:right" @click="closeEE()">clear</v-icon>
+                </router-link>
                 <h1 style="margin-top:10px; margin-bottom:20px">Edit Your Event</h1>
             </div>
 
@@ -249,6 +251,12 @@ export default {
 
         editEvent() {
             eventsRef.child(this.event.eid).update(this.event);
+            router.push({
+                name: 'EventList',
+                params: {
+                    user: this.user
+                }
+            });
         },
 
         deleteEvent() {
@@ -262,12 +270,12 @@ export default {
         },
 
         closeEE() {
-            router.push({
-                name: 'EventList',
-                params: {
-                    user: this.user
-                }
-            });
+            // router.push({
+            //     name: 'EventList',
+            //     params: {
+            //         user: this.user
+            //     }
+            // });
         }
     },
     watch: {
@@ -293,7 +301,7 @@ export default {
             }
         }
     },
-    props: ['event', 'user']
+    props: ['event', 'user', 'setApp']
 }
 </script>
 

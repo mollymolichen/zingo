@@ -5,9 +5,7 @@
         <!--Page 1-->
         <v-form v-if="pageNumber === 1" ref="form" v-model="user.valid" lazy-validation>
             <div style="margin-bottom: 20px">
-                <router-link :to="{ name: 'Profile', params: { user } }">
-                    <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
-                </router-link>
+                <v-icon class="material-icons" style="float:right" @click="exit()">clear</v-icon>
                 <h1 style="margin-top:10px; margin-bottom:20px">Let's edit your profile.</h1>
             </div>
 
@@ -77,19 +75,28 @@
         <!--Page 2-->
         <v-form v-else-if="pageNumber === 2" ref="form" lazy-validation>
             <div class="title2">
-                <router-link to="/">
-                    <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
-                </router-link>
-                <h1>Tell us a little about yourself!</h1>
-                <h4> For example: </h4>
-                <p>I'm a student at Duke interested in writing, debate, and startups!</p>
-                <h4> or </h4>
-                <p> I'm on my way to medical school and am looking to see much of the world before I start!</p>
-            </div>
+                <v-icon class="material-icons" style="float:right" @click="exit()">clear</v-icon>
 
-            <v-flex>
-                <v-textarea :value="bio" solo v-model="user.bio" :rules="bioRules"></v-textarea>
-            </v-flex>
+                <h1>Tell us a little about yourself!</h1>
+                <p>These questions are optional, but they might help us and other users to get to know you better!</p>
+
+                <h3>What's the craziest fact about you?</h3>
+                <v-flex>
+                    <v-textarea solo v-model="user.crazyFact"></v-textarea>
+                </v-flex>
+                <h3>What's your go-to midnight snack?</h3>
+                <v-flex>
+                    <v-textarea solo v-model="user.midnightSnack"></v-textarea>
+                </v-flex>
+                <h3>What do you like to do on vacation?</h3>
+                <v-flex>
+                    <v-textarea solo v-model="user.vacation"></v-textarea>
+                </v-flex>
+                <h3>What's your favorite karaoke song?</h3>
+                <v-flex>
+                    <v-textarea solo v-model="user.karaokeSong"></v-textarea>
+                </v-flex>
+            </div>
 
             <!--Arrows-->
             <v-icon class="arrows" @click="back()">chevron_left</v-icon>
@@ -100,9 +107,7 @@
         <!--Page 3-->
         <v-form v-else-if="pageNumber === 3" ref="form" lazy-validation>
             <div style="margin-bottom: 20px">
-                <router-link to="/">
-                    <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
-                </router-link>
+                <v-icon class="material-icons" style="float:right" @click="exit()">clear</v-icon>
                 <h1 style="margin-top:10px; margin-bottom:20px">Travel Preferences</h1>
             </div>
 
@@ -129,26 +134,26 @@
                 <v-layout class="checkboxes">
                     <v-flex xs6 sm4>
                         <h3>Transportation</h3>
-                        <v-checkbox v-model="user.selectedTransportation" :label="transportation[0]" :value="transportation[0]"></v-checkbox>
-                        <v-checkbox v-model="user.selectedTransportation" :label="transportation[1]" :value="transportation[1]"></v-checkbox>
-                        <v-checkbox v-model="user.selectedTransportation" :label="transportation[2]" :value="transportation[2]"></v-checkbox>
-                        <v-checkbox v-model="user.selectedTransportation" :label="transportation[3]" :value="transportation[3]"></v-checkbox>
-                        <v-checkbox v-model="user.selectedTransportation" :label="transportation[4]" :value="transportation[4]"></v-checkbox>
+                        <v-checkbox v-model="user.selectedTransportation" :label="transportation[0]"></v-checkbox>
+                        <v-checkbox v-model="user.selectedTransportation" :label="transportation[1]"></v-checkbox>
+                        <v-checkbox v-model="user.selectedTransportation" :label="transportation[2]"></v-checkbox>
+                        <v-checkbox v-model="user.selectedTransportation" :label="transportation[3]"></v-checkbox>
+                        <v-checkbox v-model="user.selectedTransportation" :label="transportation[4]"></v-checkbox>
                     </v-flex>
 
                     <v-flex xs6 sm4>
                         <h3>Accommodation</h3>
-                        <v-checkbox v-model="user.selectedAccommodation" :label="accommodation[0]" :value="accommodation[0]"></v-checkbox>
-                        <v-checkbox v-model="user.selectedAccommodation" :label="accommodation[1]" :value="accommodation[1]"></v-checkbox>
-                        <v-checkbox v-model="user.selectedAccommodation" :label="accommodation[2]" :value="accommodation[2]"></v-checkbox>
-                        <v-checkbox v-model="user.selectedAccommodation" :label="accommodation[3]" :value="accommodation[3]"></v-checkbox>
+                        <v-checkbox v-model="user.selectedAccommodation" :label="accommodation[0]"></v-checkbox>
+                        <v-checkbox v-model="user.selectedAccommodation" :label="accommodation[1]"></v-checkbox>
+                        <v-checkbox v-model="user.selectedAccommodation" :label="accommodation[2]"></v-checkbox>
+                        <v-checkbox v-model="user.selectedAccommodation" :label="accommodation[3]"></v-checkbox>
                     </v-flex>
 
                     <v-flex xs6 sm4>
                         <h3>Lifestyle</h3>
-                        <v-checkbox v-model="user.selectedLifestyle" :label="lifestyle[0]" :value="lifestyle[0]"></v-checkbox>
-                        <v-checkbox v-model="user.selectedLifestyle" :label="lifestyle[1]" :value="lifestyle[1]"></v-checkbox>
-                        <v-checkbox v-model="user.selectedLifestyle" :label="lifestyle[2]" :value="lifestyle[2]"></v-checkbox>
+                        <v-checkbox v-model="user.selectedLifestyle" :label="lifestyle[0]"></v-checkbox>
+                        <v-checkbox v-model="user.selectedLifestyle" :label="lifestyle[1]"></v-checkbox>
+                        <v-checkbox v-model="user.selectedLifestyle" :label="lifestyle[2]"></v-checkbox>
                     </v-flex>
                 </v-layout>
             </div>
@@ -187,7 +192,7 @@ import {
 import {
     allLangs
 } from "../assets/languages.js";
-let forEach = require('lodash.foreach');
+import router from "../router";
 
 export default {
     name: "EditProfile",
@@ -293,9 +298,9 @@ export default {
         storage: storageRef
     },
     methods: {
-        setApp2(res) {
-            this.setApp(res);
-        },
+        // setApp2(res) {
+        //     this.setApp(res);
+        // },
 
         next() {
             if (this.pageNumber < 4) {
@@ -401,8 +406,17 @@ export default {
         },
 
         editUser() {
-			this.updateUser(this.user);
             usersRef.child(this.user.uuid).update(this.user);
+			this.updateUser(this.user);
+        },
+
+        exit(){
+            router.push({ 
+                name: 'Profile', 
+                params: { 
+                    user: this.user, updateUser: this.updateUser, myProfile: true 
+                }
+            });
         }
     },
     props: ['user', 'updateUser', 'setApp'],

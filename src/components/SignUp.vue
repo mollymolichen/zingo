@@ -264,9 +264,9 @@
             <!--Arrows-->
             <v-icon class="arrows" @click="back()">chevron_left</v-icon>
             <span class="pagenumbers">{{pageNumber}} / 4</span>
-            <router-link :to="{ name: 'Profile', params: { user: newUser, updateUser: updateUser, myProfile: true } }">
+            <!-- <router-link :to="{ name: 'Profile', params: { user: newUser, updateUser: updateUser, myProfile: true } }"> -->
                 <v-icon class="arrows" @click="registerUser()">chevron_right</v-icon>
-            </router-link>
+            <!-- </router-link> -->
         </v-form>
     </v-card>
 </v-content>
@@ -296,7 +296,6 @@ import {
 } from "../assets/languages.js";
 import 'vue-tel-input/dist/vue-tel-input.css';
 import VueTelInput from 'vue-tel-input';
-// import router from "../router"; // TODO: not supported, so it doesn't go straight to profile
 
 export default {
     name: "SignUp",
@@ -366,9 +365,13 @@ export default {
 
             // picture upload
             selectedFile: null,
-            propicUrl: "http://placekitten.com/g/200/300",
+            propicUrl: "https://loremflickr.com/300/200/flamingo",
             uploadFinished: false,
-            pics: [],
+            pics: [
+                "https://loremflickr.com/300/200/flamingo",
+                "https://loremflickr.com/300/200/flamingo",
+                "https://loremflickr.com/300/200/flamingo"
+            ],
 
             // preferences
             transportation: [
@@ -627,17 +630,8 @@ export default {
                 };
 
                 this.newUser = newUser;
+                usersRef.child(this.uuid).set(newUser); // switch order
                 this.updateUser(newUser);
-                usersRef.child(this.uuid).set(newUser);
-                // let that = this;
-                // router.push({
-                //     name: 'Profile',
-                //     params: {
-                //         user: that.newUser,
-                //         updateUser: that.updateUser,
-                //         myProfile: true
-                //     }
-                // });
             }
         },
 

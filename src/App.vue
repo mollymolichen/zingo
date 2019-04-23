@@ -39,9 +39,10 @@ import {
     usersRef,
     storageRef
 } from "./database.js";
+import router from "./router";
 
 export default {
-    name: 'app',
+    name: 'App',
     components: {
         About,
         SignUp,
@@ -59,7 +60,15 @@ export default {
     },
     methods: {
         updateUser(newUser) {
-            this.user = newUser;           
+            this.user = newUser;
+            if (newUser !== null){
+                router.push({ 
+                    name: 'Profile' , 
+                    params: { 
+                        user: this.user, myProfile: true  // updateUser: this.updateUser
+                    }
+                });           
+            }
         },
 
         setApp(res) {

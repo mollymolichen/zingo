@@ -74,7 +74,6 @@ export default {
         getFlag(){
 			if (this.host.hometown.country){
 				let code = getCountryCode(this.host.hometown.country);
-				console.log("emoji: ", [code].map(flag)[0]);
 				return [code].map(flag)[0];
 			}
 		}
@@ -89,7 +88,6 @@ export default {
     margin: 20px 20px 0px 20px;
     width: 100%;
     margin-bottom: 20px;
-    flex-wrap: wrap !important;
 }
 
 .att {
@@ -99,7 +97,7 @@ export default {
     background-color: aliceblue !important;
     margin: auto;
     display: flex;
-    flex-wrap: wrap !important;
+    flex-wrap: wrap;
     border-radius: 25px !important;
 }
 

@@ -85,13 +85,7 @@ export default {
                 .then((res) => {
                     that.uuid = res.user.uid;
                     that.user = this.getUser(that.uuid);
-                    that.updateUser(this.user);
-                    router.push({ 
-                        name: 'Profile' , 
-                        params: { 
-                            user: that.user, updateUser: that.updateUser, myProfile: true 
-                        }
-                    });
+                    that.updateUser(this.user);                    
                 })
                 .catch((e) => {
                     alert('oops ' + e.message);
