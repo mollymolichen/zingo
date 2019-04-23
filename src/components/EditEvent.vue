@@ -64,9 +64,9 @@
             </div>
 
             <div id="buttons">
-                <router-link :to="{ name: 'EventList', params: { user } }">
+                <!-- <router-link :to="{ name: 'EventList', params: { user } }"> -->
                     <v-btn @click="editEvent()">Save</v-btn>
-                </router-link>
+                <!-- </router-link> -->
                 <v-btn @click="deleteEvent()">Delete</v-btn>
             </div>
         </v-form>
@@ -250,8 +250,8 @@ export default {
         },
 
         editEvent() {
-            eventsRef.child(this.event.eid).update(this.event);
-            router.push({
+            eventsRef.child(this.event.eid).update(this.event);     
+            router.push({               // TODO: not working
                 name: 'EventList',
                 params: {
                     user: this.user
@@ -261,7 +261,7 @@ export default {
 
         deleteEvent() {
             eventsRef.child(this.event.eid).remove();
-            router.push({
+            router.push({               // TODO: not working
                 name: 'EventList',
                 params: {
                     user: this.user

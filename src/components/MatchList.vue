@@ -43,14 +43,14 @@
     <!--Tab 3: Pending guests-->
     <div v-else-if="tab3" class="tab-wrap">
         <div v-for="(obj, index) in this.pending" :key="index">
-            <pending-card :guest="obj.guest" :event="obj.event" :attendees="attendees"></pending-card>
+            <pending-card :guest="obj.guest" :host="user" :event="obj.event" :attendees="attendees"></pending-card>
         </div>
     </div>
 
     <!--Tab 4: Confirmed guests-->
     <div v-else-if="tab4" class="tab-wrap">
         <div v-for="(obj, index) in this.confirmed" :key="index">
-            <pending-card :guest="obj.guest" :event="obj.event" :attendees="attendees" :confirm="true"></pending-card>
+            <pending-card :guest="obj.guest" :host="user" :event="obj.event" :attendees="attendees" :confirm="true"></pending-card>
         </div>
     </div>
 </v-content>

@@ -4,7 +4,7 @@
         <v-layout column wrap id="center">
             <!--Profile picture-->
             <v-flex xs3>
-                <router-link :to="{ name: 'Profile', params: { user: guest, myProfile: false, backButton: true } }">
+                <router-link :to="{ name: 'Profile', params: { user: guest, myProfile: false, backButton: true, host: host } }">
                     <v-avatar class="profile-avatar">
                         <img :src="guest.propicUrl" alt="Profile picture">
                     </v-avatar><br>
@@ -67,7 +67,7 @@ export default {
 			}
 		}
     },
-    props: ['guest', 'event', 'attendees', 'confirm'],
+    props: ['guest', 'event', 'attendees', 'confirm', 'host'],
     methods: {
         async changeGuestStatus(guestID, approveGuest, removeConfirmed) {
             // already confirmed, remove from confirmed

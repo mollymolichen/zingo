@@ -2,15 +2,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import About from '../components/About';
+import AttendingCard from '../components/AttendingCard';
 import CreateEvent from '../components/CreateEvent';
 import EditEvent from '../components/EditEvent';
 import EditProfile from '../components/EditProfile';
-import Events from '../components/Events';
 import EventCard from '../components/EventCard';
 import EventList from '../components/EventList';
 import MatchList from '../components/MatchList';
 import Profile from '../components/Profile';
-import AttendingCard from '../components/AttendingCard';
 import ProfileList from '../components/ProfileList';
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
@@ -42,12 +41,6 @@ export default new Router({
       name: 'EditProfile',
       component: EditProfile,
       props: true
-    },
-    {
-      path: '/events',
-      name: 'Events',
-      component: Events,
-      props: true,
     },
     {
       path: '/events/event',
@@ -85,12 +78,6 @@ export default new Router({
       component: ProfileList,
       props: true
     },
-    // {
-    //   path: '/profile/:user',  // TODO: dynamic routing
-    //   name: 'Profile',
-    //   component: Profile,
-    //   props: (route) => ({ user: route.params.user })
-    // },
     {
       path: '/signin',
       name: 'SignIn',
@@ -104,4 +91,4 @@ export default new Router({
       props: true
     }
   ]
-})
+});

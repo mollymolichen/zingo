@@ -4,7 +4,7 @@
         <v-layout row wrap>
             <!--Profile picture-->
             <v-flex xs3 style="justify-content:center !important">
-                <router-link :to="{ name: 'Profile', params: { user: host, myProfile } }">
+                <router-link :to="{ name: 'Profile', params: { user: host, myProfile: false, backButton: true, host: user } }">
                     <v-avatar class="profile-avatar">
                         <img :src="host.propicUrl" alt="Profile picture">
                     </v-avatar>

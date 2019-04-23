@@ -39,7 +39,7 @@ import {
     usersRef,
     storageRef
 } from "./database.js";
-import router from "./router";
+// import router from "./router";
 
 export default {
     name: 'App',
@@ -61,18 +61,19 @@ export default {
     methods: {
         updateUser(newUser) {
             this.user = newUser;
-            if (newUser !== null){
-                router.push({ 
-                    name: 'Profile' , 
-                    params: { 
-                        user: this.user, myProfile: true  // updateUser: this.updateUser
-                    }
-                });           
-            }
+            // if (newUser !== null){          // TODO:
+            //     router.push({ 
+            //         name: 'Profile', 
+            //         params: { 
+            //             user: newUser, 
+            //             myProfile: true  // updateUser: this.updateUser
+            //         }
+            //     });           
+            // }
         },
 
         setApp(res) {
-            this.onApp = res; // res: boolean
+            this.onApp = res;
         }
     },
     mounted() {

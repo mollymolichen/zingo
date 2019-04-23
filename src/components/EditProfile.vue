@@ -273,7 +273,8 @@ export default {
             },
 
             // travel history
-            allCountries: parseCities().allCountries,
+            // allCountries: parseCities().allCountries,
+            allCountries: countries,
             allCities: parseCities().allCities,
             traveledInPast: [],
             travelInFuture: [],
@@ -298,10 +299,6 @@ export default {
         storage: storageRef
     },
     methods: {
-        // setApp2(res) {
-        //     this.setApp(res);
-        // },
-
         next() {
             if (this.pageNumber < 4) {
                 this.pageNumber += 1;

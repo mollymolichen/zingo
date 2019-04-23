@@ -15,9 +15,7 @@
             <event-filter :events="events" :filtered="filtered" :setFilterApplied="setFilterApplied" :setFilters="setFilters"></event-filter>
         </v-flex>
 
-        <!--multiple events, regular feed-->
         <v-flex xs12>
-            <!--event-header-->
             <div v-if="filterApplied">
                 <div v-for="(obj, index) in this.filtered" :key="index">
                     <event-card :event="obj" :user="user" :host="getHostObj(obj.host)"></event-card>
@@ -71,7 +69,7 @@ export default {
             let keys = Object.keys(allEvents);
             keys.forEach((key, i) => {
                 let e = allEvents[key];
-                this.$set(this.events, i, e);
+                this.$set(this.events, i, e);   // TODO: only return future events (get today's date)
             });
             this.sortEventsByDate(this.events, direction);
         },
@@ -99,13 +97,11 @@ export default {
         sortEventsByDate(events, direction) {
             if (!events) { return null; }
             events.sort(this.compareValues("date", direction));
-            // return sortedByDate ? sortedByDate : null;
         },
 
         sortEventsByTitle(events, direction) {
             if (!events) { return null; }
             events.sort(this.compareValues("title", direction));
-            // return sortedByTitle ? sortedByTitle : null;
         },
         
         compareValues(key, order) {

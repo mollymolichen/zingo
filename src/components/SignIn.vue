@@ -8,8 +8,9 @@
             <router-link to="/">
                 <v-btn id="btn">Exit</v-btn>
             </router-link>
-            <!-- Router link handled via path, since user is async param -->
-            <v-btn id="btn" @click="signIn()">Submit</v-btn>
+            <!-- <router-link :to="{ name: 'Profile', params: { user, updateUser, myProfile: true } }"> -->
+                <v-btn id="btn" @click="signIn()">Submit</v-btn>
+            <!-- </router-link> -->
         </v-form>
     </v-card>
 </v-content>
@@ -85,7 +86,13 @@ export default {
                 .then((res) => {
                     that.uuid = res.user.uid;
                     that.user = this.getUser(that.uuid);
-                    that.updateUser(this.user);                    
+                    that.updateUser(this.user);   
+                    router.push({ 
+                        name: 'Profile' , 
+                        params: { 
+                            user: that.user, updateUser: that.updateUser, myProfile: true 
+                        }
+                    });                 
                 })
                 .catch((e) => {
                     alert('oops ' + e.message);

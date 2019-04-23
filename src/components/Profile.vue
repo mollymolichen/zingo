@@ -6,7 +6,9 @@
 		<!--Heading and edit button-->
 		<v-flex style="display: flex; flex-direction:row">
 			<div id="back-btn-div" v-if="backButton">
-				<v-icon id="back-btn" @click="backToMatches()">keyboard_backspace</v-icon>
+				<router-link :to="{ name: 'MatchList', params: { user: host } }">
+					<v-icon id="back-btn" @click="backToMatches()">keyboard_backspace</v-icon>
+				</router-link>
 			</div>
 			<div v-else id="heading-div">
 			</div>
@@ -154,16 +156,15 @@ import flag from 'country-code-emoji';
 import {
 	getCountryCode
 } from "../assets/countryCodes.js";
-import router from "../router";
+// import router from "../router";
 
 export default {
     name: 'Profile',
-	props: ['user', 'updateUser', 'myProfile', 'backButton'],
+	props: ['user', 'updateUser', 'myProfile', 'backButton', 'host'],
     data() {
         return {
 			hover: false,
 			display: false
-
         }
 	},
 	computed: {
@@ -175,13 +176,13 @@ export default {
 		}
 	},
 	methods: {
-		backToMatches(){
-			router.push({
-				name: 'MatchList',		// can't go directly to tab3 or tab4 currently
-				params: {
-					user: this.user
-				}
-			});
+		backToMatches(){				// TODO:
+			// router.push({
+			// 	name: 'MatchList',		// can't go directly to tab3 or tab4 currently
+			// 	params: {
+			// 		user: this.host
+			// 	}
+			// });
 		}
 	}
 }
