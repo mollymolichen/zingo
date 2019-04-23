@@ -10,7 +10,7 @@
                         <img :src="host.propicUrl">
                     </v-avatar>
                 </router-link>
-                <h1>{{this.host.firstName}}, {{this.host.age}}</h1>
+                <h1>{{this.host.firstName}}, {{this.host.age}} {{getFlag}}</h1>
                 <h3>{{this.host.universityOrOccupation}}</h3>
                 <v-icon v-if="!myOwnEvent" @click="expressInterest()" class="icon" :disabled="alreadyOnGuestList">favorite</v-icon>
                 <v-icon v-if="!myOwnEvent" @click="interest(false, event)" class="icon">cancel</v-icon>
@@ -26,11 +26,13 @@
                 <p v-if="learnMore">{{event.longDescription}}</p>
 
                 <!-- Event images -->
-                <v-layout row wrap>
-                    <v-img :src="event.p1" class="picture"></v-img>
-                    <v-img :src="event.p2" class="picture"></v-img>
-                    <v-img :src="event.p3" class="picture"></v-img>
-                </v-layout>
+                <div class="event-photos">
+                    <v-layout v-for="p in event.pics" :key="p">
+                        <v-flex>
+                        <v-img :src="p" class="picture"></v-img>
+                        </v-flex>                        
+                    </v-layout>
+                </div>
 
                 <!--Event categories-->
                 <div id="categories">
@@ -59,6 +61,10 @@
 import {
     eventsRef
 } from "../database.js";
+import {
+	getCountryCode
+} from "../assets/countryCodes.js";
+import flag from 'country-code-emoji';
 
 export default {
     name: 'EventCard',
@@ -98,11 +104,6 @@ export default {
                 interested: interested
             });
         },
-
-        // deprecated
-        interest(res, event) {
-            this.notInterested(res, event);
-        }
     },
     computed: {
         myOwnEvent() {
@@ -123,7 +124,15 @@ export default {
                 }
             }
             return false;
-        }
+        },
+
+        getFlag(){
+			if (this.host.hometown.country){
+				let code = getCountryCode(this.host.hometown.country);
+				console.log("emoji: ", [code].map(flag)[0]);
+				return [code].map(flag)[0];
+			}
+		}
     },
     firebase: {
         eventsRef: eventsRef
@@ -151,7 +160,6 @@ export default {
 }
 
 .picture {
-    margin: 0px 10px 0px 10px;
     border-radius: 15px !important;
     height: 175px;
 }
@@ -176,5 +184,11 @@ export default {
 
 #categories {
     display: flex;
+    margin: 20px 0px 0px 20px;
+}
+
+.event-photos {
+    display: flex;
+	margin: 0px 0px 0px 20px;
 }
 </style>

@@ -36,7 +36,7 @@
                 <h4>Press Upload to make sure your file was uploaded successfully.</h4>
                 <br>
                 <input type="file" @change="onFileChanged"/>
-                <v-btn @click="onUpload(true, false, false, false)">Upload</v-btn>
+                <v-btn @click="onUpload(true)">Upload</v-btn>
             </div>
 
             <h3>Upload up to three more photos of yourself.</h3>
@@ -92,21 +92,21 @@
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false, true, false, false)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(false)" class="upload-btn">Upload</v-btn>
                 </div>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false, false, true, false)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(false)" class="upload-btn">Upload</v-btn>
                 </div>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false, false, false, true)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(false)" class="upload-btn">Upload</v-btn>
                 </div>
             </div>
 
@@ -367,9 +367,6 @@ export default {
             // picture upload
             selectedFile: null,
             propicUrl: "http://placekitten.com/g/200/300",
-            p1: "http://placekitten.com/g/200/300",
-            p2: "http://placekitten.com/g/200/300",
-            p3: "http://placekitten.com/g/200/300",
             uploadFinished: false,
             pics: [],
 
@@ -549,7 +546,7 @@ export default {
             console.log("Selected file: ", this.selectedFile);
         },
 
-        onUpload(profilePic, p1, p2, p3) {
+        onUpload(profilePic) {
             let that = this;
             const storageRef = Firebase.storage().ref();
             var file = this.selectedFile;
@@ -583,21 +580,16 @@ export default {
                 },
                 async function () {
                     var url = await uploadTask.snapshot.ref.getDownloadURL();
-                    // if (!that.pics){
-                    //     that.pics = [];
-                    // }
-                    // that.pics.push(url);
-                    // Vue.set(that, 'pics', that.pics);
-
                     console.log('url: ', url);
+                    
                     if (profilePic) {
                         Vue.set(that, 'propicUrl', url);
-                    } else if (p1) {
-                        Vue.set(that, 'p1', url);
-                    } else if (p2) {
-                        Vue.set(that, 'p2', url);
-                    } else if (p3) {
-                        Vue.set(that, 'p3', url);
+                    } else {
+                        if (!that.pics){
+                            that.pics = [];
+                        }
+                        that.pics.push(url);
+                        Vue.set(that, 'pics', that.pics);
                     }
                     Vue.set(that, 'uploadFinished', true);
                 }
@@ -622,9 +614,6 @@ export default {
                     hometown: this.hometown,
                     languagesSpoken: this.languagesSpoken,
                     propicUrl: this.propicUrl,
-                    p1: this.p1,
-                    p2: this.p2,
-                    p3: this.p3,
                     pics: this.pics,
                     selectedTransportation: this.selectedTransportation,
                     selectedAccommodation: this.selectedAccommodation,
@@ -670,12 +659,8 @@ export default {
                 }
             });
 
-            // let that = this?
             if (authRef.currentUser !== null && authRef.currentUser !== undefined) {
-                // this.user = authRef.currentUser; // TODO: not needed since already prop
                 this.uuid = authRef.currentUser.uid;
-                // console.log(this.user);
-                console.log(this.uuid);
                 return true;
             }
             return false;
@@ -730,7 +715,6 @@ export default {
                 async function () {
                     var url = await uploadTask.snapshot.ref.getDownloadURL();
                     console.log('url: ', url);
-                    Vue.set(that, 'p1', url);
                     Vue.set(that, 'uploadFinished', true);
                 });
             }*/

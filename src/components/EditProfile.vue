@@ -35,7 +35,7 @@
                 <h4>Press Upload to make sure your file was uploaded successfully.</h4>
                 <br>
                 <input type="file" @change="onFileChanged">
-                <v-btn @click="onUpload(true, false, false, false)">Upload</v-btn>
+                <v-btn @click="onUpload(true, -1)">Upload</v-btn>
             </div>
 
             <h3>Upload up to three more photos of yourself.</h3>
@@ -48,21 +48,21 @@
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false, true, false, false)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(false, 0)" class="upload-btn">Upload</v-btn>
                 </div>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false, false, true, false)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(false, 1)" class="upload-btn">Upload</v-btn>
                 </div>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false, false, false, true)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(false, 2)" class="upload-btn">Upload</v-btn>
                 </div>
             </div>
 
@@ -230,10 +230,6 @@ export default {
 
             // profile picture upload
             selectedFile: null,
-            propicUrl: "http://placekitten.com/g/200/300",
-            p1: "http://placekitten.com/g/200/300",
-            p2: "http://placekitten.com/g/200/300",
-            p3: "http://placekitten.com/g/200/300",
             uploadFinished: false,
 
             // preferences
@@ -252,17 +248,12 @@ export default {
                 "Couchsurfing"
             ],
             selectedAccommodation: [],
-
-            // TODO: add to more info after profile is already created
             lifestyle: [
                 "Smoking",
                 "Drinks",
                 "Parties"
             ],
             selectedLifestyle: [],
-
-            tickLabels: [1, 2, 3, 4, 5],
-            experienceRating: null,
 
             emoji: {
                 "Art": "em em-art",
@@ -346,7 +337,7 @@ export default {
             console.log("Selected file: ", this.selectedFile);
         },
 
-        onUpload(profilePic, p1, p2, p3) {  
+        onUpload(profilePic, index) {  
             let that = this.user;
             let that2 = this;
             const storageRef = Firebase.storage().ref();
@@ -384,12 +375,14 @@ export default {
                     console.log('url: ', url);
                     if (profilePic){
                         Vue.set(that, 'propicUrl', url);
-                    } else if (p1) {
-                        Vue.set(that, 'p1', url);
-                    } else if (p2) {
-                        Vue.set(that, 'p2', url);
-                    } else if (p3) {
-                        Vue.set(that, 'p3', url);
+                    } else {
+                        if (!that.pics){
+                            that.pics = [];
+                        } else if (index != -1) {
+                            that.pics.splice(index, 1); // remove old picture
+                        }
+                        that.pics.push(url);            // replace with new one
+                        Vue.set(that, 'pics', that.pics);
                     }
                     Vue.set(that2, 'uploadFinished', true);
                 }
@@ -478,27 +471,9 @@ ul {
     margin-bottom: 50px;
 }
 
-#green {
-    color: green;
-}
-
-.oval {
-    border-radius: 50% !important;
-}
-
 #prefs {
     float: left;
     margin-bottom: 50px;
-}
-
-.dropdown {
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-#toolbar-su {
-    display: flex;
-    justify-content: flex-end;
 }
 
 .round-chip {
@@ -520,17 +495,6 @@ ul {
 
 .pagenumbers {
     font-size: large;
-}
-
-#rate-yourself {
-    float: left;
-    display: flex;
-    margin: auto;
-}
-
-.travel-experience {
-    display: flex;
-    flex-direction: row;
 }
 
 .autoc {

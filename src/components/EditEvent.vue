@@ -43,21 +43,21 @@
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(true, false, false)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(0)" class="upload-btn">Upload</v-btn>
                 </div>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false, true, false)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(1)" class="upload-btn">Upload</v-btn>
                 </div>
                 <div class="upload-btn-wrapper">
                     <button class="btn">
                         <v-icon>add_a_photo</v-icon>
                     </button>
                     <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false, false, true)" class="upload-btn">Upload</v-btn>
+                    <v-btn @click="onUpload(2)" class="upload-btn">Upload</v-btn>
                 </div>
             </div>
 
@@ -184,7 +184,7 @@ export default {
             console.log("Selected file: ", this.selectedFile);
         },
 
-        onUpload(p1, p2, p3) {
+        onUpload(index) {
             let that = this.event;
             let that2 = this;
             const storageRef = Firebase.storage().ref();
@@ -220,13 +220,13 @@ export default {
                 async function () {
                     var url = await uploadTask.snapshot.ref.getDownloadURL();
                     console.log('url: ', url);
-                    if (p1) {
-                        Vue.set(that, 'p1', url);
-                    } else if (p2) {
-                        Vue.set(that, 'p2', url);
-                    } else if (p3) {
-                        Vue.set(that, 'p3', url);
+                    if (!that.pics){
+                        that.pics = [];
+                    } else {
+                        that.pics.splice(index, 1); // remove old picture
                     }
+                    that.pics.push(url);            // replace with new one
+                    Vue.set(that, 'pics', that.pics);
                     Vue.set(that2, 'uploadFinished', true);
                 }
             );

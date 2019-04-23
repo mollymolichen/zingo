@@ -12,7 +12,7 @@
             </v-flex>
 
 			<!--Hosting-->
-			<v-flex xs4 class="text">
+			<v-flex class="text">
                 <h2 v-if="event.confirmed">{{event.confirmed.length}} Confirmed</h2>
                 <h2 v-else>0 Confirmed</h2>
                 <div v-for="pic in this.confirmedPics" :key="pic">
@@ -22,7 +22,7 @@
                 </div>
 			</v-flex>
 
-			<v-flex xs4 class="text">
+			<v-flex class="text">
                 <h2 v-if="event.interested">{{event.interested.length}} Interested</h2>
                 <h2 v-else>0 Interested</h2>
                 <div v-for="pic in this.interestedPics" :key="pic">

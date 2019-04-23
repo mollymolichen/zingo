@@ -9,7 +9,7 @@
         </v-flex>
 		<v-flex xs8 id="sort">
 			<v-icon id="sort-icons" @click="sortByTitle()">sort_by_alpha</v-icon>
-			<v-icon id="sort-icons" @click="sortByDate()">swap_vert</v-icon>
+			<v-icon id="sort-icons" @click="sortByDate()">date_range</v-icon>
 		</v-flex>
     </v-layout>
 </v-card>

@@ -86,35 +86,15 @@
 	</div>
 
 	<!--Photos-->
-	<h1 v-if="user.p1 || user.p2 || user.p3" style="margin-left: 20px; text-align: left;">Photos</h1>
-    <div class="photos" v-if="user.p1 || user.p2 || user.p3">
-		<v-flex xs6 sm4>
-			<v-img class="profile-img" :src="user.p1"></v-img>
-		</v-flex>
-		<v-flex xs6 sm4>
-			<v-img class="profile-img" :src="user.p2"></v-img>
-		</v-flex>
-		<v-flex xs6 sm4>
-			<v-img class="profile-img" :src="user.p3"></v-img>
-		</v-flex>
-    </div>
-
-	<!-- <div id="newdiv"> -->
-		<!-- <div v-for="pic in user.pics" :key="pic" class="photos">
-			<v-flex xs6 sm4>
+	<h1 v-if="user.pics" style="margin-left: 20px; text-align: left;">Photos</h1>
+	<div class="photos">
+		<v-layout v-for="pic in user.pics" :key="pic">
+			<v-flex>
 				<v-img class="profile-img" :src="pic"></v-img>
 			</v-flex>
-		</div> -->
-	<!-- </div> -->
+		</v-layout>
+	</div>
 
-	<!-- <div class="photos2">
-        <v-layout v-for="p in user.pics" :key="p" row wrap class="photos2">
-            <v-flex xs6 sm4>
-                <v-img class="profile-img" :src="p"></v-img>
-            </v-flex>
-        </v-layout>
-    </div> -->
-	
     <div class="about">
 		<br>
 		<h1 style="margin-left: 20px">About Me</h1>    
@@ -314,7 +294,7 @@ li {
 	margin: 0px 10px 10px 10px;
 }
 
-#newdiv {
+/* #newdiv {
 	display: flex;
-}
+} */
 </style>

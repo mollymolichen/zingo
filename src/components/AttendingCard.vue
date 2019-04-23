@@ -9,7 +9,7 @@
                         <img :src="host.propicUrl" alt="Profile picture">
                     </v-avatar>
                 </router-link>
-                <h1>{{host.firstName}}, {{host.age}}</h1>
+                <h1>{{host.firstName}}, {{host.age}} {{getFlag}}</h1>
                 <h3>{{host.universityOrOccupation}}</h3>
                 <h3>{{host.phoneNumber}}</h3>
             </v-flex>
@@ -32,6 +32,10 @@ import {
 } from "../database.js";
 import Profile from "./Profile";
 import EventPreview from "./EventPreview";
+import {
+	getCountryCode
+} from "../assets/countryCodes.js";
+import flag from 'country-code-emoji';
 
 export default {
     data() {
@@ -65,6 +69,15 @@ export default {
     },
     created() {
         this.getHostEvents();
+    },
+    computed: {
+        getFlag(){
+			if (this.host.hometown.country){
+				let code = getCountryCode(this.host.hometown.country);
+				console.log("emoji: ", [code].map(flag)[0]);
+				return [code].map(flag)[0];
+			}
+		}
     }
 }
 </script>
