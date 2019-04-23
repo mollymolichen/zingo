@@ -3,8 +3,8 @@
     <v-card class="att">
         <v-layout row wrap>
             <!--Profile picture-->
-            <v-flex xs3 style="justify-content:center !important">
-                <router-link :to="{ name: 'Profile', params: { user: host, myProfile: false, backButton: true, host: user } }">
+            <v-flex xs3>
+                <router-link :to="{ name: 'Profile', params: { user: host, myProfile: false, backButtonMatches: true, host: user } }">
                     <v-avatar class="profile-avatar">
                         <img :src="host.propicUrl" alt="Profile picture">
                     </v-avatar>
@@ -103,7 +103,7 @@ export default {
 
 .profile-avatar {
     display: flex;
-    margin: 70px 30px 30px 50px;
+    margin: 70px 30px 30px 70px;
     transform: scale(1.3, 1.3);
     height: 150px !important;
     width: 150px !important;

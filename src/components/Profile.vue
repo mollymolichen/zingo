@@ -5,9 +5,14 @@
     <div class="heading">
 		<!--Heading and edit button-->
 		<v-flex style="display: flex; flex-direction:row">
-			<div id="back-btn-div" v-if="backButton">
-				<router-link :to="{ name: 'MatchList', params: { user: host } }">
-					<v-icon id="back-btn" @click="backToMatches()">keyboard_backspace</v-icon>
+			<div id="back-btn-div" v-if="backButtonMatches">
+				<router-link :to="{ name: 'MatchList', params: { user } }">
+					<v-icon id="back-btn">keyboard_backspace</v-icon>
+				</router-link>
+			</div>
+			<div id="back-btn-div" v-else-if="backButtonEvents">
+				<router-link :to="{ name: 'EventList', params: { user } }">
+					<v-icon id="back-btn">keyboard_backspace</v-icon>
 				</router-link>
 			</div>
 			<div v-else id="heading-div">
@@ -160,7 +165,7 @@ import {
 
 export default {
     name: 'Profile',
-	props: ['user', 'updateUser', 'myProfile', 'backButton', 'host'],
+	props: ['user', 'updateUser', 'myProfile', 'backButtonMatches', 'backButtonEvents', 'host'],
     data() {
         return {
 			hover: false,
@@ -176,7 +181,7 @@ export default {
 		}
 	},
 	methods: {
-		backToMatches(){				// TODO:
+		backToMatches(){			
 			// router.push({
 			// 	name: 'MatchList',		// can't go directly to tab3 or tab4 currently
 			// 	params: {

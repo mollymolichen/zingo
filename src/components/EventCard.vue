@@ -5,13 +5,13 @@
         <v-layout row wrap>
             <!--Profile picture-->
             <v-flex xs3>
-                <router-link :to="{ name: 'Profile', params: { user: host, myProfile: myOwnEvent } }">
+                <router-link :to="{ name: 'Profile', params: { user: host, myProfile: myOwnEvent, backButtonEvents: true } }">
                     <v-avatar class="event-profile-pic">
                         <img :src="host.propicUrl">
                     </v-avatar>
                 </router-link>
-                <h1>{{this.host.firstName}}, {{this.host.age}} {{getFlag}}</h1>
-                <h3>{{this.host.universityOrOccupation}}</h3>
+                <h1>{{host.firstName}}, {{host.age}} {{getFlag}}</h1>
+                <h3>{{host.universityOrOccupation}}</h3>
                 <v-icon v-if="!myOwnEvent" @click="expressInterest()" class="icon" :disabled="alreadyOnGuestList">favorite</v-icon>
                 <v-icon v-if="!myOwnEvent" @click="interest(false, event)" class="icon">cancel</v-icon>
             </v-flex>
