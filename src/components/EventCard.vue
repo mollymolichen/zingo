@@ -47,7 +47,7 @@
 
             <!--Edit button-->
             <v-flex xs1 v-if="this.host.uuid === this.user.uuid">
-                <router-link :to="{ name: 'EditEvent', params: { event } }">
+                <router-link :to="{ name: 'EditEvent', params: { user, event } }">
                     <v-icon class="edit-btn">edit</v-icon>
                 </router-link>
             </v-flex>

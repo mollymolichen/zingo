@@ -31,7 +31,7 @@
             </v-layout>
 
             <v-text-field v-model="event.location.locale" label="Location" required class="full-width"></v-text-field>
-            <v-text-field v-model="event.location.city" label="City" class="full-width" required></v-text-field>
+            <v-autocomplete v-model="event.location.city" :items="allCities" label="City" class="full-width" required></v-autocomplete>
             <v-text-field v-model="event.shortDescription" label="Enter a short description." required class="full-width"></v-text-field>
             <v-textarea v-model="event.longDescription" label="Enter a more detailed description (optional)." class="full-width"></v-textarea>
 
@@ -270,12 +270,12 @@ export default {
         },
 
         closeEE() {
-            // router.push({
-            //     name: 'EventList',
-            //     params: {
-            //         user: this.user
-            //     }
-            // });
+            router.push({
+                name: 'EventList',
+                params: {
+                    user: this.user
+                }
+            });
         }
     },
     watch: {
