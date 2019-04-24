@@ -116,40 +116,42 @@
                 <v-icon style="float:right;" @click="addItinerary()">add_circle</v-icon>
             </div>
 
-            <ul style="height:100%">
-                <div >
-                    <li class="itinerary" v-for="item in user.itinerary" :key="item.id">
-                        <!--Location-->
-                        <v-autocomplete :items="allCities" v-model="item.city" label="City name" chips multiple style="margin: 0px 10px 0px 10px">
-                            <template slot="selection" slot-scope="data">
-                                <v-chip :selected="data.selected" close class="chip--select-multi" @input="removeCity(item)">
-                                    {{ data.item }}
-                                </v-chip>
-                            </template>
-                        </v-autocomplete>
+            <div style="height: 675px">
+                <ul>
+                    <div >
+                        <li class="itinerary" v-for="item in user.itinerary" :key="item.id">
+                            <!--Location-->
+                            <v-autocomplete :items="allCities" v-model="item.city" label="City name" chips multiple style="margin: 0px 10px 0px 10px">
+                                <template slot="selection" slot-scope="data">
+                                    <v-chip :selected="data.selected" close class="chip--select-multi" @input="removeCity(item)">
+                                        {{ data.item }}
+                                    </v-chip>
+                                </template>
+                            </v-autocomplete>
 
-                        <!--Start date-->
-                        <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
-                            <template v-slot:activator="{ on }">
-                                <v-text-field v-model="startDateFormatted" label="Date" hint="Start date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="item.startDate = parseDate(startDateFormatted)" v-on="on"></v-text-field>
-                            </template>
-                            <v-date-picker v-model="startDate" no-title @input="menu1 = false"></v-date-picker>
-                        </v-menu>
+                            <!--Start date-->
+                            <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
+                                <template v-slot:activator="{ on }">
+                                    <v-text-field v-model="startDateFormatted" label="Date" hint="Start date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="item.startDate = parseDate(startDateFormatted)" v-on="on"></v-text-field>
+                                </template>
+                                <v-date-picker v-model="startDate" no-title @input="menu1 = false"></v-date-picker>
+                            </v-menu>
 
-                        <!--End date-->
-                        <v-menu ref="menu2" v-model="menu2" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
-                            <template v-slot:activator="{ on }">
-                                <v-text-field v-model="endDateFormatted" label="Date" hint="End date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="item.endDate = parseDate(endDateFormatted)" v-on="on"></v-text-field>
-                            </template>
-                            <v-date-picker v-model="endDate" no-title @input="menu2 = false"></v-date-picker>
-                        </v-menu>
+                            <!--End date-->
+                            <v-menu ref="menu2" v-model="menu2" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
+                                <template v-slot:activator="{ on }">
+                                    <v-text-field v-model="endDateFormatted" label="Date" hint="End date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="item.endDate = parseDate(endDateFormatted)" v-on="on"></v-text-field>
+                                </template>
+                                <v-date-picker v-model="endDate" no-title @input="menu2 = false"></v-date-picker>
+                            </v-menu>
 
-                        <!--Remove-->
-                        <v-icon v-if="user.itinerary && user.itinerary.length > 1" style="float:right" @click="removeItinerary(city)">remove_circle
-                        </v-icon>
-                    </li>
-                </div>
-            </ul>
+                            <!--Remove-->
+                            <v-icon v-if="user.itinerary && user.itinerary.length > 1" style="float:right" @click="removeItinerary(city)">remove_circle
+                            </v-icon>
+                        </li>
+                    </div>
+                </ul>
+            </div>
 
             <!--Arrows-->
             <v-icon class="arrows" @click="back()">chevron_left</v-icon>
