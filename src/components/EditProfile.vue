@@ -345,9 +345,7 @@ export default {
                 "Sports",
                 "Tours"
             ],
-            selectedActivities: [],
-
-            chip: true
+            selectedActivities: []
         };
     },
     firebase: {

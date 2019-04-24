@@ -20,7 +20,7 @@
             <vue-tel-input v-model="phoneNumber" mask="phone" @onInput="onInput" :preferredCountries="['us']" class="text-field-ph" required :rules="phoneNumberRules"></vue-tel-input>
             <v-autocomplete xs6 :items="allLangs" v-model="languagesSpoken" chips multiple style="margin: 0px 10px 0px 10px" label="What languages do you speak?">
                 <template slot="selection" slot-scope="data">
-                    <v-chip :selected="data.selected" close class="chip--select-multi" @click="removePast(data.item)">
+                    <v-chip :selected="data.selected" close class="chip--select-multi" @input="removeLang(data.item)">
                         {{ data.item }}
                     </v-chip>
                 </template>
@@ -161,7 +161,7 @@
 
             <h3>What are your current travel plans?</h3><br>
             <div id="add-btn">
-                <v-icon style="float:right;" @click="addCity()">add_circle</v-icon>
+                <v-icon style="float:right;" @click="addItinerary()">add_circle</v-icon>
             </div>
 
             <div style="height: 675px">
@@ -171,7 +171,7 @@
                             <!--Location-->
                             <v-autocomplete :items="allCities" v-model="item.city" label="City name" chips multiple style="margin: 0px 10px 0px 10px">
                                 <template slot="selection" slot-scope="data">
-                                    <v-chip :selected="data.selected" close class="chip--select-multi" @input="remove(data.item)">
+                                    <v-chip :selected="data.selected" close class="chip--select-multi" @input="removeCity(item)">
                                         {{ data.item }}
                                     </v-chip>
                                 </template>
@@ -194,7 +194,7 @@
                             </v-menu>
 
                             <!--Remove-->
-                            <v-icon v-if="itinerary.length > 1" style="float:right" @click="removeCity(city)">remove_circle
+                            <v-icon v-if="itinerary.length > 1" style="float:right" @click="removeItinerary(city)">remove_circle
                             </v-icon>
                         </li>
                     </div>
@@ -479,18 +479,35 @@ export default {
             this.setApp(res);
         },
 
-        addCity() {
-            let city = {
-                id: this.itinerary.length + 1,
-                city: null,
-                startDate: this.formatDate(new Date().toISOString().substr(0, 10)), // or null?
-                endDate: this.formatDate(new Date().toISOString().substr(0, 10))
+        removeLang(item) {
+            if (this.languagesSpoken){
+                this.languagesSpoken.splice(this.languagesSpoken.indexOf(item), 1);
+                this.languagesSpoken = [...this.languagesSpoken];
             }
-            this.$set(this.itinerary, this.itinerary.length, city);
         },
 
-        removeCity(city) {
-            this.itinerary.splice(city.key, 1);
+        removeCity(item) {
+            if (this.itinerary){
+                let index = this.itinerary.indexOf(item);
+                this.itinerary[index].city = null;
+            }
+        },
+
+        removeItinerary(item) {
+            if (this.itinerary){
+                this.itinerary.splice(this.itinerary.indexOf(item), 1);
+                this.itinerary = [...this.itinerary];
+            }
+        },
+
+        addItinerary() {
+            let newItinerary = {
+                id: this.itinerary.length + 1,
+                city: null,
+                startDate: null,        // or new Date?
+                endDate: null
+            }
+            this.$set(this.itinerary, this.itinerary.length, newItinerary);
         },
 
         next() {
