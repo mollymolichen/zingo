@@ -66,7 +66,7 @@
 
             <!--Arrows-->
             <v-icon class="arrows" @click="back()">chevron_left</v-icon>
-            <span class="pagenumbers">{{pageNumber}} / 3</span>
+            <span class="pagenumbers">{{pageNumber}} / 4</span>
             <v-icon class="arrows" @click="next()">chevron_right</v-icon>
         </v-form>
 
@@ -100,12 +100,67 @@
 
             <!--Arrows-->
             <v-icon class="arrows" @click="back()">chevron_left</v-icon>
-            <span class="pagenumbers">{{pageNumber}} / 3</span>
+            <span class="pagenumbers">{{pageNumber}} / 4</span>
             <v-icon class="arrows" @click="next()">chevron_right</v-icon>
         </v-form>
 
         <!--Page 3-->
-        <v-form v-else-if="pageNumber === 3" ref="form" lazy-validation>
+        <v-form v-else-if="pageNumber === 3" ref="form" v-model="valid" lazy-validation>
+            <div style="margin-bottom: 20px">
+                <router-link to="/" @click="setApp2(true)">
+                    <v-icon class="material-icons" style="float:right">clear</v-icon>
+                </router-link>
+                <h1 style="margin-top:10px; margin-bottom:20px">Itinerary</h1>
+            </div>
+
+            <h3>What are your current travel plans?</h3><br>
+            <div id="add-btn">
+                <v-icon style="float:right;" @click="addCity()">add_circle</v-icon>
+            </div>
+
+            <ul style="height:100%">
+                <div >
+                    <li class="itinerary" v-for="item in user.itinerary" :key="item.id">
+                        <!--Location-->
+                        <v-autocomplete :items="allCities" v-model="item.city" label="City name" chips multiple style="margin: 0px 10px 0px 10px">
+                            <template slot="selection" slot-scope="data">
+                                <v-chip :selected="data.selected" close class="chip--select-multi" @input="remove(data.item)">
+                                    {{ data.item }}
+                                </v-chip>
+                            </template>
+                        </v-autocomplete>
+
+                        <!--Start date-->
+                        <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
+                            <template v-slot:activator="{ on }">
+                                <v-text-field v-model="startDateFormatted" label="Date" hint="Start date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="item.startDate = parseDate(startDateFormatted)" v-on="on"></v-text-field>
+                            </template>
+                            <v-date-picker v-model="startDate" no-title @input="menu1 = false"></v-date-picker>
+                        </v-menu>
+
+                        <!--End date-->
+                        <v-menu ref="menu2" v-model="menu2" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
+                            <template v-slot:activator="{ on }">
+                                <v-text-field v-model="endDateFormatted" label="Date" hint="End date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="item.endDate = parseDate(endDateFormatted)" v-on="on"></v-text-field>
+                            </template>
+                            <v-date-picker v-model="endDate" no-title @input="menu2 = false"></v-date-picker>
+                        </v-menu>
+
+                        <!--Remove-->
+                        <v-icon v-if="user.itinerary && user.itinerary.length > 1" style="float:right" @click="removeCity(city)">remove_circle
+                        </v-icon>
+                    </li>
+                </div>
+            </ul>
+
+            <!--Arrows-->
+            <v-icon class="arrows" @click="back()">chevron_left</v-icon>
+            <span class="pagenumbers">{{pageNumber}} / 4</span>
+            <v-icon class="arrows" @click="next()">chevron_right</v-icon>
+        </v-form>
+
+        <!--Page 4-->
+        <v-form v-else-if="pageNumber === 4" ref="form" lazy-validation>
             <div style="margin-bottom: 20px">
                 <v-icon class="material-icons" style="float:right" @click="exit()">clear</v-icon>
                 <h1 style="margin-top:10px; margin-bottom:20px">Travel Preferences</h1>
@@ -160,10 +215,10 @@
 
             <!--Arrows-->
             <v-icon class="arrows" @click="back()">chevron_left</v-icon>
-            <span class="pagenumbers">{{pageNumber}} / 3</span>
-			<router-link :to="{ name: 'Profile', params: { user, myProfile: true } }">
-            	<v-icon class="arrows" @click="editUser()">chevron_right</v-icon>
-			</router-link>
+            <span class="pagenumbers">{{pageNumber}} / 4</span>
+            <!-- <router-link :to="{ name: 'Profile', params: { user, myProfile: true } }"> -->
+                <v-icon class="arrows" @click="editUser()">chevron_right</v-icon>
+            <!-- </router-link> -->
         </v-form>
 
     </v-card>
@@ -208,8 +263,8 @@ export default {
     data() {
         return {
             pageNumber: 1,
-			allLangs: allLangs,
-			
+            allLangs: allLangs,
+
             // form rules
             nameRules: [
                 v => !!v || "Name is required",
@@ -273,8 +328,7 @@ export default {
             },
 
             // travel history
-            // allCountries: parseCities().allCountries,
-            allCountries: countries,
+            allCountries: parseCities().allCountries,
             allCities: parseCities().allCities,
             traveledInPast: [],
             travelInFuture: [],
@@ -300,7 +354,7 @@ export default {
     },
     methods: {
         next() {
-            if (this.pageNumber < 4) {
+            if (this.pageNumber < 5) {
                 this.pageNumber += 1;
             } else {
                 this.pageNumber = 1;
@@ -339,7 +393,7 @@ export default {
             console.log("Selected file: ", this.selectedFile);
         },
 
-        onUpload(profilePic, index) {  
+        onUpload(profilePic, index) {
             let that = this.user;
             let that2 = this;
             const storageRef = Firebase.storage().ref();
@@ -374,11 +428,10 @@ export default {
                 },
                 async function () {
                     var url = await uploadTask.snapshot.ref.getDownloadURL();
-                    console.log('url: ', url);
-                    if (profilePic){
+                    if (profilePic) {
                         Vue.set(that, 'propicUrl', url);
                     } else {
-                        if (!that.pics){
+                        if (!that.pics) {
                             that.pics = [];
                         } else if (index != -1) {
                             that.pics.splice(index, 1); // remove old picture
@@ -394,7 +447,7 @@ export default {
         // TODO: fix
         removePast(item) {
             const index = this.traveledInPast.indexOf(item.name);
-            if (index >= 0) this.traveledInPast.splice(index, 1); 
+            if (index >= 0) this.traveledInPast.splice(index, 1);
         },
 
         removeFuture(item) {
@@ -404,14 +457,16 @@ export default {
 
         editUser() {
             usersRef.child(this.user.uuid).update(this.user);
-			this.updateUser(this.user);
+            this.updateUser(this.user);
         },
 
-        exit(){
-            router.push({ 
-                name: 'Profile', 
-                params: { 
-                    user: this.user, updateUser: this.updateUser, myProfile: true 
+        exit() {
+            router.push({
+                name: 'Profile',
+                params: {
+                    user: this.user,
+                    updateUser: this.updateUser,
+                    myProfile: true
                 }
             });
         }
@@ -570,5 +625,14 @@ ul {
 .btn-signup {
     transform: scale(1.5, 1.5);
     background-color: #fce4ec !important;
+}
+
+.itinerary {
+    display: flex;
+    flex-direction: row;
+    background-color: #fce4ec;
+    border-radius: 15px !important;
+    padding: 10px;
+    margin: 15px 15px 15px 15px;
 }
 </style>

@@ -29,7 +29,7 @@
                 <div class="event-photos">
                     <v-layout v-for="p in event.pics" :key="p">
                         <v-flex>
-                        <v-img :src="p" class="picture"></v-img>
+                            <v-img :src="p" class="picture"></v-img>
                         </v-flex>                        
                     </v-layout>
                 </div>

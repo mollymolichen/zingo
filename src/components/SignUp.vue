@@ -153,8 +153,8 @@
         <!--Page 3-->
         <v-form v-else-if="pageNumber === 3" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
-                <router-link to="/" @click="setApp2(true)">
-                    <v-icon class="material-icons" style="float:right">clear</v-icon>
+                <router-link to="/">
+                    <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
                 </router-link>
                 <h1 style="margin-top:10px; margin-bottom:20px">Itinerary</h1>
             </div>
@@ -264,7 +264,7 @@
             <!--Arrows-->
             <v-icon class="arrows" @click="back()">chevron_left</v-icon>
             <span class="pagenumbers">{{pageNumber}} / 4</span>
-            <!-- <router-link :to="{ name: 'Profile', params: { user: newUser, updateUser: updateUser, myProfile: true } }"> -->
+            <!-- <router-link :to="{ name: 'Profile', params: { user: newUser, updateUser: updateUser, myProfile: true } }">  -->
                 <v-icon class="arrows" @click="registerUser()">chevron_right</v-icon>
             <!-- </router-link> -->
         </v-form>
@@ -296,6 +296,7 @@ import {
 } from "../assets/languages.js";
 import 'vue-tel-input/dist/vue-tel-input.css';
 import VueTelInput from 'vue-tel-input';
+// import router from "../router";
 
 export default {
     name: "SignUp",
@@ -337,7 +338,7 @@ export default {
             vacation: "",
             karaokeSong: "",
             states: states,
-            countries: countries,
+            countries: parseCities().allCountries,
             allLangs: allLangs,
             languagesSpoken: [],
 
@@ -367,11 +368,7 @@ export default {
             selectedFile: null,
             propicUrl: "https://loremflickr.com/300/200/flamingo",
             uploadFinished: false,
-            pics: [
-                "https://loremflickr.com/300/200/flamingo",
-                "https://loremflickr.com/300/200/flamingo",
-                "https://loremflickr.com/300/200/flamingo"
-            ],
+            pics: [],
 
             // preferences
             transportation: [
@@ -434,7 +431,6 @@ export default {
             menu2: false,
             itinerary: [{
                 id: 1,
-                type: null,
                 city: null,
                 startDate: null,
                 endDate: null,
@@ -601,10 +597,7 @@ export default {
 
         async registerUser() {
             let userCreated = await this.signUp();
-            console.log("registeruser: ", userCreated);
-
             if (userCreated) {
-                // if (this.user) {
                 let newUser = {
                     uuid: this.uuid,
                     firstName: this.firstName,
@@ -626,12 +619,13 @@ export default {
                     midnightSnack: this.midnightSnack,
                     vacation: this.vacation,
                     karaokeSong: this.karaokeSong,
-                    itinerary: this.itinerary // need to insert dates
+                    itinerary: this.itinerary               // need to insert dates
                 };
 
                 this.newUser = newUser;
-                usersRef.child(this.uuid).set(newUser); // switch order
+                usersRef.child(this.uuid).set(newUser);     // switched order
                 this.updateUser(newUser);
+
             }
         },
 

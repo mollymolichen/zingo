@@ -130,7 +130,7 @@
 						<h3>Itinerary</h3>
 						<ul class="square">
 							<li v-for="place in user.itinerary" :key="place" id="li-current">
-								{{place.city}}, {{place.startDateFormatted}} - {{place.endDate}}
+								{{place.city}}, {{place.startDate}} - {{place.endDate}}
 							</li>
 						</ul>
 					</v-card-text>
@@ -161,7 +161,6 @@ import flag from 'country-code-emoji';
 import {
 	getCountryCode
 } from "../assets/countryCodes.js";
-// import router from "../router";
 
 export default {
     name: 'Profile',
@@ -176,18 +175,11 @@ export default {
 		getFlag(){
 			if (this.user.hometown.country){
 				let code = getCountryCode(this.user.hometown.country);
+				if (!code){
+					return null;
+				}
 				return [code].map(flag)[0];
 			}
-		}
-	},
-	methods: {
-		backToMatches(){			
-			// router.push({
-			// 	name: 'MatchList',		// can't go directly to tab3 or tab4 currently
-			// 	params: {
-			// 		user: this.host
-			// 	}
-			// });
 		}
 	}
 }
