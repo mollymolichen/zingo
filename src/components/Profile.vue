@@ -130,7 +130,7 @@
 						<h3>Itinerary</h3>
 						<ul class="square">
 							<li v-for="place in user.itinerary" :key="place" id="li-current">
-								{{place.city}}, {{place.startDate}} - {{place.endDate}}
+								{{place.city.toString()}}, {{place.startDate}} - {{place.endDate}}
 							</li>
 						</ul>
 					</v-card-text>

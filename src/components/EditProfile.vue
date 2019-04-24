@@ -17,7 +17,7 @@
             <v-text-field v-model="user.phoneNumber" :rules="phoneNumberRules" label="Phone number" required class="text-field"></v-text-field>
             <v-autocomplete xs6 :items="allLangs" v-model="user.languagesSpoken" chips multiple style="margin: 0px 10px 0px 10px" label="What languages do you speak?">
                 <template slot="selection" slot-scope="data">
-                    <v-chip :selected="data.selected" close class="chip--select-multi" @click="removePast(data.item)">
+                    <v-chip :selected="data.selected" close class="chip--select-multi" @input="removeLang(data.item)">
                         {{ data.item }}
                     </v-chip>
                 </template>
@@ -70,8 +70,6 @@
             <v-icon class="arrows" @click="next()">chevron_right</v-icon>
         </v-form>
 
-        <!--TODO: itinerary-->
-
         <!--Page 2-->
         <v-form v-else-if="pageNumber === 2" ref="form" lazy-validation>
             <div class="title2">
@@ -115,7 +113,7 @@
 
             <h3>What are your current travel plans?</h3><br>
             <div id="add-btn">
-                <v-icon style="float:right;" @click="addCity()">add_circle</v-icon>
+                <v-icon style="float:right;" @click="addItinerary()">add_circle</v-icon>
             </div>
 
             <ul style="height:100%">
@@ -124,7 +122,7 @@
                         <!--Location-->
                         <v-autocomplete :items="allCities" v-model="item.city" label="City name" chips multiple style="margin: 0px 10px 0px 10px">
                             <template slot="selection" slot-scope="data">
-                                <v-chip :selected="data.selected" close class="chip--select-multi" @input="remove(data.item)">
+                                <v-chip :selected="data.selected" close class="chip--select-multi" @input="removeCity(item)">
                                     {{ data.item }}
                                 </v-chip>
                             </template>
@@ -147,7 +145,7 @@
                         </v-menu>
 
                         <!--Remove-->
-                        <v-icon v-if="user.itinerary && user.itinerary.length > 1" style="float:right" @click="removeCity(city)">remove_circle
+                        <v-icon v-if="user.itinerary && user.itinerary.length > 1" style="float:right" @click="removeItinerary(city)">remove_circle
                         </v-icon>
                     </li>
                 </div>
@@ -345,7 +343,9 @@ export default {
                 "Sports",
                 "Tours"
             ],
-            selectedActivities: []
+            selectedActivities: [],
+
+            chip: true
         };
     },
     firebase: {
@@ -444,15 +444,35 @@ export default {
             );
         },
 
-        // TODO: fix
-        removePast(item) {
-            const index = this.traveledInPast.indexOf(item.name);
-            if (index >= 0) this.traveledInPast.splice(index, 1);
+        removeLang(item) {
+            if (this.user.languagesSpoken){
+                this.user.languagesSpoken.splice(this.user.languagesSpoken.indexOf(item), 1);
+                this.user.languagesSpoken = [...this.user.languagesSpoken];
+            }
         },
 
-        removeFuture(item) {
-            const index = this.travelInFuture.indexOf(item.name);
-            if (index >= 0) this.travelInFuture.splice(index, 1);
+        removeCity(item) {
+            if (this.user.itinerary){
+                let index = this.user.itinerary.indexOf(item);
+                this.user.itinerary[index].city = null;
+            }
+        },
+
+        removeItinerary(item) {
+            if (this.user.itinerary){
+                this.user.itinerary.splice(this.user.itinerary.indexOf(item), 1);
+                this.user.itinerary = [...this.user.itinerary];
+            }
+        },
+
+        addItinerary() {
+            let newItinerary = {
+                id: this.user.itinerary.length + 1,
+                city: null,
+                startDate: null,        // or new Date?
+                endDate: null
+            }
+            this.$set(this.user.itinerary, this.user.itinerary.length, newItinerary);
         },
 
         editUser() {
