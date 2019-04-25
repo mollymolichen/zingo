@@ -10,7 +10,7 @@
                 <h3>Language</h3>
                 <v-autocomplete xs6 :items="allLangs" v-model="languagesSpoken" chips multiple style="margin: 0px 10px 0px 10px" label="What languages do you speak?">
                     <template slot="selection" slot-scope="data">
-                        <v-chip :selected="data.selected" close class="chip--select-multi">
+                        <v-chip :selected="data.selected" close class="chip--select-multi" @input="removeLang(data.item)">
                             {{ data.item }}
                         </v-chip>
                     </template>
@@ -159,6 +159,13 @@ export default {
                 this.users.push(allUsers[u]);
             }
         },
+
+        removeLang(item) {
+            if (this.languagesSpoken){
+                this.languagesSpoken.splice(this.languagesSpoken.indexOf(item), 1);
+                this.languagesSpoken = [...this.languagesSpoken];
+            }
+        }
     },
     data() {
         return {
@@ -185,16 +192,14 @@ export default {
                 v => v < date || "End date must be after start date"
             ],
             categories: [
-                "Art",
-                "Culture",
-                "Food",
-                "History",
-                "Music",
-                "Nightlife",
-                "Outdoors",
-                "Sports",
-                "Tours",
-                "Other"
+               "🎨 Art",
+                "⛩ Culture",
+                "🍝 Food",
+                "🏰 History",
+                "🎵 Music",
+                "🍸 Nightlife",
+                "⛅ Outdoors",
+                "🏀 Sports"
             ],
             selectedCategories: [],
             users: []

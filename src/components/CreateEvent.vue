@@ -138,16 +138,16 @@ export default {
             pics: [],
 
             categories: [
-                "Art",
-                "Culture",
-                "Food",
-                "History",
-                "Music",
-                "Nightlife",
-                "Outdoors",
-                "Sports",
-                "Tours",
-                "Other"
+                "🎨 Art",
+                "⛩ Culture",
+                "🍝 Food",
+                "🏰 History",
+                "🎵 Music",
+                "🍸 Nightlife",
+                "⛅ Outdoors",
+                "🏀 Sports",
+                "🛴 Tours",
+                "🌸 Other"
             ],
             selectedCategories: [],
 

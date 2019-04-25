@@ -12,7 +12,7 @@
         <v-content class="container">
             <v-layout row wrap v-if="this.onApp === true">
                 <v-flex>
-                    <h1 id="title">Weekendr</h1>
+                    <h1 id="title">Zingo</h1>
                     <h1>Connecting awesome travelers to awesome friends.</h1>
                     <div v-if="this.user === null">
                         <router-link :to="{ name: 'SignUp', params: { user, updateUser, setApp } }">
@@ -85,6 +85,7 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Libre+Franklin');
+@import url('https://fonts.googleapis.com/css?family=Varela+Round');
 
 a {
     text-decoration: none;
@@ -103,7 +104,7 @@ a {
 }
 
 #app {
-    font-family: 'Libre Franklin';
+    font-family: 'Varela Round';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
