@@ -50,7 +50,7 @@
     </div>
 
 	<!--Itinerary-->
-    <div>
+    <div v-if="user.itinerary && user.itinerary[0].city !== null"> 
         <h1 style="text-align:left; margin-left:20px">Itinerary</h1>
         <ul>
             <div>
@@ -206,6 +206,7 @@ export default {
 	height: 300px;
 	border-radius: 25px !important;
 	background-color: #fce4ec !important;
+	font-size: large;
 }
 
 .propic {

@@ -3,7 +3,7 @@
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <v-card class="signup">
         <!--Page 1-->
-        <v-form v-if="pageNumber === 1" ref="form" lazy-validation>
+        <v-form v-if="pageNumber === 1" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
                 <router-link to="/">
                     <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
@@ -117,7 +117,7 @@
         </v-form>
 
         <!--Page 2-->
-        <v-form v-else-if="pageNumber === 2" ref="form" lazy-validation>
+        <v-form v-else-if="pageNumber === 2" ref="form" v-model="valid" lazy-validation>
             <div class="title2">
                 <router-link to="/">
                     <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
@@ -151,7 +151,7 @@
         </v-form>
 
         <!--Page 3-->
-        <v-form v-else-if="pageNumber === 3" ref="form" lazy-validation>
+        <v-form v-else-if="pageNumber === 3" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
                 <router-link to="/">
                     <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
@@ -208,7 +208,7 @@
         </v-form>
 
         <!--Page 4-->
-        <v-form v-else-if="pageNumber === 4" ref="form" lazy-validation>
+        <v-form v-else-if="pageNumber === 4" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
                 <router-link to="/">
                     <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
@@ -217,7 +217,7 @@
             </div>
 
             <div style="height: 750px">
-                <h2 class="fav-activities-title">Favorite Activities</h2>
+                <h2 id="prefs">Favorite Activities</h2>
                 <v-select class="fav-activities" v-model="selectedActivities" :items="activities" multiple persistent-hint>
                     <template slot="selection" slot-scope="data">
                         <span class="round-chip">
@@ -763,11 +763,6 @@ ul {
     transform: scale(1.2, 1.2);
 }
 
-.fav-activities-title {
-    float: left;
-    margin: 30px 10px 0px 0px;
-}
-
 .fav-activities {
     margin-left: 10px;
     margin-bottom: 15px;
@@ -823,7 +818,6 @@ ul {
 
 #prefs {
     float: left;
-    /* margin-bottom: 50px; */
 }
 
 .dropdown {

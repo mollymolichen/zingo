@@ -18,12 +18,12 @@
         <v-flex xs12>
             <div v-if="filterApplied">
                 <div v-for="(obj, index) in this.filtered" :key="index">
-                    <event-card :event="obj" :user="user" :host="getHostObj(obj.host)"></event-card>
+                    <event-card :event="obj" :user="user" :host="allUsers[obj.host]"></event-card>
                 </div>
             </div>
             <div v-else>
                 <div v-for="(obj, index) in this.events" :key="index">
-                    <event-card :event="obj" :user="user" :host="getHostObj(obj.host)"></event-card>
+                    <event-card :event="obj" :user="user" :host="allUsers[obj.host]"></event-card>
                 </div>
             </div>
         </v-flex>
@@ -63,6 +63,7 @@ export default {
     },
     methods: {
         async getEvents(direction) {
+            // get list of events from db
             this.events = [];
             let snapshot = await eventsRef.once("value");
             let allEvents = snapshot.val();
@@ -71,20 +72,13 @@ export default {
                 let e = allEvents[key];
                 this.$set(this.events, i, e);   // TODO: only return future events (get today's date)
             });
+
+            // get list of users from db, search for host
+            let snapshot2 = await usersRef.once("value");
+            this.allUsers = snapshot2.val();
+
+            // sort by date
             this.sortEventsByDate(this.events, direction);
-        },
-     
-        getHostObj(uuid) {
-            let allUsers = null;
-            usersRef.on("value", function (snapshot) {
-                allUsers = snapshot.val();
-            });
-            for (let u in allUsers) {
-                if (allUsers[u].uuid === uuid) {
-                    return allUsers[u];
-                }
-            }
-            return null;
         },
 
         setFilterApplied(res) {
@@ -131,7 +125,8 @@ export default {
             interested: true,
             events: [],
             filtered: [],
-            filterApplied: false
+            filterApplied: false,
+            allUsers: null
         }
     }
 }
