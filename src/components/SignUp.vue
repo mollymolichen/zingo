@@ -3,7 +3,7 @@
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <v-card class="signup">
         <!--Page 1-->
-        <v-form v-if="pageNumber === 1" ref="form" v-model="valid" lazy-validation>
+        <v-form v-if="pageNumber === 1" ref="form" lazy-validation>
             <div style="margin-bottom: 20px">
                 <router-link to="/">
                     <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
@@ -14,7 +14,7 @@
             <v-text-field v-model="firstName" label="First name" required class="text-field" id="float"></v-text-field>
             <v-text-field v-model="lastName" label="Last name" required class="text-field" id="float"></v-text-field>
             <v-text-field v-model="age" :rules="ageRules" label="Age" required class="text-field"></v-text-field>
-            <v-text-field v-model="universityOrOccupation" label="University or Occupation" required class="text-field"></v-text-field>
+            <v-text-field v-model="universityOrOccupation" label="University or Occupation/Company" required class="text-field"></v-text-field>
             <v-text-field v-model="email" label="Email" required class="text-field"></v-text-field>
             <v-text-field v-model="password" label="Password" :type="'password'" required class="text-field"></v-text-field>
             <vue-tel-input v-model="phoneNumber" mask="phone" @onInput="onInput" :preferredCountries="['us']" class="text-field-ph" required :rules="phoneNumberRules"></vue-tel-input>
@@ -117,7 +117,7 @@
         </v-form>
 
         <!--Page 2-->
-        <v-form v-else-if="pageNumber === 2" ref="form" v-model="valid" lazy-validation>
+        <v-form v-else-if="pageNumber === 2" ref="form" lazy-validation>
             <div class="title2">
                 <router-link to="/">
                     <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
@@ -151,7 +151,7 @@
         </v-form>
 
         <!--Page 3-->
-        <v-form v-else-if="pageNumber === 3" ref="form" v-model="valid" lazy-validation>
+        <v-form v-else-if="pageNumber === 3" ref="form" lazy-validation>
             <div style="margin-bottom: 20px">
                 <router-link to="/">
                     <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
@@ -208,7 +208,7 @@
         </v-form>
 
         <!--Page 4-->
-        <v-form v-else-if="pageNumber === 4" ref="form" v-model="valid" lazy-validation>
+        <v-form v-else-if="pageNumber === 4" ref="form" lazy-validation>
             <div style="margin-bottom: 20px">
                 <router-link to="/">
                     <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
@@ -216,59 +216,52 @@
                 <h1 style="margin-top:10px; margin-bottom:20px">Travel Preferences</h1>
             </div>
 
-            <div row wrap>
+            <div style="height: 750px">
                 <h2 class="fav-activities-title">Favorite Activities</h2>
-                <v-layout>
-                    <v-flex>
-                        <v-select class="fav-activities" v-model="selectedActivities" :items="activities" multiple persistent-hint>
-                            <template slot="selection" slot-scope="data">
-                                <span class="round-chip">
-                                    <i style="margin-right: 10px" :class=emoji[data.item]></i>
-                                    {{ data.item }}
-                                </span>
-                            </template>
-                        </v-select>
-                    </v-flex>
-                </v-layout>
-            </div>
+                <v-select class="fav-activities" v-model="selectedActivities" :items="activities" multiple persistent-hint>
+                    <template slot="selection" slot-scope="data">
+                        <span class="round-chip">
+                            <i style="margin-right: 10px" :class=emoji[data.item]></i>
+                            {{ data.item }}
+                        </span>
+                    </template>
+                </v-select>
 
-            <div row wrap>
-                <h2 id="prefs">Preferences</h2>
-                <br>
-                <br>
-                <v-layout class="checkboxes">
-                    <v-flex xs6 sm4>
-                        <h3>Transportation</h3>
-                        <v-checkbox v-model="selectedTransportation" :label="transportation[0]" :value="transportation[0]"></v-checkbox>
-                        <v-checkbox v-model="selectedTransportation" :label="transportation[1]" :value="transportation[1]"></v-checkbox>
-                        <v-checkbox v-model="selectedTransportation" :label="transportation[2]" :value="transportation[2]"></v-checkbox>
-                        <v-checkbox v-model="selectedTransportation" :label="transportation[3]" :value="transportation[3]"></v-checkbox>
-                        <v-checkbox v-model="selectedTransportation" :label="transportation[4]" :value="transportation[4]"></v-checkbox>
-                    </v-flex>
+                <h2 id="prefs">Transportation</h2>
+                <v-select class="fav-activities" v-model="selectedTransportation" :items="transportation" multiple persistent-hint>
+                    <template slot="selection" slot-scope="data">
+                        <span class="round-chip">
+                            <i style="margin-right: 10px" :class=emoji[data.item]></i>
+                            {{ data.item }}
+                        </span>
+                    </template>
+                </v-select>
+                
+                <h2 id="prefs">Accommodation</h2>
+                <v-select class="fav-activities" v-model="selectedAccommodation" :items="accommodation" multiple persistent-hint>
+                    <template slot="selection" slot-scope="data">
+                        <span class="round-chip">
+                            <i style="margin-right: 10px" :class=emoji[data.item]></i>
+                            {{ data.item }}
+                        </span>
+                    </template>
+                </v-select>
 
-                    <v-flex xs6 sm4>
-                        <h3>Accommodation</h3>
-                        <v-checkbox v-model="selectedAccommodation" :label="accommodation[0]" :value="accommodation[0]"></v-checkbox>
-                        <v-checkbox v-model="selectedAccommodation" :label="accommodation[1]" :value="accommodation[1]"></v-checkbox>
-                        <v-checkbox v-model="selectedAccommodation" :label="accommodation[2]" :value="accommodation[2]"></v-checkbox>
-                        <v-checkbox v-model="selectedAccommodation" :label="accommodation[3]" :value="accommodation[3]"></v-checkbox>
-                    </v-flex>
-
-                    <v-flex xs6 sm4>
-                        <h3>Lifestyle</h3>
-                        <v-checkbox v-model="selectedLifestyle" :label="lifestyle[0]" :value="lifestyle[0]"></v-checkbox>
-                        <v-checkbox v-model="selectedLifestyle" :label="lifestyle[1]" :value="lifestyle[1]"></v-checkbox>
-                        <v-checkbox v-model="selectedLifestyle" :label="lifestyle[2]" :value="lifestyle[2]"></v-checkbox>
-                    </v-flex>
-                </v-layout>
+                <h2 id="prefs">Lifestyle</h2>
+                <v-select class="fav-activities" v-model="selectedLifestyle" :items="lifestyle" multiple persistent-hint>
+                    <template slot="selection" slot-scope="data">
+                        <span class="round-chip">
+                            <i style="margin-right: 10px" :class=emoji[data.item]></i>
+                            {{ data.item }}
+                        </span>
+                    </template>
+                </v-select>
             </div>
 
             <!--Arrows-->
             <v-icon class="arrows" @click="back()">chevron_left</v-icon>
             <span class="pagenumbers">{{pageNumber}} / 4</span>
-            <!-- <router-link :to="{ name: 'Profile', params: { user: newUser, updateUser: updateUser, myProfile: true } }">  -->
-                <v-icon class="arrows" @click="registerUser()">chevron_right</v-icon>
-            <!-- </router-link> -->
+            <v-icon class="arrows" @click="registerUser()">chevron_right</v-icon>
         </v-form>
     </v-card>
 </v-content>
@@ -374,39 +367,58 @@ export default {
 
             // preferences
             transportation: [
-                "Walking",
-                "Taxi/Uber/Lyft",
-                "Car",
-                "Bus",
-                "Train"
+                "🚶‍♂️ Walking",
+                "🚖 Taxi",
+                "🚘 Car",
+                "🚍 Bus",
+                "🚆 Train"
             ],
             selectedTransportation: [],
             accommodation: [
-                "Hostel",
-                "Hotel",
-                "Airbnb/Dorm",
-                "Couchsurfing"
+                "🏨 Hostel",
+                "🏩 Hotel",
+                "🏠 Airbnb",
+                "🛏 Couchsurf"
             ],
             selectedAccommodation: [],
             lifestyle: [
-                "Smoking",
-                "Drinks",
-                "Parties"
+                "🚬 Smoking",
+                "🍺 Drinks",
+                "💃 Parties"
             ],
             selectedLifestyle: [],
             activities: [
-                "Art",
-                "Culture",
-                "Food",
-                "History",
-                "Music",
-                "Nightlife",
-                "Outdoors",
-                "Sports",
-                "Tours"
+                "🎨 Art",
+                "⛩ Culture",
+                "🍝 Food",
+                "🏰 History",
+                "🎵 Music",
+                "🍸 Nightlife",
+                "⛅ Outdoors",
+                "🏀 Sports",
+                "🛴 Tours"
             ],
             selectedActivities: [],
             emoji: {
+                // transportation
+                "Walking": "em em-walking",
+                "Taxi": "em em-oncoming_taxi",
+                "Car": "em em-oncoming_automobile",
+                "Bus": "em em-oncoming_bus",
+                "Train": "em em-train2",
+
+                // accommodation
+                "Hostel": "em em-hotel",
+                "Hotel": "em em-love_hotel",
+                "Airbnb": "em em-house",
+                "Couchsurf": "em em-bed",
+
+                // lifestyle
+                "Smoking": "em em-smoking",
+                "Drinks": "em em-beer",
+                "Parties": "em em-dancer",
+
+                // activities
                 "Art": "em em-art",
                 "Culture": "em em-shinto_shrine",
                 "Food": "em em-spaghetti",
@@ -759,6 +771,7 @@ ul {
 .fav-activities {
     margin-left: 10px;
     margin-bottom: 15px;
+    width: 100%;
 }
 
 .text-field {
@@ -772,7 +785,6 @@ ul {
     float: left;
     width: 50%;
     height: 45px;
-    /* border-style: none !important; */
     border-bottom: 5px;
     border-left-style: none !important;
     border-right-style: none !important;
@@ -811,7 +823,7 @@ ul {
 
 #prefs {
     float: left;
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
 }
 
 .dropdown {
@@ -829,7 +841,7 @@ ul {
     background-color: #fce4ec;
     padding: 5px 5px;
     margin: 0px 5px 0px 5px !important;
-    width: 125px;
+    width: 170px;
     box-shadow: 2px 2px 5px #888888;
     justify-content: center;
     align-content: initial;

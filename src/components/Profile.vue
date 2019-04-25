@@ -6,7 +6,7 @@
 		<!--Heading and edit button-->
 		<v-flex style="display: flex; flex-direction:row">
 			<div id="back-btn-div" v-if="backButtonMatches">
-				<router-link :to="{ name: 'MatchList', params: { user } }">
+				<router-link :to="{ name: 'MatchList', params: { user: host } }">
 					<v-icon id="back-btn">keyboard_backspace</v-icon>
 				</router-link>
 			</div>
@@ -49,12 +49,26 @@
         </v-flex>
     </div>
 
-	<!--Fun facts-->
+	<!--Itinerary-->
+    <div>
+        <h1 style="text-align:left; margin-left:20px">Itinerary</h1>
+        <ul>
+            <div>
+                <li class="itinerary" v-for="item in user.itinerary" :key="item.id">
+                    <v-text-field v-model="item.city"></v-text-field>
+                    <v-text-field v-model="item.startDate" label="Date" hint="Start date (MM/DD/YYYY)" persistent-hint prepend-icon="event"></v-text-field>
+                    <v-text-field v-model="item.endDate" label="Date" hint="End date (MM/DD/YYYY)" persistent-hint prepend-icon="event"></v-text-field>
+                </li>
+            </div>
+        </ul>
+    </div>
+
+	<!--About-->
 	<div>
-		<h1 style="text-align:left; margin-left:20px">Fun Facts</h1>
-		<v-layout row wrap id="fun-facts">
+		<h1 style="text-align:left; margin-left:20px">About Me</h1>
+		<v-layout row wrap id="about-me">
 			<v-flex xs3>
-				<v-card class="funfact">
+				<v-card class="about">
 					<v-card-text>
 						<h2>Craziest Fact About You <i class="em em-100"/></h2><br>
 						<h3>{{user.crazyFact}}</h3>
@@ -62,7 +76,7 @@
 				</v-card>
 			</v-flex>
 			<v-flex xs3>
-				<v-card class="funfact">
+				<v-card class="about">
 					<v-card-text>
 						<h2>Go-to Midnight Snack <i class="em em-hamburger"/></h2><br>
 						<h3>{{user.midnightSnack}}</h3><br><br>
@@ -70,7 +84,7 @@
 				</v-card>
 			</v-flex>
 			<v-flex xs3>
-				<v-card class="funfact">
+				<v-card class="about">
 					<v-card-text>
 						<h2>During Vacations, I... <i class="em em-man-mountain-biking"/></h2><br>
 						<h3>{{user.vacation}}</h3><br><br>
@@ -78,7 +92,7 @@
 				</v-card>
 			</v-flex>
 			<v-flex xs3>
-				<v-card class="funfact">
+				<v-card class="about">
 					<v-card-text>
 						<h2>Favorite Karaoke Song <i class="em em-microphone"/></h2><br>
 						<h3>{{user.karaokeSong}}</h3><br><br>
@@ -89,7 +103,7 @@
 	</div>
 
 	<!--Photos-->
-	<h1 v-if="user.pics" style="margin-left: 20px; text-align: left;">Photos</h1>
+	<h1 v-if="user.pics && user.pics.length" style="margin-left: 20px; text-align: left;">Photos</h1>
 	<div class="photos">
 		<v-layout v-for="pic in user.pics" :key="pic">
 			<v-flex>
@@ -98,54 +112,49 @@
 		</v-layout>
 	</div>
 
-    <div class="about">
-		<br>
-		<h1 style="margin-left: 20px">About Me</h1>    
+	<!--Travel prefs-->
+    <div class="travel-prefs" style="margin-top:20px">
+		<h1 style="margin-left: 20px">Travel Preferences</h1>    
 		<v-layout row wrap style="margin: 0px 10px 0px 10px">
-			<!--Row 1-->
-			<v-flex xs4>
-				<v-card class="card">
+			<v-flex xs3>
+				<v-card class="card2">
 					<v-card-text>
-						<h3>Intro</h3>
-						<p>{{user.bio}}</p>
-					</v-card-text>
-				</v-card>
-			</v-flex>
-			<v-flex xs4>
-				<v-card class="card">
-					<v-card-text>
-						<h3>Favorite Travel Activities</h3>
-						<ul class="square">
-							<li v-for="activity in user.selectedActivities" :key="activity" id="li-activity">								
-								{{activity}}
-							</li>
+						<h3>Travel Interests</h3>
+						<ul>
+							<li v-for="activity in user.selectedActivities" :key="activity">{{activity}}</li>
 						</ul>
 					</v-card-text>
 				</v-card>
 			</v-flex>
 
-			<v-flex xs4>
-				<v-card class="card">
+			<v-flex xs3>
+				<v-card class="card2">
 					<v-card-text>
-						<h3>Itinerary</h3>
-						<ul class="square">
-							<li v-for="place in user.itinerary" :key="place" id="li-current">
-								{{place.city.toString()}}, {{place.startDate}} - {{place.endDate}}
-							</li>
+						<h3>Transportation</h3>
+						<ul v-if="user.selectedTransportation">
+							<li v-for="t in user.selectedTransportation" :key="t">{{t}}</li>
 						</ul>
 					</v-card-text>
 				</v-card>
 			</v-flex>
 
-			<!--Row 2-->
-			<v-flex xs4>
-				<v-card class="card">
+			<v-flex xs3>
+				<v-card class="card2">
 					<v-card-text>
-						<h3>Preferences</h3>
-						<ul class="square">
-							<li v-for="habit in user.selectedLifestyle" :key="habit" id="li-lifestyle">
-								{{habit}}
-							</li>
+						<h3>Accommodation</h3>
+						<ul v-if="user.selectedAccommodation">
+							<li v-for="a in user.selectedAccommodation" :key="a">{{a}}</li>
+						</ul>
+					</v-card-text>
+				</v-card>
+			</v-flex>
+
+			<v-flex xs3>
+				<v-card class="card2">
+					<v-card-text>
+						<h3>Lifestyle</h3>
+						<ul>
+							<li v-for="l in user.selectedLifestyle" :key="l">{{l}}</li>
 						</ul>
 					</v-card-text>
 				</v-card>
@@ -192,11 +201,18 @@ export default {
 	border-radius: 25px !important;
 }
 
+.card2 {
+	margin: 10px 40px 10px 40px;
+	height: 300px;
+	border-radius: 25px !important;
+	background-color: #fce4ec !important;
+}
+
 .propic {
     margin-top: 125px;
 }
 
-.about {
+.travel-prefs {
 	text-align: left;
 }
 
@@ -270,40 +286,22 @@ export default {
     transform: scale(1.5, 1.5);
 }
 
-ul,
-li {
+ul, li {
     list-style-type: none;
-}
-
-#li-activity:before {
-	content: '\26E9';
-}
-#li-lifestyle:before {
-	content: '\1F37A';
-}
-#li-future:before {
-	content: '\1F3DD';
-}
-#li-past:before {
-	content: '\1F3D4';
-}
-#li-current:before {
-	content: '\1F3F0';
 }
 
 .summary {
 	margin-bottom: 20px;
 }
 
-.funfact {
-	background-color: #fce4ec !important;
+.about {
 	border-radius: 15px !important;
 	margin: 10px 10px 0px 10px;
 	text-align: left;
 	height: 85%;
 }
 
-#fun-facts {
+#about-me {
 	text-align: left; 
 	margin: 0px 10px 10px 10px;
 }

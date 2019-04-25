@@ -61,7 +61,7 @@ export default {
     methods: {
         updateUser(newUser) {
             this.user = newUser;
-            if (newUser !== null){          // TODO:
+            if (newUser !== null){          
                 router.push({ 
                     name: 'Profile', 
                     params: { 

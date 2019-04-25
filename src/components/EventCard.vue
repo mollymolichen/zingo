@@ -5,7 +5,7 @@
         <v-layout row wrap>
             <!--Profile picture-->
             <v-flex xs3>
-                <router-link :to="{ name: 'Profile', params: { user: host, myProfile: myOwnEvent, backButtonEvents: true } }">
+                <router-link :to="{ name: 'Profile', params: { user: host, myProfile: false, backButtonEvents: true } }">
                     <v-avatar class="event-profile-pic">
                         <img :src="host.propicUrl">
                     </v-avatar>

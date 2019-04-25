@@ -118,7 +118,7 @@
 
             <div style="height: 675px">
                 <ul>
-                    <div >
+                    <div>
                         <li class="itinerary" v-for="item in user.itinerary" :key="item.id">
                             <!--Location-->
                             <v-autocomplete :items="allCities" v-model="item.city" label="City name" chips multiple style="margin: 0px 10px 0px 10px">
