@@ -900,6 +900,6 @@ ul {
 .avatar-img {
     display: flex;
     flex-direction: column;
-    margin: 0px 20px 10px 30px;
+    margin: 0px 10px 10px 10px;
 }
 </style>

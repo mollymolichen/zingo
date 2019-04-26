@@ -6,11 +6,9 @@
             <v-text-field id="textfield" v-model="email" :rules="emailRules" label="Email" required></v-text-field>
             <v-text-field id="textfield" v-model="password" :type="'password'" :rules="passwordRules" label="Password" required></v-text-field>
             <router-link to="/">
-                <v-btn id="btn">Exit</v-btn>
+                <v-btn id="btn" @click="setApp2(true)">Exit</v-btn>
             </router-link>
-            <!-- <router-link :to="{ name: 'Profile', params: { user, updateUser, myProfile: true } }"> -->
-                <v-btn id="btn" @click="signIn()">Submit</v-btn>
-            <!-- </router-link> -->
+            <v-btn id="btn" @click="signIn()">Submit</v-btn>
         </v-form>
     </v-card>
 </v-content>
@@ -43,7 +41,7 @@ export default {
             uuid: null,
         }
     },
-    props: ['updateUser'],
+    props: ['updateUser', 'setApp'],
     computed: {},
     methods: {
         setApp2(res) {
