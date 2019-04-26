@@ -2,7 +2,6 @@
 <v-content id="create-event-container">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <v-card class="createevent">
-        <!--Page 1-->
         <v-form ref="form" lazy-validation>
             <div style="margin-bottom: 20px">
                 <router-link :to="{ name: 'EventList', params: { user, setApp } }">
@@ -39,7 +38,7 @@
             <h3 class="upload-text">Upload up to three photos of the event.</h3>
             <h4 class="upload-text">Press Upload to make sure your file was uploaded successfully.</h4>
             <v-flex xs4 row wrap id="avatar-div">
-                <div class="avatar-img">
+                <div class="avatar-img2">
                     <image-input v-model="event.avatar1" :onFileChanged="onFileChanged" :setFormData="setFormData">
                         <div slot="activator">
                             <v-avatar size="150px" v-ripple v-if="!event.avatar1" class="grey lighten-3 mb-3">
@@ -57,7 +56,7 @@
                     </v-slide-x-transition>
                 </div>
 
-                <div class="avatar-img">
+                <div class="avatar-img2">
                     <image-input v-model="event.avatar2" :onFileChanged="onFileChanged" :setFormData="setFormData">
                         <div slot="activator" class="avatar-flex">
                             <v-avatar size="150px" v-ripple v-if="!event.avatar2" class="grey lighten-3 mb-3">
@@ -75,7 +74,7 @@
                     </v-slide-x-transition>
                 </div>
 
-                <div class="avatar-img">
+                <div class="avatar-img2">
                     <image-input v-model="event.avatar3" :onFileChanged="onFileChanged" :setFormData="setFormData">
                         <div slot="activator" class="avatar-flex">
                             <v-avatar size="150px" v-ripple v-if="!event.avatar3" class="grey lighten-3 mb-3">
@@ -422,11 +421,6 @@ ul {
     display: flex;
 }
 
-.arrows {
-    transform: scale(2, 2);
-    margin: 0px 20px 0px 20px;
-}
-
 .pagenumbers {
     font-size: large;
 }
@@ -509,5 +503,16 @@ ul {
 
 #buttons {
     margin: 35px 0px 10px 0px;
+}
+
+#avatar-div {
+    margin: auto;
+    margin-top: 20px;
+}
+
+.avatar-img2 {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 20px 10px 0px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-<v-content class="preferences" id="create-event-container">
+<v-content id="create-event-container">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <v-card class="createevent">
         <!--Page 1-->
@@ -51,19 +51,10 @@
                 </v-layout>
             </div>
 
-            <!--Arrows-->
-            <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
-            <span class="pagenumbers">{{pageNumber}} / 2</span>
-            <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
-        </v-form>
-
-        <!--Page 2-->
-        <v-form v-else-if="pageNumber === 2">
             <h3>Upload up to three photos of the event.</h3>
             <h4>Press Upload to make sure your file was uploaded successfully.</h4>
-            <br>
             <v-flex xs4 row wrap id="avatar-div">
-                <div class="avatar-img">
+                <div class="avatar-img2">
                     <image-input v-model="avatar1" :onFileChanged="onFileChanged" :setFormData="setFormData">
                         <div slot="activator">
                             <v-avatar size="150px" v-ripple v-if="!avatar1" class="grey lighten-3 mb-3">
@@ -81,7 +72,7 @@
                     </v-slide-x-transition>
                 </div>
 
-                <div class="avatar-img">
+                <div class="avatar-img2">
                     <image-input v-model="avatar2" :onFileChanged="onFileChanged" :setFormData="setFormData">
                         <div slot="activator" class="avatar-flex">
                             <v-avatar size="150px" v-ripple v-if="!avatar2" class="grey lighten-3 mb-3">
@@ -99,7 +90,7 @@
                     </v-slide-x-transition>
                 </div>
 
-                <div class="avatar-img">
+                <div class="avatar-img2">
                     <image-input v-model="avatar3" :onFileChanged="onFileChanged" :setFormData="setFormData">
                         <div slot="activator" class="avatar-flex">
                             <v-avatar size="150px" v-ripple v-if="!avatar3" class="grey lighten-3 mb-3">
@@ -117,14 +108,10 @@
                     </v-slide-x-transition>
                 </div>
             </v-flex>
-
-            <!--Arrows-->
-            <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
-            <span class="pagenumbers">{{pageNumber}} / 2</span>
-            
+                        
             <!--navigate to an empty EventList page w/ only your newly created event-->
             <router-link :to="{ name: 'EventList', params: { event, user } }">
-                <v-icon class="arrows" @click="createEvent()" :disabled="!valid">chevron_right</v-icon>
+                <v-btn @click="createEvent()" :disabled="!valid">Create</v-btn>
             </router-link>
         </v-form>
 

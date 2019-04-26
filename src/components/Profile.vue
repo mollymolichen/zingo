@@ -202,7 +202,7 @@ export default {
 }
 
 .card2 {
-	margin: 10px 40px 10px 40px;
+	margin: 10px 40px 40px 40px;
 	height: 300px;
 	border-radius: 25px !important;
 	background-color: #fce4ec !important;
