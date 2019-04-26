@@ -36,79 +36,67 @@
                 <h4>Press Upload to make sure your file was uploaded successfully.</h4>
                 <br>
                 <input type="file" @change="onFileChanged"/>
-                <v-btn @click="onUpload(true)">Upload</v-btn>
+                <v-btn @click="onUpload(true, -1, false)">Upload</v-btn>
             </div>
 
             <h3>Upload up to three more photos of yourself.</h3>
             <h4>Press Upload to make sure your file was uploaded successfully.</h4>
             <br>
-
-            <!--testing-->
-            <!-- <div> -->
-            <!-- parent -->
-            <!-- <div @click="launchFilePicker()">
-                    <slot name="activator"></slot>
-                </div> -->
-            <!-- image input: style is set to hidden and assigned a ref so that it can be triggered -->
-            <!-- <input type="file"
-                    ref="file"
-                    :name="uploadFieldName"
-                    @change="fileChangeAvatar($event.target.name, $event.target.files)"
-                    style="display:none"> -->
-
-            <!-- child -->
-            <!-- <div slot="activator">
-                    <v-avatar size="150px" v-ripple v-if="!avatar" class="grey lighten-3 mb-3">
-                        <span>Click to add avatar</span>
-                    </v-avatar>
-                    <v-avatar size="150px" v-ripple v-else class="mb-3">
-                        <img :src="avatar.imageURL" alt="avatar">
-                    </v-avatar>
+            <v-flex xs4 row wrap id="avatar-div">
+                <div class="avatar-img">
+                    <image-input v-model="avatar1" :onFileChanged="onFileChanged" :setFormData="setFormData">
+                        <div slot="activator">
+                            <v-avatar size="150px" v-ripple v-if="!avatar1" class="grey lighten-3 mb-3">
+                                <span>Click to add photo</span>
+                            </v-avatar>
+                            <v-avatar size="150px" v-ripple class="mb-3" v-else>
+                                <img :src="avatar1.imageURL">
+                            </v-avatar>
+                        </div>
+                    </image-input>
+                    <v-slide-x-transition>
+                        <div>
+                            <v-btn @click="onUpload(false, 0, true)" v-if="avatar1">Upload</v-btn>
+                        </div>
+                    </v-slide-x-transition>
                 </div>
-                <v-slide-x-transition>
-                    <div>
-                        <v-btn class="primary" @click="onUploadAvatar(false, true, false, false)">Save Avatar</v-btn>
-                    </div>
-                </v-slide-x-transition>
-            </div> -->
 
-            <!-- <image-input v-model="avatar" :onFileChanged="onFileChanged">
-                <div slot="activator">
-                    <v-avatar size="150px" v-ripple v-if="!avatar" class="grey lighten-3 mb-3">
-                        <span>Click to add avatar</span>
-                    </v-avatar>
-                    <v-avatar size="150px" v-ripple v-else class="mb-3">
-                        <img :src="avatar.imageURL" alt="avatar">
-                    </v-avatar>
+                <div class="avatar-img">
+                    <image-input v-model="avatar2" :onFileChanged="onFileChanged" :setFormData="setFormData">
+                        <div slot="activator" class="avatar-flex">
+                            <v-avatar size="150px" v-ripple v-if="!avatar2" class="grey lighten-3 mb-3">
+                                <span>Click to add photo</span>
+                            </v-avatar>
+                            <v-avatar size="150px" v-ripple v-else class="mb-3">
+                                <img :src="avatar2.imageURL" alt="avatar2">
+                            </v-avatar>
+                        </div>
+                    </image-input>
+                    <v-slide-x-transition>
+                        <div>
+                            <v-btn @click="onUpload(false, 1, true)" v-if="avatar2">Upload</v-btn>
+                        </div>
+                    </v-slide-x-transition>
                 </div>
-            </image-input> -->
 
-            <!--end of testing-->
-
-            <div class="photo-upload">
-                <br>
-                <div class="upload-btn-wrapper" style="margin-left:30px">
-                    <button class="btn">
-                        <v-icon>add_a_photo</v-icon>
-                    </button>
-                    <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false)" class="upload-btn">Upload</v-btn>
+                <div class="avatar-img">
+                    <image-input v-model="avatar3" :onFileChanged="onFileChanged" :setFormData="setFormData">
+                        <div slot="activator" class="avatar-flex">
+                            <v-avatar size="150px" v-ripple v-if="!avatar3" class="grey lighten-3 mb-3">
+                                <span>Click to add photo</span>
+                            </v-avatar>
+                            <v-avatar size="150px" v-ripple v-else class="mb-3">
+                                <img :src="avatar3.imageURL" alt="avatar3">
+                            </v-avatar>
+                        </div>
+                    </image-input>
+                    <v-slide-x-transition>
+                        <div style="display:flex">
+                            <v-btn @click="onUpload(false, 2, true)" v-if="avatar3">Upload</v-btn>
+                        </div>
+                    </v-slide-x-transition>
                 </div>
-                <div class="upload-btn-wrapper">
-                    <button class="btn">
-                        <v-icon>add_a_photo</v-icon>
-                    </button>
-                    <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false)" class="upload-btn">Upload</v-btn>
-                </div>
-                <div class="upload-btn-wrapper">
-                    <button class="btn">
-                        <v-icon>add_a_photo</v-icon>
-                    </button>
-                    <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(false)" class="upload-btn">Upload</v-btn>
-                </div>
-            </div>
+            </v-flex>
 
             <!--Arrows-->
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
@@ -292,10 +280,20 @@ import {
 import 'vue-tel-input/dist/vue-tel-input.css';
 import VueTelInput from 'vue-tel-input';
 // import router from "../router";
+// Vue FilePond
+import vueFilePond from 'vue-filepond';
+import 'filepond/dist/filepond.min.css';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+
+// Create component
+const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
 export default {
     name: "SignUp",
     components: {
+        FilePond,
         Events,
         ImageInput,
         Navbar,
@@ -364,6 +362,7 @@ export default {
             propicUrl: "https://loremflickr.com/300/200/flamingo",
             uploadFinished: false,
             pics: [],
+            myFiles: [],        // test filePond
 
             // preferences
             transportation: [
@@ -454,21 +453,15 @@ export default {
             endDate: new Date().toISOString().substr(0, 10),
 
             // photo stuff
-            avatar: null,
-            saving: false,
-            saved: false,
+            avatar1: false,
+            avatar2: false,
+            avatar3: false,
             imageFile: null,
             formData: null,
             imageURL: null
         };
     },
     watch: {
-        avatar: {
-            handler: function () {
-                this.saved = false
-            },
-            deep: true
-        },
         startDate(val) {
             this.startDateFormatted = this.formatDate(this.startDate);
         },
@@ -487,6 +480,11 @@ export default {
     },
 
     methods: {
+        setFormData(fd, url){
+            this.formData = fd;
+            this.imageURL = url;
+        },
+
         setApp2(res) {
             this.setApp(res);
         },
@@ -576,14 +574,18 @@ export default {
             console.log("Selected file: ", this.selectedFile);
         },
 
-        onUpload(profilePic) {
+        onUpload(profilePic, index, avatar) {
             let that = this;
             const storageRef = Firebase.storage().ref();
-            var file = this.selectedFile;
+            if (avatar){
+                var file = this.formData.imageFile;
+            } else {
+                var file = this.selectedFile;
+            }
             var metadata = {
                 contentType: 'image/jpeg'
             };
-            var uploadTask = storageRef.child(this.uuid + "/" + file.name).put(file, metadata); // this.uuid is null
+            var uploadTask = storageRef.child(this.uuid + "/" + file.name).put(file, metadata);
             console.log('upload task', uploadTask);
             uploadTask.on(Firebase.storage.TaskEvent.STATE_CHANGED,
                 function (snapshot) {
@@ -610,13 +612,13 @@ export default {
                 },
                 async function () {
                     var url = await uploadTask.snapshot.ref.getDownloadURL();
-                    console.log('url: ', url);
-                    
                     if (profilePic) {
                         Vue.set(that, 'propicUrl', url);
-                    } else {
+                    } else if (index !== -1 && index < 3) {
                         if (!that.pics){
                             that.pics = [];
+                        } else {
+                            that.pics.splice(index, 1);
                         }
                         that.pics.push(url);
                         Vue.set(that, 'pics', that.pics);
@@ -642,6 +644,9 @@ export default {
                     languagesSpoken: this.languagesSpoken,
                     propicUrl: this.propicUrl,
                     pics: this.pics,
+                    avatar1: this.avatar1,
+                    avatar2: this.avatar2,
+                    avatar3: this.avatar3,
                     selectedTransportation: this.selectedTransportation,
                     selectedAccommodation: this.selectedAccommodation,
                     selectedLifestyle: this.selectedLifestyle,
@@ -685,58 +690,6 @@ export default {
             return false;
         },
 
-        /*
-        fileChangeAvatar(fieldName, file) {
-            this.imageFile = file[0];
-            if (file.length > 0) {
-                this.formData = new FormData()
-                this.imageURL = URL.createObjectURL(imageFile)
-                this.formData.append(fieldName, imageFile)
-                // this.$emit('input', {
-                // 	formData,
-                // 	imageURL
-                // });
-            }
-        },
-
-        onUploadAvatar() {
-            let that = this;
-            const storageRef = Firebase.storage().ref();
-            var file = this.formData.imageFile;
-            var metadata = {
-                contentType: 'image/jpeg'
-            };
-            var uploadTask = storageRef.child(this.uuid + "/" + file.name).put(file, metadata);
-            console.log('upload task', uploadTask);
-            uploadTask.on(Firebase.storage.TaskEvent.STATE_CHANGED,
-                function (snapshot) {
-                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
-                    switch (snapshot.state) {
-                        case Firebase.storage.TaskState.PAUSED:
-                            console.log('Upload is paused');
-                            break;
-                        case Firebase.storage.TaskState.RUNNING:
-                            console.log('Upload is running');
-                            break;
-            }
-                },
-                function (error) {
-                    switch (error.code) {
-                        case 'storage/unauthorized':
-                            break;
-                        case 'storage/canceled':
-                            break;
-                        case 'storage/unknown':
-                            break;
-                }
-            },
-                async function () {
-                    var url = await uploadTask.snapshot.ref.getDownloadURL();
-                    console.log('url: ', url);
-                    Vue.set(that, 'uploadFinished', true);
-                });
-            }*/
         onInput({number, isValid,country}) {
             console.log(number, isValid, country);
         }
@@ -933,5 +886,20 @@ ul {
 #add-btn {
     display: flex;
     justify-content: flex-end;
+}
+
+.avatar-flex {
+    display: flex;
+    flex-direction: column;
+}
+
+#avatar-div {
+    display: flex;
+}
+
+.avatar-img {
+    display: flex;
+    flex-direction: column;
+    margin: 0px 20px 10px 30px;
 }
 </style>

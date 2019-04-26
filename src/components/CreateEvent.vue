@@ -61,30 +61,62 @@
         <v-form v-else-if="pageNumber === 2">
             <h3>Upload up to three photos of the event.</h3>
             <h4>Press Upload to make sure your file was uploaded successfully.</h4>
-            <div class="photo-upload">
-                <br>
-                <div class="upload-btn-wrapper" style="margin-left:30px">
-                    <button class="btn">
-                        <v-icon>add_a_photo</v-icon>
-                    </button>
-                    <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(0)" class="upload-btn">Upload</v-btn>
+            <br>
+            <v-flex xs4 row wrap id="avatar-div">
+                <div class="avatar-img">
+                    <image-input v-model="avatar1" :onFileChanged="onFileChanged" :setFormData="setFormData">
+                        <div slot="activator">
+                            <v-avatar size="150px" v-ripple v-if="!avatar1" class="grey lighten-3 mb-3">
+                                <span>Click to add photo</span>
+                            </v-avatar>
+                            <v-avatar size="150px" v-ripple class="mb-3" v-else>
+                                <img :src="avatar1.imageURL">
+                            </v-avatar>
+                        </div>
+                    </image-input>
+                    <v-slide-x-transition>
+                        <div>
+                            <v-btn @click="onUpload(0)" v-if="avatar1">Upload</v-btn>
+                        </div>
+                    </v-slide-x-transition>
                 </div>
-                <div class="upload-btn-wrapper">
-                    <button class="btn">
-                        <v-icon>add_a_photo</v-icon>
-                    </button>
-                    <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(1)" class="upload-btn">Upload</v-btn>
+
+                <div class="avatar-img">
+                    <image-input v-model="avatar2" :onFileChanged="onFileChanged" :setFormData="setFormData">
+                        <div slot="activator" class="avatar-flex">
+                            <v-avatar size="150px" v-ripple v-if="!avatar2" class="grey lighten-3 mb-3">
+                                <span>Click to add photo</span>
+                            </v-avatar>
+                            <v-avatar size="150px" v-ripple v-else class="mb-3">
+                                <img :src="avatar2.imageURL">
+                            </v-avatar>
+                        </div>
+                    </image-input>
+                    <v-slide-x-transition>
+                        <div>
+                            <v-btn @click="onUpload(1)" v-if="avatar2">Upload</v-btn>
+                        </div>
+                    </v-slide-x-transition>
                 </div>
-                <div class="upload-btn-wrapper">
-                    <button class="btn">
-                        <v-icon>add_a_photo</v-icon>
-                    </button>
-                    <input type="file" @change="onFileChanged"/>
-                    <v-btn @click="onUpload(2)" class="upload-btn">Upload</v-btn>
+
+                <div class="avatar-img">
+                    <image-input v-model="avatar3" :onFileChanged="onFileChanged" :setFormData="setFormData">
+                        <div slot="activator" class="avatar-flex">
+                            <v-avatar size="150px" v-ripple v-if="!avatar3" class="grey lighten-3 mb-3">
+                                <span>Click to add photo</span>
+                            </v-avatar>
+                            <v-avatar size="150px" v-ripple v-else class="mb-3">
+                                <img :src="avatar3.imageURL">
+                            </v-avatar>
+                        </div>
+                    </image-input>
+                    <v-slide-x-transition>
+                        <div style="display:flex">
+                            <v-btn @click="onUpload(2)" v-if="avatar3">Upload</v-btn>
+                        </div>
+                    </v-slide-x-transition>
                 </div>
-            </div>
+            </v-flex>
 
             <!--Arrows-->
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
@@ -104,6 +136,7 @@
 /* eslint-disable */
 import Vue from "vue";
 import Firebase from "firebase";
+import ImageInput from './ImageInput.vue';
 import {
     db,
     usersRef,
@@ -116,6 +149,9 @@ import {
 
 export default {
     name: "CreateEvent",
+    components: {
+        ImageInput
+    },
     data() {
         return {
             events: [],
@@ -136,6 +172,12 @@ export default {
             selectedFile: null,
             uploadFinished: false,
             pics: [],
+            avatar1: false,
+            avatar2: false,
+            avatar3: false,
+            imageFile: null,
+            formData: null,
+            imageURL: null,
 
             categories: [
                 "🎨 Art",
@@ -173,6 +215,7 @@ export default {
                 "Sports": "em em-basketball",
                 "Tours": "em em-scooter"
             },
+
             event: null
         };
     },
@@ -214,10 +257,16 @@ export default {
             console.log("Selected file: ", this.selectedFile);
         },
 
+        setFormData(fd, url){
+            this.formData = fd;
+            this.imageURL = url;
+        },
+
         onUpload(index) {
             let that = this;
             const storageRef = Firebase.storage().ref();
-            var file = this.selectedFile;
+            var file = this.formData.imageFile;
+    
             var metadata = {
                 contentType: 'image/jpeg'
             };
@@ -248,14 +297,16 @@ export default {
                 },
                 async function () {
                     var url = await uploadTask.snapshot.ref.getDownloadURL();
-                    if (!that.pics) {
-                        that.pics = [];
-                    } else if (index != -1) {
-                        that.pics.splice(index, 1); // remove old picture
+                    if (index !== -1 && index < 3) {
+                        if (!that.pics) {
+                            that.pics = [];
+                        } else {
+                            that.pics.splice(index, 1); // remove old picture
+                        }
+                        that.pics.push(url);            // replace with new one
+                        Vue.set(that, 'pics', that.pics);
+                        Vue.set(that, 'uploadFinished', true);
                     }
-                    that.pics.push(url);            // replace with new one
-                    Vue.set(that, 'pics', that.pics);
-                    Vue.set(that, 'uploadFinished', true);
                 }
             );
         },
@@ -285,6 +336,9 @@ export default {
                 eid: eid,
                 host: this.user.uuid,
                 pics: this.pics,
+                avatar1: this.avatar1,
+                avatar2: this.avatar2,
+                avatar3: this.avatar3,
                 date: this.date,
                 dateFormatted: this.dateFormatted,
                 menu1: this.menu1,

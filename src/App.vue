@@ -76,9 +76,6 @@ export default {
         setApp(res) {
             this.onApp = res;
         }
-    },
-    mounted() {
-
     }
 }
 </script>
@@ -118,6 +115,6 @@ a {
 
 #title {
     margin: 250px 0px 30px 0px;
-    transform: scale(1.5, 1.5);
+    font-size: xx-large;
 }
 </style>

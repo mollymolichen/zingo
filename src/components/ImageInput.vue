@@ -9,7 +9,7 @@
        ref="file"
        :name="uploadFieldName"
        @change="onFileChange($event.target.name, $event.target.files)"
-       style="display:none">
+       style="display:none"/>
 </div>
 </template>
 
@@ -23,19 +23,21 @@ export default {
         // Use "value" here to enable compatibility with v-model
         value: Object,
 	},
-	props: ['onFileChanged'],
+	props: ['onFileChanged', 'setFormData'],
     methods: {
         launchFilePicker() {
             this.$refs.file.click();
 		},
 		
-        onFileChange(fieldName, file) {		// deprecated
+        onFileChange(fieldName, file) {
             let imageFile = file[0];
-            // check if user actually selected a file
             if (file.length > 0) {
 				let formData = new FormData()
 				let imageURL = URL.createObjectURL(imageFile)
-				formData.append(fieldName, imageFile)
+                formData.append(fieldName, imageFile)
+                formData.fieldName = fieldName;
+                formData.imageFile = imageFile;
+                this.setFormData(formData, imageURL);
 				this.$emit('input', {
 					formData,
 					imageURL
