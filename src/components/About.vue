@@ -34,6 +34,7 @@
                 <h3>Business Lead</h3>
                 </div>
             </div>
+            <h2 id="creds">Special credits to Frank Thomas for the logo design and graphics.</h2>
         </div>
     </v-card>
 </v-content>
@@ -101,5 +102,9 @@ export default {
     font-size: x-large;
     margin-bottom: 20px;
     display: flex;
+}
+
+#creds {
+    margin-top: 40px;
 }
 </style>

@@ -12,7 +12,7 @@
         <v-content class="container">
             <v-layout row wrap v-if="this.onApp === true">
                 <v-flex>
-                    <h1 id="title">Zingo</h1>
+                    <img src="./assets/Zingo.png" id="zingo-logo"/>
                     <h1>Connecting awesome travelers to awesome friends.</h1>
                     <div v-if="this.user === null">
                         <router-link :to="{ name: 'SignUp', params: { user, updateUser, setApp } }">
@@ -94,10 +94,7 @@ a {
     background-size: cover;
     height: 93%;
     text-align: center;
-}
-
-.center {
-    text-align: center;
+    align-items: center;
 }
 
 #app {
@@ -116,5 +113,12 @@ a {
 #title {
     margin: 250px 0px 30px 0px;
     font-size: xx-large;
+}
+
+#zingo-logo {
+    display: flex;
+    height: 250px;
+    margin: auto;
+    margin-bottom: 20px;
 }
 </style>
