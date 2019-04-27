@@ -104,9 +104,38 @@ export default {
             this.tab2 = tab2;
             this.tab3 = tab3;
             this.tab4 = tab4;
+            this.getEventInfo();
         },
 
+        async getEvents(){
+            // read events table from DB
+            let allEvents;
+            let snapshot = await eventsRef.once("value");
+            allEvents = snapshot.val();
+
+            // get events you're attending, events you're hosting (tabs 1, 2)
+            let keys = Object.keys(allEvents);
+
+            keys.forEach((key, i) => {
+                let e = allEvents[key];
+                this.$set(this.events, i, e);
+                if (e.confirmed && e.confirmed.indexOf(this.user.uuid) != -1) {
+                    this.$set(this.eventsImAttending, this.eventsImAttending.length, e);
+                }
+                if (e.host === this.user.uuid) {
+                    this.$set(this.eventsImHosting, this.eventsImHosting.length, e);
+                }
+            });
+        },
+
+        // TODO: split by tabs
         async getEventInfo() {
+            // clear
+            this.hosts = [];
+            this.eventsImHosting = [];
+            this.pending = [];
+            this.confirmed = [];
+
             // read events table from DB
             let allEvents;
             let snapshot = await eventsRef.once("value");

@@ -116,15 +116,12 @@ import {
     parseCities
 } from "../assets/locations.js";
 import ImageInput from "./ImageInput.vue";
-import Popup from "./Popup.vue";
-import Modal from "./Modal.vue";
 import router from "../router";
 
 export default {
     name: "EditEvent",
     data() {
         return {
-            showModal: false,
             events: [],
             singleEvent: true,
             pageNumber: 1,
@@ -164,8 +161,7 @@ export default {
                 "Outdoors": "em em-partly_sunny",
                 "Sports": "em em-basketball",
                 "Tours": "em em-scooter"
-            },
-            showPopup: false
+            }
         };
     },
     firebase: {
@@ -174,9 +170,7 @@ export default {
         storage: storageRef
     },
     components: {
-        ImageInput,
-        Popup,
-        Modal
+        ImageInput
     },
     methods: {
         setApp2(res) {
@@ -204,14 +198,6 @@ export default {
 
         clear() {
             this.$refs.form.reset();
-        },
-
-        showP() {
-            this.showPopup = true;
-        },
-
-        closeP() {
-            this.showPopup = false;
         },
 
         // file uploading
@@ -261,9 +247,9 @@ export default {
                             that.pics = [];
                         } 
                         else  {
-                            that.pics.splice(index, 1); // remove old picture
+                            that.pics.splice(index, 1);     // remove old picture
                         }
-                        that.pics.push(url);            // replace with new one
+                        that.pics[index] = url;             // replace with new one
                         Vue.set(that, 'pics', that.pics);
                         Vue.set(that2, 'uploadFinished', true);
                     }

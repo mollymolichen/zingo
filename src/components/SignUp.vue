@@ -157,7 +157,7 @@
                     <div>
                         <li class="itinerary" v-for="item in itinerary" :key="item.id">
                             <!--Location-->
-                            <v-autocomplete :items="allCities" v-model="item.city" label="City name" chips multiple style="margin: 0px 10px 0px 10px">
+                            <v-autocomplete :items="allCities" v-model="item.city" label="City name" chips style="margin: 0px 10px 0px 10px">
                                 <template slot="selection" slot-scope="data">
                                     <v-chip :selected="data.selected" close class="chip--select-multi" @input="removeCity(item)">
                                         {{ data.item }}
@@ -168,17 +168,17 @@
                             <!--Start date-->
                             <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
                                 <template v-slot:activator="{ on }">
-                                    <v-text-field v-model="startDateFormatted" label="Date" hint="Start date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="startDate = parseDate(startDateFormatted)" v-on="on"></v-text-field>
+                                    <v-text-field v-model="item.startDate" label="Date" hint="Start date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="startDate = parseDate(startDateFormatted)" v-on="on"></v-text-field>
                                 </template>
-                                <v-date-picker v-model="startDate" no-title @input="menu1 = false"></v-date-picker>
+                                <!-- <v-date-picker v-model="startDate" no-title @input="menu1 = false"></v-date-picker> -->
                             </v-menu>
 
                             <!--End date-->
                             <v-menu ref="menu2" v-model="menu2" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
                                 <template v-slot:activator="{ on }">
-                                    <v-text-field v-model="endDateFormatted" label="Date" hint="End date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="endDate = parseDate(endDateFormatted)" v-on="on"></v-text-field>
+                                    <v-text-field v-model="item.endDate" label="Date" hint="End date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="endDate = parseDate(endDateFormatted)" v-on="on"></v-text-field>
                                 </template>
-                                <v-date-picker v-model="endDate" no-title @input="menu2 = false"></v-date-picker>
+                                <!-- <v-date-picker v-model="endDate" no-title @input="menu2 = false"></v-date-picker> -->
                             </v-menu>
 
                             <!--Remove-->
@@ -271,29 +271,17 @@ import {
 } from "../database";
 import {
     parseCities,
-    states,
-    countries,
+    states
 } from "../assets/locations.js";
 import {
     allLangs
 } from "../assets/languages.js";
 import 'vue-tel-input/dist/vue-tel-input.css';
 import VueTelInput from 'vue-tel-input';
-// import router from "../router";
-// Vue FilePond
-import vueFilePond from 'vue-filepond';
-import 'filepond/dist/filepond.min.css';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-
-// Create component
-const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
 export default {
     name: "SignUp",
     components: {
-        FilePond,
         Events,
         ImageInput,
         Navbar,
@@ -331,7 +319,8 @@ export default {
             vacation: "",
             karaokeSong: "",
             states: states,
-            countries: parseCities().allCountries,
+            allCountries: parseCities().allCountries,
+            allCities: parseCities().allCities,
             allLangs: allLangs,
             languagesSpoken: [],
 
@@ -362,7 +351,6 @@ export default {
             propicUrl: "https://loremflickr.com/300/200/flamingo",
             uploadFinished: false,
             pics: [],
-            myFiles: [],        // test filePond
 
             // preferences
             transportation: [
@@ -430,29 +418,23 @@ export default {
             },
 
             // itinerary
-            allCountries: parseCities().allCountries,
-            allCities: parseCities().allCities,
-            startDateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
-            endDateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
             time: {
                 startTime: "",
                 endTime: "",
                 startTimePm: false,
                 endTimePm: false
             },
-            menu1: false,
-            menu2: false,
+            
             itinerary: [{
                 id: 1,
                 city: null,
-                startDate: null,
-                endDate: null,
+                startDate: this.formatDate(new Date().toISOString().substr(0, 10)),
+                endDate: this.formatDate(new Date().toISOString().substr(0, 10))
             }],
-            // use to set dates in itinerary object
-            startDate: new Date().toISOString().substr(0, 10),
-            endDate: new Date().toISOString().substr(0, 10),
-
-            // photo stuff
+            menu1: false,
+            menu2: false,
+ 
+            // photos
             avatar1: false,
             avatar2: false,
             avatar3: false,
@@ -514,8 +496,8 @@ export default {
             let newItinerary = {
                 id: this.itinerary.length + 1,
                 city: null,
-                startDate: null,        // or new Date?
-                endDate: null
+                startDate: this.formatDate(new Date().toISOString().substr(0, 10)),
+                endDate: this.formatDate(new Date().toISOString().substr(0, 10))
             }
             this.$set(this.itinerary, this.itinerary.length, newItinerary);
         },
@@ -620,7 +602,7 @@ export default {
                         } else {
                             that.pics.splice(index, 1);
                         }
-                        that.pics.push(url);
+                        that.pics[index] = url; 
                         Vue.set(that, 'pics', that.pics);
                     }
                     Vue.set(that, 'uploadFinished', true);

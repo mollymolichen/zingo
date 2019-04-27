@@ -164,17 +164,17 @@
                             <!--Start date-->
                             <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
                                 <template v-slot:activator="{ on }">
-                                    <v-text-field v-model="startDateFormatted" label="Date" hint="Start date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="item.startDate = parseDate(startDateFormatted)" v-on="on"></v-text-field>
+                                    <v-text-field v-model="item.startDate" label="Date" hint="Start date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="startDate = parseDate(startDateFormatted)" v-on="on"></v-text-field>
                                 </template>
-                                <v-date-picker v-model="startDate" no-title @input="menu1 = false"></v-date-picker>
+                                <!-- <v-date-picker v-model="startDate" no-title @input="menu1 = false"></v-date-picker> -->
                             </v-menu>
 
                             <!--End date-->
                             <v-menu ref="menu2" v-model="menu2" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
                                 <template v-slot:activator="{ on }">
-                                    <v-text-field v-model="endDateFormatted" label="Date" hint="End date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="item.endDate = parseDate(endDateFormatted)" v-on="on"></v-text-field>
+                                    <v-text-field v-model="item.endDate" label="Date" hint="End date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="endDate = parseDate(endDateFormatted)" v-on="on"></v-text-field>
                                 </template>
-                                <v-date-picker v-model="endDate" no-title @input="menu2 = false"></v-date-picker>
+                                <!-- <v-date-picker v-model="endDate" no-title @input="menu2 = false"></v-date-picker> -->
                             </v-menu>
 
                             <!--Remove-->
@@ -381,25 +381,9 @@ export default {
                 "Tours": "em em-scooter"
             },
 
-            // travel history
+            // locations
             allCountries: parseCities().allCountries,
             allCities: parseCities().allCities,
-            traveledInPast: [],
-            travelInFuture: [],
-            travelCurrent: [],
-
-            activities: [
-                "Art",
-                "Culture",
-                "Food",
-                "History",
-                "Music",
-                "Nightlife",
-                "Outdoors",
-                "Sports",
-                "Tours"
-            ],
-            selectedActivities: []
         };
     },
     firebase: {
@@ -491,10 +475,10 @@ export default {
                     } else if (index !== -1 && index < 3) {
                         if (!that.pics) {
                             that.pics = [];
-                        } else {                        // no more than 3 pics
-                            that.pics.splice(index, 1); // remove old picture
+                        } else {                                // no more than 3 pics
+                            that.pics.splice(index, 1);         // remove old picture
                         }
-                        that.pics.push(url);            // replace with new one
+                        that.pics[index] = url;                 // replace with new one
                         Vue.set(that, 'pics', that.pics);
                     }
                     Vue.set(that2, 'uploadFinished', true);

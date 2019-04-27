@@ -288,9 +288,9 @@ export default {
                         if (!that.pics) {
                             that.pics = [];
                         } else {
-                            that.pics.splice(index, 1); // remove old picture
+                            that.pics.splice(index, 1);     // remove old picture
                         }
-                        that.pics.push(url);            // replace with new one
+                        that.pics[index] = url;            // replace with new one
                         Vue.set(that, 'pics', that.pics);
                         Vue.set(that, 'uploadFinished', true);
                     }
