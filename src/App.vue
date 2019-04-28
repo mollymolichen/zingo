@@ -9,7 +9,7 @@
         </navbar>
 
         <v-content class="container">
-            <v-layout row wrap v-if="this.onApp === true">
+            <v-layout class="landing-page" row wrap v-if="this.onApp === true">
                 <v-flex>
                     <img src="./assets/Zingo.png" id="zingo-logo"/>
                     <h1>Connecting awesome travelers to awesome friends.</h1>
@@ -21,7 +21,7 @@
                 </v-flex>
             </v-layout>
 
-            <router-view></router-view>
+            <router-view class="main-container"></router-view>
         </v-content>
     </v-app>
 </div>
@@ -119,5 +119,24 @@ a {
     height: 250px;
     margin: auto;
     margin-bottom: 20px;
+}
+
+main.v-content.container .v-content__wrap {
+    height: 100%;
+}
+
+main.v-content.container .v-content__wrap .landing-page {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.landing-page .flex {
+    margin: auto;
+}
+
+main.v-content.container .v-content__wrap .preferences {
+    height: 100%;
 }
 </style>

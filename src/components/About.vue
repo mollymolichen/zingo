@@ -59,8 +59,20 @@ export default {
 .about-bkgd {
     background-color: aliceblue !important;
     border-radius: 25px !important;
-	height: 90%;
+	height: 99%;
+    width: 90%;
     margin: auto;
+}
+
+/*Customize for smaller phone screens*/
+@media only screen and (max-width: 600px) {
+    .about-bkgd {
+        background-color: aliceblue !important;
+        border-radius: 25px !important;
+        height: 50%;
+        width: 90%;
+        margin: auto;
+    }
 }
 
 .about-text{
@@ -81,11 +93,12 @@ export default {
     flex-direction: row;
     display: flex;
     background-color: aliceblue;
-    justify-content: center;
+    justify-content: space-evenly;
+    padding: 0 20px;
 }
 
 .team-photo {
-    margin: 0px 50px 10px 50px;
+    /* margin: 0px 50px 10px 50px; */
     flex-wrap: wrap;
     height: 250px;
     border-radius: 25px !important;

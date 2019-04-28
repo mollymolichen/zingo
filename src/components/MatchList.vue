@@ -1,5 +1,5 @@
 <template>
-<v-content>
+<v-content class="matches-page">
     <v-tabs centered color="pink accent-2" dark icons-and-text>
         <v-tabs-slider color="white"></v-tabs-slider>
 
@@ -41,14 +41,14 @@
     </div>
 
     <!--Tab 3: Pending guests-->
-    <div v-else-if="tab3" class="tab-wrap">
+    <div v-else-if="tab3" class="header-text tab-wrap">
         <div v-for="(obj, index) in this.pending" :key="index">
             <pending-card :guest="obj.guest" :host="user" :event="obj.event" :attendees="attendees"></pending-card>
         </div>
     </div>
 
     <!--Tab 4: Confirmed guests-->
-    <div v-else-if="tab4" class="tab-wrap">
+    <div v-else-if="tab4" class="header-text tab-wrap">
         <div v-for="(obj, index) in this.confirmed" :key="index">
             <pending-card :guest="obj.guest" :host="user" :event="obj.event" :attendees="attendees" :confirm="true"></pending-card>
         </div>
@@ -104,38 +104,10 @@ export default {
             this.tab2 = tab2;
             this.tab3 = tab3;
             this.tab4 = tab4;
-            this.getEventInfo();
-        },
-
-        async getEvents(){
-            // read events table from DB
-            let allEvents;
-            let snapshot = await eventsRef.once("value");
-            allEvents = snapshot.val();
-
-            // get events you're attending, events you're hosting (tabs 1, 2)
-            let keys = Object.keys(allEvents);
-
-            keys.forEach((key, i) => {
-                let e = allEvents[key];
-                this.$set(this.events, i, e);
-                if (e.confirmed && e.confirmed.indexOf(this.user.uuid) != -1) {
-                    this.$set(this.eventsImAttending, this.eventsImAttending.length, e);
-                }
-                if (e.host === this.user.uuid) {
-                    this.$set(this.eventsImHosting, this.eventsImHosting.length, e);
-                }
-            });
         },
 
         // TODO: split by tabs
         async getEventInfo() {
-            // clear
-            this.hosts = [];
-            this.eventsImHosting = [];
-            this.pending = [];
-            this.confirmed = [];
-
             // read events table from DB
             let allEvents;
             let snapshot = await eventsRef.once("value");
@@ -161,7 +133,7 @@ export default {
                 this.$set(this.hosts, i, hostObj);
             });
 
-            this.hosts = this.hosts.filter((host, index) => { // unique hosts only
+            this.hosts = this.hosts.filter((host, index) => {       // unique hosts only
                 return index === this.hosts.findIndex(obj => {
                     return JSON.stringify(obj) === JSON.stringify(host);
                 });
@@ -232,7 +204,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .header-text {
     margin: 30px 0px 30px 0px;
 }
@@ -240,5 +212,9 @@ export default {
 .tab-wrap {
     display: flex;
     flex-wrap: wrap !important;
+}
+
+.v-content.matches-page {
+    height: 100%;
 }
 </style>

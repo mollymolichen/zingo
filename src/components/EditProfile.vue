@@ -48,7 +48,7 @@
                                 <span>Click to add photo</span>
                             </v-avatar>
                             <v-avatar size="150px" v-ripple class="mb-3" v-else>
-                                <img :src="user.avatar1.imageURL">
+                                <img :src="user.avatar1.imageURL" alt="avatar1">
                             </v-avatar>
                         </div>
                     </image-input>
@@ -381,7 +381,7 @@ export default {
                 "Tours": "em em-scooter"
             },
 
-            // locations
+            // travel history
             allCountries: parseCities().allCountries,
             allCities: parseCities().allCities,
         };

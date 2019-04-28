@@ -85,7 +85,7 @@ export default {
 .attendingcard {
     display: flex;
     flex-direction: column;
-    margin: 20px 20px 0px 20px;
+    /* margin: 20px 20px 0px 20px; */
     width: 100%;
     margin-bottom: 20px;
 }

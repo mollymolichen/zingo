@@ -103,7 +103,7 @@ export default {
 
 <style>
 .signin {
-    height: 90%;
+    height: 70%;
     width: 90%;
     margin: auto;
     padding: 10px 10px 10px 10px;
@@ -135,8 +135,7 @@ export default {
     margin-top: 30px;
 }
 
-.preferences .v-content__wrap {
+.preferences.v-content__wrap {
     display: flex;
-    height: 1000px;
 }
 </style>
