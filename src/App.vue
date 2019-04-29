@@ -1,26 +1,8 @@
 <template>
 <div id="app">
     <v-app>
-        <navbar 
-            :user="user" 
-            :updateUser="updateUser" 
-            :setApp="setApp"
-        >
-        </navbar>
-
+        <navbar :user="user" :updateUser="updateUser"></navbar>
         <v-content class="container">
-            <v-layout class="landing-page" row wrap v-if="this.onApp === true">
-                <v-flex>
-                    <img src="./assets/Zingo.png" id="zingo-logo"/>
-                    <h1>Connecting awesome travelers to awesome friends.</h1>
-                    <div v-if="this.user === null">
-                        <router-link :to="{ name: 'SignUp', params: { user, updateUser, setApp } }">
-                            <v-btn id="signup-btn">Sign up here</v-btn>
-                        </router-link>
-                    </div>
-                </v-flex>
-            </v-layout>
-
             <router-view class="main-container"></router-view>
         </v-content>
     </v-app>
@@ -70,10 +52,6 @@ export default {
                     }
                 });           
             }
-        },
-
-        setApp(res) {
-            this.onApp = res;
         }
     }
 }

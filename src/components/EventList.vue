@@ -29,7 +29,7 @@
         </v-flex>
 
         <v-flex xs1 class="create-event">
-            <router-link :to="{ name: 'CreateEvent', params: { user, setApp } }">
+            <router-link :to="{ name: 'CreateEvent', params: { user } }">
                 <v-icon id="add">add_circle</v-icon>
             </router-link>
         </v-flex>
@@ -56,7 +56,7 @@ export default {
         EventFilter,
         EventHeader
     },
-    props: ['user', 'setApp'],
+    props: ['user'],
     firebase: {
         usersRef: usersRef,
         eventsRef: eventsRef

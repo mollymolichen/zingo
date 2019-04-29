@@ -94,7 +94,7 @@ export default {
             tab4: false
         }
     },
-    props: ['user', 'setApp'],
+    props: ['user'],
     firebase: {
         usersRef: usersRef
     },
@@ -106,7 +106,7 @@ export default {
             this.tab4 = tab4;
         },
 
-        // TODO: split by tabs
+        // TODO: split by tabs so data is immediately loaded across tabs
         async getEventInfo() {
             // read events table from DB
             let allEvents;

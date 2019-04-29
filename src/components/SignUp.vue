@@ -6,7 +6,7 @@
         <v-form v-if="pageNumber === 1" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
                 <router-link to="/">
-                    <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
+                    <v-icon class="material-icons" style="float:right">clear</v-icon>
                 </router-link>
                 <h1 style="margin-top:10px; margin-bottom:20px">Let's make your profile.</h1>
             </div>
@@ -108,7 +108,7 @@
         <v-form v-else-if="pageNumber === 2" ref="form" v-model="valid" lazy-validation>
             <div class="title2">
                 <router-link to="/">
-                    <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
+                    <v-icon class="material-icons" style="float:right">clear</v-icon>
                 </router-link>
 
                 <h1>Tell us a little about yourself!</h1>
@@ -142,7 +142,7 @@
         <v-form v-else-if="pageNumber === 3" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
                 <router-link to="/">
-                    <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
+                    <v-icon class="material-icons" style="float:right">clear</v-icon>
                 </router-link>
                 <h1 style="margin-top:10px; margin-bottom:20px">Itinerary</h1>
             </div>
@@ -199,7 +199,7 @@
         <v-form v-else-if="pageNumber === 4" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
                 <router-link to="/">
-                    <v-icon class="material-icons" style="float:right" @click="setApp2(true)">clear</v-icon>
+                    <v-icon class="material-icons" style="float:right">clear</v-icon>
                 </router-link>
                 <h1 style="margin-top:10px; margin-bottom:20px">Travel Preferences</h1>
             </div>
@@ -259,7 +259,6 @@
 /* eslint-disable */
 import Vue from "vue";
 import Firebase from "firebase";
-import Events from './Events.vue';
 import Navbar from './Navbar.vue';
 import ImageInput from './ImageInput.vue';
 import Profile from './Profile.vue';
@@ -282,7 +281,6 @@ import VueTelInput from 'vue-tel-input';
 export default {
     name: "SignUp",
     components: {
-        Events,
         ImageInput,
         Navbar,
         Profile,
@@ -455,22 +453,13 @@ export default {
         users: usersRef,
         storage: storageRef
     },
-    props: ['updateUser', 'setApp'], // removed user as a prop, seemed to fix problem of sign up
-
-    mounted() {
-        this.setApp(false);
-    },
+    props: ['updateUser'], // removed user as a prop, seemed to fix problem of sign up
 
     methods: {
         setFormData(fd, url){
             this.formData = fd;
             this.imageURL = url;
         },
-
-        setApp2(res) {
-            this.setApp(res);
-        },
-
         removeLang(item) {
             if (this.languagesSpoken){
                 this.languagesSpoken.splice(this.languagesSpoken.indexOf(item), 1);

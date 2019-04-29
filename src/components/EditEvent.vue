@@ -4,7 +4,7 @@
     <v-card class="createevent">
         <v-form ref="form" lazy-validation>
             <div style="margin-bottom: 20px">
-                <router-link :to="{ name: 'EventList', params: { user, setApp } }">
+                <router-link :to="{ name: 'EventList', params: { user } }">
                     <v-icon class="material-icons" style="float:right" @click="closeEE()">clear</v-icon>
                 </router-link>
                 <h1 style="margin-top:10px; margin-bottom:20px">Edit Your Event</h1>
@@ -173,10 +173,6 @@ export default {
         ImageInput
     },
     methods: {
-        setApp2(res) {
-            this.setApp(res);
-        },
-
         setFormData(fd, url){
             this.formData = fd;
             this.imageURL = url;
@@ -324,7 +320,7 @@ export default {
             }
         }
     },
-    props: ['event', 'user', 'setApp']
+    props: ['event', 'user']
 }
 </script>
 

@@ -137,7 +137,7 @@
         <!--Page 3-->
         <v-form v-else-if="pageNumber === 3" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
-                <router-link to="/" @click="setApp2(true)">
+                <router-link to="/">
                     <v-icon class="material-icons" style="float:right">clear</v-icon>
                 </router-link>
                 <h1 style="margin-top:10px; margin-bottom:20px">Itinerary</h1>
@@ -253,7 +253,6 @@
 /* eslint-disable */
 import Vue from "vue";
 import Firebase from "firebase";
-import Events from './Events.vue';
 import Navbar from './Navbar.vue';
 import ImageInput from './ImageInput.vue';
 import {
@@ -275,7 +274,6 @@ import router from "../router";
 export default {
     name: "EditProfile",
     components: {
-        Events,
         ImageInput,
         Navbar
     },
@@ -538,10 +536,7 @@ export default {
             });
         }
     },
-    props: ['user', 'updateUser', 'setApp'],
-    mounted() {
-        this.setApp(false);
-    }
+    props: ['user', 'updateUser']
 };
 </script>
 

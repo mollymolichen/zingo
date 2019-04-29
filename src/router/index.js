@@ -8,9 +8,9 @@ import EditEvent from '../components/EditEvent';
 import EditProfile from '../components/EditProfile';
 import EventCard from '../components/EventCard';
 import EventList from '../components/EventList';
+import Landing from '../components/Landing';
 import MatchList from '../components/MatchList';
 import Profile from '../components/Profile';
-import ProfileList from '../components/ProfileList';
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 
@@ -55,6 +55,12 @@ export default new Router({
       props: true
     },
     {
+      path: '/',
+      name: 'Landing',
+      component: Landing,
+      props: true
+    },
+    {
       path: '/matches/list',
       name: 'MatchList',
       component: MatchList,
@@ -70,12 +76,6 @@ export default new Router({
       path: '/profilecard',
       name: 'AttendingCard',
       component: AttendingCard,
-      props: true
-    },
-    {
-      path: '/profilelist',
-      name: 'ProfileList',
-      component: ProfileList,
       props: true
     },
     {

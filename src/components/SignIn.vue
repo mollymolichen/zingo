@@ -6,7 +6,7 @@
             <v-text-field id="textfield" v-model="email" :rules="emailRules" label="Email" required></v-text-field>
             <v-text-field id="textfield" v-model="password" :type="'password'" :rules="passwordRules" label="Password" required></v-text-field>
             <router-link to="/">
-                <v-btn id="btn" @click="setApp2(true)">Exit</v-btn>
+                <v-btn id="btn">Exit</v-btn>
             </router-link>
             <v-btn id="btn" @click="signIn()">Submit</v-btn>
         </v-form>
@@ -41,13 +41,9 @@ export default {
             uuid: null,
         }
     },
-    props: ['updateUser', 'setApp'],
+    props: ['updateUser'],
     computed: {},
     methods: {
-        setApp2(res) {
-            this.setApp(res);
-        },
-
         getUser(uuid) {
             let users;
             usersRef.on('value', function (snapshot) {
