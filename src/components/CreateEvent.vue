@@ -347,18 +347,18 @@ export default {
             return this.formatDate(this.date);
         },
 
-        amOrPm(){   // am by default
-            let p1 = this.time.startTime.split(":")[0];
-            let parseStartTime = parseInt(p1);
-            if (parseStartTime >= 12){
-                this.time.startTimePm = true;
-            }
-            let p2 = this.time.endTime.split(":")[0];
-            let parseEndTime = parseInt(p2);
-            if (parseEndTime >= 12){
-                this.time.endTimePm = true;
-            }
-        }
+        // amOrPm(){   // am by default
+        //     let p1 = this.time.startTime.split(":")[0];
+        //     let parseStartTime = parseInt(p1);
+        //     if (parseStartTime >= 12){
+        //         this.time.startTimePm = true;
+        //     }
+        //     let p2 = this.time.endTime.split(":")[0];
+        //     let parseEndTime = parseInt(p2);
+        //     if (parseEndTime >= 12){
+        //         this.time.endTimePm = true;
+        //     }
+        // }
     },
     props: ['user']
 }

@@ -49,7 +49,7 @@
             <h3>Categories</h3>
             <v-select class="event-type" v-model="selectedCategories" :items="categories" chips multiple style="margin: 0px 10px 0px 10px">
                 <template slot="selection" slot-scope="data">
-                    <v-chip :selected="data.selected" close class="chip--select-multi">
+                    <v-chip :selected="data.selected" close class="chip--select-multi" @input="removeCategory(data.item)">
                         {{ data.item }}
                     </v-chip>
                 </template>
@@ -110,7 +110,7 @@ export default {
                     if (!langInCommon) continue;
                 }
 
-                // TODO: location (itinerary)
+                // TODO: location (itinerary), not used for MVP since not enough events/locations
 
                 // startDate, endDate
                 let yourStartDate = this.date;
@@ -119,8 +119,16 @@ export default {
                     let eventDate = this.events[e].date;
                     if (eventDate < yourStartDate || eventDate > yourEndDate) continue;
                 }
+
+                // startTime, endTime
+                let yourStartTime = this.time.startTime;
+                let yourEndTime = this.time.endTime;
+                let eventStartTime = this.events[e].time.startTime;
+                let eventEndTime = this.events[e].time.endTime;
+                if (yourStartTime && (eventStartTime < yourStartTime)) continue;
+                if (yourEndTime && (eventEndTime > yourEndTime)) continue;
                 
-                // selectedCategories: too strict?
+                // selectedCategories
                 if (this.selectedCategories.length){
                     for (let s in this.selectedCategories){
                         let category = this.selectedCategories[s];
@@ -164,6 +172,13 @@ export default {
             if (this.languagesSpoken){
                 this.languagesSpoken.splice(this.languagesSpoken.indexOf(item), 1);
                 this.languagesSpoken = [...this.languagesSpoken];
+            }
+        },
+
+        removeCategory(item) {
+            if (this.selectedCategories){
+                this.selectedCategories.splice(this.selectedCategories.indexOf(item), 1);
+                this.selectedCategories = [...this.selectedCategories];
             }
         }
     },
