@@ -1,7 +1,7 @@
 <template>
 <v-content class="eventcard">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
-    <v-card class="event">
+    <v-card class="event" v-if="!hide">
         <v-layout row wrap>
             <!--Profile picture-->
             <v-flex xs3>
@@ -13,7 +13,7 @@
                 <h1>{{host.firstName}}, {{host.age}} {{getFlag}}</h1>
                 <h3>{{host.universityOrOccupation}}</h3>
                 <v-icon v-if="!myOwnEvent" @click="expressInterest()" class="icon" :disabled="alreadyOnGuestList">favorite</v-icon>
-                <v-icon v-if="!myOwnEvent" @click="interest(false, event)" class="icon">cancel</v-icon>
+                <v-icon v-if="!myOwnEvent" @click="hideCard(true)" class="icon">cancel</v-icon>
             </v-flex>
 
             <!--Event description-->
@@ -87,7 +87,8 @@ export default {
                 "Outdoors": "em em-partly_sunny",
                 "Sports": "em em-basketball",
                 "Tours": "em em-scooter"
-            }
+            },
+            hide: false
         }
     },
     methods: {
@@ -131,7 +132,12 @@ export default {
 				let code = getCountryCode(this.host.hometown.country);
 				return [code].map(flag)[0];
 			}
-		}
+		},
+
+        hideCard(res) {
+            this.hide = res;
+            return res;
+        }
     },
     firebase: {
         eventsRef: eventsRef
