@@ -37,6 +37,7 @@
                 <br>
                 <input type="file" @change="onFileChanged"/>
                 <v-btn @click="onUpload(true, -1, false)">Upload</v-btn>
+                <v-icon v-if="uploadFinishedPP" style="color:green">check_circle</v-icon>
             </div>
 
             <h3>Upload up to three more photos of yourself.</h3>
@@ -57,6 +58,7 @@
                     <v-slide-x-transition>
                         <div>
                             <v-btn @click="onUpload(false, 0, true)" v-if="avatar1">Upload</v-btn>
+                            <v-icon v-if="uploadFinished1" style="color:green">check_circle</v-icon>
                         </div>
                     </v-slide-x-transition>
                 </div>
@@ -75,6 +77,7 @@
                     <v-slide-x-transition>
                         <div>
                             <v-btn @click="onUpload(false, 1, true)" v-if="avatar2">Upload</v-btn>
+                            <v-icon v-if="uploadFinished2" style="color:green">check_circle</v-icon>
                         </div>
                     </v-slide-x-transition>
                 </div>
@@ -93,6 +96,7 @@
                     <v-slide-x-transition>
                         <div style="display:flex">
                             <v-btn @click="onUpload(false, 2, true)" v-if="avatar3">Upload</v-btn>
+                            <v-icon v-if="uploadFinished3" style="color:green">check_circle</v-icon>
                         </div>
                     </v-slide-x-transition>
                 </div>
@@ -347,7 +351,10 @@ export default {
             // picture upload
             selectedFile: null,
             propicUrl: "https://loremflickr.com/300/200/flamingo",
-            uploadFinished: false,
+            uploadFinishedPP: false,
+            uploadFinished1: false,
+            uploadFinished2: false,
+            uploadFinished3: false,
             pics: [],
 
             // preferences
@@ -585,16 +592,21 @@ export default {
                     var url = await uploadTask.snapshot.ref.getDownloadURL();
                     if (profilePic) {
                         Vue.set(that, 'propicUrl', url);
+                        Vue.set(that, 'uploadFinishedPP', true);
                     } else if (index !== -1 && index < 3) {
                         if (!that.pics){
                             that.pics = [];
-                        } else {
-                            that.pics.splice(index, 1);
                         }
                         that.pics[index] = url; 
                         Vue.set(that, 'pics', that.pics);
+                        if (index === 0){
+                            Vue.set(that, 'uploadFinished1', true);
+                        } else if (index === 1){
+                            Vue.set(that, 'uploadFinished2', true);
+                        } else {
+                            Vue.set(that, 'uploadFinished3', true);
+                        }
                     }
-                    Vue.set(that, 'uploadFinished', true);
                 }
             );
         },

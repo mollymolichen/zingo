@@ -52,6 +52,7 @@
                     <v-slide-x-transition>
                         <div>
                             <v-btn @click="onUpload(0)" v-if="event.avatar1">Upload</v-btn>
+                            <v-icon v-if="uploadFinished1" style="color:green">check_circle</v-icon>
                         </div>
                     </v-slide-x-transition>
                 </div>
@@ -70,6 +71,7 @@
                     <v-slide-x-transition>
                         <div>
                             <v-btn @click="onUpload(1)" v-if="event.avatar2">Upload</v-btn>
+                            <v-icon v-if="uploadFinished2" style="color:green">check_circle</v-icon>
                         </div>
                     </v-slide-x-transition>
                 </div>
@@ -88,6 +90,7 @@
                     <v-slide-x-transition>
                         <div style="display:flex">
                             <v-btn @click="onUpload(2)" v-if="event.avatar3">Upload</v-btn>
+                            <v-icon v-if="uploadFinished3" style="color:green">check_circle</v-icon>
                         </div>
                     </v-slide-x-transition>
                 </div>
@@ -129,7 +132,9 @@ export default {
 
             // event picture upload
             selectedFile: null,
-            uploadFinished: false,
+            uploadFinished1: false,
+            uploadFinished2: false,
+            uploadFinished3: false,
 
             categories: [
                 "🎨 Art",
@@ -241,13 +246,16 @@ export default {
                     if (index !== -1 && index < 3) {
                         if (!that.pics){
                             that.pics = [];
-                        } 
-                        else  {
-                            that.pics.splice(index, 1);     // remove old picture
                         }
                         that.pics[index] = url;             // replace with new one
                         Vue.set(that, 'pics', that.pics);
-                        Vue.set(that2, 'uploadFinished', true);
+                        if (index === 0){
+                            Vue.set(that2, 'uploadFinished1', true);
+                        } else if (index === 1){
+                            Vue.set(that2, 'uploadFinished2', true);
+                        } else {
+                            Vue.set(that2, 'uploadFinished3', true);
+                        }
                     }
                 }
             );

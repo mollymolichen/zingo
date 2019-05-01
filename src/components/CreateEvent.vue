@@ -68,6 +68,7 @@
                     <v-slide-x-transition>
                         <div>
                             <v-btn @click="onUpload(0)" v-if="avatar1">Upload</v-btn>
+                            <v-icon v-if="uploadFinished1" style="color:green">check_circle</v-icon>
                         </div>
                     </v-slide-x-transition>
                 </div>
@@ -86,6 +87,7 @@
                     <v-slide-x-transition>
                         <div>
                             <v-btn @click="onUpload(1)" v-if="avatar2">Upload</v-btn>
+                            <v-icon v-if="uploadFinished2" style="color:green">check_circle</v-icon>
                         </div>
                     </v-slide-x-transition>
                 </div>
@@ -104,6 +106,7 @@
                     <v-slide-x-transition>
                         <div style="display:flex">
                             <v-btn @click="onUpload(2)" v-if="avatar3">Upload</v-btn>
+                            <v-icon v-if="uploadFinished3" style="color:green">check_circle</v-icon>
                         </div>
                     </v-slide-x-transition>
                 </div>
@@ -157,7 +160,9 @@ export default {
 
             // event picture upload
             selectedFile: null,
-            uploadFinished: false,
+            uploadFinished1: false,
+            uploadFinished2: false,
+            uploadFinished3: false,
             pics: [],
             avatar1: false,
             avatar2: false,
@@ -280,12 +285,16 @@ export default {
                     if (index !== -1 && index < 3) {
                         if (!that.pics) {
                             that.pics = [];
-                        } else {
-                            that.pics.splice(index, 1);     // remove old picture
                         }
-                        that.pics[index] = url;            // replace with new one
+                        that.pics[index] = url;                 
                         Vue.set(that, 'pics', that.pics);
-                        Vue.set(that, 'uploadFinished', true);
+                        if (index === 0){
+                            Vue.set(that, 'uploadFinished1', true);
+                        } else if (index === 1){
+                            Vue.set(that, 'uploadFinished2', true);
+                        } else {
+                            Vue.set(that, 'uploadFinished3', true);
+                        }
                     }
                 }
             );
@@ -345,20 +354,7 @@ export default {
     computed: {
         computedDateFormatted() {
             return this.formatDate(this.date);
-        },
-
-        // amOrPm(){   // am by default
-        //     let p1 = this.time.startTime.split(":")[0];
-        //     let parseStartTime = parseInt(p1);
-        //     if (parseStartTime >= 12){
-        //         this.time.startTimePm = true;
-        //     }
-        //     let p2 = this.time.endTime.split(":")[0];
-        //     let parseEndTime = parseInt(p2);
-        //     if (parseEndTime >= 12){
-        //         this.time.endTimePm = true;
-        //     }
-        // }
+        }
     },
     props: ['user']
 }
@@ -401,10 +397,6 @@ ul {
 
 .checkboxes {
     margin-bottom: 50px;
-}
-
-#green {
-    color: green;
 }
 
 .oval {

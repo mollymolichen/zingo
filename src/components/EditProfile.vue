@@ -55,6 +55,7 @@
                     <v-slide-x-transition>
                         <div>
                             <v-btn @click="onUpload(false, 0, true)" v-if="user.avatar1">Upload</v-btn>
+                            <v-icon v-if="uploadFinished1" style="color:green">check_circle</v-icon>
                         </div>
                     </v-slide-x-transition>
                 </div>
@@ -73,6 +74,7 @@
                     <v-slide-x-transition>
                         <div>
                             <v-btn @click="onUpload(false, 1, true)" v-if="user.avatar2">Upload</v-btn>
+                            <v-icon v-if="this.uploadFinished2" style="color:green">check_circle</v-icon>
                         </div>
                     </v-slide-x-transition>
                 </div>
@@ -91,6 +93,7 @@
                     <v-slide-x-transition>
                         <div style="display:flex">
                             <v-btn @click="onUpload(false, 2, true)" v-if="user.avatar3">Upload</v-btn>
+                            <v-icon v-if="uploadFinished3" style="color:green">check_circle</v-icon>
                         </div>
                     </v-slide-x-transition>
                 </div>
@@ -310,9 +313,12 @@ export default {
             ],
             states: states,
 
-            // profile picture upload
+            // picture upload
             selectedFile: null,
-            uploadFinished: false,
+            uploadFinishedPP: false,
+            uploadFinished1: false,
+            uploadFinished2: false,
+            uploadFinished3: false,
 
             // preferences
             transportation: [
@@ -470,16 +476,21 @@ export default {
                     var url = await uploadTask.snapshot.ref.getDownloadURL();
                     if (profilePic) {
                         Vue.set(that, 'propicUrl', url);
+                        Vue.set(that2, 'uploadFinishedPP', true);
                     } else if (index !== -1 && index < 3) {
                         if (!that.pics) {
                             that.pics = [];
-                        } else {                                // no more than 3 pics
-                            that.pics.splice(index, 1);         // remove old picture
                         }
-                        that.pics[index] = url;                 // replace with new one
+                        that.pics[index] = url;                 
                         Vue.set(that, 'pics', that.pics);
+                        if (index === 0){
+                            Vue.set(that2, 'uploadFinished1', true);
+                        } else if (index === 1){
+                            Vue.set(that2, 'uploadFinished2', true);
+                        } else {
+                            Vue.set(that2, 'uploadFinished3', true);
+                        }
                     }
-                    Vue.set(that2, 'uploadFinished', true);
                 }
             );
         },
