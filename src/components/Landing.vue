@@ -13,30 +13,15 @@
 </template>
 
 <script>
+/* eslint-disable */
+import router from "../router";
+
 export default {
 	data() {
         return {
             user: null
         }
     },
-	methods: {
-		updateUser(newUser) {
-            this.user = newUser;
-            if (newUser !== null){          
-                router.push({ 
-                    name: 'Profile', 
-                    params: { 
-                        user: newUser, 
-                        updateUser: this.updateUser,
-                        myProfile: true
-                    }
-                });           
-            }
-        }
-	}
+    props: ['updateUser']
 }
 </script>
-
-<style>
-
-</style>

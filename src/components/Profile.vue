@@ -112,8 +112,18 @@
 		</v-layout>
 	</div>
 
+	<!--Add more info if didn't fill out preferences page / itinerary yet-->
+	<div id="add-btn-div" v-if="myProfile && !user.selectedActivities && 
+	!user.selectedTransportation && !user.selectedAccommodation && !user.selectedLifestyle">
+		<h1>Add your travel preferences so you can meet other travelers just like you.</h1>
+		<router-link :to="{ name: 'EditProfile', params: { user, updateUser } }">
+			<v-icon @click="display = true" id="edit-btn">add_circle</v-icon>
+		</router-link>
+	</div>
+
 	<!--Travel prefs-->
-    <div class="travel-prefs" style="margin-top:20px">
+    <div class="travel-prefs" style="margin-top:20px" v-if="user.selectedActivities || 
+	user.selectedTransportation || user.selectedAccommodation || user.selectedLifestyle">
 		<h1 style="margin-left: 20px">Travel Preferences</h1>    
 		<v-layout row wrap style="margin: 0px 10px 0px 10px">
 			<v-flex xs3>
@@ -263,6 +273,14 @@ export default {
 	justify-content: flex-end;
 	margin-right: 50px;
 	width: 33%;
+}
+
+#add-btn-div {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-top: 20px;
+	width: 100%;
 }
 
 .photos {

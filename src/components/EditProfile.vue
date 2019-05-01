@@ -525,7 +525,7 @@ export default {
             let newItinerary = {
                 id: this.user.itinerary.length + 1,
                 city: null,
-                startDate: null,        // or new Date?
+                startDate: null,        
                 endDate: null
             }
             this.$set(this.user.itinerary, this.user.itinerary.length, newItinerary);

@@ -3,7 +3,7 @@
     <v-app>
         <navbar :user="user" :updateUser="updateUser"></navbar>
         <v-content class="container">
-            <router-view class="main-container"></router-view>
+            <router-view class="main-container" :updateUser="updateUser"></router-view>
         </v-content>
     </v-app>
 </div>

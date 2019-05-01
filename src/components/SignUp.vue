@@ -139,11 +139,11 @@
             <!--Arrows-->
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
             <span class="pagenumbers">{{pageNumber}} / 4</span>
-            <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
+            <v-icon class="arrows" @click="registerUser()" :disabled="!valid">chevron_right</v-icon>
         </v-form>
 
         <!--Page 3-->
-        <v-form v-else-if="pageNumber === 3" ref="form" v-model="valid" lazy-validation>
+        <!-- <v-form v-else-if="pageNumber === 3" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
                 <router-link to="/">
                     <v-icon class="material-icons" style="float:right">clear</v-icon>
@@ -159,48 +159,48 @@
             <div style="height: 675px">
                 <ul>
                     <div>
-                        <li class="itinerary" v-for="item in itinerary" :key="item.id">
+                        <li class="itinerary" v-for="item in itinerary" :key="item.id"> -->
                             <!--Location-->
-                            <v-autocomplete :items="allCities" v-model="item.city" label="City name" chips style="margin: 0px 10px 0px 10px">
+                            <!-- <v-autocomplete :items="allCities" v-model="item.city" label="City name" chips style="margin: 0px 10px 0px 10px">
                                 <template slot="selection" slot-scope="data">
                                     <v-chip :selected="data.selected" close class="chip--select-multi" @input="removeCity(item)">
                                         {{ data.item }}
                                     </v-chip>
                                 </template>
-                            </v-autocomplete>
+                            </v-autocomplete> -->
 
                             <!--Start date-->
-                            <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
+                            <!-- <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
                                 <template v-slot:activator="{ on }">
                                     <v-text-field v-model="item.startDate" label="Date" hint="Start date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="startDate = parseDate(startDateFormatted)" v-on="on"></v-text-field>
-                                </template>
+                                </template> -->
                                 <!-- <v-date-picker v-model="startDate" no-title @input="menu1 = false"></v-date-picker> -->
-                            </v-menu>
+                            <!-- </v-menu> -->
 
                             <!--End date-->
-                            <v-menu ref="menu2" v-model="menu2" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
+                            <!-- <v-menu ref="menu2" v-model="menu2" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
                                 <template v-slot:activator="{ on }">
                                     <v-text-field v-model="item.endDate" label="Date" hint="End date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="endDate = parseDate(endDateFormatted)" v-on="on"></v-text-field>
-                                </template>
+                                </template> -->
                                 <!-- <v-date-picker v-model="endDate" no-title @input="menu2 = false"></v-date-picker> -->
-                            </v-menu>
+                            <!-- </v-menu> -->
 
                             <!--Remove-->
-                            <v-icon v-if="itinerary.length > 1" style="float:right" @click="removeItinerary(city)">remove_circle
+                            <!-- <v-icon v-if="itinerary.length > 1" style="float:right" @click="removeItinerary(city)">remove_circle
                             </v-icon>
                         </li>
                     </div>
                 </ul>
-            </div>
+            </div> -->
 
             <!--Arrows-->
-            <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
+            <!-- <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
             <span class="pagenumbers">{{pageNumber}} / 4</span>
             <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
-        </v-form>
+        </v-form> -->
 
         <!--Page 4-->
-        <v-form v-else-if="pageNumber === 4" ref="form" v-model="valid" lazy-validation>
+        <!--<v-form v-else-if="pageNumber === 4" ref="form" v-model="valid" lazy-validation>
             <div style="margin-bottom: 20px">
                 <router-link to="/">
                     <v-icon class="material-icons" style="float:right">clear</v-icon>
@@ -248,13 +248,13 @@
                         </span>
                     </template>
                 </v-select>
-            </div>
+            </div>-->
 
             <!--Arrows-->
-            <v-icon class="arrows" @click="back()">chevron_left</v-icon>
+            <!-- <v-icon class="arrows" @click="back()">chevron_left</v-icon>
             <span class="pagenumbers">{{pageNumber}} / 4</span>
             <v-icon class="arrows" @click="registerUser()">chevron_right</v-icon>
-        </v-form>
+        </v-form> -->
     </v-card>
 </v-content>
 </template>
@@ -358,7 +358,7 @@ export default {
             pics: [],
 
             // preferences
-            transportation: [
+            /*transportation: [
                 "🚶‍♂️ Walking",
                 "🚖 Taxi",
                 "🚘 Car",
@@ -428,7 +428,7 @@ export default {
                 endTime: "",
                 startTimePm: false,
                 endTimePm: false
-            },
+            },*/
             
             itinerary: [{
                 id: 1,
@@ -436,9 +436,9 @@ export default {
                 startDate: this.formatDate(new Date().toISOString().substr(0, 10)),
                 endDate: this.formatDate(new Date().toISOString().substr(0, 10))
             }],
-            menu1: false,
-            menu2: false,
- 
+            // menu1: false,
+            // menu2: false,
+        
             // photos
             avatar1: false,
             avatar2: false,
@@ -499,7 +499,7 @@ export default {
         },
 
         next() {
-            if (this.pageNumber < 5) {
+            if (this.pageNumber < 3) {
                 this.pageNumber += 1;
             } else {
                 this.pageNumber = 1;
@@ -630,19 +630,19 @@ export default {
                     avatar1: this.avatar1,
                     avatar2: this.avatar2,
                     avatar3: this.avatar3,
-                    selectedTransportation: this.selectedTransportation,
-                    selectedAccommodation: this.selectedAccommodation,
-                    selectedLifestyle: this.selectedLifestyle,
-                    selectedActivities: this.selectedActivities,
+                    // selectedTransportation: this.selectedTransportation,
+                    // selectedAccommodation: this.selectedAccommodation,
+                    // selectedLifestyle: this.selectedLifestyle,
+                    // selectedActivities: this.selectedActivities,
                     crazyFact: this.crazyFact,
                     midnightSnack: this.midnightSnack,
                     vacation: this.vacation,
                     karaokeSong: this.karaokeSong,
-                    itinerary: this.itinerary               // need to insert dates
+                    itinerary: this.itinerary              
                 };
 
                 this.newUser = newUser;
-                usersRef.child(this.uuid).set(newUser);     // switched order
+                usersRef.child(this.uuid).set(newUser);     
                 this.updateUser(newUser);
 
             }
