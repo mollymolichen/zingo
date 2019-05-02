@@ -5,10 +5,12 @@
             <!--Event picture-->
             <v-flex xs3>
 				<v-avatar class="event-profile-pic">
-					<img :src="event.pics[0]">
+					<img v-if="event.pics" :src="event.pics[0]">
 				</v-avatar>	
-                <h2>{{event.title}}</h2>
-                <h4>{{event.dateFormatted}}, {{event.time.startTime}} - {{event.time.endTime}}</h4>
+                <h2 v-if="event.title">{{event.title}}</h2>
+                <h4 v-if="event.dateFormatted && event.time.startTime && event.time.endTime">
+                    {{event.dateFormatted}}, {{event.time.startTime}} - {{event.time.endTime}}
+                </h4>
             </v-flex>
 
 			<!--Hosting-->
@@ -48,10 +50,6 @@ export default {
     props: ['user', 'event'],
     data() {
         return {
-            learnMore: false,
-            attending: false,
-            notAttending: true,
-            favorites: [],
             myProfile: false,
             events: [],
             interestedPics: [],

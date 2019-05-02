@@ -104,7 +104,7 @@
 
             <!--Arrows-->
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
-            <span class="pagenumbers">{{pageNumber}} / 4</span>
+            <span class="pagenumbers">{{pageNumber}} / 2</span>
             <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
         </v-form>
 
@@ -138,123 +138,9 @@
 
             <!--Arrows-->
             <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
-            <span class="pagenumbers">{{pageNumber}} / 4</span>
+            <span class="pagenumbers">{{pageNumber}} / 2</span>
             <v-icon class="arrows" @click="registerUser()" :disabled="!valid">chevron_right</v-icon>
         </v-form>
-
-        <!--Page 3-->
-        <!-- <v-form v-else-if="pageNumber === 3" ref="form" v-model="valid" lazy-validation>
-            <div style="margin-bottom: 20px">
-                <router-link to="/">
-                    <v-icon class="material-icons" style="float:right">clear</v-icon>
-                </router-link>
-                <h1 style="margin-top:10px; margin-bottom:20px">Itinerary</h1>
-            </div>
-
-            <h3>What are your current travel plans?</h3><br>
-            <div id="add-btn">
-                <v-icon style="float:right;" @click="addItinerary()">add_circle</v-icon>
-            </div>
-
-            <div style="height: 675px">
-                <ul>
-                    <div>
-                        <li class="itinerary" v-for="item in itinerary" :key="item.id"> -->
-                            <!--Location-->
-                            <!-- <v-autocomplete :items="allCities" v-model="item.city" label="City name" chips style="margin: 0px 10px 0px 10px">
-                                <template slot="selection" slot-scope="data">
-                                    <v-chip :selected="data.selected" close class="chip--select-multi" @input="removeCity(item)">
-                                        {{ data.item }}
-                                    </v-chip>
-                                </template>
-                            </v-autocomplete> -->
-
-                            <!--Start date-->
-                            <!-- <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
-                                <template v-slot:activator="{ on }">
-                                    <v-text-field v-model="item.startDate" label="Date" hint="Start date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="startDate = parseDate(startDateFormatted)" v-on="on"></v-text-field>
-                                </template> -->
-                                <!-- <v-date-picker v-model="startDate" no-title @input="menu1 = false"></v-date-picker> -->
-                            <!-- </v-menu> -->
-
-                            <!--End date-->
-                            <!-- <v-menu ref="menu2" v-model="menu2" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width>
-                                <template v-slot:activator="{ on }">
-                                    <v-text-field v-model="item.endDate" label="Date" hint="End date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="endDate = parseDate(endDateFormatted)" v-on="on"></v-text-field>
-                                </template> -->
-                                <!-- <v-date-picker v-model="endDate" no-title @input="menu2 = false"></v-date-picker> -->
-                            <!-- </v-menu> -->
-
-                            <!--Remove-->
-                            <!-- <v-icon v-if="itinerary.length > 1" style="float:right" @click="removeItinerary(city)">remove_circle
-                            </v-icon>
-                        </li>
-                    </div>
-                </ul>
-            </div> -->
-
-            <!--Arrows-->
-            <!-- <v-icon class="arrows" @click="back()" :disabled="!valid">chevron_left</v-icon>
-            <span class="pagenumbers">{{pageNumber}} / 4</span>
-            <v-icon class="arrows" @click="next()" :disabled="!valid">chevron_right</v-icon>
-        </v-form> -->
-
-        <!--Page 4-->
-        <!--<v-form v-else-if="pageNumber === 4" ref="form" v-model="valid" lazy-validation>
-            <div style="margin-bottom: 20px">
-                <router-link to="/">
-                    <v-icon class="material-icons" style="float:right">clear</v-icon>
-                </router-link>
-                <h1 style="margin-top:10px; margin-bottom:20px">Travel Preferences</h1>
-            </div>
-
-            <div style="height: 750px">
-                <h2 id="prefs">Favorite Activities</h2>
-                <v-select class="fav-activities" v-model="selectedActivities" :items="activities" multiple persistent-hint>
-                    <template slot="selection" slot-scope="data">
-                        <span class="round-chip">
-                            <i style="margin-right: 10px" :class=emoji[data.item]></i>
-                            {{ data.item }}
-                        </span>
-                    </template>
-                </v-select>
-
-                <h2 id="prefs">Transportation</h2>
-                <v-select class="fav-activities" v-model="selectedTransportation" :items="transportation" multiple persistent-hint>
-                    <template slot="selection" slot-scope="data">
-                        <span class="round-chip">
-                            <i style="margin-right: 10px" :class=emoji[data.item]></i>
-                            {{ data.item }}
-                        </span>
-                    </template>
-                </v-select>
-                
-                <h2 id="prefs">Accommodation</h2>
-                <v-select class="fav-activities" v-model="selectedAccommodation" :items="accommodation" multiple persistent-hint>
-                    <template slot="selection" slot-scope="data">
-                        <span class="round-chip">
-                            <i style="margin-right: 10px" :class=emoji[data.item]></i>
-                            {{ data.item }}
-                        </span>
-                    </template>
-                </v-select>
-
-                <h2 id="prefs">Lifestyle</h2>
-                <v-select class="fav-activities" v-model="selectedLifestyle" :items="lifestyle" multiple persistent-hint>
-                    <template slot="selection" slot-scope="data">
-                        <span class="round-chip">
-                            <i style="margin-right: 10px" :class=emoji[data.item]></i>
-                            {{ data.item }}
-                        </span>
-                    </template>
-                </v-select>
-            </div>-->
-
-            <!--Arrows-->
-            <!-- <v-icon class="arrows" @click="back()">chevron_left</v-icon>
-            <span class="pagenumbers">{{pageNumber}} / 4</span>
-            <v-icon class="arrows" @click="registerUser()">chevron_right</v-icon>
-        </v-form> -->
     </v-card>
 </v-content>
 </template>

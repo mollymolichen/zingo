@@ -72,9 +72,6 @@ export default {
     data() {
         return {
             learnMore: false,
-            attending: false,
-            notAttending: true,
-            favorites: [],
             myProfile: false,
             events: [],
             emoji: {

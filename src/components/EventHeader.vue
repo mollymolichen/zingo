@@ -3,7 +3,7 @@
     <v-layout row wrap>
         <v-flex xs4>
             <div class="event-header">
-                <h1 v-if="numEvents != 1">{{numEvents}} Events</h1>
+                <h1 v-if="numEvents !== 1">{{numEvents}} Events</h1>
                 <h1 v-else>{{numEvents}} Event</h1>
             </div>
         </v-flex>

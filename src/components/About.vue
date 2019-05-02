@@ -8,8 +8,8 @@
                 </div>
                 <span class="pg1">We're working toward making solo-traveling a breeze.</span>
                 <span class="pg1">As solo-travelers ourselves, we know how important freedom is when you travel.</span>
-                <span class="pg1">We know it can be fun to spontaneously meet up with new friends in new cities. We agree.</span>
-                <span class="pg1">Use Weekendr to meet up with friends just like you who love to adventure.</span>
+                <span class="pg1">We know it can be fun to spontaneously meet up with new friends in new cities.</span>
+                <span class="pg1">Use Zingo to meet up with friends just like you who love to adventure.</span>
             </v-flex>
         </div>
 
@@ -19,17 +19,17 @@
             </div>
             <div class="team">
                 <div>
-                    <img src="https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/people%2Ftim.png?alt=media&token=29c910c6-3d66-4e34-a3eb-26aa867c44a3" class="team-photo"/>
+                    <img src="../assets/tim.jpg" class="team-photo"/>
                     <h2>Tim Skapek</h2>
                     <h3>Project Manager</h3>
                 </div>
                 <div>
-                    <img src="https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/people%2Fmolly.jpg?alt=media&token=b90ed99b-b5d7-4113-a4ad-e23b7283713e" class="team-photo"/>
+                    <img src="../assets/molly.jpg" class="team-photo"/>
                     <h2>Molly Chen</h2>
                     <h3>Lead Developer</h3>
                 </div>
                 <div>
-                <img src="https://firebasestorage.googleapis.com/v0/b/the-weekendr.appspot.com/o/people%2Falexandra.jpg?alt=media&token=e425c9b6-ad7c-4811-9c90-fbcf00861b20" class="team-photo"/>
+                <img src="../assets/alexandra.jpg" class="team-photo"/>
                 <h2>Alexandra Barr</h2>
                 <h3>Business Lead</h3>
                 </div>

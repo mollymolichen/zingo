@@ -171,6 +171,13 @@
 			</v-flex>
 		</v-layout>
 	</div>
+
+	<!--Delete account-->
+	<div>
+		<router-link to="/">
+			<v-btn v-if="myProfile" id="delete-account" @click="deleteAccount()">Delete Account</v-btn>
+		</router-link>
+	</div>
 </v-content>
 </template>
 
@@ -180,6 +187,11 @@ import flag from 'country-code-emoji';
 import {
 	getCountryCode
 } from "../assets/countryCodes.js";
+import {
+	authRef,
+	usersRef,
+	eventsRef
+} from "../database.js";
 
 export default {
     name: 'Profile',
@@ -190,6 +202,11 @@ export default {
 			display: false
         }
 	},
+	firebase: {
+		authRef: authRef,
+		usersRef: usersRef,
+		eventsRef: eventsRef
+	},
 	computed: {
 		getFlag(){
 			if (this.user.hometown.country){
@@ -199,6 +216,55 @@ export default {
 				}
 				return [code].map(flag)[0];
 			}
+		}
+	},
+	methods: {
+		// TODO: connect with modal/popup that says "Are you sure you want to delete your account?"
+		deleteAccount() {
+			// delete from DB
+			this.removeFromEvents();
+			usersRef.child(this.user.uuid).remove();
+			let user = authRef.currentUser;
+
+			// delete from Authentication
+			user.delete().then(function() {
+				console.log("User deleted.");
+			}).catch(function(error) {
+				console.log("Error occurred.");
+			});
+		},
+
+		async removeFromEvents(){
+			let allEvents;
+            let snapshot = await eventsRef.once("value");
+			allEvents = snapshot.val();
+			
+            let keys = Object.keys(allEvents);
+            keys.forEach((key, i) => {
+				let e = allEvents[key];
+				
+				// delete events you're hosting
+				if (e.host === this.user.uuid) {
+					eventsRef.child(e.eid).remove();	
+				} 
+				// remove yourself from RSVPs
+				else {
+					let index1 = e.confirmed ? e.confirmed.indexOf(this.user.uuid) : -1;
+					if (index1 !== -1) {
+						e.confirmed.splice(index1, 1);
+						eventsRef.child(e.eid).update({
+							confirmed: e.confirmed
+						});
+					}
+					let index2 = e.pending ? e.pending.indexOf(this.user.uuid) : -1;
+					if (index2 !== -1) {
+						e.pending.splice(index2, 1);
+						eventsRef.child(e.eid).update({
+							pending: e.pending
+						});
+					}
+				}
+			});
 		}
 	}
 }
@@ -323,5 +389,9 @@ ul, li {
 #about-me {
 	text-align: left; 
 	margin: 0px 10px 10px 10px;
+}
+
+#delete-account {
+	margin-bottom: 40px;
 }
 </style>
