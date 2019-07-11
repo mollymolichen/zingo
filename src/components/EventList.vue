@@ -18,12 +18,12 @@
         <v-flex xs12>
             <div v-if="filterApplied">
                 <div v-for="(obj, index) in this.filtered" :key="index">
-                    <event-card :event="obj" :user="user" :host="allUsers[obj.host]"></event-card>
+                    <event-card :event="obj" :user="user" :host="allUsers[obj.host]" :messageMap="messageMap"></event-card>
                 </div>
             </div>
             <div v-else>
                 <div v-for="(obj, index) in this.events" :key="index">
-                    <event-card :event="obj" :user="user" :host="allUsers[obj.host]"></event-card>
+                    <event-card :event="obj" :user="user" :host="allUsers[obj.host]" :messageMap="messageMap"></event-card>
                 </div>
             </div>
         </v-flex>
@@ -44,7 +44,8 @@ import EventFilter from "./EventFilter";
 import EventHeader from "./EventHeader";
 import {
     usersRef,
-    eventsRef
+    eventsRef,
+    messagesRef
 } from "../database.js";
 import {
     allLangs
@@ -59,12 +60,15 @@ export default {
     props: ['user'],
     firebase: {
         usersRef: usersRef,
-        eventsRef: eventsRef
+        eventsRef: eventsRef,
+        messagesRef: messagesRef   
     },
     methods: {
+        // TODO: change return type (from Promise to obj) instead of just setting global variable
+        // TODO: why is this once, not on?
         async getEvents(direction) {
-            // get list of events from db
             this.events = [];
+            // get list of events from db
             let snapshot = await eventsRef.once("value");
             let allEvents = snapshot.val();
             let keys = Object.keys(allEvents);
@@ -79,6 +83,28 @@ export default {
 
             // sort by date
             this.sortEventsByDate(this.events, direction);
+        },
+
+        async getMessages(){
+            // get list of all message info from db
+            let snapshot = await messagesRef.once("value");
+            let allMessages = snapshot.val();
+            let keys = Object.keys(allMessages);
+            keys.forEach((key, i) => {
+                let m = allMessages[key];
+                this.$set(this.messages, i, m);
+            });
+            console.log("Log of all messages from DB: ", this.messages);
+
+            // create map w/ key: [userID, hostID], value: messageList b/w userID and hostID
+            // for O(n) lookup time complexity in EventCard.vue's parseMessages()
+            // map allows for any type of key, whereas obj only allows string and symbol
+            let messageMap = new Map();
+            for (let m in this.messages){
+                messageMap.set(this.messages[m].participants, this.messages[m].messageList);
+            }
+            this.messageMap = messageMap;
+            // return messageMap;
         },
 
         setFilterApplied(res) {
@@ -117,16 +143,21 @@ export default {
             }
         }
     },
+
     created() {
         this.getEvents("asc");      // sort ascending by default
+        // this.getMessages();      // not being called after getEvents
     },
+
     data() {
         return {
             interested: true,
             events: [],
             filtered: [],
             filterApplied: false,
-            allUsers: null
+            allUsers: null,
+            messages: [],
+            messageMap: this.getMessages()
         }
     }
 }

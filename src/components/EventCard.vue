@@ -13,7 +13,28 @@
                 <h1>{{host.firstName}}, {{host.age}} {{getFlag}}</h1>
                 <h3>{{host.universityOrOccupation}}</h3>
                 <v-icon v-if="!myOwnEvent" @click="expressInterest()" class="icon" :disabled="alreadyOnGuestList">favorite</v-icon>
+                <v-icon v-if="!myOwnEvent" @click="openChat()" class="icon">chat_bubble</v-icon>
                 <v-icon v-if="!myOwnEvent" @click="hideCard(true)" class="icon">cancel</v-icon>
+
+                <!--If chat activated-->
+                <beautiful-chat
+                    :participants="participants"
+                    :titleImageUrl="titleImageUrl"
+                    :onMessageWasSent="onMessageWasSent"
+                    :messageList="messageList"
+                    :newMessagesCount="newMessagesCount"
+                    :isOpen="isChatOpen"
+                    :close="closeChat"
+                    :icons="icons"
+                    :open="openChat"
+                    :showEmoji="true"
+                    :showFile="true"
+                    :showTypingIndicator="showTypingIndicator"
+                    :colors="colors"
+                    :alwaysScrollToBottom="alwaysScrollToBottom"
+                    :messageStyling="messageStyling"
+                    @onType="handleOnType"
+                    @edit="editMessage" />
             </v-flex>
 
             <!--Event description-->
@@ -30,7 +51,7 @@
                     <v-layout v-for="p in event.pics" :key="p">
                         <v-flex>
                             <v-img :src="p" class="picture"></v-img>
-                        </v-flex>                        
+                        </v-flex>
                     </v-layout>
                 </div>
 
@@ -59,16 +80,21 @@
 <script>
 /* eslint-disable */
 import {
-    eventsRef
+    eventsRef,
+    messagesRef
 } from "../database.js";
 import {
-	getCountryCode
+    getCountryCode
 } from "../assets/countryCodes.js";
 import flag from 'country-code-emoji';
+import CloseIcon from 'vue-beautiful-chat/src/assets/close-icon.png'
+import OpenIcon from 'vue-beautiful-chat/src/assets/logo-no-bg.svg'
+import FileIcon from 'vue-beautiful-chat/src/assets/file.svg'
+import CloseIconSvg from 'vue-beautiful-chat/src/assets/close.svg'
 
 export default {
     name: 'EventCard',
-    props: ['host', 'user', 'event', 'notInterested'],
+    props: ['host', 'user', 'event', 'notInterested', 'messageMap'],
     data() {
         return {
             learnMore: false,
@@ -85,14 +111,68 @@ export default {
                 "Sports": "em em-basketball",
                 "Tours": "em em-scooter"
             },
-            hide: false
+            hide: false,
+
+            // needed for chat
+            icons: {
+                open: {
+                    img: OpenIcon,
+                    name: 'default',
+                },
+                close: {
+                    img: CloseIcon,
+                    name: 'default',
+                },
+                file: {
+                    img: FileIcon,
+                    name: 'default',
+                },
+                closeSvg: {
+                    img: CloseIconSvg,
+                    name: 'default',
+                },
+            },
+            
+            participants: [],           // custom: only parsed when a conversation exists
+            messageList: [],            // custom: list of messages between user and this event's host
+            
+            titleImageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png', // TODO: needs resizing
+            newMessagesCount: 0,
+            isChatOpen: false,          // to determine whether the chat window should be open or closed
+            showTypingIndicator: '',    // when set to a value matching the participant.id it shows the typing indicator for the specific user
+            colors: {
+                header: {
+                    bg: '#fce4ec',
+                    text: '#222222'
+                },
+                launcher: {
+                    bg: '#ef277c'
+                },
+                messageList: {
+                    bg: '#f0f8ff'
+                },
+                sentMessage: {
+                    bg: '#fce4ec',
+                    text: '#222222'
+                },
+                receivedMessage: {
+                    bg: '#eaeaea',
+                    text: '#222222'
+                },
+                userInput: {
+                    bg: '#a4dee8',
+                    text: '#565867'
+                }
+            },                              // specifies the color scheme for the component
+            alwaysScrollToBottom: false,    // when set to true always scrolls the chat to the bottom when new events are in (new message, user starts typing...)
+            messageStyling: true            // enables *bold* /emph/ _underline_ and such (more info at github.com/mattezza/msgdown)
         }
     },
     methods: {
         expressInterest() {
             if (this.alreadyInterested) {
                 return;
-            } 
+            }
             let interested = this.event.interested;
             if (!interested) {
                 interested = [];
@@ -102,6 +182,91 @@ export default {
                 interested: interested
             });
         },
+
+        // below methods are needed for chat
+        sendMessage(text) {
+            if (text.length > 0) {
+                this.newMessagesCount = this.isChatOpen ? this.newMessagesCount : this.newMessagesCount + 1
+                this.onMessageWasSent({
+                    type: 'text',
+                    author: this.user.uuid,
+                    data: {
+                        text
+                    }
+                })
+            }
+        },
+
+        onMessageWasSent(message) {
+            // called when the user sends a message
+            this.messageList = [...this.messageList, message]
+        },
+
+        openChat() {
+            // called when the user clicks on the fab button to open the chat
+            this.isChatOpen = true
+            this.newMessagesCount = 0
+        },
+
+        closeChat() {
+            // called when the user clicks on the botton to close the chat
+            this.isChatOpen = false
+        },
+
+        handleScrollToTop() {
+            // called when the user scrolls message list to top
+            // leverage pagination for loading another page of messages
+        },
+
+        handleOnType() {
+            console.log('Emit typing event')
+        },
+
+        editMessage(message) {
+            const m = this.messageList.find(m => m.id === message.id);
+            m.isEdited = true;
+            m.data.text = message.data.text;
+        },
+
+        // customized methods for chat
+        parseParticipants(){
+            // get the two participants of a chat in obj form
+            let participants = [];
+
+            participants.push({
+                id: this.user.uuid ? this.user.uuid : null,
+                name: this.user.firstName ? this.user.firstName : null,
+                imageUrl: this.user.propicUrl ? this.user.propicUrl : null
+            });
+            participants.push({
+                id: this.host.uuid ? this.host.uuid : null,
+                name: this.host.firstName ? this.host.firstName : null,
+                imageUrl: this.host.propicUrl ? this.host.propicUrl : null
+            });
+
+            this.participants = participants;
+        },
+
+        parseMessageList(){
+            // get list of all messages between user and this event's host
+            // TODO: value goes under this.messageList, change to Promise
+            console.log("hi");
+            if (this.messageMap && this.user.uuid !== this.host.uuid){
+                let key1 = [this.user.uuid, this.host.uuid];                // order in which this is entered is arbitrary
+                let iter = this.messageMap.keys();
+                let key2 = iter.next().value;
+                while (key2){
+                    if (key1.sort().join(',')=== key2.sort().join(',')){    // cond: [user1ID, user2ID] = [user2ID, user1ID], no duplicates
+                        this.parseParticipants();
+                        this.messageList = this.messageMap.get(key2);                  
+                    }
+                    key2 = iter.next().value;
+                }
+            } else {
+                this.messageList = [];
+            }
+        },
+
     },
     computed: {
         myOwnEvent() {
@@ -110,34 +275,40 @@ export default {
 
         alreadyOnGuestList() {
             for (let g in this.event.interested) {
+                // user already expressed interest in this event
                 if (this.event.interested[g] === this.user.uuid) {
-                    console.log("User already expressed interest in this event.");
                     return true;
                 }
             }
             for (let g in this.event.confirmed) {
+                // user already confirmed to attend event
                 if (this.event.confirmed[g] === this.user.uuid) {
-                    console.log("User is already confirmed to attend this event.");
                     return true;
                 }
             }
             return false;
         },
 
-        getFlag(){
-			if (this.host.hometown.country){
-				let code = getCountryCode(this.host.hometown.country);
-				return [code].map(flag)[0];
-			}
-		},
+        getFlag() {
+            if (this.host.hometown.country) {
+                let code = getCountryCode(this.host.hometown.country);
+                return [code].map(flag)[0];
+            }
+        },
 
         hideCard(res) {
             this.hide = res;
             return res;
         }
     },
+
     firebase: {
-        eventsRef: eventsRef
+        eventsRef: eventsRef,
+        messagesRef: messagesRef
+    },
+
+    created(){
+        this.parseMessageList();
     }
 }
 </script>
@@ -191,6 +362,6 @@ export default {
 
 .event-photos {
     display: flex;
-	margin: 0px 0px 0px 20px;
+    margin: 0px 0px 0px 20px;
 }
 </style>
