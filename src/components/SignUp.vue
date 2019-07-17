@@ -236,7 +236,8 @@ export default {
 
             // picture upload
             selectedFile: null,
-            propicUrl: "https://loremflickr.com/300/200/flamingo",
+            // propicUrl: "https://loremflickr.com/300/200/flamingo",
+            propicUrl: null,
             uploadFinishedPP: false,
             uploadFinished1: false,
             uploadFinished2: false,
@@ -311,9 +312,9 @@ export default {
             // itinerary
             time: {
                 startTime: "",
-                endTime: "",
-                startTimePm: false,
-                endTimePm: false
+                end: "",
+                startPm: false,
+                endPm: false
             },*/
             
             itinerary: [{

@@ -40,7 +40,7 @@
             <!--Event description-->
             <v-flex xs8>
                 <h2>{{event.title}}</h2>
-                <h4>{{event.dateFormatted}}, {{event.time.startTime}} - {{event.time.endTime}}</h4>
+                <h4>{{event.dateFormatted}}, {{event.time.start}} {{amOrPm(event.time.startPm)}} - {{event.time.end}} {{amOrPm(event.time.endPm)}}</h4>
                 <h4>{{event.location.locale}}, {{event.location.city}}</h4>
                 <h4>{{event.shortDescription}}</h4>
                 <v-btn v-if="!learnMore" @click="learnMore = true">Learn More...</v-btn>
@@ -48,10 +48,19 @@
 
                 <!-- Event images -->
                 <div class="event-photos">
-                    <v-layout v-for="p in event.pics" :key="p">
-                        <v-flex>
-                            <v-img :src="p" class="picture"></v-img>
-                        </v-flex>
+                    <v-layout v-if="event.pics">
+                        <v-layout v-for="p in event.pics" :key="p">
+                            <v-flex>
+                                <v-img :src="p" class="picture"></v-img>
+                            </v-flex>
+                        </v-layout>
+                    </v-layout>
+                    <v-layout v-else>
+                        <v-layout>
+                            <v-flex>
+                                <img src="../assets/logo.png" class="picture"/>
+                            </v-flex>
+                        </v-layout>
                     </v-layout>
                 </div>
 
@@ -187,11 +196,13 @@ export default {
         sendMessage(text) {
             if (text.length > 0) {
                 this.newMessagesCount = this.isChatOpen ? this.newMessagesCount : this.newMessagesCount + 1
+                
+                // adds message to this card's message list, gets deleted when refreshed
                 this.onMessageWasSent({
-                    type: 'text',
+                    type: 'text',               // only supports text for now
                     author: this.user.uuid,
                     data: {
-                        text
+                        text: text
                     }
                 })
             }
@@ -266,6 +277,11 @@ export default {
                 this.messageList = [];
             }
         },
+
+        amOrPm(isPm){
+             if (isPm) return "PM";
+             else return "AM";
+        }
 
     },
     computed: {

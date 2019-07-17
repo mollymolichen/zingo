@@ -4,7 +4,7 @@
         <br><br>
         <h2 class="preview-text">{{event.title}}</h2>
         <h3>{{event.location.locale}}</h3>
-        <h3 class="preview-text">{{event.time.startTime}} - {{event.time.endTime}}</h3>
+        <h3 class="preview-text">{{event.time.start}} - {{event.time.end}}</h3>
         <v-btn class="preview-text-btn" v-if="!learnMore" @click="learnMore = true">Learn More...</v-btn>
         <h3 v-if="learnMore">{{event.shortDescription}}</h3>
         <br>

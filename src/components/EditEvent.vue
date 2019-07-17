@@ -22,10 +22,10 @@
                     </v-menu>
                 </v-flex>
                 <v-flex xs4>
-                    <v-text-field v-model="event.time.startTime" label="Start time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
+                    <v-text-field v-model="event.time.start" label="Start time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
                 </v-flex>
                 <v-flex xs4>
-                    <v-text-field v-model="event.time.endTime" label="End time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
+                    <v-text-field v-model="event.time.end" label="End time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
                 </v-flex>
             </v-layout>
 
@@ -313,19 +313,6 @@ export default {
     computed: {
         computedDateFormatted() {
             return this.formatDate(this.date);
-        },
-
-        amOrPm() { // am by default
-            let p1 = this.time.startTime.split(":")[0];
-            let parseStartTime = parseInt(p1);
-            if (parseStartTime >= 12) {
-                this.time.startTimePm = true;
-            }
-            let p2 = this.time.endTime.split(":")[0];
-            let parseEndTime = parseInt(p2);
-            if (parseEndTime >= 12) {
-                this.time.endTimePm = true;
-            }
         }
     },
     props: ['event', 'user']

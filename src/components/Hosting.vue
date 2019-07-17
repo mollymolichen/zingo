@@ -8,8 +8,8 @@
 					<img v-if="event.pics" :src="event.pics[0]">
 				</v-avatar>	
                 <h2 v-if="event.title">{{event.title}}</h2>
-                <h4 v-if="event.dateFormatted && event.time.startTime && event.time.endTime">
-                    {{event.dateFormatted}}, {{event.time.startTime}} - {{event.time.endTime}}
+                <h4 v-if="event.dateFormatted && event.time.start && event.time.end">
+                    {{event.dateFormatted}}, {{event.time.start}} - {{event.time.end}}
                 </h4>
             </v-flex>
 
@@ -97,7 +97,7 @@ export default {
         usersRef: usersRef
     },
     mounted() {
-        this.getGuestPics();
+        this.getGuestPics();    
     }
 }
 </script>

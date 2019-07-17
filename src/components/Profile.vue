@@ -32,7 +32,8 @@
 
 		<!--Propic-->
 		<v-avatar class="propic">
-			<img :src="user.propicUrl" alt="Profile picture" style="transform: scale(5, 5);">
+			<img v-if="user.propicUrl === null" src="../assets/logo.png" alt="Profile picture" style="transform: scale(5, 5);"/>
+			<img v-else :src="user.propicUrl" alt="Profile picture" style="transform: scale(5, 5);"/>
 		</v-avatar>
     </div>
 
@@ -65,9 +66,11 @@
 
 	<!--About-->
 	<div>
-		<h1 style="text-align:left; margin-left:20px">About Me</h1>
+		<h1 style="text-align:left; margin-left:20px"
+			v-if="user.crazyFact || user.midnightSnack || user.vacation || user.karaokeSong">
+		About Me</h1>
 		<v-layout row wrap id="about-me">
-			<v-flex xs3>
+			<v-flex xs3 v-if="user.crazyFact">
 				<v-card class="about">
 					<v-card-text>
 						<h2>Craziest Fact About You <i class="em em-100"/></h2><br>
@@ -75,7 +78,7 @@
 					</v-card-text>
 				</v-card>
 			</v-flex>
-			<v-flex xs3>
+			<v-flex xs3 v-if="user.midnightSnack">
 				<v-card class="about">
 					<v-card-text>
 						<h2>Go-to Midnight Snack <i class="em em-hamburger"/></h2><br>
@@ -83,7 +86,7 @@
 					</v-card-text>
 				</v-card>
 			</v-flex>
-			<v-flex xs3>
+			<v-flex xs3 v-if="user.vacation">
 				<v-card class="about">
 					<v-card-text>
 						<h2>During Vacations, I... <i class="em em-man-mountain-biking"/></h2><br>
@@ -91,7 +94,7 @@
 					</v-card-text>
 				</v-card>
 			</v-flex>
-			<v-flex xs3>
+			<v-flex xs3 v-if="user.karaokeSong">
 				<v-card class="about">
 					<v-card-text>
 						<h2>Favorite Karaoke Song <i class="em em-microphone"/></h2><br>
@@ -116,7 +119,7 @@
 	<div id="add-btn-div" v-if="myProfile && !user.selectedActivities && 
 	!user.selectedTransportation && !user.selectedAccommodation && !user.selectedLifestyle">
 		<h1>Add your travel preferences so you can meet other travelers just like you.</h1>
-		<router-link :to="{ name: 'EditProfile', params: { user, updateUser } }">
+		<router-link :to="{ name: 'EditProfile', params: { user, updateUser, goToPrefs: true } }">
 			<v-icon @click="display = true" id="edit-btn">add_circle</v-icon>
 		</router-link>
 	</div>

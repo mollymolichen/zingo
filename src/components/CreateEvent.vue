@@ -23,10 +23,10 @@
                     </v-menu>
                 </v-flex>
                 <v-flex xs4>
-                    <v-text-field v-model="time.startTime" label="Start time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
+                    <v-text-field v-model="time.start" label="Start time" value="12:30:00" type="time" suffix="BST" required class="quarter-width"></v-text-field>
                 </v-flex>
                 <v-flex xs4>
-                    <v-text-field v-model="time.endTime" label="End time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
+                    <v-text-field v-model="time.end" label="End time" value="12:30:00" type="time" suffix="BST" required class="quarter-width"></v-text-field>
                 </v-flex>
             </v-layout>
 
@@ -189,10 +189,10 @@ export default {
             date: new Date().toISOString().substr(0, 10),
             dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
             time: {
-                startTime: "",
-                endTime: "",
-                startTimePm: false,
-                endTimePm: false
+                start: "",
+                end: "",
+                startPm: false,
+                endPm: false
             },
             menu1: false,
 

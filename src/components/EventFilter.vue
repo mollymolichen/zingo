@@ -39,11 +39,11 @@
 
             <h3>Time range</h3>
             <div class="section">
-                <v-text-field v-model="time.startTime" label="Start time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
+                <v-text-field v-model="time.start" label="Start time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
             </div>
 
             <div class="section">
-                <v-text-field v-model="time.endTime" label="End time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
+                <v-text-field v-model="time.end" label="End time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
             </div>
 
             <h3>Categories</h3>
@@ -120,11 +120,11 @@ export default {
                     if (eventDate < yourStartDate || eventDate > yourEndDate) continue;
                 }
 
-                // startTime, endTime
-                let yourStartTime = this.time.startTime;
-                let yourEndTime = this.time.endTime;
-                let eventStartTime = this.events[e].time.startTime;
-                let eventEndTime = this.events[e].time.endTime;
+                // start, end
+                let yourStartTime = this.time.start;
+                let yourEndTime = this.time.end;
+                let eventStartTime = this.events[e].time.start;
+                let eventEndTime = this.events[e].time.end;
                 if (yourStartTime && (eventStartTime < yourStartTime)) continue;
                 if (yourEndTime && (eventEndTime > yourEndTime)) continue;
                 
@@ -193,10 +193,10 @@ export default {
             startDateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
             endDateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
             time: {
-                startTime: "",
-                endTime: "",
-                startTimePm: false,
-                endTimePm: false
+                start: "",
+                end: "",
+                startPm: false,
+                endPm: false
             },
             menu1: false,
             menu2: false,

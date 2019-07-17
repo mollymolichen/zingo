@@ -18,7 +18,7 @@
                 <h2 v-if="!confirm">Responded to:</h2>
                 <h2 v-else>Confirmed for:</h2>
                 <h2><strong>{{event.title}}</strong></h2>
-                <h2>{{event.dateFormatted}}, {{event.time.startTime}} - {{event.time.endTime}}</h2>
+                <h2>{{event.dateFormatted}}, {{event.time.start}} - {{event.time.end}}</h2>
             </v-flex>
 
             <div id="icons">

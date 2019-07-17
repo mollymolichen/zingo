@@ -72,9 +72,13 @@ export default {
             let snapshot = await eventsRef.once("value");
             let allEvents = snapshot.val();
             let keys = Object.keys(allEvents);
+            let today = new Date().toISOString().substr(0, 10);
+            
             keys.forEach((key, i) => {
                 let e = allEvents[key];
-                this.$set(this.events, i, e);   // TODO: only return future events (get today's date)
+                if (e.date > today){
+                    this.$set(this.events, i, e);
+                }
             });
 
             // get list of users from db, search for host
@@ -157,7 +161,7 @@ export default {
             filterApplied: false,
             allUsers: null,
             messages: [],
-            messageMap: this.getMessages()
+            messageMap: this.getMessages()        // current date to compare with
         }
     }
 }
