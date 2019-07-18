@@ -8,22 +8,20 @@
 
     <div id="right">
         <ul>
-            <!-- <router-link to="/about">
-                <v-btn class="nav-btn">About</v-btn>
-            </router-link> -->
-            <router-link v-if="user != null" :to="{ name: 'EventList', params: { user } }">
+            <v-btn v-if="user === null" href="#about" class="nav-btn">About</v-btn>
+            <router-link v-if="user !== null" :to="{ name: 'EventList', params: { user } }">
                 <v-btn class="nav-btn">Events</v-btn>
             </router-link>
-            <router-link v-if="user != null" :to="{ name: 'MatchList', params: { user } }">
+            <router-link v-if="user !== null" :to="{ name: 'MatchList', params: { user } }">
                 <v-btn class="nav-btn">Matches</v-btn>
             </router-link>
             <router-link v-if="user === null" :to="{ name: 'SignIn', params: { user, updateUser } }">
                 <v-btn class="nav-btn">Sign In</v-btn>
             </router-link>
-            <router-link v-if="user != null" :to="{ name: 'Profile', params: { user, updateUser, myProfile: true } }">
+            <router-link v-if="user !== null" :to="{ name: 'Profile', params: { user, updateUser, myProfile: true } }">
                 <v-btn class="nav-btn">Profile</v-btn>
             </router-link>
-            <router-link to="/" v-if="user != null">
+            <router-link to="/" v-if="user !== null">
                 <v-btn @click="signOut(user)" class="nav-btn">Sign Out</v-btn>
             </router-link>
         </ul>

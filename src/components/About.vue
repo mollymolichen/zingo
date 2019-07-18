@@ -1,4 +1,5 @@
 <template>
+<!--DEPRECATED-->
 <v-content class="preferences">
     <v-card class="about-bkgd">
         <div class="about-text">
@@ -10,6 +11,7 @@
                 <span class="pg1">As solo-travelers ourselves, we know how important freedom is when you travel.</span>
                 <span class="pg1">We know it can be fun to spontaneously meet up with new friends in new cities.</span>
                 <span class="pg1">Use Zingo to meet up with friends just like you who love to adventure.</span>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/y58mw6aupTI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </v-flex>
         </div>
 
@@ -19,19 +21,19 @@
             </div>
             <div class="team">
                 <div>
-                    <img src="../assets/tim.jpg" class="team-photo"/>
+                    <img src="../assets/tim.jpg" class="team-photo" />
                     <h2>Tim Skapek</h2>
                     <h3>Project Manager</h3>
                 </div>
                 <div>
-                    <img src="../assets/molly.jpg" class="team-photo"/>
+                    <img src="../assets/molly.jpg" class="team-photo" />
                     <h2>Molly Chen</h2>
                     <h3>Lead Developer</h3>
                 </div>
                 <div>
-                <img src="../assets/alexandra.jpg" class="team-photo"/>
-                <h2>Alexandra Barr</h2>
-                <h3>Business Lead</h3>
+                    <img src="../assets/alexandra.jpg" class="team-photo" />
+                    <h2>Alexandra Barr</h2>
+                    <h3>Business Lead</h3>
                 </div>
             </div>
             <h2 id="creds">Special credits to Frank Thomas for the logo design and graphics.</h2>
@@ -59,7 +61,7 @@ export default {
 .about-bkgd {
     background-color: aliceblue !important;
     border-radius: 25px !important;
-	height: 99%;
+    height: 99%;
     width: 90%;
     margin: auto;
 }
@@ -75,7 +77,7 @@ export default {
     }
 }
 
-.about-text{
+.about-text {
     text-align: center;
     margin-top: 50px;
     margin-left: 150px;
@@ -83,7 +85,7 @@ export default {
     display: flex;
 }
 
-.header{
+.header {
     text-align: center;
     margin-bottom: 20px;
 }
@@ -105,10 +107,10 @@ export default {
 }
 
 .team-info {
-  text-align: center;
-  flex-direction: row;
-  background-color: aliceblue;
-  display: flex;
+    text-align: center;
+    flex-direction: row;
+    background-color: aliceblue;
+    display: flex;
 }
 
 .pg1 {

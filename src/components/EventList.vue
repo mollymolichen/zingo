@@ -18,12 +18,14 @@
         <v-flex xs12>
             <div v-if="filterApplied">
                 <div v-for="(obj, index) in this.filtered" :key="index">
-                    <event-card :event="obj" :user="user" :host="allUsers[obj.host]" :messageMap="messageMap"></event-card>
+                    <event-card :event="obj" :user="user" :host="allUsers[obj.host]"></event-card>
+                    <!-- <event-card :event="obj" :user="user" :host="allUsers[obj.host]" :messageMap="messageMap"></event-card> -->
                 </div>
             </div>
             <div v-else>
                 <div v-for="(obj, index) in this.events" :key="index">
-                    <event-card :event="obj" :user="user" :host="allUsers[obj.host]" :messageMap="messageMap"></event-card>
+                    <event-card :event="obj" :user="user" :host="allUsers[obj.host]"></event-card>
+                    <!-- <event-card :event="obj" :user="user" :host="allUsers[obj.host]" :messageMap="messageMap"></event-card> -->
                 </div>
             </div>
         </v-flex>
@@ -89,7 +91,7 @@ export default {
             this.sortEventsByDate(this.events, direction);
         },
 
-        async getMessages(){
+        /*async getMessages(){
             // get list of all message info from db
             let snapshot = await messagesRef.once("value");
             let allMessages = snapshot.val();
@@ -109,7 +111,7 @@ export default {
             }
             this.messageMap = messageMap;
             // return messageMap;
-        },
+        },*/
 
         setFilterApplied(res) {
             this.filterApplied = res;
@@ -150,7 +152,7 @@ export default {
 
     created() {
         this.getEvents("asc");      // sort ascending by default
-        // this.getMessages();      // not being called after getEvents
+        // originally deleted, do not uncomment: this.getMessages();      // not being called after getEvents
     },
 
     data() {
@@ -159,9 +161,9 @@ export default {
             events: [],
             filtered: [],
             filterApplied: false,
-            allUsers: null,
-            messages: [],
-            messageMap: this.getMessages()        // current date to compare with
+            allUsers: null
+            // messages: [],
+            // messageMap: this.getMessages()        // current date to compare with
         }
     }
 }

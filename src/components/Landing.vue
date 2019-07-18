@@ -1,11 +1,13 @@
 <template>
 <v-layout class="landing-page" row wrap>
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+    
     <v-flex id="catchphrase">
         <img src="../assets/Zingo.png" id="zingo-logo" />
         <h1>Connecting awesome travelers to awesome friends.</h1>
         <!--Sign Up-->
         <div id="sign-up">
-            <div v-if="this.user === null">
+            <div v-if="this.user === null || this.user === undefined">
                 <router-link :to="{ name: 'SignUp', params: { user, updateUser } }">
                     <v-btn id="signup-btn">Sign up here</v-btn>
                 </router-link>
@@ -14,7 +16,7 @@
     </v-flex>
 
     <!--About-->
-    <v-card class="about-bkgd">
+    <v-card class="about-bkgd" id="about">
         <div class="header-text">
             <v-flex xs12>
                 <div class="header">
@@ -31,42 +33,80 @@
 
     <!--How to Use-->
     <v-card class="howto">
-        <div>
+        <div>                                                               <!--convert to flexbox if necessary-->
             <div class="header">
                 <h1>What makes Zingo special?</h1>
             </div>
 
             <!--Part 1-->
-            <div class="subtitle">
-                <h1>Events are first and foremost.</h1>
-                <h3>You don't meet other travelers just by sitting around in your hotel room.</h3>
-                <h3>Introvert or extrovert, outdoorsy or not, there is an event for you.</h3>
+            <div class="blue-bkgd">
+            <v-layout row wrap>
+                <v-flex xs3>
+                    <i class="em em-calendar emoji"/>
+                </v-flex>
+                <div class="subtitle-right">
+                    <h1>Events are first and foremost.</h1>
+                    <h3>You don't meet other travelers just by sitting around in your hotel room.</h3>
+                    <h3>Introvert or extrovert, outdoorsy or not, there is an event for you.</h3>
+                </div>
+            </v-layout>
+            <img src="../assets/eventcard1.png" class="sample-ev-cards"/>
+            <img src="../assets/eventcard2.png" class="sample-ev-cards"/>
             </div>
-            <img src="../assets/eventcard1.png" class="sample-ev-cards" />
-            <img src="../assets/eventcard2.png" class="sample-ev-cards" />
 
             <!--Part 2-->
-            <div class="subtitle">
-                <h1>Filter through the distractions.</h1>
-                <h3>We get straight to the good stuff. You have a gap in your schedule and
-                    it's starting in an hour?</h3>
-                <h3>There's bound to be an event for that.</h3>
-            </div>
+                <div class="subtitle">
+                    <h1>Filter through the distractions.</h1>
+                    <h3>We get straight to the good stuff. You suddenly have no plans for the next hour?</h3>
+                    <h3>There's bound to be an event for that.</h3>
+                    <br><br>
+                </div>
+            <v-layout column wrap>
+                <v-flex xs3>
+                    <i class="em em-sunglasses big-emoji"/>
+                </v-flex>
+            </v-layout>
             <img src="../assets/filter3.png" class="sample-filter-cards-horiz" />
             <img src="../assets/filter1.png" class="sample-filter-cards-vert" />
             <img src="../assets/filter2.png" class="sample-filter-cards-vert" />
 
             <!--Part 3-->
-            <div class="subtitle">
-                <h1>Find others nearby.</h1>
-                <h3>Ever sign up for a travel app only to realize the next closest traveler
-                    is half the world away?</h3>
-                <h3>Finally found someone close, but they've already
-                    gone to their next stop or don't speak a language in common?
-                </h3>
-                <h3>Not with Zingo.</h3>
+            <div class="blue-bkgd">
+                <v-layout row wrap>
+                    <v-flex xs3>
+                        <i class="em em-speech_balloon emoji"></i>
+                    </v-flex>
+                    <div class="subtitle-right">
+                        <h1>Find others nearby.</h1>
+                        <h3>Ever sign up for a travel app only to realize the next closest traveler
+                            is half the world away?</h3>
+                        <h3>Finally found someone close, but they've already gone to their next
+                            stop or don't speak a language in common?
+                        </h3>
+                        <h3>Not with Zingo.</h3>
+                    </div>
+                </v-layout>
+                <img src="../assets/itinerary1.png" class="sample-ev-cards" />
             </div>
-            <img src="../assets/itinerary1.png" class="sample-ev-cards" />
+
+            <!--Part 4-->
+            <v-layout row wrap>
+                <div class="subtitle">
+                    <h1>Clear the clutter!</h1>
+                    <h3>Let's be real, we all RSVP to tons of events without the intention of actually going.</h3>
+                    <h3>Zingo has an easy way to keep track of events you're hosting.</h3>
+                    <h3>It also only lets you see events you've been confirmed for.</h3>
+                </div>
+                <v-flex xs3>
+                    <i class="em em-woman-with-bunny-ears-partying emoji"></i>
+                </v-flex>
+            </v-layout>
+            <img src="../assets/match1.png" class="sample-ev-cards" />
+            <img src="../assets/match2.png" class="sample-ev-cards" />
+
+            <div class="header">
+                <a href="#"><h2>What are you waiting for? Create an account today.</h2></a>
+            </div>
         </div>
     </v-card>
 
@@ -105,12 +145,7 @@
 import router from "../router";
 
 export default {
-    data() {
-        return {
-            user: null
-        }
-    },
-    props: ['updateUser']
+    props: ['updateUser', 'user']
 }
 </script>
 
@@ -121,14 +156,16 @@ export default {
     margin: 15%;
 }
 
+.blue-bkgd {
+    background-color: aliceblue;
+}
+
 /***** styling from About.vue *******/
 .about-bkgd {
     background-color: aliceblue !important;
     border-radius: 25px !important;
     width: 90%;
     margin: 30px 0px 30px 0px;
-    /* height: 99%; */
-    /* margin: auto; */
 }
 
 .howto {
@@ -208,6 +245,14 @@ export default {
     border-radius: 25px !important;
 }
 
+.sample-filter-cards-horiz-1 {
+    flex-wrap: wrap;
+    /* width: 10%; */
+    height: 100px;
+    margin: 1%;
+    border-radius: 25px !important;
+}
+
 .sample-filter-cards-vert {
     flex-wrap: wrap;
     width: 20%;
@@ -225,5 +270,21 @@ export default {
     margin: 2.5%;
     width: 60%;
     font-family: 'Libre Franklin';
+}
+
+.subtitle-right {
+    text-align: right;
+    margin: 2.5%;
+    width: 60%;
+    font-family: 'Libre Franklin';
+}
+
+.big-emoji {
+    transform: scale(6,6);
+    margin: 2%;
+}
+
+.emoji {
+    transform: scale(4,4);
 }
 </style>
