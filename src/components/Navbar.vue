@@ -8,9 +8,9 @@
 
     <div id="right">
         <ul>
-            <router-link to="/about">
+            <!-- <router-link to="/about">
                 <v-btn class="nav-btn">About</v-btn>
-            </router-link>
+            </router-link> -->
             <router-link v-if="user != null" :to="{ name: 'EventList', params: { user } }">
                 <v-btn class="nav-btn">Events</v-btn>
             </router-link>

@@ -104,7 +104,7 @@ main.v-content.container .v-content__wrap {
 }
 
 main.v-content.container .v-content__wrap .landing-page {
-    height: 100%;
+    /* height: 100%; */
     display: flex;
     justify-content: center;
     flex-direction: row;
