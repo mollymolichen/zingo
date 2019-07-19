@@ -236,96 +236,19 @@ export default {
 
             // picture upload
             selectedFile: null,
-            // propicUrl: "https://loremflickr.com/300/200/flamingo",
             propicUrl: null,
             uploadFinishedPP: false,
             uploadFinished1: false,
             uploadFinished2: false,
             uploadFinished3: false,
             pics: [],
-
-            // preferences
-            /*transportation: [
-                "🚶‍♂️ Walking",
-                "🚖 Taxi",
-                "🚘 Car",
-                "🚍 Bus",
-                "🚆 Train"
-            ],
-            selectedTransportation: [],
-            accommodation: [
-                "🏨 Hostel",
-                "🏩 Hotel",
-                "🏠 Airbnb",
-                "🛏 Couchsurf"
-            ],
-            selectedAccommodation: [],
-            lifestyle: [
-                "🚬 Smoking",
-                "🍺 Drinks",
-                "💃 Parties"
-            ],
-            selectedLifestyle: [],
-            activities: [
-                "🎨 Art",
-                "⛩ Culture",
-                "🍝 Food",
-                "🏰 History",
-                "🎵 Music",
-                "🍸 Nightlife",
-                "⛅ Outdoors",
-                "🏀 Sports",
-                "🛴 Tours"
-            ],
-            selectedActivities: [],
-            emoji: {
-                // transportation
-                "Walking": "em em-walking",
-                "Taxi": "em em-oncoming_taxi",
-                "Car": "em em-oncoming_automobile",
-                "Bus": "em em-oncoming_bus",
-                "Train": "em em-train2",
-
-                // accommodation
-                "Hostel": "em em-hotel",
-                "Hotel": "em em-love_hotel",
-                "Airbnb": "em em-house",
-                "Couchsurf": "em em-bed",
-
-                // lifestyle
-                "Smoking": "em em-smoking",
-                "Drinks": "em em-beer",
-                "Parties": "em em-dancer",
-
-                // activities
-                "Art": "em em-art",
-                "Culture": "em em-shinto_shrine",
-                "Food": "em em-spaghetti",
-                "History": "em em-european_castle",
-                "Music": "em em-musical_note",
-                "Nightlife": "em em-cocktail",
-                "Outdoors": "em em-partly_sunny",
-                "Sports": "em em-basketball",
-                "Tours": "em em-scooter"
-            },
-
-            // itinerary
-            time: {
-                startTime: "",
-                end: "",
-                startPm: false,
-                endPm: false
-            },*/
-            
             itinerary: [{
                 id: 1,
                 city: null,
                 startDate: this.formatDate(new Date().toISOString().substr(0, 10)),
                 endDate: this.formatDate(new Date().toISOString().substr(0, 10))
             }],
-            // menu1: false,
-            // menu2: false,
-        
+
             // photos
             avatar1: false,
             avatar2: false,
@@ -629,10 +552,6 @@ ul {
 
 .checkboxes {
     margin-bottom: 50px;
-}
-
-#green {
-    color: green;
 }
 
 .oval {

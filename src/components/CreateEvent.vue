@@ -22,11 +22,12 @@
                         <v-date-picker v-model="date" no-title @input="menu1 = false"></v-date-picker>
                     </v-menu>
                 </v-flex>
+                <!--TODO: change suffix depending on location of launch-->
                 <v-flex xs4>
-                    <v-text-field v-model="time.start" label="Start time" value="12:30:00" type="time" suffix="BST" required class="quarter-width"></v-text-field>
+                    <v-text-field v-model="time.start" label="Start time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
                 </v-flex>
                 <v-flex xs4>
-                    <v-text-field v-model="time.end" label="End time" value="12:30:00" type="time" suffix="BST" required class="quarter-width"></v-text-field>
+                    <v-text-field v-model="time.end" label="End time" value="12:30:00" type="time" suffix="EST" required class="quarter-width"></v-text-field>
                 </v-flex>
             </v-layout>
 

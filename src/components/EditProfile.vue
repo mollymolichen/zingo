@@ -34,6 +34,7 @@
                 <br>
                 <input type="file" @change="onFileChanged">
                 <v-btn @click="onUpload(true, -1, false)">Upload</v-btn>
+                <v-icon v-if="uploadFinishedPP" style="color:green">check_circle</v-icon>
             </div>
 
             <h3>Upload up to three more photos of yourself.</h3>
@@ -169,7 +170,6 @@
                                 <template v-slot:activator="{ on }">
                                     <v-text-field v-model="item.startDate" label="Date" hint="Start date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="startDate = parseDate(startDateFormatted)" v-on="on"></v-text-field>
                                 </template>
-                                <!-- <v-date-picker v-model="startDate" no-title @input="menu1 = false"></v-date-picker> -->
                             </v-menu>
 
                             <!--End date-->
@@ -177,7 +177,7 @@
                                 <template v-slot:activator="{ on }">
                                     <v-text-field v-model="item.endDate" label="Date" hint="End date (MM/DD/YYYY)" persistent-hint prepend-icon="event" @blur="endDate = parseDate(endDateFormatted)" v-on="on"></v-text-field>
                                 </template>
-                                <!-- <v-date-picker v-model="endDate" no-title @input="menu2 = false"></v-date-picker> -->
+
                             </v-menu>
 
                             <!--Remove-->
@@ -547,7 +547,7 @@ export default {
             });
         }
     },
-    props: ['user', 'updateUser']
+    props: ['user', 'updateUser', 'goToPrefs']
 };
 </script>
 

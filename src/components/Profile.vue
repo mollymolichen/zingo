@@ -43,10 +43,11 @@
                 <li>
                     <h1>{{user.firstName}}, {{$route.params.user.age}} {{getFlag}}</h1>
                 </li>
-                <li style="font-size: large">{{user.universityOrOccupation}}</li>
-                <li style="font-size: large" v-if="user.hometown.state">{{user.hometown.city}}, {{user.hometown.state}}, {{user.hometown.country}}</li>
-				<li style="font-size: large" v-else>{{user.hometown.city}}, {{user.hometown.country}}</li>
+                <li class="large-font">{{user.universityOrOccupation}}</li>
+                <li class="large-font" v-if="user.hometown.state">{{user.hometown.city}}, {{user.hometown.state}}, {{user.hometown.country}}</li>
+				<li class="large-font" v-else>{{user.hometown.city}}, {{user.hometown.country}}</li>
             </ul>
+			<div v-if="user.languagesSpoken" class="large-font">Speaks: {{parseLanguages}}</div>
         </v-flex>
     </div>
 
@@ -219,6 +220,19 @@ export default {
 				}
 				return [code].map(flag)[0];
 			}
+		},
+
+		parseLanguages(){
+			let parsedLangs = "";
+			if (this.user.languagesSpoken && this.user.languagesSpoken.length){
+				let langs = this.user.languagesSpoken;
+				for (let l = 0; l < langs.length-1; l++){
+					parsedLangs += langs[l];
+					parsedLangs += ", ";
+				}
+				parsedLangs += langs[langs.length-1];		// append last language without comma
+			}
+			return parsedLangs;
 		}
 	},
 	methods: {
@@ -396,5 +410,9 @@ ul, li {
 
 #delete-account {
 	margin-bottom: 40px;
+}
+
+.large-font {
+	font-size: large;
 }
 </style>
