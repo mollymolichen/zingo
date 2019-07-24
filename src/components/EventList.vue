@@ -33,7 +33,12 @@
 
         <v-flex xs1 class="create-event">
             <router-link :to="{ name: 'CreateEvent', params: { user, setAmPm } }">
-                <v-icon id="add">add_circle</v-icon>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                        <v-icon id="add" v-on="on">add_circle</v-icon>
+                    </template>
+                    <span>New Event</span>
+                </v-tooltip>
             </router-link>
         </v-flex>
     </div>
@@ -156,6 +161,7 @@ export default {
         },
 
         // format entire time obj, AM by default
+        // TODO: change formatting from string back to XX:XX:XX to prevent EditEvent from having issues
         setAmPm(time) {
             if (!time || !time.start || !time.end) return false;
 

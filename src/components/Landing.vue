@@ -58,7 +58,7 @@
             <div class="subtitle">
                 <h1>Clear the clutter!</h1>
                 <h3>We get straight to the good stuff. You suddenly have no plans for the next hour?</h3>
-                <h3>There's bound to be an event for that.</h3>
+                <h3>There's bound to be an event then.</h3>
                 <h3>With Zingo, no need to search through hundreds of extraneous events.</h3>
                 <br><br>
             </div>

@@ -80,7 +80,12 @@
             <!--Edit button-->
             <v-flex xs1 v-if="this.host.uuid === this.user.uuid">
                 <router-link :to="{ name: 'EditEvent', params: { user, event, setAmPm } }">
-                    <v-icon class="edit-btn">edit</v-icon>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <v-icon class="edit-btn" v-on="on">edit</v-icon>
+                        </template>
+                        <span>Edit Event</span>
+                    </v-tooltip> 
                 </router-link>
             </v-flex>
         </v-layout>

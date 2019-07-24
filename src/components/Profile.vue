@@ -179,7 +179,12 @@
 	<!--Delete account-->
 	<div>
 		<router-link to="/">
-			<v-btn v-if="myProfile" id="delete-account" @click="deleteAccount()">Delete Account</v-btn>
+			<v-tooltip bottom>
+				<template v-slot:activator="{ on }">
+					<v-btn v-if="myProfile" id="delete-account" @click="deleteAccount()" v-on="on">Delete Account</v-btn>
+				</template>
+				<span>This action cannot be undone.</span>
+			</v-tooltip>
 		</router-link>
 	</div>
 </v-content>
