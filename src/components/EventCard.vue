@@ -1,7 +1,7 @@
 <template>
 <v-content class="eventcard">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
-    <v-card class="event" v-if="!hide">
+    <v-card class="event" v-if="event && !hide">
         <v-layout row wrap>
             <!--Profile picture-->
             <v-flex xs3>
@@ -39,10 +39,12 @@
 
             <!--Event description-->
             <v-flex xs8>
-                <h2>{{event.title}}</h2>
-                <h4>{{event.dateFormatted}}, {{event.time.start}} {{amOrPm(event.time.startPm)}} - {{event.time.end}} {{amOrPm(event.time.endPm)}}</h4>
-                <h4>{{event.location.locale}}, {{event.location.city}}</h4>
-                <h4>{{event.shortDescription}}</h4>
+                <h2 v-if="event.title">{{event.title}}</h2>
+                <h4 v-if="event.dateFormatted.length && event.time">
+                    {{event.dateFormatted}}, {{event.time.start}} {{amOrPm(event.time.startPm)}} - {{event.time.end}} {{amOrPm(event.time.endPm)}}
+                </h4>
+                <h4 v-if="event.location.locale.length || event.location.city">{{event.location.locale}}, {{event.location.city}}</h4>
+                <h4 v-if="event.shortDescription">{{event.shortDescription}}</h4>
                 <v-btn v-if="!learnMore" @click="learnMore = true">Learn More...</v-btn>
                 <p v-if="learnMore">{{event.longDescription}}</p>
 
@@ -77,7 +79,7 @@
 
             <!--Edit button-->
             <v-flex xs1 v-if="this.host.uuid === this.user.uuid">
-                <router-link :to="{ name: 'EditEvent', params: { user, event } }">
+                <router-link :to="{ name: 'EditEvent', params: { user, event, setAmPm } }">
                     <v-icon class="edit-btn">edit</v-icon>
                 </router-link>
             </v-flex>
@@ -103,7 +105,7 @@ import flag from 'country-code-emoji';
 
 export default {
     name: 'EventCard',
-    props: ['host', 'user', 'event', 'notInterested', 'messageMap'],
+    props: ['host', 'user', 'event', 'notInterested', 'messageMap', 'setAmPm'],
     data() {
         return {
             learnMore: false,
@@ -180,12 +182,12 @@ export default {
     },
     methods: {
         expressInterest() {
-            if (this.alreadyInterested) {
-                return;
-            }
             let interested = this.event.interested;
             if (!interested) {
                 interested = [];
+            }
+            if (interested.indexOf(this.user.uuid) !== -1){
+                return;
             }
             interested.push(this.user.uuid);
             eventsRef.child(this.event.eid).update({
@@ -302,7 +304,7 @@ export default {
                     return true;
                 }
             }
-            return false;
+            return false;       // TODO: sometimes (inconsistent) still can't RSVP to newly created events
         },
 
         getFlag() {

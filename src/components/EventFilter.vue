@@ -1,5 +1,5 @@
 <template>
-<v-card id="event-filter">
+<v-card id="event-filter" v-if="user">
     <v-layout row wrap>
         <v-flex xs12>
             <div>
@@ -220,7 +220,7 @@ export default {
             users: []
         }
     },
-    props: ['events', 'filtered', 'setFilterApplied', 'setFilters'],
+    props: ['events', 'filtered', 'setFilterApplied', 'setFilters', 'user'],
     watch: {
         date(val) {
             this.startDateFormatted = this.formatDate(this.date);
@@ -237,7 +237,7 @@ export default {
     display: flex;
     flex-direction: column;
     margin: 20px 0px 20px 20px;
-    height: 95%;
+    height: 99.5%;
     width: 90%;
     background-color: aliceblue !important;
     justify-content: left;

@@ -1,5 +1,5 @@
 <template>
-<v-content id="create-event-container">
+<v-content id="create-event-container" v-if="user">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <v-card class="createevent">
         <v-form ref="form" lazy-validation>
@@ -277,6 +277,9 @@ export default {
         },
 
         editEvent() {
+            if (this.event.time) {
+                this.setAmPm(this.event.time);
+            }
             eventsRef.child(this.event.eid).update(this.event);     
             router.push({               
                 name: 'EventList',
@@ -315,7 +318,7 @@ export default {
             return this.formatDate(this.date);
         }
     },
-    props: ['event', 'user']
+    props: ['event', 'user', 'setAmPm']
 }
 </script>
 

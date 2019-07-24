@@ -1,5 +1,5 @@
 <template>
-<v-content class="eventlist">
+<v-content class="eventlist" v-if="user">
     <div>
         <event-header 
             :filtered="filtered" 
@@ -7,31 +7,32 @@
             :events="events"
             :sortEventsByDate="sortEventsByDate"
             :sortEventsByTitle="sortEventsByTitle"
+            :user="user"
         ></event-header>
     </div>
 
     <div id="eventlist-container">
         <v-flex xs3>
-            <event-filter :events="events" :filtered="filtered" :setFilterApplied="setFilterApplied" :setFilters="setFilters"></event-filter>
+            <event-filter :events="events" :filtered="filtered" :setFilterApplied="setFilterApplied" :setFilters="setFilters" :user="user"></event-filter>
         </v-flex>
 
         <v-flex xs12>
             <div v-if="filterApplied">
                 <div v-for="(obj, index) in this.filtered" :key="index">
-                    <event-card :event="obj" :user="user" :host="allUsers[obj.host]"></event-card>
+                    <event-card :event="obj" :user="user" :host="allUsers[obj.host]" setAmPm="setAmPm"></event-card>
                     <!-- <event-card :event="obj" :user="user" :host="allUsers[obj.host]" :messageMap="messageMap"></event-card> -->
                 </div>
             </div>
             <div v-else>
                 <div v-for="(obj, index) in this.events" :key="index">
-                    <event-card :event="obj" :user="user" :host="allUsers[obj.host]"></event-card>
+                    <event-card :event="obj" :user="user" :host="allUsers[obj.host]" :setAmPm="setAmPm"></event-card>
                     <!-- <event-card :event="obj" :user="user" :host="allUsers[obj.host]" :messageMap="messageMap"></event-card> -->
                 </div>
             </div>
         </v-flex>
 
         <v-flex xs1 class="create-event">
-            <router-link :to="{ name: 'CreateEvent', params: { user } }">
+            <router-link :to="{ name: 'CreateEvent', params: { user, setAmPm } }">
                 <v-icon id="add">add_circle</v-icon>
             </router-link>
         </v-flex>
@@ -78,10 +79,14 @@ export default {
             
             keys.forEach((key, i) => {
                 let e = allEvents[key];
-                if (e.date > today){
+                if (e.date >= today){
                     this.$set(this.events, i, e);
+                } else {
+                    this.$set(this.events, i, null);
                 }
             });
+            this.events = this.events.filter(Boolean);  // remove all null elements from array
+
 
             // get list of users from db, search for host
             let snapshot2 = await usersRef.once("value");
@@ -116,6 +121,7 @@ export default {
         setFilterApplied(res) {
             this.filterApplied = res;
         },
+        
         setFilters(arr) {
             this.filtered = arr;
         },
@@ -130,7 +136,7 @@ export default {
             events.sort(this.compareValues("title", direction));
         },
         
-        compareValues(key, order) {
+        compareValues(key, direction) {
             return function (a, b) {
                 if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
                     return 0;
@@ -144,9 +150,48 @@ export default {
                     comparison = -1;
                 }
                 return (
-                    (order === 'desc') ? (comparison * -1) : comparison
+                    (direction === 'desc') ? (comparison * -1) : comparison
                 );
             }
+        },
+
+        // format entire time obj, AM by default
+        setAmPm(time) {
+            if (!time || !time.start || !time.end) return false;
+
+            // start time
+            let startPrefix = time.start.split(":")[0];     // 12
+            let startSuffix = time.start.split(":")[1];     // 00
+            let startPrefixInt = parseInt(startPrefix);
+            if (startPrefixInt === 0){                      // special case: 0:00 --> 12:00 AM
+                time.start = "12:" + startSuffix;
+                time.startPm = false;
+            }
+            else if (startPrefixInt >= 12) {                // case for PM
+                if (startPrefixInt > 12){
+                    startPrefixInt -= 12;
+                    time.start = startPrefixInt + ":" + startSuffix;
+                }
+                time.startPm = true;       
+            }
+
+            // end time
+            let endPrefix = time.end.split(":")[0];
+            let endSuffix = time.end.split(":")[1];
+            let endPrefixInt = parseInt(endPrefix);
+            if (endPrefixInt === 0){
+                time.end = "12:" + endSuffix;
+                time.endPm = false;
+            }
+            else if (endPrefixInt >= 12) {
+                if (endPrefixInt > 12){
+                    endPrefixInt -= 12;
+                    time.end = endPrefixInt + ":" + endSuffix;
+                }
+                time.endPm = true;
+            }
+
+            return time;
         }
     },
 

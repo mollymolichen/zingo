@@ -1,5 +1,5 @@
 <template>
-<v-content id="create-event-container">
+<v-content id="create-event-container" v-if="user">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <v-card class="createevent">
         <!--Page 1-->
@@ -190,8 +190,8 @@ export default {
             date: new Date().toISOString().substr(0, 10),
             dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
             time: {
-                start: "",
-                end: "",
+                start: null,        // was ""
+                end: null,
                 startPm: false,
                 endPm: false
             },
@@ -332,7 +332,7 @@ export default {
                 date: this.date,
                 dateFormatted: this.dateFormatted,
                 menu1: this.menu1,
-                time: this.time,
+                time: this.setAmPm(this.time),
                 location: this.location,
                 title: this.title,
                 shortDescription: this.shortDescription,
@@ -357,7 +357,7 @@ export default {
             return this.formatDate(this.date);
         }
     },
-    props: ['user']
+    props: ['user', 'setAmPm']
 }
 </script>
 

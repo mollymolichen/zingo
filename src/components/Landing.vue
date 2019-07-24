@@ -4,7 +4,7 @@
     
     <v-flex id="catchphrase">
         <img src="../assets/Zingo.png" id="zingo-logo" />
-        <h1>Connecting solo travelers to awesome friends.</h1>
+        <h1>Travel solo but not alone.</h1>
         <!--Sign Up-->
         <div id="sign-up">
             <div v-if="this.user === null || this.user === undefined">
