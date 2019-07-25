@@ -1,5 +1,5 @@
 <template>
-<v-card id="event-filter-container">
+<v-card id="event-filter-container" v-if="user">
     <v-layout row wrap>
         <v-flex xs4>
             <div class="event-header">
@@ -8,8 +8,30 @@
             </div>
         </v-flex>
 		<v-flex xs8 id="sort">
-			<v-icon id="sort-icons" @click="sortByTitle()">sort_by_alpha</v-icon>
-			<v-icon id="sort-icons" @click="sortByDate()">date_range</v-icon>
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                    <v-icon id="sort-icons" @click="seeAllEvents()" v-on="on">undo</v-icon>
+                </template>
+                <span>All Events</span>
+            </v-tooltip>
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                    <v-icon id="sort-icons" @click="searchMyEvents()" v-on="on">account_circle</v-icon>
+                </template>
+                <span>My Events</span>
+            </v-tooltip>
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+			        <v-icon id="sort-icons" @click="sortByTitle()" v-on="on">sort_by_alpha</v-icon>
+                </template>
+                <span>Sort by Title</span>
+            </v-tooltip>
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+			        <v-icon id="sort-icons" @click="sortByDate()" v-on="on">date_range</v-icon>
+                </template>
+                <span>Sort by Date</span>
+            </v-tooltip>
 		</v-flex>
     </v-layout>
 </v-card>
@@ -40,6 +62,7 @@ export default {
             }
             this.numClicks++;
         },
+
         sortByTitle(){
             if (this.numClicks % 2){
                 this.sortEventsByTitle(this.events, "asc");
@@ -48,8 +71,19 @@ export default {
             }
             this.numClicks++;
         },
+
+        searchMyEvents(){
+            let filtered = this.events.filter((event, index) => {
+                return event.host === this.user.uuid;
+            });
+            this.setEvents(filtered);
+        },
+
+        seeAllEvents(){
+            this.setEvents(this.origEvents);
+        }
     },
-    props: ['filtered', 'filterApplied', 'events', 'sortEventsByDate', 'sortEventsByTitle']
+    props: ['filtered', 'filterApplied', 'events', 'origEvents', 'sortEventsByDate', 'sortEventsByTitle', 'user', 'setEvents']
 }
 </script>
 

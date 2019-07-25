@@ -1,12 +1,19 @@
 <template>
 <v-content class="eventlist" v-if="user">
     <div>
-        <event-header :filtered="filtered" :filterApplied="filterApplied" :events="events" :sortEventsByDate="sortEventsByDate" :sortEventsByTitle="sortEventsByTitle" :user="user"></event-header>
+        <event-header 
+            :filtered="filtered" :filterApplied="filterApplied" :events="events" 
+            :setEvents="setEvents" :origEvents="origEvents" :sortEventsByDate="sortEventsByDate" 
+            :sortEventsByTitle="sortEventsByTitle" :user="user">
+        </event-header>
     </div>
 
     <div id="eventlist-container">
         <v-flex xs3>
-            <event-filter :events="events" :filtered="filtered" :setFilterApplied="setFilterApplied" :setFilters="setFilters" :user="user"></event-filter>
+            <event-filter 
+                :events="events" :filtered="filtered" :setFilterApplied="setFilterApplied" 
+                :setFilters="setFilters" :user="user">
+            </event-filter>
         </v-flex>
 
         <v-flex xs12>
@@ -91,6 +98,11 @@ export default {
 
             // sort by date
             this.sortEventsByDate(this.events, direction);
+            this.origEvents = this.events;
+        },
+
+        setEvents(filtered){
+            this.events = filtered;
         },
 
         /*async getMessages(){
@@ -195,6 +207,7 @@ export default {
         return {
             interested: true,
             events: [],
+            origEvents: [],
             filtered: [],
             filterApplied: false,
             allUsers: null
