@@ -27,21 +27,43 @@
     <!--Tab 1: Hosts-->
     <div v-if="tab1">
         <h1 class="header-text">Events You're Attending</h1>
-        <div v-for="h in this.hosts" :key="h">
-            <attending-card :user="user" :host="h" :myProfile="myProfile" :events="events" :eventsImAttending="eventsImAttending"></attending-card>
+        <div v-if="this.eventsImAttending.length">
+            <div v-for="h in this.hosts" :key="h">
+                <attending-card :user="user" :host="h" :myProfile="myProfile" :events="events" :eventsImAttending="eventsImAttending"></attending-card>
+            </div>
         </div>
+        <v-flex v-else class="tab-wrap">
+            <v-card class="nomatches">
+                <h1 class="nomatches-title">No events yet...</h1>
+            </v-card>
+        </v-flex>
     </div>
 
     <!--Tab 2: Events and confirmed guests-->
     <div v-else-if="tab2">
         <h1 class="header-text">Events You're Hosting</h1>
-        <div v-for="e in this.eventsImHosting" :key="e">
-            <hosting :event="e" :user="user"></hosting>
+        <div v-if="this.eventsImHosting.length">
+            <div v-for="e in this.eventsImHosting" :key="e">
+                <hosting :event="e" :user="user"></hosting>
+            </div>
         </div>
+        <v-flex v-else class="tab-wrap">
+            <v-card class="nomatches">
+                <h1 class="nomatches-title">No events yet...</h1>
+                <h2 class="nomatches-title">RSVP to some events to meet other travelers!</h2>
+            </v-card>
+        </v-flex>
     </div>
 
     <!--Tab 3: Pending guests-->
     <div v-else-if="tab3" class="header-text tab-wrap">
+        <v-flex class="tab-wrap" v-if="!this.pending.length">
+            <v-card class="nomatches">
+                <h1 class="nomatches-title">No guests yet...</h1>
+                <h2 class="nomatches-title">Create an event to approve guests!</h2>
+            </v-card>
+        </v-flex>
+
         <div v-for="(obj, index) in this.pending" :key="index">
             <pending-card :guest="obj.guest" :host="user" :event="obj.event" :attendees="attendees"></pending-card>
         </div>
@@ -49,6 +71,13 @@
 
     <!--Tab 4: Confirmed guests-->
     <div v-else-if="tab4" class="header-text tab-wrap">
+        <v-flex v-if="!this.confirmed.length" class="tab-wrap">
+            <v-card class="nomatches">
+                <h1 class="nomatches-title">No guests yet...</h1>
+                <h2 class="nomatches-title">Create an event to approve guests!</h2>
+            </v-card>
+        </v-flex>
+
         <div v-for="(obj, index) in this.confirmed" :key="index">
             <pending-card :guest="obj.guest" :host="user" :event="obj.event" :attendees="attendees" :confirm="true"></pending-card>
         </div>
@@ -216,5 +245,17 @@ export default {
 
 .v-content.matches-page {
     height: 100%;
+}
+
+.nomatches {
+    margin: auto;
+    background-color: aliceblue !important;
+    border-radius: 25px !important;
+    width: 1200px;
+    height: 750px;
+}
+
+.nomatches-title {
+    margin-top: 3%;
 }
 </style>
