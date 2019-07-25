@@ -16,7 +16,7 @@
                 <v-flex xs4>
                     <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
                         <template v-slot:activator="{ on }">
-                            <v-text-field v-model="event.dateFormatted" label="Date" hint="MM/DD/YYYY format" persistent-hint prepend-icon="event" @blur="date = parseDate(dateFormatted)" v-on="on"></v-text-field>
+                            <v-text-field v-model="event.dateFormatted" label="Date" hint="MM/DD/YYYY format" persistent-hint prepend-icon="event" @blur="date = parseDate(event.dateFormatted)" v-on="on"></v-text-field>
                         </template>
                         <v-date-picker v-model="event.date" no-title @input="menu1 = false"></v-date-picker>
                     </v-menu>
@@ -98,7 +98,12 @@
 
             <div id="buttons">
                 <v-btn @click="editEvent()">Save</v-btn>
-                <v-btn @click="deleteEvent()">Delete</v-btn>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                        <v-btn @click="deleteEvent()" v-on="on">Delete</v-btn>
+                    </template>
+                    <span>This action cannot be undone.</span>
+                </v-tooltip>
             </div>
         </v-form>
     </v-card>
@@ -268,6 +273,7 @@ export default {
             const [year, month, day] = date.split('-');
             return `${month}/${day}/${year}`
         },
+
         parseDate(date) {
             if (!date) {
                 return null;
@@ -278,7 +284,7 @@ export default {
 
         editEvent() {
             if (this.event.time) {
-                this.setAmPm(this.event.time);
+                this.formatTime(this.event.time);
             }
             eventsRef.child(this.event.eid).update(this.event);     
             router.push({               
@@ -318,7 +324,7 @@ export default {
             return this.formatDate(this.date);
         }
     },
-    props: ['event', 'user', 'setAmPm']
+    props: ['event', 'user', 'formatTime']
 }
 </script>
 

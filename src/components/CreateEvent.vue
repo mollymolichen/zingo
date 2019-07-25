@@ -118,7 +118,6 @@
                 <v-btn @click="createEvent()" :disabled="!valid">Create</v-btn>
             </router-link>
         </v-form>
-
     </v-card>
 </v-content>
 </template>
@@ -190,10 +189,10 @@ export default {
             date: new Date().toISOString().substr(0, 10),
             dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
             time: {
-                start: null,        // was ""
-                end: null,
-                startPm: false,
-                endPm: false
+                start: "",
+                end: "",
+                startFormatted: "",
+                endFormatted: ""
             },
             menu1: false,
 
@@ -332,7 +331,7 @@ export default {
                 date: this.date,
                 dateFormatted: this.dateFormatted,
                 menu1: this.menu1,
-                time: this.setAmPm(this.time),
+                time: this.formatTime(this.time),
                 location: this.location,
                 title: this.title,
                 shortDescription: this.shortDescription,
@@ -357,7 +356,7 @@ export default {
             return this.formatDate(this.date);
         }
     },
-    props: ['user', 'setAmPm']
+    props: ['user', 'formatTime']
 }
 </script>
 

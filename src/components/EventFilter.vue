@@ -195,8 +195,8 @@ export default {
             time: {
                 start: "",
                 end: "",
-                startPm: false,
-                endPm: false
+                startFormatted: "",
+                endFormatted: ""
             },
             menu1: false,
             menu2: false,

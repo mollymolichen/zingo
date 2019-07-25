@@ -41,7 +41,7 @@
             <v-flex xs8>
                 <h2 v-if="event.title">{{event.title}}</h2>
                 <h4 v-if="event.dateFormatted.length && event.time">
-                    {{event.dateFormatted}}, {{event.time.start}} {{amOrPm(event.time.startPm)}} - {{event.time.end}} {{amOrPm(event.time.endPm)}}
+                    {{event.dateFormatted}}, {{event.time.startFormatted}} {{amOrPm(event.time.start)}} - {{event.time.endFormatted}} {{amOrPm(event.time.end)}}
                 </h4>
                 <h4 v-if="event.location.locale.length || event.location.city">{{event.location.locale}}, {{event.location.city}}</h4>
                 <h4 v-if="event.shortDescription">{{event.shortDescription}}</h4>
@@ -79,7 +79,7 @@
 
             <!--Edit button-->
             <v-flex xs1 v-if="this.host.uuid === this.user.uuid">
-                <router-link :to="{ name: 'EditEvent', params: { user, event, setAmPm } }">
+                <router-link :to="{ name: 'EditEvent', params: { user, event, formatTime } }">
                     <v-tooltip bottom>
                         <template v-slot:activator="{ on }">
                             <v-icon class="edit-btn" v-on="on">edit</v-icon>
@@ -110,7 +110,7 @@ import flag from 'country-code-emoji';
 
 export default {
     name: 'EventCard',
-    props: ['host', 'user', 'event', 'notInterested', 'messageMap', 'setAmPm'],
+    props: ['host', 'user', 'event', 'notInterested', 'messageMap', 'formatTime'],
     data() {
         return {
             learnMore: false,
@@ -200,8 +200,9 @@ export default {
             });
         },
 
-        amOrPm(isPm) {
-            if (isPm) return "PM";
+        amOrPm(time) {
+            let prefix = parseInt(time.split(":")[0]);
+            if (prefix >= 12) return "PM";
             else return "AM";
         }
 
