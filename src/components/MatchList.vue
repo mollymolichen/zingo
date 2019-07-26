@@ -29,7 +29,10 @@
         <h1 class="header-text">Events You're Attending</h1>
         <div v-if="this.eventsImAttending.length">
             <div v-for="h in this.hosts" :key="h">
-                <attending-card :user="user" :host="h" :myProfile="myProfile" :events="events" :eventsImAttending="eventsImAttending"></attending-card>
+                <attending-card 
+                    :user="user" :host="h" :myProfile="myProfile" :events="events" 
+                    :eventsImAttending="eventsImAttending" :amOrPm="amOrPm">
+                </attending-card>
             </div>
         </div>
         <v-flex v-else class="tab-wrap">
@@ -44,7 +47,7 @@
         <h1 class="header-text">Events You're Hosting</h1>
         <div v-if="this.eventsImHosting.length">
             <div v-for="e in this.eventsImHosting" :key="e">
-                <hosting :event="e" :user="user"></hosting>
+                <hosting-card :event="e" :user="user" :amOrPm="amOrPm"></hosting-card>
             </div>
         </div>
         <v-flex v-else class="tab-wrap">
@@ -65,7 +68,7 @@
         </v-flex>
 
         <div v-for="(obj, index) in this.pending" :key="index">
-            <pending-card :guest="obj.guest" :host="user" :event="obj.event" :attendees="attendees"></pending-card>
+            <pending-card :guest="obj.guest" :host="user" :event="obj.event" :attendees="attendees" :amOrPm="amOrPm"></pending-card>
         </div>
     </div>
 
@@ -88,7 +91,7 @@
 <script>
 /*eslint-disable*/
 import AttendingCard from "./AttendingCard.vue";
-import Hosting from "./Hosting.vue";
+import HostingCard from "./HostingCard.vue";
 import PendingCard from "./PendingCard.vue";
 import {
     eventsRef,
@@ -99,7 +102,7 @@ export default {
     name: 'MatchList',
     components: {
         AttendingCard,
-        Hosting,
+        HostingCard,
         PendingCard
     },
     data() {
@@ -133,6 +136,12 @@ export default {
             this.tab2 = tab2;
             this.tab3 = tab3;
             this.tab4 = tab4;
+        },
+
+        amOrPm(time) {
+            let prefix = parseInt(time.split(":")[0]);
+            if (prefix >= 12) return "PM";
+            else return "AM";
         },
 
         // TODO: split by tabs so data is immediately loaded across tabs

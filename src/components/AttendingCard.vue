@@ -1,9 +1,9 @@
 <template>
 <v-content class="attendingcard">
     <v-card class="att">
-        <v-layout row wrap>
+        <v-layout>
             <!--Profile picture-->
-            <v-flex xs3>
+            <v-flex xs3 column wrap>
                 <router-link :to="{ name: 'Profile', params: { user: host, myProfile: false, backButtonMatches: true, host: user } }">
                     <v-avatar class="profile-avatar">
                         <img :src="host.propicUrl" alt="Profile picture">
@@ -15,9 +15,9 @@
             </v-flex>
 
             <!--Events they're hosting-->
-            <v-flex xs4 id="hosts">
+            <v-flex xs12 id="hosts" row wrap>
                 <div v-for="e in this.hostsEvents" :key="e">
-                    <event-preview class="preview" :event="e" :user="user"></event-preview>
+                    <event-preview :event="e" :user="user" :amOrPm="amOrPm"></event-preview>
                 </div>
             </v-flex>
         </v-layout>
@@ -50,7 +50,7 @@ export default {
     firebase: {
         eventsRef
     },
-    props: ['user', 'host', 'myProfile', 'events', 'eventsImAttending'],
+    props: ['user', 'host', 'myProfile', 'events', 'eventsImAttending', 'amOrPm'],
     methods: {
         async getHostEvents(){
             let allEvents;
@@ -85,7 +85,6 @@ export default {
 .attendingcard {
     display: flex;
     flex-direction: column;
-    /* margin: 20px 20px 0px 20px; */
     width: 100%;
     margin-bottom: 20px;
 }
@@ -93,7 +92,7 @@ export default {
 .att {
     padding: 20px;
     height: 50%;
-    width: 80%;
+    width: 85%;
     background-color: aliceblue !important;
     margin: auto;
     display: flex;
@@ -112,12 +111,6 @@ export default {
 #hosts {
     display: flex;
     flex-direction: row;
-}
-
-.preview {
-    display: flex;
-    margin: 20px 20px 20px 20px;
-    width: 350px;
-    height: 350;
+    flex-wrap: wrap !important;
 }
 </style>

@@ -17,8 +17,9 @@
             <v-flex xs4 id="pink" color="pink lighten-5">
                 <h2 v-if="!confirm">Responded to:</h2>
                 <h2 v-else>Confirmed for:</h2>
-                <h2><strong>{{event.title}}</strong></h2>
-                <h2>{{event.dateFormatted}}, {{event.time.start}} - {{event.time.end}}</h2>
+                <h3><strong>{{event.title}}</strong></h3>
+                <h3>{{event.dateFormatted}}</h3>
+                <h3>{{event.time.startFormatted}} {{amOrPm(event.time.start)}} - {{event.time.endFormatted}} {{amOrPm(event.time.end)}}</h3>
             </v-flex>
 
             <div id="icons">
@@ -67,7 +68,7 @@ export default {
 			}
 		}
     },
-    props: ['guest', 'event', 'attendees', 'confirm', 'host'],
+    props: ['guest', 'event', 'attendees', 'confirm', 'host', 'amOrPm'],
     methods: {
         async changeGuestStatus(guestID, approveGuest, removeConfirmed) {
             // already confirmed, remove from confirmed
@@ -119,8 +120,8 @@ export default {
     display: flex;
     flex-direction: column;
     border-radius: 25px !important;
-    width: 300px;
-    height: 675px;
+    width: 21em;
+    height: 42em;
 }
 
 #center {
@@ -132,7 +133,7 @@ export default {
     margin: 20px 20px 20px 20px;
     padding: 15px;
     border-radius: 25px;
-    height: 250px;
+    width: 250px;
 }
 
 #icons {

@@ -11,7 +11,6 @@
 
 <script>
 /* eslint-disable */
-import About from "./components/About";
 import SignUp from "./components/SignUp";
 import Navbar from "./components/Navbar";
 import {
@@ -25,7 +24,6 @@ import router from "./router";
 export default {
     name: 'App',
     components: {
-        About,
         SignUp,
         Navbar
     },

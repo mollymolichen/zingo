@@ -1,38 +1,40 @@
 <template>
 <v-content class="hosting">
     <v-card class="host">
-        <v-layout row wrap style="flex-wrap:wrap">
+        <v-layout row wrap id="hosting-wrapper">
             <!--Event picture-->
-            <v-flex xs3>
+            <v-flex xs3 id="hosting-pic">
 				<v-avatar class="event-profile-pic">
 					<img v-if="event.pics" :src="event.pics[0]">
 				</v-avatar>	
                 <h2 v-if="event.title">{{event.title}}</h2>
                 <h4 v-if="event.dateFormatted && event.time.start && event.time.end">
-                    {{event.dateFormatted}}, {{event.time.start}} - {{event.time.end}}
+                    {{event.dateFormatted}}, {{event.time.startFormatted}} {{amOrPm(event.time.start)}} - {{event.time.endFormatted}} {{amOrPm(event.time.end)}}
                 </h4>
             </v-flex>
 
 			<!--Hosting-->
-			<v-flex class="text">
-                <h2 v-if="event.confirmed">{{event.confirmed.length}} Confirmed</h2>
-                <h2 v-else>0 Confirmed</h2>
-                <div v-for="pic in this.confirmedPics" :key="pic">
-                    <v-avatar class="attendee-profile-pic">
-                        <img :src="pic">
-                    </v-avatar>
-                </div>
-			</v-flex>
+            <v-layout column wrap>
+                <v-flex xs4 class="text">
+                    <h2 v-if="event.confirmed">{{event.confirmed.length}} Confirmed</h2>
+                    <h2 v-else>0 Confirmed</h2>
+                    <div v-for="pic in this.confirmedPics" :key="pic">
+                        <v-avatar class="attendee-profile-pic">
+                            <img :src="pic">
+                        </v-avatar>
+                    </div>
+                </v-flex>
 
-			<v-flex class="text">
-                <h2 v-if="event.interested">{{event.interested.length}} Interested</h2>
-                <h2 v-else>0 Interested</h2>
-                <div v-for="pic in this.interestedPics" :key="pic">
-                    <v-avatar class="attendee-profile-pic">
-                        <img :src="pic">
-                    </v-avatar>
-                </div>
-			</v-flex>
+                <v-flex xs4 class="text">
+                    <h2 v-if="event.interested">{{event.interested.length}} Interested</h2>
+                    <h2 v-else>0 Interested</h2>
+                    <div v-for="pic in this.interestedPics" :key="pic">
+                        <v-avatar class="attendee-profile-pic">
+                            <img :src="pic">
+                        </v-avatar>
+                    </div>
+                </v-flex>
+            </v-layout>
         </v-layout>
     </v-card>
 </v-content>
@@ -46,8 +48,8 @@ import {
 } from "../database.js";
 
 export default {
-    name: 'Hosting',
-    props: ['user', 'event'],
+    name: 'HostingCard',
+    props: ['user', 'event', 'amOrPm'],
     data() {
         return {
             myProfile: false,
@@ -85,7 +87,7 @@ export default {
                 let obj = this.getUserObj(this.event.interested[u]);
                 this.interestedPics.push(obj.propicUrl);
             }
-        },
+        }
     },
     computed: {
         myOwnEvent() {
@@ -157,5 +159,13 @@ export default {
 .text {
     margin-top: 20px;
     display: flex;
+}
+
+#hosting-wrapper {
+    flex-wrap: wrap !important;
+}
+
+#hosting-pic {
+    margin-bottom: 20px;
 }
 </style>
