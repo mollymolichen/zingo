@@ -56,6 +56,7 @@
             </v-select>
 
             <v-btn id="search-btn" @click="filter()">Search</v-btn>
+            <v-btn id="search-btn" @click="clearFilters()">Clear</v-btn>
         </v-flex>
     </v-layout>
 </v-card>
@@ -89,7 +90,6 @@ export default {
         // 5 checks: host speaks same language, same location, date falls w/i range, time falls w/i range, categories w/i range
         filter(){
             this.filtered = [];
-            this.setFilterApplied(true);
 
             for (let e in this.events){
                 // reset
@@ -145,7 +145,7 @@ export default {
                 this.filtered.push(this.events[e]);
             }
             console.log(this.filtered);
-            this.setFilters(this.filtered);
+            this.setEvents(this.filtered);      // this.events = this.filtered;
         },
 
         getHostLang(hostID){
@@ -179,6 +179,20 @@ export default {
             if (this.selectedCategories){
                 this.selectedCategories.splice(this.selectedCategories.indexOf(item), 1);
                 this.selectedCategories = [...this.selectedCategories];
+            }
+        },
+
+        clearFilters(){
+            this.startDateFormatted = this.formatDate(new Date().toISOString().substr(0, 10));      // back to current date
+            this.endDateFormatted = this.formatDate(new Date().toISOString().substr(0, 10));
+            this.time.start = "";
+            this.time.end = "";
+
+            for (let lang in this.languagesSpoken){
+                this.removeLang(this.languagesSpoken[lang]);
+            }
+            for (let category in this.selectedCategories){
+                this.removeCategory(this.selectedCategories[category]);
             }
         }
     },
@@ -220,7 +234,7 @@ export default {
             users: []
         }
     },
-    props: ['events', 'filtered', 'setFilterApplied', 'setFilters', 'user'],
+    props: ['events', 'filtered', 'user', 'setEvents'],
     watch: {
         date(val) {
             this.startDateFormatted = this.formatDate(this.date);
@@ -250,7 +264,7 @@ export default {
 }
 
 #search-btn {
-    margin: 100px 0px 0px 0px;
+    margin: 100px 10px 0px 10px;
 }
 
 .section {

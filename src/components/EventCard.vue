@@ -13,11 +13,16 @@
                 <h1>{{host.firstName}}, {{host.age}} {{getFlag}}</h1>
                 <h3>{{host.universityOrOccupation}}</h3>
                 <v-icon v-if="!myOwnEvent" @click="expressInterest()" class="icon" :disabled="alreadyOnGuestList">favorite</v-icon>
-                <!-- <v-icon v-if="!myOwnEvent" @click="openChat()" class="icon">chat_bubble</v-icon> -->
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                        <v-icon v-if="!myOwnEvent" @click="openChat()" class="icon" v-on="on">chat_bubble</v-icon>
+                    </template>
+                    <span>This is a beta feature. Coming soon!</span>
+                </v-tooltip>
                 <v-icon v-if="!myOwnEvent" @click="hideCard(true)" class="icon">cancel</v-icon>
 
                 <!--If chat activated-->
-                <!-- <beautiful-chat
+                <beautiful-chat
                     :participants="participants"
                     :titleImageUrl="titleImageUrl"
                     :onMessageWasSent="onMessageWasSent"
@@ -34,7 +39,9 @@
                     :alwaysScrollToBottom="alwaysScrollToBottom"
                     :messageStyling="messageStyling"
                     @onType="handleOnType"
-                    @edit="editMessage" /> -->
+                    @edit="editMessage"
+                    v-on="on"
+                ></beautiful-chat>
             </v-flex>
 
             <!--Event description-->
@@ -96,17 +103,17 @@
 <script>
 /* eslint-disable */
 import {
-    eventsRef
-    // messagesRef
+    eventsRef,
+    messagesRef
 } from "../database.js";
 import {
     getCountryCode
 } from "../assets/countryCodes.js";
 import flag from 'country-code-emoji';
-// import CloseIcon from 'vue-beautiful-chat/src/assets/close-icon.png'
-// import OpenIcon from 'vue-beautiful-chat/src/assets/logo-no-bg.svg'
-// import FileIcon from 'vue-beautiful-chat/src/assets/file.svg'
-// import CloseIconSvg from 'vue-beautiful-chat/src/assets/close.svg'
+import CloseIcon from 'vue-beautiful-chat/src/assets/close-icon.png'
+import OpenIcon from 'vue-beautiful-chat/src/assets/logo-no-bg.svg'
+import FileIcon from 'vue-beautiful-chat/src/assets/file.svg'
+import CloseIconSvg from 'vue-beautiful-chat/src/assets/close.svg'
 
 export default {
     name: 'EventCard',
@@ -129,8 +136,8 @@ export default {
             },
             hide: false,
 
-            // needed for chat
-            /*icons: {
+            // NOTE: needed for chat
+            icons: {
                 open: {
                     img: OpenIcon,
                     name: 'default',
@@ -182,7 +189,6 @@ export default {
             },                              // specifies the color scheme for the component
             alwaysScrollToBottom: false,    // when set to true always scrolls the chat to the bottom when new events are in (new message, user starts typing...)
             messageStyling: true            // enables *bold* /emph/ _underline_ and such (more info at github.com/mattezza/msgdown)
-            */
         }
     },
     methods: {
@@ -204,10 +210,10 @@ export default {
             let prefix = parseInt(time.split(":")[0]);
             if (prefix >= 12) return "PM";
             else return "AM";
-        }
+        },
 
-        // below methods are needed for chat
-        /*sendMessage(text) {
+        // NOTE: below methods are needed for chat
+        sendMessage(text) {
             if (text.length > 0) {
                 this.newMessagesCount = this.isChatOpen ? this.newMessagesCount : this.newMessagesCount + 1
                 
@@ -290,7 +296,7 @@ export default {
             } else {
                 this.messageList = [];
             }
-        }*/
+        }
     },
     computed: {
         myOwnEvent() {
@@ -328,11 +334,11 @@ export default {
 
     firebase: {
         eventsRef: eventsRef,
-        // messagesRef: messagesRef
+        messagesRef: messagesRef
     },
 
     created() {
-        // this.parseMessageList();
+        this.parseMessageList();
     }
 }
 </script>

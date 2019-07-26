@@ -1,33 +1,19 @@
 <template>
 <v-content class="eventlist" v-if="user">
     <div>
-        <event-header 
-            :filtered="filtered" :filterApplied="filterApplied" :events="events" 
-            :setEvents="setEvents" :origEvents="origEvents" :sortEventsByDate="sortEventsByDate" 
-            :sortEventsByTitle="sortEventsByTitle" :user="user">
+        <event-header :filtered="filtered" :events="events" :setEvents="setEvents" :origEvents="origEvents" :sortEventsByDate="sortEventsByDate" :sortEventsByTitle="sortEventsByTitle" :user="user">
         </event-header>
     </div>
 
     <div id="eventlist-container">
         <v-flex xs3>
-            <event-filter 
-                :events="events" :filtered="filtered" :setFilterApplied="setFilterApplied" 
-                :setFilters="setFilters" :user="user">
+            <event-filter :events="events" :filtered="filtered" :setEvents="setEvents" :user="user">
             </event-filter>
         </v-flex>
 
         <v-flex xs12>
-            <div v-if="filterApplied">
-                <div v-for="(obj, index) in this.filtered" :key="index">
-                    <event-card :event="obj" :user="user" :host="allUsers[obj.host]" formatTime="formatTime"></event-card>
-                    <!-- <event-card :event="obj" :user="user" :host="allUsers[obj.host]" :messageMap="messageMap"></event-card> -->
-                </div>
-            </div>
-            <div v-else>
-                <div v-for="(obj, index) in this.events" :key="index">
-                    <event-card :event="obj" :user="user" :host="allUsers[obj.host]" :formatTime="formatTime"></event-card>
-                    <!-- <event-card :event="obj" :user="user" :host="allUsers[obj.host]" :messageMap="messageMap"></event-card> -->
-                </div>
+            <div v-for="(obj, index) in this.events" :key="index">
+                <event-card :event="obj" :user="user" :host="allUsers[obj.host]" :formatTime="formatTime" :messageMap="messageMap"></event-card>
             </div>
         </v-flex>
 
@@ -101,11 +87,12 @@ export default {
             this.origEvents = this.events;
         },
 
-        setEvents(filtered){
+        setEvents(filtered) {
             this.events = filtered;
         },
 
-        /*async getMessages(){
+        // NOTE: messages
+        async getMessages() {
             // get list of all message info from db
             let snapshot = await messagesRef.once("value");
             let allMessages = snapshot.val();
@@ -120,19 +107,11 @@ export default {
             // for O(n) lookup time complexity in EventCard.vue's parseMessages()
             // map allows for any type of key, whereas obj only allows string and symbol
             let messageMap = new Map();
-            for (let m in this.messages){
+            for (let m in this.messages) {
                 messageMap.set(this.messages[m].participants, this.messages[m].messageList);
             }
             this.messageMap = messageMap;
             // return messageMap;
-        },*/
-
-        setFilterApplied(res) {
-            this.filterApplied = res;
-        },
-
-        setFilters(arr) {
-            this.filtered = arr;
         },
 
         sortEventsByDate(events, direction) {
@@ -176,9 +155,9 @@ export default {
             let startPrefix = time.start.split(":")[0]; // 12
             let startSuffix = time.start.split(":")[1]; // 00
             let startPrefixInt = parseInt(startPrefix);
-            if (startPrefixInt === 0) {                 // special case: 0:00 --> 12:00 AM
+            if (startPrefixInt === 0) { // special case: 0:00 --> 12:00 AM
                 time.startFormatted = "12:" + startSuffix;
-            } else if (startPrefixInt > 12) {           // case for PM
+            } else if (startPrefixInt > 12) { // case for PM
                 startPrefixInt -= 12;
                 time.startFormatted = startPrefixInt + ":" + startSuffix;
             }
@@ -199,8 +178,7 @@ export default {
     },
 
     created() {
-        this.getEvents("asc");                                            // sort ascending by default
-        // originally deleted, do not uncomment: this.getMessages();      // not being called after getEvents
+        this.getEvents("asc");
     },
 
     data() {
@@ -209,10 +187,11 @@ export default {
             events: [],
             origEvents: [],
             filtered: [],
-            filterApplied: false,
-            allUsers: null
-            // messages: [],
-            // messageMap: this.getMessages()        // current date to compare with
+            allUsers: null,
+
+            // NOTE: messages
+            messages: [],
+            messageMap: this.getMessages() // current date to compare with
         }
     }
 }

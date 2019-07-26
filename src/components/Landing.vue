@@ -26,7 +26,7 @@
                 <span class="pg1">As solo-travelers ourselves, we know how important freedom is when you travel.</span>
                 <span class="pg1">We know it can be fun to spontaneously meet up with new friends in new cities.</span>
                 <span class="pg1">Use Zingo to meet up with people just like you who love to adventure.</span>
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/y58mw6aupTI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/YWt_i221u7I" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </v-flex>
         </div>
     </v-card>

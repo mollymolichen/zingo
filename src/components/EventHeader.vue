@@ -7,7 +7,7 @@
                 <h1 v-else>{{numEvents}} Event</h1>
             </div>
         </v-flex>
-		<v-flex xs8 id="sort">
+        <v-flex xs8 id="sort">
             <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
                     <v-icon id="sort-icons" @click="seeAllEvents()" v-on="on">undo</v-icon>
@@ -22,17 +22,17 @@
             </v-tooltip>
             <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-			        <v-icon id="sort-icons" @click="sortByTitle()" v-on="on">sort_by_alpha</v-icon>
+                    <v-icon id="sort-icons" @click="sortByTitle()" v-on="on">sort_by_alpha</v-icon>
                 </template>
                 <span>Sort by Title</span>
             </v-tooltip>
             <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-			        <v-icon id="sort-icons" @click="sortByDate()" v-on="on">date_range</v-icon>
+                    <v-icon id="sort-icons" @click="sortByDate()" v-on="on">date_range</v-icon>
                 </template>
                 <span>Sort by Date</span>
             </v-tooltip>
-		</v-flex>
+        </v-flex>
     </v-layout>
 </v-card>
 </template>
@@ -47,15 +47,12 @@ export default {
     },
     computed: {
         numEvents() {
-			if (this.filterApplied || this.filtered.length){
-				return this.filtered.length;
-			}
-			return this.events.length;
+            return this.events.length;
         }
     },
     methods: {
-        sortByDate(){
-            if (this.numClicks % 2){
+        sortByDate() {
+            if (this.numClicks % 2) {
                 this.sortEventsByDate(this.events, "asc");
             } else {
                 this.sortEventsByDate(this.events, "desc");
@@ -63,8 +60,8 @@ export default {
             this.numClicks++;
         },
 
-        sortByTitle(){
-            if (this.numClicks % 2){
+        sortByTitle() {
+            if (this.numClicks % 2) {
                 this.sortEventsByTitle(this.events, "asc");
             } else {
                 this.sortEventsByTitle(this.events, "desc");
@@ -72,18 +69,18 @@ export default {
             this.numClicks++;
         },
 
-        searchMyEvents(){
+        searchMyEvents() {
             let filtered = this.events.filter((event, index) => {
                 return event.host === this.user.uuid;
             });
             this.setEvents(filtered);
         },
 
-        seeAllEvents(){
+        seeAllEvents() {
             this.setEvents(this.origEvents);
         }
     },
-    props: ['filtered', 'filterApplied', 'events', 'origEvents', 'sortEventsByDate', 'sortEventsByTitle', 'user', 'setEvents']
+    props: ['filtered', 'events', 'origEvents', 'sortEventsByDate', 'sortEventsByTitle', 'user', 'setEvents']
 }
 </script>
 
@@ -103,18 +100,18 @@ export default {
 
 #my-events {
     display: flex;
-	justify-content: center;
-	margin: auto;
+    justify-content: center;
+    margin: auto;
 }
 
 #sort {
-	display: flex;
-	justify-content: flex-end;
-	margin: auto;
+    display: flex;
+    justify-content: flex-end;
+    margin: auto;
 }
 
 #sort-icons {
-	transform: scale(2, 2);	
-	margin: 0px 30px 0px 20px;
+    transform: scale(2, 2);
+    margin: 0px 30px 0px 20px;
 }
 </style>
