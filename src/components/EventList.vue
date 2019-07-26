@@ -160,6 +160,8 @@ export default {
             } else if (startPrefixInt > 12) { // case for PM
                 startPrefixInt -= 12;
                 time.startFormatted = startPrefixInt + ":" + startSuffix;
+            } else {
+                time.startFormatted = startPrefixInt + ":" + startSuffix;
             }
 
             // end time
@@ -170,6 +172,8 @@ export default {
                 time.endFormatted = "12:" + endSuffix;
             } else if (endPrefixInt > 12) {
                 endPrefixInt -= 12;
+                time.endFormatted = endPrefixInt + ":" + endSuffix;
+            } else {
                 time.endFormatted = endPrefixInt + ":" + endSuffix;
             }
 
